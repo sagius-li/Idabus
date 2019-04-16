@@ -1,0 +1,13 @@
+<p>Environment: {{ env }}</p>
+<p>Start Path: {{ startPath }}</p>
+<p>Current Language: {{ currentLanguage }}</p>
+<p [innerHTML]="dataServiceInfo"></p>
+<p>Welcome Message: {{ 'l10n_greeting' | translate }}</p>
+<div>
+  <ng-template ngFor let-language [ngForOf]="languages">
+    <span *ngIf="language.code.indexOf(currentLanguage) < 0" style="margin-right: 10px;">
+      <a [routerLink]="" (click)="onChangeLanguage(language.route)">{{ language.label }}</a>
+    </span>
+    <span *ngIf="language.code.indexOf(currentLanguage) >= 0">{{ language.label }} </span>
+  </ng-template>
+</div>
