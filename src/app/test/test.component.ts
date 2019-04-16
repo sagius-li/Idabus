@@ -25,6 +25,8 @@ export class TestComponent implements OnInit {
 
   // #region members for resource service
   dataServiceInfo = this.resource.showInfo();
+  fetchText = '';
+  fetchedResources: any[] = [];
   // #endregion
 
   constructor(
@@ -38,5 +40,12 @@ export class TestComponent implements OnInit {
   onChangeLanguage(language: string) {
     this.currentLanguage = language;
     this.translate.use(language);
+  }
+
+  onFetchResource() {
+    this.fetchedResources.splice(0, this.fetchedResources.length);
+    this.resource.getResourceByID(this.fetchText).subscribe(resource => {
+      this.fetchedResources.push(resource);
+    });
   }
 }
