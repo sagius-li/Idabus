@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { observable, throwError, of, Observable } from 'rxjs';
-import { tap, switchMap, catchError } from 'rxjs/operators';
+import { tap, switchMap, catchError, retry, retryWhen, take, delay } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { ConnectedUser } from '../models/dataContract.model';
@@ -85,6 +85,39 @@ export class ResourceService {
     return result;
   }
 
+  private acquireToken() {
+    if (this.connection) {
+      const urlGetToken = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        'init',
+        this.serviceType
+      );
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          connection: this.connection
+        }
+      });
+      return this.http.get(urlGetToken, { params, responseType: 'text' }).pipe(
+        tap((token: string) => {
+          this.token = token;
+        })
+      );
+    } else {
+      const urlGetToken = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        'init',
+        this.serviceType
+      );
+      return this.http.get(urlGetToken, { withCredentials: true, responseType: 'text' }).pipe(
+        tap((token: string) => {
+          this.token = token;
+        })
+      );
+    }
+  }
+
   public showInfo() {
     return `Dataservice Version: ${this.dataServiceVersion}<br />Browser Language: ${
       this.browserLanguage
@@ -153,38 +186,9 @@ export class ResourceService {
           })
         );
       }),
-      // get token
+      // acquire token
       switchMap(() => {
-        if (conn) {
-          const urlGetToken = this.utils.buildDataServiceUrl(
-            this.baseUrl,
-            'basic/resources',
-            'init',
-            this.serviceType
-          );
-          const params: HttpParams = new HttpParams({
-            fromObject: {
-              connection: conn
-            }
-          });
-          return this.http.get(urlGetToken, { params, responseType: 'text' }).pipe(
-            tap((token: string) => {
-              this.token = token;
-            })
-          );
-        } else {
-          const urlGetToken = this.utils.buildDataServiceUrl(
-            this.baseUrl,
-            'win/resources',
-            'init',
-            this.serviceType
-          );
-          return this.http.get(urlGetToken, { withCredentials: true, responseType: 'text' }).pipe(
-            tap((token: string) => {
-              this.token = token;
-            })
-          );
-        }
+        return this.acquireToken();
       }),
       // get current login user
       switchMap(() => {
@@ -286,6 +290,18 @@ export class ResourceService {
       request = this.http.get<any>(url, { headers, params, withCredentials: true });
     }
 
-    return request;
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.getResourceByID(id, attributes, format, culture, resolveRef, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
   }
 }
