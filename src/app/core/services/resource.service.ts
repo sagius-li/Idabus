@@ -244,17 +244,22 @@ export class ResourceService {
   public getResourceByID(
     id: string,
     attributes: string[] = [],
-    format: string = 'simple',
-    culture: string = 'en-US',
-    resolveRef: boolean = false,
-    adminMode: boolean = false
+    format = 'simple',
+    culture = 'en-US',
+    resolveRef = false,
+    adminMode = false
   ): Observable<any> {
     if (!id) {
       return throwError('id is missing');
     }
 
     const params: HttpParams = new HttpParams({
-      fromObject: { attributes, culture, resolveRef: String(resolveRef), format }
+      fromObject: {
+        attributes: attributes.join(','),
+        culture,
+        resolveRef: String(resolveRef),
+        format
+      }
     });
     let request: Observable<any>;
 
@@ -296,6 +301,83 @@ export class ResourceService {
           return this.acquireToken().pipe(
             switchMap(() => {
               return this.getResourceByID(id, attributes, format, culture, resolveRef, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public getResourceByQuery(
+    query: string,
+    attributes: string[] = [],
+    pageSize = 0,
+    index = 0,
+    resolveRef = false,
+    orderBy: string[] = [],
+    adminMode = false
+  ): Observable<any> {
+    if (!query) {
+      return throwError('query is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        query,
+        attributes: attributes.join(','),
+        pageSize: String(pageSize),
+        index: String(index),
+        resolveRef: String(resolveRef),
+        orderBy: orderBy.join(',')
+      }
+    });
+    let request: Observable<any>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'search',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.get<any>(url, { headers, params });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        'search',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.get<any>(url, { headers, params });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        'search',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.get<any>(url, { headers, params, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.getResourceByQuery(
+                query,
+                attributes,
+                pageSize,
+                index,
+                resolveRef,
+                orderBy,
+                adminMode
+              );
             })
           );
         } else {

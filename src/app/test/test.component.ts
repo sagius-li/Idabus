@@ -44,8 +44,12 @@ export class TestComponent implements OnInit {
 
   onFetchResource() {
     this.fetchedResources.splice(0, this.fetchedResources.length);
-    this.resource.getResourceByID(this.fetchText).subscribe(resource => {
-      this.fetchedResources.push(resource);
-    });
+    this.resource
+      .getResourceByQuery(this.fetchText, ['DisplayName', 'AccountName', 'Manager'], 3, 0, true)
+      .subscribe(resources => {
+        if (resources && resources.totalCount > 0) {
+          this.fetchedResources = resources.results;
+        }
+      });
   }
 }
