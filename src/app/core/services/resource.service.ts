@@ -5,7 +5,8 @@ import { observable, throwError, of, Observable } from 'rxjs';
 import { tap, switchMap, catchError, retry, retryWhen, take, delay } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { ConnectedUser } from '../models/dataContract.model';
+import { ConnectedUser, ResourceSet, Resource } from '../models/dataContract.model';
+
 import { ConfigService } from './config.service';
 import { UtilsService } from './utils.service';
 
@@ -248,7 +249,7 @@ export class ResourceService {
     culture = 'en-US',
     resolveRef = false,
     adminMode = false
-  ): Observable<any> {
+  ): Observable<Resource> {
     if (!id) {
       return throwError('id is missing');
     }
@@ -261,7 +262,7 @@ export class ResourceService {
         format
       }
     });
-    let request: Observable<any>;
+    let request: Observable<Resource>;
 
     if (adminMode === true) {
       const url = this.utils.buildDataServiceUrl(
@@ -272,7 +273,7 @@ export class ResourceService {
         [id]
       );
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.get<any>(url, { headers, params });
+      request = this.http.get<Resource>(url, { headers, params });
     } else if (this.connection) {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -282,7 +283,7 @@ export class ResourceService {
         [id]
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<any>(url, { headers, params });
+      request = this.http.get<Resource>(url, { headers, params });
     } else {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -292,7 +293,7 @@ export class ResourceService {
         [id]
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<any>(url, { headers, params, withCredentials: true });
+      request = this.http.get<Resource>(url, { headers, params, withCredentials: true });
     }
 
     return request.pipe(
@@ -318,7 +319,7 @@ export class ResourceService {
     resolveRef = false,
     orderBy: string[] = [],
     adminMode = false
-  ): Observable<any> {
+  ): Observable<ResourceSet> {
     if (!query) {
       return throwError('query is missing');
     }
@@ -333,7 +334,7 @@ export class ResourceService {
         orderBy: orderBy.join(',')
       }
     });
-    let request: Observable<any>;
+    let request: Observable<ResourceSet>;
 
     if (adminMode === true) {
       const url = this.utils.buildDataServiceUrl(
@@ -343,7 +344,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.get<any>(url, { headers, params });
+      request = this.http.get<ResourceSet>(url, { headers, params });
     } else if (this.connection) {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -352,7 +353,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<any>(url, { headers, params });
+      request = this.http.get<ResourceSet>(url, { headers, params });
     } else {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -361,7 +362,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<any>(url, { headers, params, withCredentials: true });
+      request = this.http.get<ResourceSet>(url, { headers, params, withCredentials: true });
     }
 
     return request.pipe(

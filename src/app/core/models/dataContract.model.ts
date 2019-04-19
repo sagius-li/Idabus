@@ -5,8 +5,14 @@ export class ConnectedUser {
   public password: string;
 }
 
+export class BasicResource {
+  public DisplayName: string;
+  public ObjectID: string;
+  public ObjectType: string;
+}
+
 export interface AnyProperties {
-  [prop: string]: any;
+  [prop: string]: BasicResource | any;
 }
 
 export type Resource = AnyProperties & {};

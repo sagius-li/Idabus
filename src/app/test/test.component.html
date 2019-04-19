@@ -16,6 +16,6 @@
 <button (click)="onFetchResource()">Fetch Resource</button>
 <ul *ngIf="fetchedResources.length > 0">
   <li *ngFor="let res of fetchedResources">
-    {{ res.DisplayName }} ({{ res.Manager ? res.Manager.DisplayName : null }})
+    {{ res.item('DisplayName') }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
   </li>
 </ul>

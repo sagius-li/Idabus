@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 
 import { TransService, Language } from '../core/models/translation.model';
 
+import { Resource } from '../core/models/dataContract.model';
+
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
 
@@ -26,7 +28,8 @@ export class TestComponent implements OnInit {
   // #region members for resource service
   dataServiceInfo = this.resource.showInfo();
   fetchText = '';
-  fetchedResources: any[] = [];
+  fetchedResources: Resource[] = [];
+  testResource: Resource;
   // #endregion
 
   constructor(
