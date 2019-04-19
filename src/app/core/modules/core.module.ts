@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TransService } from '../models/translation.model';
 import { LocalizationModule } from './localization.module';
 
+import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
 import { StartupService } from '../services/startup.service';
 
+import { ExtraValuePipe } from '../pipes/extra-value.pipe';
+
 @NgModule({
-  declarations: [],
+  declarations: [ExtraValuePipe],
   imports: [CommonModule, FormsModule, HttpClientModule, LocalizationModule],
   providers: [ConfigService, StartupService, TransService],
-  exports: [LocalizationModule]
+  exports: [ExtraValuePipe, LocalizationModule]
 })
 export class CoreModule {}

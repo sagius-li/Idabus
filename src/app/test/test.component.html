@@ -15,7 +15,10 @@
 <input type="text" [(ngModel)]="fetchText" />
 <button (click)="onFetchResource()">Fetch Resource</button>
 <ul *ngIf="fetchedResources.length > 0">
+  <!-- <li *ngFor="let res of fetchedResources">
+    {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
+  </li> -->
   <li *ngFor="let res of fetchedResources">
-    {{ res.item('DisplayName') }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
+    {{ res | extraValue: 'DisplayName' }} ({{ res | extraValue: 'Manager:DisplayName' }})
   </li>
 </ul>
