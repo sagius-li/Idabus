@@ -1,3 +1,17 @@
+export enum AuthMode {
+  basic = 'basic',
+  windows = 'windows',
+  azure = 'azure'
+}
+
+export class AuthUser {
+  DisplayName?: string;
+  ObjectID?: string;
+  AccountName?: string;
+  AccessToken?: string;
+  AccessConnection?: string;
+}
+
 export class ConnectedUser {
   public baseAddress: string;
   public name: string;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 
@@ -8,6 +9,7 @@ import { Resource } from '../core/models/dataContract.model';
 
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-test',
@@ -33,9 +35,11 @@ export class TestComponent implements OnInit {
   // #endregion
 
   constructor(
+    private router: Router,
     private config: ConfigService,
     private translate: TransService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {}
@@ -54,5 +58,10 @@ export class TestComponent implements OnInit {
           this.fetchedResources = resources.results;
         }
       });
+  }
+
+  onLogout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }

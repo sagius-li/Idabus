@@ -18,8 +18,8 @@ export class UtilsService {
   /** Default datetime format */
   private datetimeFormat = 'YYYY-MM-DD';
 
-  public localStorageLoginMode = 'Key_LS_LoginMode';
-  public localStorageLoginUser = 'Key_LS_LoginUser';
+  public localStorageLoginMode = 'OCG_LS_LoginMode';
+  public localStorageLoginUser = 'OCG_LS_LoginUser';
 
   /**
    * @ignore

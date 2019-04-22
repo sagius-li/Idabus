@@ -5,7 +5,7 @@ import { observable, throwError, of, Observable } from 'rxjs';
 import { tap, switchMap, catchError, retry, retryWhen, take, delay } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { ConnectedUser, ResourceSet, Resource } from '../models/dataContract.model';
+import { ConnectedUser, ResourceSet, Resource, AuthUser } from '../models/dataContract.model';
 
 import { ConfigService } from './config.service';
 import { UtilsService } from './utils.service';
@@ -25,7 +25,6 @@ export class ResourceService {
   private authenticationMode = '';
   private encryptionKey = '';
   private secret = '';
-  private token = '';
   private loginUserAttributes: string[] = [];
 
   private version = '';
@@ -51,6 +50,13 @@ export class ResourceService {
   private loaded = false;
   get isLoaded() {
     return this.loaded;
+  }
+  get accessConnection() {
+    return this.connection;
+  }
+  private token = '';
+  get accessToken() {
+    return this.token;
   }
 
   private getConnectedUser() {
@@ -87,6 +93,10 @@ export class ResourceService {
   }
 
   private acquireToken() {
+    const headers: HttpHeaders = this.token
+      ? new HttpHeaders().append('token', this.token)
+      : undefined;
+
     if (this.connection) {
       const urlGetToken = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -99,11 +109,16 @@ export class ResourceService {
           connection: this.connection
         }
       });
-      return this.http.get(urlGetToken, { params, responseType: 'text' }).pipe(
-        tap((token: string) => {
-          this.token = token;
-        })
-      );
+      return this.http
+        .get(
+          urlGetToken,
+          headers ? { params, headers, responseType: 'text' } : { params, responseType: 'text' }
+        )
+        .pipe(
+          tap((token: string) => {
+            this.token = token;
+          })
+        );
     } else {
       const urlGetToken = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -111,11 +126,18 @@ export class ResourceService {
         'init',
         this.serviceType
       );
-      return this.http.get(urlGetToken, { withCredentials: true, responseType: 'text' }).pipe(
-        tap((token: string) => {
-          this.token = token;
-        })
-      );
+      return this.http
+        .get(
+          urlGetToken,
+          headers
+            ? { headers, withCredentials: true, responseType: 'text' }
+            : { withCredentials: true, responseType: 'text' }
+        )
+        .pipe(
+          tap((token: string) => {
+            this.token = token;
+          })
+        );
     }
   }
 
@@ -123,8 +145,13 @@ export class ResourceService {
     return `Dataservice Version: ${this.dataServiceVersion}<br />Browser Language: ${
       this.browserLanguage
     }<br />Secret: ${this.secret}<br />Access Token: ${this.token}<br />Login User: ${
-      this.user.DisplayName
+      this.user ? this.user.DisplayName : ''
     }`;
+  }
+
+  public setService(info: AuthUser) {
+    this.token = info.AccessToken;
+    this.connection = info.AccessConnection;
   }
 
   public load(conn?: string) {
@@ -189,57 +216,59 @@ export class ResourceService {
       }),
       // acquire token
       switchMap(() => {
-        return this.acquireToken();
-      }),
-      // get current login user
-      switchMap(() => {
-        if (conn) {
-          // using basic authentication
-          const urlGetPortalUser = this.utils.buildDataServiceUrl(
-            this.baseUrl,
-            'admin/resources',
-            'basicuser',
-            this.serviceType
-          );
-          if (!this.connectedUser.name) {
-            return throwError(new Error('invalid connection'));
-          }
-          const params: HttpParams = new HttpParams({
-            fromObject: {
-              accountName: this.connectedUser.name,
-              attributes: this.loginUserAttributes.join(',')
-            }
-          });
-          const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-          return this.http.get(urlGetPortalUser, { headers, params }).pipe(
-            tap((user: object) => {
-              this.user = user;
-              this.loaded = true;
-            })
-          );
-        } else {
-          // using windows authentication
-          const urlGetPortalUser = this.utils.buildDataServiceUrl(
-            this.baseUrl,
-            'admin/resources',
-            'winuser',
-            this.serviceType
-          );
-          const params: HttpParams = new HttpParams({
-            fromObject: {
-              attributes: this.loginUserAttributes.join(',')
-            }
-          });
-          const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-          return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
-            tap((user: object) => {
-              this.user = user;
-              this.loaded = true;
-            })
-          );
-        }
+        return this.acquireToken().pipe(
+          tap(() => {
+            this.loaded = true;
+          })
+        );
       })
     );
+  }
+
+  public getCurrentUser(): Observable<Resource> {
+    if (this.connection) {
+      // using basic authentication
+      const urlGetPortalUser = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'basicuser',
+        this.serviceType
+      );
+      if (!this.connectedUser.name) {
+        return throwError(new Error('invalid connection'));
+      }
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          accountName: this.connectedUser.name,
+          attributes: this.loginUserAttributes.join(',')
+        }
+      });
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      return this.http.get(urlGetPortalUser, { headers, params }).pipe(
+        tap((user: object) => {
+          this.user = user;
+        })
+      );
+    } else {
+      // using windows authentication
+      const urlGetPortalUser = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'winuser',
+        this.serviceType
+      );
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          attributes: this.loginUserAttributes.join(',')
+        }
+      });
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
+        tap((user: object) => {
+          this.user = user;
+        })
+      );
+    }
   }
 
   public getResourceByID(

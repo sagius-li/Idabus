@@ -7,6 +7,8 @@ import { LocalizationModule } from './localization.module';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
+import { ResourceService } from '../services/resource.service';
+import { AuthService } from '../services/auth.service';
 import { StartupService } from '../services/startup.service';
 
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
@@ -14,7 +16,7 @@ import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 @NgModule({
   declarations: [ExtraValuePipe],
   imports: [CommonModule, FormsModule, HttpClientModule, LocalizationModule],
-  providers: [ConfigService, StartupService, TransService],
+  providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
   exports: [ExtraValuePipe, LocalizationModule]
 })
 export class CoreModule {}

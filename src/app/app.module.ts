@@ -10,9 +10,11 @@ import { CoreModule } from './core/modules/core.module';
 
 import 'hammerjs';
 import { TestComponent } from './test/test.component';
+import { LoginComponent } from './login/login.component';
+import { SplashComponent } from './splash/splash.component';
 
 @NgModule({
-  declarations: [AppComponent, TestComponent],
+  declarations: [AppComponent, TestComponent, LoginComponent, SplashComponent],
   imports: [BrowserModule, FormsModule, AppRoutingModule, BrowserAnimationsModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent]

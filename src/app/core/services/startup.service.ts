@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { tap, switchMap } from 'rxjs/operators';
 
@@ -6,6 +7,7 @@ import { TransService, Language } from '../models/translation.model';
 
 import { ConfigService } from './config.service';
 import { ResourceService } from './resource.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -51,18 +53,32 @@ export class StartupService {
   constructor(
     private config: ConfigService,
     private translate: TransService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private auth: AuthService,
+    private router: Router
   ) {}
 
-  public init() {
+  public init(currentPath: string) {
     return this.config.load().pipe(
       switchMap(() => {
-        return this.initTransService();
-      }),
-      switchMap(() => {
-        return this.resource.load().pipe(
+        const defaultPath = this.config.getConfig('startPath', '/app');
+        return this.initTransService().pipe(
           tap(() => {
-            this.loaded = true;
+            this.auth.init();
+            if (this.auth.authMode && this.auth.authUser) {
+              this.resource.setService(this.auth.authUser);
+              if (currentPath !== '/') {
+                this.router.navigate(['/splash'], { queryParams: { path: currentPath } });
+              } else {
+                this.router.navigate(['/splash'], {
+                  queryParams: defaultPath
+                });
+              }
+            } else {
+              this.router.navigate(['/login'], {
+                queryParams: defaultPath
+              });
+            }
           })
         );
       })
