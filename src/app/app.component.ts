@@ -13,18 +13,6 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent implements OnInit {
   title = 'Idabus';
 
-  private init() {
-    this.auth.init();
-
-    if (this.auth.authMode && this.auth.authUser) {
-    } else {
-      this.router.navigate(['/login'], { queryParams: this.config.getConfig('startPath', '/app') });
-    }
-
-    // const startPath = this.config.getConfig('startPath', '/app');
-    // this.router.navigate([startPath]);
-  }
-
   constructor(
     private config: ConfigService,
     private router: Router,
@@ -33,14 +21,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // if (!this.startup.isInitialized) {
-    //   this.startup.init().subscribe(() => {
-    //     this.init();
-    //   });
-    // } else {
-    //   this.init();
-    // }
-
     this.startup.init(window.location.pathname).subscribe();
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
 import { ConfigService } from '../core/services/config.service';
+import { ResourceService } from '../core/services/resource.service';
 
 @Component({
   selector: 'app-splash',
@@ -16,13 +17,32 @@ export class SplashComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private config: ConfigService
+    private config: ConfigService,
+    private resource: ResourceService
   ) {}
 
   ngOnInit() {
     const startPath = this.config.getConfig('startPath', '/app');
+    let obs: Observable<Params>;
 
-    this.sub = this.route.queryParams.pipe(delay(2000)).subscribe(params => {
+    if (this.resource.isLoaded) {
+      obs = this.resource.getCurrentUser().pipe(
+        switchMap(() => {
+          return this.route.queryParams.pipe(delay(2000));
+        })
+      );
+    } else {
+      obs = this.resource.load().pipe(
+        switchMap(() => {
+          return this.resource.getCurrentUser();
+        }),
+        switchMap(() => {
+          return this.route.queryParams.pipe(delay(2000));
+        })
+      );
+    }
+
+    this.sub = obs.subscribe(params => {
       if (params.path) {
         this.router.navigate([params.path]);
       } else {

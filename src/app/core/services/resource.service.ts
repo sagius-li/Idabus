@@ -21,7 +21,6 @@ export class ResourceService {
   ) {}
 
   private serviceType = 'mim';
-  private connection = '';
   private authenticationMode = '';
   private encryptionKey = '';
   private secret = '';
@@ -51,6 +50,7 @@ export class ResourceService {
   get isLoaded() {
     return this.loaded;
   }
+  private connection = '';
   get accessConnection() {
     return this.connection;
   }
@@ -225,7 +225,7 @@ export class ResourceService {
     );
   }
 
-  public getCurrentUser(): Observable<Resource> {
+  public getCurrentUser(isAuth = false): Observable<Resource> {
     if (this.connection) {
       // using basic authentication
       const urlGetPortalUser = this.utils.buildDataServiceUrl(
@@ -240,7 +240,7 @@ export class ResourceService {
       const params: HttpParams = new HttpParams({
         fromObject: {
           accountName: this.connectedUser.name,
-          attributes: this.loginUserAttributes.join(',')
+          attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
         }
       });
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
@@ -259,7 +259,7 @@ export class ResourceService {
       );
       const params: HttpParams = new HttpParams({
         fromObject: {
-          attributes: this.loginUserAttributes.join(',')
+          attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
         }
       });
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
