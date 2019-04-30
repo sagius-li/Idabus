@@ -5,7 +5,13 @@ import { observable, throwError, of, Observable } from 'rxjs';
 import { tap, switchMap, catchError, retry, retryWhen, take, delay } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { ConnectedUser, ResourceSet, Resource, AuthUser } from '../models/dataContract.model';
+import {
+  ConnectedUser,
+  ResourceSet,
+  Resource,
+  AuthUser,
+  AuthMode
+} from '../models/dataContract.model';
 
 import { ConfigService } from './config.service';
 import { UtilsService } from './utils.service';
@@ -21,11 +27,14 @@ export class ResourceService {
   ) {}
 
   private serviceType = 'mim';
-  private authenticationMode = '';
   private encryptionKey = '';
   private secret = '';
   private loginUserAttributes: string[] = [];
 
+  private authNMode: AuthMode = undefined;
+  get authenticationMode() {
+    return this.authNMode;
+  }
   private version = '';
   get dataServiceVersion() {
     return this.version;
@@ -142,14 +151,46 @@ export class ResourceService {
   }
 
   public showInfo() {
-    return `Dataservice Version: ${this.dataServiceVersion}<br />Browser Language: ${
-      this.browserLanguage
-    }<br />Secret: ${this.secret}<br />Access Token: ${this.token}<br />Login User: ${
-      this.user ? this.user.DisplayName : ''
-    }`;
+    return `Dataservice Version: ${this.dataServiceVersion}<br />Authentication Mode: ${
+      this.authNMode
+    }<br />Browser Language: ${this.browserLanguage}<br />Secret: ${
+      this.secret
+    }<br />Access Token: ${this.token}<br />Login User: ${this.user ? this.user.DisplayName : ''}`;
+  }
+
+  public clear() {
+    this.authNMode = undefined;
+    this.encryptionKey = '';
+    this.secret = '';
+    this.loginUserAttributes = [];
+    this.version = '';
+    this.baseUrl = '';
+    this.language = '';
+    this.connUser = undefined;
+    this.user = undefined;
+    this.loaded = false;
+    this.connection = '';
+    this.token = '';
+  }
+
+  public buildConnectionString(
+    userName: string,
+    password: string,
+    domain?: string,
+    baseAddress?: string
+  ) {
+    if (!domain) {
+      domain = this.config.getConfig('domain');
+    }
+    if (!baseAddress) {
+      baseAddress = '//localhost:5725';
+    }
+    const encryptedpwd = this.utils.Encrypt(password, this.config.getConfig('encryptionKey'));
+    return `baseaddress:${baseAddress};domain:${domain};username:${userName};password:${encryptedpwd}`;
   }
 
   public setService(info: AuthUser) {
+    this.authNMode = info.AuthenticationMode;
     this.token = info.AccessToken;
     this.connection = info.AccessConnection;
   }
@@ -160,11 +201,11 @@ export class ResourceService {
 
     if (conn) {
       this.connection = conn;
-      this.authenticationMode = 'basic';
+      this.authNMode = AuthMode.basic;
       this.connUser = this.getConnectedUser();
     } else {
       this.connection = undefined;
-      this.authenticationMode = 'windows';
+      this.authNMode = AuthMode.windows;
     }
 
     const urlGetVersion = this.utils.buildDataServiceUrl(

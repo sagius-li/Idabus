@@ -32,7 +32,7 @@ export class SplashComponent implements OnInit, OnDestroy {
         })
       );
     } else {
-      obs = this.resource.load().pipe(
+      obs = this.resource.load(this.resource.accessConnection).pipe(
         switchMap(() => {
           return this.resource.getCurrentUser();
         }),

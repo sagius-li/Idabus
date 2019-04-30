@@ -20,5 +20,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onBasicLogin() {}
+  onBasicLogin() {
+    this.auth.login(AuthMode.basic, 'mimadmin', 'PA$$w0rd').subscribe(() => {
+      this.router.navigate(['/splash']);
+    });
+  }
 }

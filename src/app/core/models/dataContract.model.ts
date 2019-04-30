@@ -8,6 +8,7 @@ export class AuthUser {
   DisplayName?: string;
   ObjectID?: string;
   AccountName?: string;
+  AuthenticationMode?: AuthMode;
   AccessToken?: string;
   AccessConnection?: string;
 }

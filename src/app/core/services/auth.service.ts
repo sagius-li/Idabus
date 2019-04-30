@@ -43,32 +43,36 @@ export class AuthService {
   }
 
   public login(mode: AuthMode, userName?: string, pwd?: string) {
-    switch (mode) {
-      case AuthMode.windows:
-        if (this.user) {
-          return EMPTY;
-        }
-        return this.resource.load().pipe(
-          switchMap(() => {
-            return this.resource.getCurrentUser().pipe(
-              tap((currentUser: Resource) => {
-                this.user = {
-                  DisplayName: currentUser.DisplayName,
-                  ObjectID: currentUser.ObjectID,
-                  AccountName: currentUser.AccountName,
-                  AccessToken: this.resource.accessToken,
-                  AccessConnection: this.resource.accessConnection
-                };
-                this.mode = AuthMode[mode];
-                this.storage.setItem(this.utils.localStorageLoginMode, mode);
-                this.storage.setItem(this.utils.localStorageLoginUser, JSON.stringify(this.user));
-              })
-            );
-          })
-        );
-      case AuthMode.basic:
-        break;
-      case AuthMode.azure:
+    if (this.user) {
+      return EMPTY;
+    }
+
+    const connectionString =
+      mode === AuthMode.basic ? this.resource.buildConnectionString(userName, pwd) : null;
+
+    if (mode === AuthMode.basic || mode === AuthMode.windows) {
+      return this.resource.load(connectionString).pipe(
+        switchMap(() => {
+          return this.resource.getCurrentUser(true).pipe(
+            tap((currentUser: Resource) => {
+              this.user = {
+                DisplayName: currentUser.DisplayName,
+                ObjectID: currentUser.ObjectID,
+                AccountName: currentUser.AccountName,
+                AuthenticationMode: this.resource.authenticationMode,
+                AccessToken: this.resource.accessToken,
+                AccessConnection: this.resource.accessConnection
+              };
+              this.mode = AuthMode[mode];
+              this.storage.setItem(this.utils.localStorageLoginMode, mode);
+              this.storage.setItem(this.utils.localStorageLoginUser, JSON.stringify(this.user));
+            })
+          );
+        })
+      );
+    } else {
+      return EMPTY;
+
       // this._authMode = AuthMode[mode];
       // localStorage.setItem(this.utils.localStorageLoginMode, mode);
 
@@ -76,13 +80,12 @@ export class AuthService {
       //   this.adal.login();
       // }
       // return empty();
-      default:
-        return EMPTY;
     }
   }
 
   public logout() {
     this.storage.clear();
+    this.resource.clear();
     this.mode = undefined;
     this.user = undefined;
   }
