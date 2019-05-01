@@ -457,4 +457,409 @@ export class ResourceService {
       })
     );
   }
+
+  public deleteResource(id: string, adminMode = false) {
+    if (!id) {
+      return throwError('id is missing');
+    }
+    let request: Observable<void>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        id,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.delete<void>(url, { headers });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        id,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.delete<void>(url, { headers });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        id,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.delete<void>(url, { headers, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.deleteResource(id, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public createResource(resource: Resource, adminMode = false) {
+    if (!resource) {
+      return throwError('resource is missing');
+    }
+    let request: Observable<string>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.post<string>(url, resource, { headers });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<string>(url, resource, { headers });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<string>(url, resource, { headers, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.createResource(resource, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public updateResource(resource: Resource, adminMode = false) {
+    if (!resource) {
+      return throwError('resource is missing');
+    }
+    let request: Observable<string>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.patch<string>(url, resource, { headers });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.patch<string>(url, resource, { headers });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win',
+        'resources',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.patch<string>(url, resource, { headers, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.updateResource(resource, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public getResourceCount(query: string, adminMode = false): Observable<number> {
+    if (!query) {
+      return throwError('query is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        query
+      }
+    });
+    let request: Observable<number>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'count',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.get<number>(url, { headers, params });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        'count',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.get<number>(url, { headers, params });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        'count',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.get<number>(url, { headers, params, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.getResourceCount(query);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public addResourceValue(
+    id: string,
+    attributeName: string,
+    valuesToAdd: string[] = [],
+    adminMode = false
+  ): Observable<void> {
+    if (!id) {
+      return throwError('id is missing');
+    }
+    if (!attributeName) {
+      return throwError('attribute name is missing');
+    }
+    if (!valuesToAdd || valuesToAdd.length === 0) {
+      return throwError('values to add is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        id,
+        attributeName,
+        valuesToAdd
+      }
+    });
+    let request: Observable<void>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'values/add',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.post<void>(url, { headers, params });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        'values/add',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        'values/add',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.addResourceValue(id, attributeName, valuesToAdd, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public removeResourceValue(
+    id: string,
+    attributeName: string,
+    valuesToRemove: string[] = [],
+    adminMode = false
+  ): Observable<void> {
+    if (!id) {
+      return throwError('id is missing');
+    }
+    if (!attributeName) {
+      return throwError('attribute name is missing');
+    }
+    if (!valuesToRemove || valuesToRemove.length === 0) {
+      return throwError('values to remove is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        id,
+        attributeName,
+        valuesToRemove
+      }
+    });
+    let request: Observable<void>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'values/remove',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.post<void>(url, { headers, params });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        'values/remove',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        'values/remove',
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.removeResourceValue(id, attributeName, valuesToRemove, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public approve(
+    id: string,
+    approve: boolean,
+    reason: string,
+    adminMode = false
+  ): Observable<void> {
+    if (!id) {
+      return throwError('id is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        reason
+      }
+    });
+    let request: Observable<void>;
+
+    if (adminMode === true) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        `approve/${id}/${approve}`,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      request = this.http.post<void>(url, { headers, params });
+    } else if (this.connection) {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'basic/resources',
+        `approve/${id}/${approve}`,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params });
+    } else {
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'win/resources',
+        `approve/${id}/${approve}`,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.post<void>(url, { headers, params, withCredentials: true });
+    }
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.approve(id, approve, reason, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
 }
