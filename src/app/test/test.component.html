@@ -14,6 +14,7 @@
 <hr />
 <input type="text" [(ngModel)]="fetchText" />
 <button (click)="onFetchResource()">Fetch Resource</button>
+<button (click)="onDataServiceTest()">Data Service Test</button>
 <ul *ngIf="fetchedResources.length > 0">
   <!-- <li *ngFor="let res of fetchedResources">
     {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})

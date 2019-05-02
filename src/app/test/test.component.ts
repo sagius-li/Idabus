@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { pipe } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
@@ -58,6 +60,107 @@ export class TestComponent implements OnInit {
           this.fetchedResources = resources.results;
         }
       });
+  }
+
+  onDataServiceTest() {
+    // getResourceByID test
+    this.resource
+      .getResourceByID(
+        '106a2d89-1c16-423d-9104-f1fbdac5fbb7',
+        ['DisplayName', 'AccountName', 'Manager'],
+        'full',
+        'de',
+        true
+      )
+      .subscribe(resource => {
+        console.log(resource);
+      });
+
+    // getResourceByQuery test
+    // this.resource
+    //   .getResourceByQuery(
+    //     `/Person[starts-with(DisplayName,'eva')]`,
+    //     ['DisplayName', 'AccountName', 'Manager'],
+    //     10,
+    //     0,
+    //     true
+    //   )
+    //   .subscribe(resources => {
+    //     console.log(resources);
+    //   });
+
+    // schema test
+    // this.resource.getResourceSchema('Person', 'de').subscribe(schema => {
+    //   console.log(schema);
+    // });
+
+    // getResourceCount test
+    // this.resource.getResourceCount('/Person').subscribe((count: number) => {
+    //   console.log(`count of all users: ${count}`);
+    // });
+
+    // CRUD
+    // createResource test
+    // this.resource
+    //   .createResource({
+    //     DisplayName: 'creation test',
+    //     ObjectType: 'Person',
+    //     FirstName: 'creation',
+    //     LastName: 'test'
+    //   })
+    //   .pipe(
+    //     tap(id => {
+    //       console.log(`resource created with ${id}`);
+    //     }),
+    //     switchMap(id => {
+    //       // updateResource test
+    //       return this.resource
+    //         .updateResource({
+    //           ObjectID: id,
+    //           ObjectType: 'Person',
+    //           FirstName: 'creationtest',
+    //           MiddleName: 'CT'
+    //         })
+    //         .pipe(
+    //           tap(() => {
+    //             console.log(`resource ${id} updated`);
+    //           }),
+    //           switchMap(() => {
+    //             // deleteResource test
+    //             return this.resource.deleteResource(String(id)).pipe(
+    //               tap(() => {
+    //                 console.log(`resource ${id} deleted`);
+    //               })
+    //             );
+    //           })
+    //         );
+    //     })
+    //   )
+    //   .subscribe();
+
+    // add/removeResourceValue test
+    // this.resource
+    //   .addResourceValue('7fb2b853-24f0-4498-9534-4e10589723c4', 'ProxyAddressCollection', [
+    //     'test1@demo.com',
+    //     'test2@demo.com'
+    //   ])
+    //   .pipe(
+    //     tap(() => {
+    //       console.log('values added');
+    //     }),
+    //     switchMap(() => {
+    //       return this.resource
+    //         .removeResourceValue('7fb2b853-24f0-4498-9534-4e10589723c4', 'ProxyAddressCollection', [
+    //           'test1@demo.com'
+    //         ])
+    //         .pipe(
+    //           tap(() => {
+    //             console.log('values removed');
+    //           })
+    //         );
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   onLogout() {

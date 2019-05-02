@@ -26,8 +26,23 @@ export class BasicResource {
   public ObjectType: string;
 }
 
+export class AttributeResource {
+  description?: string;
+  displayName?: string;
+  multivalued?: boolean;
+  required?: boolean;
+  stringRegex?: string;
+  integerMinimum?: number;
+  integerMaximum?: number;
+  systemName?: string;
+  dataType?: string;
+  permissionHint?: string;
+  value?: BasicResource | object | any;
+  values?: BasicResource[] | object[] | any[];
+}
+
 export interface AnyProperties {
-  [prop: string]: BasicResource | any;
+  [prop: string]: AttributeResource | BasicResource | object | any;
 }
 
 export type Resource = AnyProperties & {};

@@ -51,7 +51,7 @@ export class ResourceService {
   get connectedUser() {
     return this.connUser;
   }
-  private user: any = undefined;
+  private user: Resource = undefined;
   get loginUser() {
     return this.user;
   }
@@ -118,16 +118,11 @@ export class ResourceService {
           connection: this.connection
         }
       });
-      return this.http
-        .get(
-          urlGetToken,
-          headers ? { params, headers, responseType: 'text' } : { params, responseType: 'text' }
-        )
-        .pipe(
-          tap((token: string) => {
-            this.token = token;
-          })
-        );
+      return this.http.get(urlGetToken, headers ? { params, headers } : { params }).pipe(
+        tap((token: string) => {
+          this.token = token;
+        })
+      );
     } else {
       const urlGetToken = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -136,12 +131,7 @@ export class ResourceService {
         this.serviceType
       );
       return this.http
-        .get(
-          urlGetToken,
-          headers
-            ? { headers, withCredentials: true, responseType: 'text' }
-            : { withCredentials: true, responseType: 'text' }
-        )
+        .get(urlGetToken, headers ? { headers, withCredentials: true } : { withCredentials: true })
         .pipe(
           tap((token: string) => {
             this.token = token;
@@ -228,7 +218,7 @@ export class ResourceService {
           'encryptionKey',
           this.serviceType
         );
-        return this.http.get(urlGetEncryptionKey, { responseType: 'text' }).pipe(
+        return this.http.get(urlGetEncryptionKey).pipe(
           tap((key: string) => {
             if (!key) {
               return throwError(new Error('could not get encryption key'));
@@ -246,7 +236,7 @@ export class ResourceService {
           'language',
           this.serviceType
         );
-        return this.http.get(urlGetLanguage, { responseType: 'text' }).pipe(
+        return this.http.get(urlGetLanguage).pipe(
           tap((lang: string) => {
             if (!lang) {
               return throwError(new Error('could not get browser language'));
@@ -286,7 +276,7 @@ export class ResourceService {
       });
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
       return this.http.get(urlGetPortalUser, { headers, params }).pipe(
-        tap((user: object) => {
+        tap((user: Resource) => {
           this.user = user;
         })
       );
@@ -305,7 +295,7 @@ export class ResourceService {
       });
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
       return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
-        tap((user: object) => {
+        tap((user: Resource) => {
           this.user = user;
         })
       );
@@ -372,6 +362,37 @@ export class ResourceService {
           return this.acquireToken().pipe(
             switchMap(() => {
               return this.getResourceByID(id, attributes, format, culture, resolveRef, adminMode);
+            })
+          );
+        } else {
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  public getResourceSchema(typeName: string, culture = 'en-US'): Observable<Resource> {
+    if (!typeName) {
+      return throwError('type name is missing');
+    }
+
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        culture
+      }
+    });
+    let request: Observable<Resource>;
+
+    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'schema', typeName, this.serviceType);
+    const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+    request = this.http.get<Resource>(url, { headers, params });
+
+    return request.pipe(
+      catchError(err => {
+        if (err.status === 409) {
+          return this.acquireToken().pipe(
+            switchMap(() => {
+              return this.getResourceSchema(typeName, culture);
             })
           );
         } else {
@@ -684,7 +705,7 @@ export class ResourceService {
       fromObject: {
         id,
         attributeName,
-        valuesToAdd
+        valuesToAdd: valuesToAdd.join(',')
       }
     });
     let request: Observable<void>;
@@ -697,7 +718,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.post<void>(url, { headers, params });
+      request = this.http.post<void>(url, null, { headers, params });
     } else if (this.connection) {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -706,7 +727,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.post<void>(url, { headers, params });
+      request = this.http.post<void>(url, null, { headers, params });
     } else {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -715,7 +736,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.post<void>(url, { headers, params, withCredentials: true });
+      request = this.http.post<void>(url, null, { headers, params, withCredentials: true });
     }
 
     return request.pipe(
@@ -753,7 +774,7 @@ export class ResourceService {
       fromObject: {
         id,
         attributeName,
-        valuesToRemove
+        valuesToRemove: valuesToRemove.join(',')
       }
     });
     let request: Observable<void>;
@@ -766,7 +787,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.post<void>(url, { headers, params });
+      request = this.http.post<void>(url, null, { headers, params });
     } else if (this.connection) {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -775,7 +796,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.post<void>(url, { headers, params });
+      request = this.http.post<void>(url, null, { headers, params });
     } else {
       const url = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -784,7 +805,7 @@ export class ResourceService {
         this.serviceType
       );
       const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.post<void>(url, { headers, params, withCredentials: true });
+      request = this.http.post<void>(url, null, { headers, params, withCredentials: true });
     }
 
     return request.pipe(
