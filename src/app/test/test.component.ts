@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { pipe } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { environment } from '../../environments/environment';
 
@@ -41,10 +41,18 @@ export class TestComponent implements OnInit {
     private config: ConfigService,
     private translate: TransService,
     private resource: ResourceService,
-    private auth: AuthService
+    private auth: AuthService,
+    private spinner: NgxSpinnerService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.spinner.show();
+    }, 2000);
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 5000);
+  }
 
   onChangeLanguage(language: string) {
     this.currentLanguage = language;
