@@ -1,0 +1,78 @@
+<div
+  [@flyIn]="flyIn"
+  [@classicLogin]="classicLogin"
+  class="login-form"
+  [class.mat-elevation-z8]="true"
+>
+  <div
+    class="login-header"
+    [class.mat-elevation-z8]="true"
+    fxLayout="row wrap"
+    fxLayoutAlign="center start"
+  >
+    <div fxFlex="1 1 100" class="login-brand">{{ 'key_login' | translate }}</div>
+    <div fxFlex="auto" class="login-icon">
+      <fa-icon
+        [icon]="faWindows"
+        matTooltip="{{ 'key_windowsLogin' | translate }}"
+        (click)="onWindowsLogin()"
+      ></fa-icon>
+    </div>
+    <div fxFlex="auto" class="login-icon">
+      <fa-icon
+        [icon]="faUserAlt"
+        matTooltip="{{ 'key_basicLogin' | translate }}"
+        (click)="onClassicLogin()"
+      ></fa-icon>
+    </div>
+    <div fxFlex="auto" class="login-icon">
+      <fa-icon
+        [icon]="faCloud"
+        matTooltip="{{ 'key_azureLogin' | translate }}"
+        (click)="onAzureLogin()"
+      ></fa-icon>
+    </div>
+  </div>
+  <div *ngIf="classicLogin === 'collapsed'" class="login-footer">{{ version }}</div>
+  <div @loginForm *ngIf="classicLogin === 'expanded'" class="login-input" fxLayout="column">
+    <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center">
+      <fa-icon fxFlex="0 0 auto" class="login-input-icon" [icon]="faUserCircle"></fa-icon>
+      <mat-form-field fxFlex="auto">
+        <input
+          #txtUserName
+          matInput
+          [placeholder]="'key_userName' | translate"
+          [(ngModel)]="userName"
+          (input)="onInputChange()"
+        />
+      </mat-form-field>
+    </div>
+    <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center">
+      <fa-icon fxFlex="0 0 auto" class="login-input-icon" [icon]="faLock"></fa-icon>
+      <mat-form-field fxFlex="auto">
+        <input
+          matInput
+          [placeholder]="'key_password' | translate"
+          [(ngModel)]="password"
+          [type]="hidePwd ? 'password' : 'text'"
+          (input)="onInputChange()"
+          (keyup.enter)="onBasicLogin()"
+        />
+        <mat-icon matSuffix (click)="hidePwd = !hidePwd" style="cursor: pointer;">{{
+          hidePwd ? 'visibility_off' : 'visibility'
+        }}</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="login-error" *ngIf="invalidUser">{{ 'key_invalidUser' | translate }}</div>
+    <div fxFlex="none" fxLayout="row" fxLayoutAlign="center center">
+      <button
+        class="login-button"
+        mat-button
+        (click)="onBasicLogin()"
+        [disabled]="!userName || !password"
+      >
+        {{ 'key_submit' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
