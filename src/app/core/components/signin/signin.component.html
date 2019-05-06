@@ -11,19 +11,29 @@
     fxLayoutAlign="center start"
   >
     <div fxFlex="1 1 100" class="login-brand">{{ 'key_login' | translate }}</div>
-    <div fxFlex="auto" class="login-icon">
-      <fa-icon
-        [icon]="faWindows"
-        matTooltip="{{ 'key_windowsLogin' | translate }}"
-        (click)="onWindowsLogin()"
-      ></fa-icon>
+    <div fxFlex="auto" fxLayout="column" fxLayoutAlign="start center" class="login-icon">
+      <div fxFlex="auto">
+        <fa-icon
+          [icon]="faWindows"
+          matTooltip="{{ 'key_windowsLogin' | translate }}"
+          (click)="onWindowsLogin()"
+        ></fa-icon>
+      </div>
+      <div fxFlex="auto" class="login-spinner" *ngIf="signingWindows">
+        <mat-spinner [diameter]="20" color="white"></mat-spinner>
+      </div>
     </div>
-    <div fxFlex="auto" class="login-icon">
-      <fa-icon
-        [icon]="faUserAlt"
-        matTooltip="{{ 'key_basicLogin' | translate }}"
-        (click)="onClassicLogin()"
-      ></fa-icon>
+    <div fxFlex="auto" fxLayout="column" fxLayoutAlign="start center" class="login-icon">
+      <div fxFlex="auto">
+        <fa-icon
+          [icon]="faUserAlt"
+          matTooltip="{{ 'key_basicLogin' | translate }}"
+          (click)="onClassicLogin()"
+        ></fa-icon>
+      </div>
+      <div fxFlex="auto" class="login-spinner" *ngIf="signingBasic">
+        <mat-spinner [diameter]="20" color="white"></mat-spinner>
+      </div>
     </div>
     <div fxFlex="auto" class="login-icon">
       <fa-icon

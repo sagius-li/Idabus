@@ -87,6 +87,9 @@ export class SigninComponent implements OnInit {
   hidePwd = true;
   invalidUser = false;
 
+  signingWindows = false;
+  signingBasic = false;
+
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -110,17 +113,28 @@ export class SigninComponent implements OnInit {
   }
 
   onWindowsLogin() {
-    this.auth.login(AuthMode.windows).subscribe(() => {
-      this.router.navigate(['/splash']);
-    });
-  }
-
-  onBasicLogin() {
-    this.auth.login(AuthMode.basic, this.userName, this.password).subscribe(
+    this.signingWindows = true;
+    this.auth.login(AuthMode.windows).subscribe(
       () => {
+        this.signingWindows = false;
         this.router.navigate(['/splash']);
       },
       () => {
+        this.signingWindows = false;
+        this.invalidUser = true;
+      }
+    );
+  }
+
+  onBasicLogin() {
+    this.signingBasic = true;
+    this.auth.login(AuthMode.basic, this.userName, this.password).subscribe(
+      () => {
+        this.signingBasic = false;
+        this.router.navigate(['/splash']);
+      },
+      () => {
+        this.signingBasic = false;
         this.invalidUser = true;
       }
     );

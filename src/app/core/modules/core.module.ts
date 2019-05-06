@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -38,7 +39,8 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatButtonModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
   exports: [
@@ -51,6 +53,7 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatTooltipModule,
     MatFormFieldModule,
     MatIconModule,
+    MatProgressSpinnerModule,
 
     ExtraValuePipe,
 
