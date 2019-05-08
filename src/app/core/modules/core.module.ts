@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -44,7 +45,8 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatFormFieldModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatTabsModule
   ],
   providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
   exports: [
@@ -60,6 +62,7 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatIconModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatTabsModule,
 
     ExtraValuePipe,
 

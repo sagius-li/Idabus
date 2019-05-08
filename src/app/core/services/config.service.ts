@@ -31,7 +31,7 @@ export class ConfigService {
   }
 
   public getConfig(key: string, fallback?: any): any {
-    if (this.config[key]) {
+    if (this.loaded && this.config[key]) {
       return this.config[key];
     } else {
       return fallback ? fallback : undefined;

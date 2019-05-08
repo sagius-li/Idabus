@@ -21,7 +21,7 @@ import { AuthService } from '../core/services/auth.service';
 export class TestComponent implements OnInit {
   // #region general members
   env = environment.env;
-  startPath = this.config.getConfig('startPath');
+  startPath = this.config ? this.config.getConfig('startPath') : '';
   // #endregion
 
   // #region members for translation service
@@ -47,10 +47,10 @@ export class TestComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.spinner.show();
+      this.spinner.show('spnWelcome');
     }, 2000);
     setTimeout(() => {
-      this.spinner.hide();
+      this.spinner.hide('spnWelcome');
     }, 5000);
   }
 

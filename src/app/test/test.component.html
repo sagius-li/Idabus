@@ -1,42 +1,57 @@
-<p>Environment: {{ env }}</p>
-<p>Start Path: {{ startPath }}</p>
-<p>Current Language: {{ currentLanguage }}</p>
-<p [innerHTML]="dataServiceInfo"></p>
-<p>Welcome Message: {{ 'l10n_greeting' | translate }}</p>
-<div>
-  <ng-template ngFor let-language [ngForOf]="languages">
-    <span *ngIf="language.code.indexOf(currentLanguage) < 0" style="margin-right: 10px;">
-      <a [routerLink]="" (click)="onChangeLanguage(language.route)">{{ language.label }}</a>
-    </span>
-    <span *ngIf="language.code.indexOf(currentLanguage) >= 0">{{ language.label }} </span>
-  </ng-template>
-</div>
-<hr />
-<input type="text" [(ngModel)]="fetchText" />
-<button (click)="onFetchResource()">Fetch Resource</button>
-<button (click)="onDataServiceTest()">Data Service Test</button>
-<ul *ngIf="fetchedResources.length > 0">
-  <!-- <li *ngFor="let res of fetchedResources">
-    {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
-  </li> -->
-  <li *ngFor="let res of fetchedResources">
-    {{ res | extraValue: 'DisplayName' }} ({{ res | extraValue: 'Manager:DisplayName' }})
-  </li>
-</ul>
-<hr />
-<button (click)="onLogout()">Logout</button>
-<br />
-<br />
-<mat-card style="width:300px;">
-  <mat-card-header>
-    <mat-card-title>Spinner</mat-card-title>
-  </mat-card-header>
-  <mat-card-content style="position:relative;">
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-    <ngx-spinner [fullScreen]="false"></ngx-spinner>
-  </mat-card-content>
-</mat-card>
+<mat-tab-group dynamicHeight animationDuration="0ms">
+  <!-- general information -->
+  <mat-tab label="General">
+    <div
+      fxLayout="column"
+      fxLayoutAlign="space-evenly start"
+      fxLayoutGap="20px"
+      class="tab-element"
+    >
+      <div fxFlex>
+        <div>Environment: {{ env }}</div>
+        <div>Start Path: {{ startPath }}</div>
+        <div>Current Language: {{ currentLanguage }}</div>
+      </div>
+      <div fxFlex [innerHTML]="dataServiceInfo"></div>
+      <div fxFlex>
+        <mat-card style="width:300px;">
+          <mat-card-header>
+            <mat-card-title>{{ 'l10n_greeting' | translate }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="position:relative;">
+            <p>
+              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
+              from Japan. A small, agile dog that copes very well with mountainous terrain, the
+              Shiba Inu was originally bred for hunting.
+            </p>
+            <ngx-spinner name="spnWelcome" [fullScreen]="false"></ngx-spinner>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex>
+        <ng-template ngFor let-language [ngForOf]="languages">
+          <span *ngIf="language.code.indexOf(currentLanguage) < 0" style="margin-right: 10px;">
+            <a [routerLink]="" (click)="onChangeLanguage(language.route)">{{ language.label }}</a>
+          </span>
+          <span *ngIf="language.code.indexOf(currentLanguage) >= 0">{{ language.label }} </span>
+        </ng-template>
+      </div>
+      <div fxFlex>
+        <input type="text" [(ngModel)]="fetchText" />
+        <button (click)="onFetchResource()">Fetch Resource</button>
+        <button (click)="onDataServiceTest()">Data Service Test</button>
+        <ul *ngIf="fetchedResources.length > 0">
+          <!-- <li *ngFor="let res of fetchedResources">
+            {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
+          </li> -->
+          <li *ngFor="let res of fetchedResources">
+            {{ res | extraValue: 'DisplayName' }} ({{ res | extraValue: 'Manager:DisplayName' }})
+          </li>
+        </ul>
+      </div>
+      <div fxFlex>
+        <button (click)="onLogout()">Logout</button>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
