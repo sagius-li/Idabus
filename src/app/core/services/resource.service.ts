@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { observable, throwError, of, Observable } from 'rxjs';
-import { tap, switchMap, catchError, retry, retryWhen, take, delay } from 'rxjs/operators';
+import { throwError, Observable } from 'rxjs';
+import { tap, switchMap, catchError } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import {
@@ -882,5 +882,26 @@ export class ResourceService {
         }
       })
     );
+  }
+
+  public lookup(text: string) {
+    let result = text;
+
+    // resolve [//loginUser]
+    result = result.replace(new RegExp(`\\[\\/\\/loginUser\\]`, 'g'), this.loginUser.ObjectID);
+
+    // resolve <today()>
+    const re = new RegExp(`\\<today\\(\\)[+-]?\\d*\\>`, 'g');
+    let m: any;
+    do {
+      m = re.exec(result);
+      if (m && m.length > 0) {
+        const param = m[0].substring(8, m[0].length - 1);
+        const dt = param ? moment().add(+param, 'd') : moment();
+        result = result.replace(m[0], dt.format('YYYY-MM-DDT00:00:00'));
+      }
+    } while (m);
+
+    return result;
   }
 }

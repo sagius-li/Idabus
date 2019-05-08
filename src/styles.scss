@@ -1,3 +1,60 @@
+/* begin: ng2-dnd styles */
+.dnd-drag-start {
+  -moz-transform: scale(0.8);
+  -webkit-transform: scale(0.8);
+  transform: scale(0.8);
+  opacity: 0.7;
+  border: 2px dashed #000;
+}
+
+.dnd-drag-enter {
+  opacity: 0.7;
+  border: 2px dashed #000;
+}
+
+.dnd-drag-over {
+  border: 2px dashed #000;
+}
+
+.dnd-sortable-drag {
+  -moz-transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  opacity: 0.7;
+  border: 1px dashed #000;
+}
+/* end: ng2-dnd styles */
+
+/* begin: ng2-dragula styles */
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=80)';
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)';
+  filter: alpha(opacity=20);
+}
+/* end: ng2-dragula styles */
+
 html {
   box-sizing: border-box;
 }
@@ -65,6 +122,12 @@ h6 {
 .full-size {
   height: 100%;
   width: 100%;
+}
+
+.full-size-relative {
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .height-5 {

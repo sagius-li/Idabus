@@ -5,15 +5,15 @@
       fxLayout="column"
       fxLayoutAlign="space-evenly start"
       fxLayoutGap="20px"
-      class="tab-element"
+      class="tab-element layout-column"
     >
-      <div fxFlex>
+      <div fxFlex="auto">
         <div>Environment: {{ env }}</div>
         <div>Start Path: {{ startPath }}</div>
         <div>Current Language: {{ currentLanguage }}</div>
       </div>
-      <div fxFlex [innerHTML]="dataServiceInfo"></div>
-      <div fxFlex>
+      <div fxFlex="auto" [innerHTML]="dataServiceInfo"></div>
+      <div fxFlex="auto">
         <mat-card style="width:300px;">
           <mat-card-header>
             <mat-card-title>{{ 'l10n_greeting' | translate }}</mat-card-title>
@@ -28,7 +28,7 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div fxFlex>
+      <div fxFlex="auto">
         <ng-template ngFor let-language [ngForOf]="languages">
           <span *ngIf="language.code.indexOf(currentLanguage) < 0" style="margin-right: 10px;">
             <a [routerLink]="" (click)="onChangeLanguage(language.route)">{{ language.label }}</a>
@@ -36,22 +36,51 @@
           <span *ngIf="language.code.indexOf(currentLanguage) >= 0">{{ language.label }} </span>
         </ng-template>
       </div>
-      <div fxFlex>
+      <div fxFlex="auto">
         <input type="text" [(ngModel)]="fetchText" />
         <button (click)="onFetchResource()">Fetch Resource</button>
         <button (click)="onDataServiceTest()">Data Service Test</button>
         <ul *ngIf="fetchedResources.length > 0">
           <!-- <li *ngFor="let res of fetchedResources">
-            {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
-          </li> -->
+                  {{ res['DisplayName'] }} ({{ res['Manager'] ? res['Manager'].DisplayName : null }})
+                </li> -->
           <li *ngFor="let res of fetchedResources">
             {{ res | extraValue: 'DisplayName' }} ({{ res | extraValue: 'Manager:DisplayName' }})
           </li>
         </ul>
       </div>
-      <div fxFlex>
+      <div fxFlex="auto">
         <button (click)="onLogout()">Logout</button>
       </div>
+    </div>
+  </mat-tab>
+  <!-- components -->
+  <mat-tab label="Components">
+    <div fxLayout="row wrap">
+      <div fxFlex="35">
+        <app-state-card
+          [query]="'/Person'"
+          [mainText]="'{0}'"
+          [title]="'Total Users'"
+          [iconText]="'person'"
+        ></app-state-card>
+      </div>
+    </div>
+  </mat-tab>
+  <!-- drag & drop -->
+  <mat-tab label="Drag & Drop">
+    <div class="tab-element">
+      <mat-grid-list cols="6" gutterSize="10px" rowHeight="1:1">
+        <mat-grid-tile style="background-color: lightblue">
+          <div>1</div>
+        </mat-grid-tile>
+        <mat-grid-tile style="background-color: lightblue">
+          <div>2</div>
+        </mat-grid-tile>
+        <mat-grid-tile style="background-color: lightblue">
+          <div>3</div>
+        </mat-grid-tile>
+      </mat-grid-list>
     </div>
   </mat-tab>
 </mat-tab-group>

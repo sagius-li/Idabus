@@ -16,6 +16,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -26,9 +29,10 @@ import { StartupService } from '../services/startup.service';
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 
 import { SigninComponent } from '../components/signin/signin.component';
+import { StateCardComponent } from '../components/state-card/state-card.component';
 
 @NgModule({
-  declarations: [ExtraValuePipe, SigninComponent],
+  declarations: [ExtraValuePipe, SigninComponent, StateCardComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -46,7 +50,10 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatIconModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatGridListModule
   ],
   providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
   exports: [
@@ -63,10 +70,14 @@ import { SigninComponent } from '../components/signin/signin.component';
     MatProgressSpinnerModule,
     MatCardModule,
     MatTabsModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatGridListModule,
 
     ExtraValuePipe,
 
-    SigninComponent
+    SigninComponent,
+    StateCardComponent
   ]
 })
 export class CoreModule {}

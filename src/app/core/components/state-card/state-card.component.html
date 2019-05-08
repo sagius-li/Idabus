@@ -1,0 +1,38 @@
+<div
+  fxLayout="column"
+  [style.backgroundColor]="localConfig.backgroundColor"
+  class="full-size-relative"
+  style="padding: 20px;"
+>
+  <ngx-spinner bdColor="rgba(51,51,51,0.4)" size="default" color="#fff" type="line-scale">
+  </ngx-spinner>
+  <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div fxFlex="none">
+      <mat-icon style="font-size: 52px; margin-top: 16px;" [style.color]="localConfig.iconColor">
+        {{ localConfig.iconText }}</mat-icon
+      >
+    </div>
+    <div fxFlex="auto"></div>
+    <div fxFlex="none" fxLayout="column" fxLayoutAlign="start end">
+      <div fxFlex="none" [style.color]="localConfig.textColor" style="margin-bottom: 2px;">
+        {{ localConfig.title | translate }}
+      </div>
+      <div
+        fxFlex="none"
+        [style.color]="localConfig.mainTextColor"
+        style="margin-top: 2px; font-size: 28px;"
+      >
+        {{ localConfig.mainText | translate }}
+      </div>
+    </div>
+  </div>
+  <mat-divider style="margin-top: 10px;"></mat-divider>
+  <button
+    mat-button
+    [style.color]="localConfig.textColor"
+    (click)="onUpdateNow()"
+    style="margin-top: 20px; text-align: left; font-size: 18px; font-weight: 300; padding-left: 2px;"
+  >
+    <mat-icon style="margin-right: 10px;">refresh</mat-icon> {{ 'key_updateNow' | translate }}
+  </button>
+</div>
