@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridType,
+  CompactType,
+  DisplayGrid
+} from 'angular-gridster2';
 
 import { environment } from '../../environments/environment';
 
@@ -16,7 +24,8 @@ import { AuthService } from '../core/services/auth.service';
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  styleUrls: ['./test.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TestComponent implements OnInit {
   // #region general members
@@ -34,6 +43,66 @@ export class TestComponent implements OnInit {
   fetchText = '';
   fetchedResources: Resource[] = [];
   testResource: Resource;
+  // #endregion
+
+  // #region angular gridster
+  gdOptions: GridsterConfig = {
+    gridType: GridType.Fixed,
+    compactType: CompactType.CompactLeftAndUp,
+    margin: 10,
+    outerMargin: true,
+    outerMarginTop: null,
+    outerMarginRight: null,
+    outerMarginBottom: null,
+    outerMarginLeft: null,
+    useTransformPositioning: true,
+    mobileBreakpoint: 640,
+    minCols: 1,
+    maxCols: 100,
+    minRows: 1,
+    maxRows: 100,
+    maxItemCols: 100,
+    minItemCols: 1,
+    maxItemRows: 100,
+    minItemRows: 1,
+    maxItemArea: 2500,
+    minItemArea: 1,
+    defaultItemCols: 1,
+    defaultItemRows: 1,
+    fixedColWidth: 105,
+    fixedRowHeight: 105,
+    keepFixedHeightInMobile: false,
+    keepFixedWidthInMobile: false,
+    scrollSensitivity: 10,
+    scrollSpeed: 20,
+    enableEmptyCellClick: false,
+    enableEmptyCellContextMenu: false,
+    enableEmptyCellDrop: false,
+    enableEmptyCellDrag: false,
+    emptyCellDragMaxCols: 50,
+    emptyCellDragMaxRows: 50,
+    ignoreMarginInRow: false,
+    draggable: {
+      enabled: true
+    },
+    resizable: {
+      enabled: true
+    },
+    swap: true,
+    pushItems: true,
+    disablePushOnDrag: false,
+    disablePushOnResize: false,
+    pushDirections: { north: true, east: true, south: true, west: true },
+    pushResizeItems: false,
+    displayGrid: DisplayGrid.Always,
+    disableWindowResize: false,
+    disableWarnings: false,
+    scrollToNewItems: false
+  };
+  gdItems: Array<GridsterItem> = [
+    { cols: 2, rows: 1, y: 0, x: 0 },
+    { cols: 2, rows: 2, y: 0, x: 2 }
+  ];
   // #endregion
 
   constructor(
@@ -174,5 +243,15 @@ export class TestComponent implements OnInit {
   onLogout() {
     this.auth.logout();
     this.router.navigate(['/login']);
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    if (event.index === 2 && this.gdOptions.api && this.gdOptions.api.optionsChanged) {
+      this.gdOptions.api.optionsChanged();
+    }
+  }
+
+  onGridsterTest() {
+    console.log(this.gdItems);
   }
 }

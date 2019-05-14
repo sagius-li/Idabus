@@ -44,6 +44,7 @@
     "@progress/kendo-drawing": "^1.1.2",
     "@progress/kendo-theme-default": "latest",
     "@progress/kendo-theme-material": "^2.4.1",
+    "angular-gridster2": "^7.2.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",

@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LocalizationModule } from './localization.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { GridsterModule } from 'angular-gridster2';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +43,7 @@ import { StateCardComponent } from '../components/state-card/state-card.componen
     LocalizationModule,
     FontAwesomeModule,
     NgxSpinnerModule,
+    GridsterModule,
 
     MatInputModule,
     MatButtonModule,
@@ -61,6 +63,7 @@ import { StateCardComponent } from '../components/state-card/state-card.componen
     LocalizationModule,
     FontAwesomeModule,
     NgxSpinnerModule,
+    GridsterModule,
 
     MatInputModule,
     MatButtonModule,

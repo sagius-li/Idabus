@@ -4,7 +4,13 @@
   class="full-size-relative"
   style="padding: 20px;"
 >
-  <ngx-spinner bdColor="rgba(51,51,51,0.4)" size="default" color="#fff" type="line-scale">
+  <ngx-spinner
+    [attr.name]="localConfig.name"
+    bdColor="rgba(51,51,51,0.4)"
+    size="default"
+    color="#fff"
+    type="line-scale"
+  >
   </ngx-spinner>
   <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
     <div fxFlex="none">

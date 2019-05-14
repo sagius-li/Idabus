@@ -2,6 +2,7 @@
  * Interface for component configuration
  */
 export interface ComponentConfig {
+  name: string;
   minimized: boolean;
 }
 

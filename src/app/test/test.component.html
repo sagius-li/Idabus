@@ -1,4 +1,4 @@
-<mat-tab-group dynamicHeight animationDuration="0ms">
+<mat-tab-group dynamicHeight animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
   <!-- general information -->
   <mat-tab label="General">
     <div
@@ -69,18 +69,23 @@
   </mat-tab>
   <!-- drag & drop -->
   <mat-tab label="Drag & Drop">
-    <div class="tab-element">
-      <mat-grid-list cols="6" gutterSize="10px" rowHeight="1:1">
-        <mat-grid-tile style="background-color: lightblue">
-          <div>1</div>
-        </mat-grid-tile>
-        <mat-grid-tile style="background-color: lightblue">
-          <div>2</div>
-        </mat-grid-tile>
-        <mat-grid-tile style="background-color: lightblue">
-          <div>3</div>
-        </mat-grid-tile>
-      </mat-grid-list>
+    <div style="height: 800px;">
+      <gridster [options]="gdOptions">
+        <gridster-item [item]="item" *ngFor="let item of gdItems">
+          <!-- <div class="button-holder">
+            <button mat-mini-fab *ngIf="!item.hasContent">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div> -->
+          <app-state-card
+            [query]="'/Person'"
+            [mainText]="'{0}'"
+            [title]="'Total Users'"
+            [iconText]="'person'"
+          ></app-state-card>
+        </gridster-item>
+      </gridster>
     </div>
+    <button (click)="onGridsterTest()">Test</button>
   </mat-tab>
 </mat-tab-group>

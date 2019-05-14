@@ -8,6 +8,7 @@ import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent
 import { ResourceService } from '../../services/resource.service';
 
 export class StateCardConfig implements ComponentConfig {
+  name = undefined;
   minimized = false;
   iconText: string;
   iconColor: string;
@@ -32,6 +33,8 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   @Input()
   config: StateCardConfig;
 
+  @Input()
+  name = undefined;
   @Input()
   iconText = 'public';
   @Input()
@@ -65,6 +68,7 @@ export class StateCardComponent implements OnInit, DynamicComponent {
 
   initComponent() {
     this.localConfig = new StateCardConfig({
+      name: this.name,
       iconText: this.iconText,
       iconColor: this.iconColor,
       backgroundColor: this.backgroundColor,
@@ -76,6 +80,9 @@ export class StateCardComponent implements OnInit, DynamicComponent {
     });
 
     if (this.config) {
+      if (this.config.name) {
+        this.localConfig.name = this.config.name;
+      }
       if (this.config.iconText) {
         this.localConfig.iconText = this.config.iconText;
       }
@@ -114,7 +121,7 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   updateDataSource() {
     if (this.localConfig.query) {
       setTimeout(() => {
-        this.spinner.show();
+        this.localConfig.name ? this.spinner.show(this.localConfig.name) : this.spinner.show();
       }, 0);
 
       setTimeout(() => {
@@ -125,12 +132,16 @@ export class StateCardComponent implements OnInit, DynamicComponent {
               result.toString()
             );
             setTimeout(() => {
-              this.spinner.hide();
+              this.localConfig.name
+                ? this.spinner.hide(this.localConfig.name)
+                : this.spinner.hide();
             }, 0);
           },
           () => {
             setTimeout(() => {
-              this.spinner.hide();
+              this.localConfig.name
+                ? this.spinner.hide(this.localConfig.name)
+                : this.spinner.hide();
             }, 0);
           }
         );

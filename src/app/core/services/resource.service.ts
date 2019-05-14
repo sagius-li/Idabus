@@ -888,7 +888,10 @@ export class ResourceService {
     let result = text;
 
     // resolve [//loginUser]
-    result = result.replace(new RegExp(`\\[\\/\\/loginUser\\]`, 'g'), this.loginUser.ObjectID);
+    result = result.replace(
+      new RegExp(`\\[\\/\\/loginUser\\]`, 'g'),
+      this.loginUser ? this.loginUser.ObjectID : ''
+    );
 
     // resolve <today()>
     const re = new RegExp(`\\<today\\(\\)[+-]?\\d*\\>`, 'g');
