@@ -31,9 +31,10 @@ import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 
 import { SigninComponent } from '../components/signin/signin.component';
 import { StateCardComponent } from '../components/state-card/state-card.component';
+import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 
 @NgModule({
-  declarations: [ExtraValuePipe, SigninComponent, StateCardComponent],
+  declarations: [ExtraValuePipe, SigninComponent, StateCardComponent, EditMenuComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -80,7 +81,8 @@ import { StateCardComponent } from '../components/state-card/state-card.componen
     ExtraValuePipe,
 
     SigninComponent,
-    StateCardComponent
+    StateCardComponent,
+    EditMenuComponent
   ]
 })
 export class CoreModule {}

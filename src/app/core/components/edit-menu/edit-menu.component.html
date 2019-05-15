@@ -1,0 +1,70 @@
+<div
+  [fxLayout]="direction"
+  [fxLayoutAlign]="direction === 'row' ? 'end center' : 'start end'"
+  [style.color]="color"
+  fxLayoutGap="20px"
+>
+  <div
+    [@editMode]="{
+      value: editMode,
+      params: { inactiveTrans: transInactive, activeTrans: transActive }
+    }"
+    fxFlex="0 0 auto"
+    [fxLayout]="direction"
+    [fxLayoutAlign]="direction === 'row' ? 'end center' : 'start end'"
+    [fxFlexOrder]="direction === 'row' ? 1 : 2"
+    fxLayoutGap="20px"
+    class="expand-menu"
+  >
+    <button
+      mat-mini-fab
+      *ngIf="buttons.includes('save')"
+      fxFlex="0 0 auto"
+      class="link-div"
+      matTooltip="{{ 'key_save' | translate }}"
+      (click)="onSave()"
+    >
+      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size">save</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      *ngIf="buttons.includes('add')"
+      fxFlex="0 0 auto"
+      class="link-div"
+      matTooltip="{{ 'key_add' | translate }}"
+      (click)="onAdd()"
+    >
+      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size"
+        >add_box</mat-icon
+      >
+    </button>
+    <button
+      mat-mini-fab
+      *ngIf="buttons.includes('refresh')"
+      fxFlex="0 0 auto"
+      class="link-div"
+      matTooltip="{{ 'key_refresh' | translate }}"
+      (click)="onRefresh()"
+    >
+      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size"
+        >refresh</mat-icon
+      >
+    </button>
+  </div>
+  <button
+    mat-fab
+    fxFlex="0 0 auto"
+    [fxFlexOrder]="direction === 'row' ? 2 : 1"
+    class="link-div"
+    (click)="toggleEditMode()"
+    matTooltip="{{ mainIconText | translate }}"
+  >
+    <mat-icon
+      style="margin-top: -4px;"
+      [style.fontSize]="brandSize"
+      [style.height]="brandSize"
+      [style.width]="brandSize"
+      >{{ mainIcon }}</mat-icon
+    >
+  </button>
+</div>

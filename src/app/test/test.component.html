@@ -69,6 +69,9 @@
   </mat-tab>
   <!-- drag & drop -->
   <mat-tab label="Drag & Drop">
+    <div>
+      <app-edit-menu></app-edit-menu>
+    </div>
     <div style="height: 800px;">
       <gridster [options]="gdOptions">
         <gridster-item [item]="item" *ngFor="let item of gdItems">
