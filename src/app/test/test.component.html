@@ -69,17 +69,27 @@
   </mat-tab>
   <!-- drag & drop -->
   <mat-tab label="Drag & Drop">
-    <div>
-      <app-edit-menu></app-edit-menu>
+    <div style="position:absolute;right:0;top:20px;z-index:100;">
+      <app-edit-menu
+        [direction]="'column'"
+        (edit)="onGridsterEdit()"
+        (add)="onGridsterAdd()"
+        (cancel)="onGridsterCancel()"
+        (save)="onGridsterSave()"
+      ></app-edit-menu>
     </div>
     <div style="height: 800px;">
-      <gridster [options]="gdOptions">
+      <gridster [options]="gdOptions" style="background:transparent;">
         <gridster-item [item]="item" *ngFor="let item of gdItems">
-          <!-- <div class="button-holder">
-            <button mat-mini-fab *ngIf="!item.hasContent">
+          <div style="position: absolute; right: 5px; top: 5px; z-index: 10;">
+            <button
+              mat-mini-fab
+              *ngIf="gdOptions.draggable.enabled === true"
+              (click)="onGridsterDelete($event, item)"
+            >
               <mat-icon>delete</mat-icon>
             </button>
-          </div> -->
+          </div>
           <app-state-card
             [query]="'/Person'"
             [mainText]="'{0}'"
@@ -89,6 +99,5 @@
         </gridster-item>
       </gridster>
     </div>
-    <button (click)="onGridsterTest()">Test</button>
   </mat-tab>
 </mat-tab-group>

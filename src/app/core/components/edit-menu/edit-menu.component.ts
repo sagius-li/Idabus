@@ -32,15 +32,6 @@ export class EditMenuComponent implements OnInit {
   /** Edit menu direction (row or column) */
   @Input()
   direction = 'row';
-  /** Edit menu icon color */
-  @Input()
-  color = 'rgba(128, 128, 128, 0.8)';
-  /** Edit menu brand icon size */
-  @Input()
-  brandSize = '32px';
-  /** Edit menu normal icon size */
-  @Input()
-  size = '20px';
   /** Edit menu buttons */
   @Input()
   buttons = ['refresh', 'add', 'save'];
@@ -70,7 +61,7 @@ export class EditMenuComponent implements OnInit {
   mainIcon = 'edit';
   /** Main icon tooltip (key_edit, key_cancel) */
   mainIconText = 'key_edit';
-  /** Transition for inactive state (row: translateX(150%), column: translateY(-150%)) */
+  /** Transition for inactive state (row: translateX(50%), column: translateY(-50%)) */
   transInactive = 'translateX(150%)';
   /** Transition for active state (row: translateX(0), column: translateY(0)) */
   transActive = 'translateX(0)';
@@ -80,7 +71,7 @@ export class EditMenuComponent implements OnInit {
 
   /** Set initial state */
   ngOnInit() {
-    this.transInactive = this.direction === 'row' ? 'translateX(150%)' : 'translateY(-150%)';
+    this.transInactive = this.direction === 'row' ? 'translateX(50%)' : 'translateY(-50%)';
     this.transActive = this.direction === 'row' ? 'translateX(0)' : 'translateY(0)';
   }
 

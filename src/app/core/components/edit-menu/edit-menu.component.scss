@@ -5,7 +5,27 @@
   filter: brightness(50%);
 }
 
+.link-div-row {
+  margin: 10px 0;
+}
+.link-div-column {
+  margin: 0 10px;
+}
+
 .expand-menu {
   overflow: hidden;
-  padding: 10px;
+  padding: 20px;
+}
+
+.brand-icon {
+  height: 32px;
+  width: 32px;
+  font-size: 32px;
+  margin-top: -4px;
+}
+
+.action-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
 }

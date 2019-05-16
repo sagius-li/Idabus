@@ -69,8 +69,8 @@ export class TestComponent implements OnInit {
     minItemArea: 1,
     defaultItemCols: 1,
     defaultItemRows: 1,
-    fixedColWidth: 105,
-    fixedRowHeight: 105,
+    fixedColWidth: 180,
+    fixedRowHeight: 180,
     keepFixedHeightInMobile: false,
     keepFixedWidthInMobile: false,
     scrollSensitivity: 10,
@@ -121,6 +121,10 @@ export class TestComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide('spnWelcome');
     }, 5000);
+
+    this.gdOptions.draggable.enabled = false;
+    this.gdOptions.resizable.enabled = false;
+    this.gdOptions.displayGrid = DisplayGrid.None;
   }
 
   onChangeLanguage(language: string) {
@@ -251,7 +255,27 @@ export class TestComponent implements OnInit {
     }
   }
 
-  onGridsterTest() {
+  onGridsterEdit() {
+    this.gdOptions.draggable.enabled = true;
+    this.gdOptions.resizable.enabled = true;
+    this.gdOptions.displayGrid = DisplayGrid.Always;
+    this.gdOptions.api.optionsChanged();
+  }
+  onGridsterAdd() {
+    this.gdItems.push({ x: 0, y: 0, cols: 2, rows: 2 });
+  }
+  onGridsterCancel() {
+    this.gdOptions.draggable.enabled = false;
+    this.gdOptions.resizable.enabled = false;
+    this.gdOptions.displayGrid = DisplayGrid.None;
+    this.gdOptions.api.optionsChanged();
+  }
+  onGridsterSave() {
     console.log(this.gdItems);
+  }
+  onGridsterDelete(event: Event, item: GridsterItem) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.gdItems.splice(this.gdItems.indexOf(item), 1);
   }
 }

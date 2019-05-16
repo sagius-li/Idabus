@@ -1,7 +1,6 @@
 <div
   [fxLayout]="direction"
-  [fxLayoutAlign]="direction === 'row' ? 'end center' : 'start end'"
-  [style.color]="color"
+  [fxLayoutAlign]="direction === 'row' ? 'end center' : 'start center'"
   fxLayoutGap="20px"
 >
   <div
@@ -22,9 +21,10 @@
       fxFlex="0 0 auto"
       class="link-div"
       matTooltip="{{ 'key_save' | translate }}"
+      [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
       (click)="onSave()"
     >
-      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size">save</mat-icon>
+      <mat-icon class="action-icon">save</mat-icon>
     </button>
     <button
       mat-mini-fab
@@ -32,11 +32,10 @@
       fxFlex="0 0 auto"
       class="link-div"
       matTooltip="{{ 'key_add' | translate }}"
+      [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
       (click)="onAdd()"
     >
-      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size"
-        >add_box</mat-icon
-      >
+      <mat-icon class="action-icon">add_box</mat-icon>
     </button>
     <button
       mat-mini-fab
@@ -44,11 +43,10 @@
       fxFlex="0 0 auto"
       class="link-div"
       matTooltip="{{ 'key_refresh' | translate }}"
+      [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
       (click)="onRefresh()"
     >
-      <mat-icon [style.fontSize]="size" [style.height]="size" [style.width]="size"
-        >refresh</mat-icon
-      >
+      <mat-icon class="action-icon">refresh</mat-icon>
     </button>
   </div>
   <button
@@ -56,15 +54,11 @@
     fxFlex="0 0 auto"
     [fxFlexOrder]="direction === 'row' ? 2 : 1"
     class="link-div"
+    [ngClass]="{ 'link-div-row': direction === 'row', 'link-div-column': direction === 'column' }"
     (click)="toggleEditMode()"
     matTooltip="{{ mainIconText | translate }}"
+    [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
   >
-    <mat-icon
-      style="margin-top: -4px;"
-      [style.fontSize]="brandSize"
-      [style.height]="brandSize"
-      [style.width]="brandSize"
-      >{{ mainIcon }}</mat-icon
-    >
+    <mat-icon class="brand-icon">{{ mainIcon }}</mat-icon>
   </button>
 </div>
