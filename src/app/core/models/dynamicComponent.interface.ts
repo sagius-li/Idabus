@@ -1,3 +1,7 @@
+import { ComponentRef } from '@angular/core';
+
+import { GridsterItem } from 'angular-gridster2';
+
 /**
  * Interface for component configuration
  */
@@ -20,4 +24,14 @@ export interface DynamicComponent {
   resize: (size: number[]) => void;
   /** configure component */
   configure: () => ComponentConfig;
+}
+
+/**
+ * Interface for component specification, which can be put in gridster
+ */
+export interface GridsterComponentItem extends GridsterItem {
+  name: string;
+  componentType: any;
+  componentConfig: any;
+  componentInstance?: DynamicComponent;
 }

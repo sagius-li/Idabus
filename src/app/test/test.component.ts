@@ -1,17 +1,23 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ViewChildren,
+  QueryList,
+  ComponentFactoryResolver
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {
-  GridsterConfig,
-  GridsterItem,
-  GridType,
-  CompactType,
-  DisplayGrid
-} from 'angular-gridster2';
+import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 
 import { environment } from '../../environments/environment';
+
+import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
+
+import { DynamicContainerDirective } from '../core/directives/dynamic-container.directive';
 
 import { TransService, Language } from '../core/models/translation.model';
 
@@ -20,6 +26,7 @@ import { Resource } from '../core/models/dataContract.model';
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
 import { AuthService } from '../core/services/auth.service';
+import { StateCardComponent } from '../core/components/state-card/state-card.component';
 
 @Component({
   selector: 'app-test',
@@ -27,7 +34,7 @@ import { AuthService } from '../core/services/auth.service';
   styleUrls: ['./test.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit, AfterViewInit {
   // #region general members
   env = environment.env;
   startPath = this.config ? this.config.getConfig('startPath') : '';
@@ -46,6 +53,9 @@ export class TestComponent implements OnInit {
   // #endregion
 
   // #region angular gridster
+  @ViewChildren(DynamicContainerDirective)
+  dynamicContainers: QueryList<DynamicContainerDirective>;
+
   gdOptions: GridsterConfig = {
     gridType: GridType.Fixed,
     compactType: CompactType.CompactLeftAndUp,
@@ -99,9 +109,33 @@ export class TestComponent implements OnInit {
     disableWarnings: false,
     scrollToNewItems: false
   };
-  gdItems: Array<GridsterItem> = [
-    { cols: 2, rows: 1, y: 0, x: 0 },
-    { cols: 2, rows: 2, y: 0, x: 2 }
+
+  gdItems: Array<GridsterComponentItem> = [
+    {
+      cols: 2,
+      rows: 1,
+      y: 0,
+      x: 0,
+      name: 'scc1',
+      componentType: StateCardComponent,
+      componentConfig: {
+        name: '',
+        minimized: false,
+        title: 'total users',
+        query: '/Person',
+        mainText: '{0}',
+        iconText: 'person'
+      }
+    },
+    {
+      cols: 2,
+      rows: 2,
+      y: 0,
+      x: 2,
+      name: 'scc2',
+      componentType: StateCardComponent,
+      componentConfig: { name: '', minimized: false }
+    }
   ];
   // #endregion
 
@@ -111,7 +145,8 @@ export class TestComponent implements OnInit {
     private translate: TransService,
     private resource: ResourceService,
     private auth: AuthService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private cfr: ComponentFactoryResolver
   ) {}
 
   ngOnInit() {
@@ -125,6 +160,22 @@ export class TestComponent implements OnInit {
     this.gdOptions.draggable.enabled = false;
     this.gdOptions.resizable.enabled = false;
     this.gdOptions.displayGrid = DisplayGrid.None;
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.gdItems.forEach((item: GridsterComponentItem) => {
+        const componentFactory = this.cfr.resolveComponentFactory(item.componentType);
+        const container = this.dynamicContainers.find(h => h.containerName === item.name);
+        if (container) {
+          const viewContainerRef = container.viewContainerRef;
+          viewContainerRef.clear();
+          const componentRef = viewContainerRef.createComponent(componentFactory);
+          item.componentInstance = componentRef.instance as DynamicComponent;
+          item.componentInstance.config = item.componentConfig;
+        }
+      });
+    }, 0);
   }
 
   onChangeLanguage(language: string) {
@@ -262,7 +313,15 @@ export class TestComponent implements OnInit {
     this.gdOptions.api.optionsChanged();
   }
   onGridsterAdd() {
-    this.gdItems.push({ x: 0, y: 0, cols: 2, rows: 2 });
+    this.gdItems.push({
+      x: 0,
+      y: 0,
+      cols: 2,
+      rows: 2,
+      name: 'scc-test',
+      componentType: StateCardComponent,
+      componentConfig: undefined
+    });
   }
   onGridsterCancel() {
     this.gdOptions.draggable.enabled = false;
@@ -273,7 +332,7 @@ export class TestComponent implements OnInit {
   onGridsterSave() {
     console.log(this.gdItems);
   }
-  onGridsterDelete(event: Event, item: GridsterItem) {
+  onGridsterDelete(event: Event, item: GridsterComponentItem) {
     event.preventDefault();
     event.stopPropagation();
     this.gdItems.splice(this.gdItems.indexOf(item), 1);

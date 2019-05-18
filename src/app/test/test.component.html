@@ -90,12 +90,13 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <app-state-card
+          <!-- <app-state-card
             [query]="'/Person'"
             [mainText]="'{0}'"
             [title]="'Total Users'"
             [iconText]="'person'"
-          ></app-state-card>
+          ></app-state-card> -->
+          <ng-container [appDynamicContainer]="item.name"></ng-container>
         </gridster-item>
       </gridster>
     </div>
