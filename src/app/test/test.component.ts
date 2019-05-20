@@ -337,4 +337,9 @@ export class TestComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
     this.gdItems.splice(this.gdItems.indexOf(item), 1);
   }
+  onGridsterConfig(event: Event, item: GridsterComponentItem) {
+    event.preventDefault();
+    event.stopPropagation();
+    item.componentInstance.configure();
+  }
 }

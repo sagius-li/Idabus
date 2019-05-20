@@ -7,6 +7,8 @@ import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent
 
 import { ResourceService } from '../../services/resource.service';
 
+import { StateCardConfigComponent } from './state-card-config.component';
+
 export class StateCardConfig implements ComponentConfig {
   name = undefined;
   minimized = false;
@@ -115,6 +117,10 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   }
 
   configure() {
+    const dialogRef = this.dialog.open(StateCardConfigComponent, {
+      minWidth: '500px'
+    });
+
     return null;
   }
 

@@ -9,6 +9,7 @@ import { LocalizationModule } from './localization.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { GridsterModule } from 'angular-gridster2';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -32,16 +33,18 @@ import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 import { DynamicContainerDirective } from '../directives/dynamic-container.directive';
 
 import { SigninComponent } from '../components/signin/signin.component';
-import { StateCardComponent } from '../components/state-card/state-card.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
+import { StateCardComponent } from '../components/state-card/state-card.component';
+import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
 
 @NgModule({
   declarations: [
     ExtraValuePipe,
     DynamicContainerDirective,
     SigninComponent,
+    EditMenuComponent,
     StateCardComponent,
-    EditMenuComponent
+    StateCardConfigComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +57,7 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
     NgxSpinnerModule,
     GridsterModule,
 
+    DragDropModule,
     MatInputModule,
     MatButtonModule,
     MatTooltipModule,
@@ -66,7 +70,7 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
     MatDividerModule,
     MatGridListModule
   ],
-  entryComponents: [StateCardComponent],
+  entryComponents: [StateCardComponent, StateCardConfigComponent],
   providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
   exports: [
     FlexLayoutModule,
@@ -75,6 +79,7 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
     NgxSpinnerModule,
     GridsterModule,
 
+    DragDropModule,
     MatInputModule,
     MatButtonModule,
     MatTooltipModule,
@@ -92,8 +97,9 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
     DynamicContainerDirective,
 
     SigninComponent,
+    EditMenuComponent,
     StateCardComponent,
-    EditMenuComponent
+    StateCardConfigComponent
   ]
 })
 export class CoreModule {}

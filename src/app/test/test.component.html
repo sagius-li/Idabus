@@ -90,12 +90,15 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <!-- <app-state-card
-            [query]="'/Person'"
-            [mainText]="'{0}'"
-            [title]="'Total Users'"
-            [iconText]="'person'"
-          ></app-state-card> -->
+          <div style="position: absolute; right: 65px; top: 5px; z-index: 10;">
+            <button
+              mat-mini-fab
+              *ngIf="gdOptions.draggable.enabled === true"
+              (click)="onGridsterConfig($event, item)"
+            >
+              <mat-icon>settings</mat-icon>
+            </button>
+          </div>
           <ng-container [appDynamicContainer]="item.name"></ng-container>
         </gridster-item>
       </gridster>
