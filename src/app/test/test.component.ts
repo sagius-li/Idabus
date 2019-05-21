@@ -340,6 +340,8 @@ export class TestComponent implements OnInit, AfterViewInit {
   onGridsterConfig(event: Event, item: GridsterComponentItem) {
     event.preventDefault();
     event.stopPropagation();
-    item.componentInstance.configure();
+    item.componentInstance.configure().subscribe(config => {
+      item.componentConfig = config;
+    });
   }
 }

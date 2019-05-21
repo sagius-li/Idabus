@@ -1,5 +1,7 @@
 import { ComponentRef } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { GridsterItem } from 'angular-gridster2';
 
 /**
@@ -23,7 +25,7 @@ export interface DynamicComponent {
   /** resize component */
   resize: (size: number[]) => void;
   /** configure component */
-  configure: () => ComponentConfig;
+  configure: () => Observable<ComponentConfig>;
 }
 
 /**

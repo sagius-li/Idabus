@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { tap, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -151,14 +154,17 @@ export class StateCardComponent implements OnInit, DynamicComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result === 'cancel') {
-        this.localConfig = configCopy;
-      }
-      this.updateDataSource();
-    });
-
-    return null;
+    return dialogRef.afterClosed().pipe(
+      tap(result => {
+        if (result && result === 'cancel') {
+          this.localConfig = configCopy;
+        }
+        this.updateDataSource();
+      }),
+      switchMap(() => {
+        return of(this.localConfig);
+      })
+    );
   }
 
   updateDataSource() {
