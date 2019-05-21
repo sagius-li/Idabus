@@ -7,7 +7,7 @@ import { GridsterItem } from 'angular-gridster2';
  */
 export interface ComponentConfig {
   name: string;
-  minimized: boolean;
+  permissionSets: string[];
 }
 
 /**

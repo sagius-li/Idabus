@@ -6,12 +6,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ResourceService } from '../../services/resource.service';
+import { UtilsService } from '../../services/utils.service';
 
 import { StateCardConfigComponent } from './state-card-config.component';
 
 export class StateCardConfig implements ComponentConfig {
   name = undefined;
-  minimized = false;
+  permissionSets = undefined;
   iconText: string;
   iconColor: string;
   backgroundColor: string;
@@ -19,6 +20,8 @@ export class StateCardConfig implements ComponentConfig {
   mainTextColor: string;
   title: string;
   mainText: string;
+  queryMode: string;
+  queryAttribute: string;
   query: string;
 
   public constructor(init?: Partial<StateCardConfig>) {
@@ -38,6 +41,8 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   @Input()
   name = undefined;
   @Input()
+  permissionSets = undefined;
+  @Input()
   iconText = 'public';
   @Input()
   iconColor = 'darkseagreen';
@@ -50,16 +55,23 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   @Input()
   title = 'title';
   @Input()
-  mainText = 'main text';
+  mainText = 'text';
+  @Input()
+  queryMode = 'counter';
+  @Input()
+  queryAttribute = undefined;
   @Input()
   query: string = undefined;
 
   localConfig: StateCardConfig;
 
+  mainTextValue: string;
+
   constructor(
     private dialog: MatDialog,
     private spinner: NgxSpinnerService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private utils: UtilsService
   ) {}
 
   ngOnInit() {
@@ -71,6 +83,7 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   initComponent() {
     this.localConfig = new StateCardConfig({
       name: this.name,
+      permissionSets: this.permissionSets,
       iconText: this.iconText,
       iconColor: this.iconColor,
       backgroundColor: this.backgroundColor,
@@ -78,12 +91,17 @@ export class StateCardComponent implements OnInit, DynamicComponent {
       mainTextColor: this.mainTextColor,
       title: this.title,
       mainText: this.mainText,
+      queryMode: this.queryMode,
+      queryAttribute: this.queryAttribute,
       query: this.query
     });
 
     if (this.config) {
       if (this.config.name) {
         this.localConfig.name = this.config.name;
+      }
+      if (this.config.permissionSets) {
+        this.localConfig.permissionSets = this.config.permissionSets;
       }
       if (this.config.iconText) {
         this.localConfig.iconText = this.config.iconText;
@@ -106,6 +124,12 @@ export class StateCardComponent implements OnInit, DynamicComponent {
       if (this.config.mainText) {
         this.localConfig.mainText = this.config.mainText;
       }
+      if (this.config.queryMode) {
+        this.localConfig.queryMode = this.config.queryMode;
+      }
+      if (this.config.queryAttribute) {
+        this.localConfig.queryAttribute = this.config.queryAttribute;
+      }
       if (this.config.query) {
         this.localConfig.query = this.config.query;
       }
@@ -117,8 +141,21 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   }
 
   configure() {
+    const configCopy = this.utils.DeepCopy(this.localConfig);
+
     const dialogRef = this.dialog.open(StateCardConfigComponent, {
-      minWidth: '500px'
+      minWidth: '420px',
+      data: {
+        component: this,
+        config: this.localConfig
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result === 'cancel') {
+        this.localConfig = configCopy;
+      }
+      this.updateDataSource();
     });
 
     return null;
@@ -133,10 +170,7 @@ export class StateCardComponent implements OnInit, DynamicComponent {
       setTimeout(() => {
         this.resource.getResourceCount(this.resource.lookup(this.localConfig.query)).subscribe(
           result => {
-            this.localConfig.mainText = this.localConfig.mainText.replace(
-              /\{0\}/g,
-              result.toString()
-            );
+            this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, result.toString());
             setTimeout(() => {
               this.localConfig.name
                 ? this.spinner.hide(this.localConfig.name)
@@ -152,6 +186,8 @@ export class StateCardComponent implements OnInit, DynamicComponent {
           }
         );
       }, 500);
+    } else {
+      this.mainTextValue = this.localConfig.mainText;
     }
   }
 

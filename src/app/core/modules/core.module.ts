@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LocalizationModule } from './localization.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { GridsterModule } from 'angular-gridster2';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
@@ -21,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -56,28 +58,7 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     FontAwesomeModule,
     NgxSpinnerModule,
     GridsterModule,
-
-    DragDropModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatTabsModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatGridListModule
-  ],
-  entryComponents: [StateCardComponent, StateCardConfigComponent],
-  providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
-  exports: [
-    FlexLayoutModule,
-    LocalizationModule,
-    FontAwesomeModule,
-    NgxSpinnerModule,
-    GridsterModule,
+    ColorPickerModule,
 
     DragDropModule,
     MatInputModule,
@@ -91,6 +72,31 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     MatDialogModule,
     MatDividerModule,
     MatGridListModule,
+    MatRadioModule
+  ],
+  entryComponents: [StateCardComponent, StateCardConfigComponent],
+  providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
+  exports: [
+    FlexLayoutModule,
+    LocalizationModule,
+    FontAwesomeModule,
+    NgxSpinnerModule,
+    GridsterModule,
+    ColorPickerModule,
+
+    DragDropModule,
+    MatInputModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatGridListModule,
+    MatRadioModule,
 
     ExtraValuePipe,
 
