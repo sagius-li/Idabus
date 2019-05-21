@@ -1,7 +1,7 @@
 <h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
   {{ 'key_stateCardConfig' | translate }}
 </h3>
-<div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+<div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px">
   <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" class="first-dialog-item">
     <mat-form-field fxFlex="auto">
       <input
@@ -39,7 +39,11 @@
         matInput
         [placeholder]="'key_stateCardMainText' | translate"
         [(ngModel)]="data.config.mainText"
+        [formControl]="fcMainText"
       />
+      <mat-error *ngIf="fcMainText.hasError('required')">
+        Input is <strong>required</strong>
+      </mat-error>
     </mat-form-field>
     <div
       fxFlex="0 0 auto"
@@ -87,10 +91,21 @@
   fxLayoutGap="20px"
   style="margin-top: 10px;"
 >
-  <button fxFlex="none" mat-stroked-button color="primary" [mat-dialog-close]="data.config">
+  <button
+    fxFlex="none"
+    mat-stroked-button
+    color="primary"
+    [mat-dialog-close]="data.config"
+    [disabled]="fcMainText.hasError('required')"
+  >
     {{ 'key_submit' | translate }}
   </button>
-  <button fxFlex="none" mat-stroked-button (click)="onRefresh()">
+  <button
+    fxFlex="none"
+    mat-stroked-button
+    (click)="onRefresh()"
+    [disabled]="fcMainText.hasError('required')"
+  >
     {{ 'key_refresh' | translate }}
   </button>
   <div fxFlex="auto"></div>

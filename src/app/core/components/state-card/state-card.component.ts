@@ -8,6 +8,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
 
+import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
+
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 
@@ -16,16 +18,16 @@ import { StateCardConfigComponent } from './state-card-config.component';
 export class StateCardConfig implements ComponentConfig {
   name = undefined;
   permissionSets = undefined;
-  iconText: string;
-  iconColor: string;
-  backgroundColor: string;
-  textColor: string;
-  mainTextColor: string;
-  title: string;
-  mainText: string;
-  queryMode: string;
-  queryAttribute: string;
-  query: string;
+  iconText: string = undefined;
+  iconColor: string = undefined;
+  backgroundColor: string = undefined;
+  textColor: string = undefined;
+  mainTextColor: string = undefined;
+  title: string = undefined;
+  mainText: string = undefined;
+  queryMode: string = undefined;
+  queryAttribute: string = undefined;
+  query: string = undefined;
 
   public constructor(init?: Partial<StateCardConfig>) {
     Object.assign(this, init);
@@ -74,7 +76,8 @@ export class StateCardComponent implements OnInit, DynamicComponent {
     private dialog: MatDialog,
     private spinner: NgxSpinnerService,
     private resource: ResourceService,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private extraValuePipe: ExtraValuePipe
   ) {}
 
   ngOnInit() {
@@ -84,59 +87,11 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   resize() {}
 
   initComponent() {
-    this.localConfig = new StateCardConfig({
-      name: this.name,
-      permissionSets: this.permissionSets,
-      iconText: this.iconText,
-      iconColor: this.iconColor,
-      backgroundColor: this.backgroundColor,
-      textColor: this.textColor,
-      mainTextColor: this.mainTextColor,
-      title: this.title,
-      mainText: this.mainText,
-      queryMode: this.queryMode,
-      queryAttribute: this.queryAttribute,
-      query: this.query
-    });
+    this.localConfig = new StateCardConfig();
 
-    if (this.config) {
-      if (this.config.name) {
-        this.localConfig.name = this.config.name;
-      }
-      if (this.config.permissionSets) {
-        this.localConfig.permissionSets = this.config.permissionSets;
-      }
-      if (this.config.iconText) {
-        this.localConfig.iconText = this.config.iconText;
-      }
-      if (this.config.iconColor) {
-        this.localConfig.iconColor = this.config.iconColor;
-      }
-      if (this.config.backgroundColor) {
-        this.localConfig.backgroundColor = this.config.backgroundColor;
-      }
-      if (this.config.textColor) {
-        this.localConfig.textColor = this.config.textColor;
-      }
-      if (this.config.mainTextColor) {
-        this.localConfig.mainTextColor = this.config.mainTextColor;
-      }
-      if (this.config.title) {
-        this.localConfig.title = this.config.title;
-      }
-      if (this.config.mainText) {
-        this.localConfig.mainText = this.config.mainText;
-      }
-      if (this.config.queryMode) {
-        this.localConfig.queryMode = this.config.queryMode;
-      }
-      if (this.config.queryAttribute) {
-        this.localConfig.queryAttribute = this.config.queryAttribute;
-      }
-      if (this.config.query) {
-        this.localConfig.query = this.config.query;
-      }
-    }
+    this.utils.CopyInto(this, this.localConfig, true);
+
+    this.utils.CopyInto(this.config, this.localConfig, true, true);
 
     this.updateDataSource();
 
@@ -156,7 +111,7 @@ export class StateCardComponent implements OnInit, DynamicComponent {
 
     return dialogRef.afterClosed().pipe(
       tap(result => {
-        if (result && result === 'cancel') {
+        if (!result || (result && result === 'cancel')) {
           this.localConfig = configCopy;
         }
         this.updateDataSource();
@@ -174,23 +129,59 @@ export class StateCardComponent implements OnInit, DynamicComponent {
       }, 0);
 
       setTimeout(() => {
-        this.resource.getResourceCount(this.resource.lookup(this.localConfig.query)).subscribe(
-          result => {
-            this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, result.toString());
-            setTimeout(() => {
-              this.localConfig.name
-                ? this.spinner.hide(this.localConfig.name)
-                : this.spinner.hide();
-            }, 0);
-          },
-          () => {
-            setTimeout(() => {
-              this.localConfig.name
-                ? this.spinner.hide(this.localConfig.name)
-                : this.spinner.hide();
-            }, 0);
-          }
-        );
+        if (this.localConfig.queryMode === 'counter') {
+          this.resource.getResourceCount(this.resource.lookup(this.localConfig.query)).subscribe(
+            result => {
+              this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, result.toString());
+              setTimeout(() => {
+                this.localConfig.name
+                  ? this.spinner.hide(this.localConfig.name)
+                  : this.spinner.hide();
+              }, 0);
+            },
+            () => {
+              setTimeout(() => {
+                this.localConfig.name
+                  ? this.spinner.hide(this.localConfig.name)
+                  : this.spinner.hide();
+              }, 0);
+            }
+          );
+        } else {
+          this.resource
+            .getResourceByQuery(
+              this.resource.lookup(this.localConfig.query),
+              [this.localConfig.queryAttribute],
+              1,
+              0,
+              true
+            )
+            .subscribe(
+              result => {
+                if (result && result.totalCount > 0) {
+                  let value = this.extraValuePipe.transform(
+                    result.results[0],
+                    `${this.localConfig.queryAttribute}:DisplayName`
+                  );
+                  value = value ? value : 'n.a.';
+                  this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, value);
+                }
+                setTimeout(() => {
+                  this.localConfig.name
+                    ? this.spinner.hide(this.localConfig.name)
+                    : this.spinner.hide();
+                }, 0);
+              },
+              () => {
+                this.mainTextValue = 'err.';
+                setTimeout(() => {
+                  this.localConfig.name
+                    ? this.spinner.hide(this.localConfig.name)
+                    : this.spinner.hide();
+                }, 0);
+              }
+            );
+        }
       }, 500);
     } else {
       this.mainTextValue = this.localConfig.mainText;

@@ -179,15 +179,31 @@ export class UtilsService {
   }
 
   /**
-   * Copy source object properties to target object
+   * Copy source object properties to target object,
+   * iterate throuth source or target properties through the useTargetProperties option
    * @param source source object copied to target object
    * @param target target object takes properties from source object
+   * @param useTargetProperties set to true to use target properties, false to use source properties, default is false
+   * @param onlyCopyIfDefined source property will not be copied, if it is undefined
    */
-  public CopyInto(source: any, target: any) {
+  public CopyInto(
+    source: any,
+    target: any,
+    useTargetProperties = false,
+    onlyCopyIfDefined = false
+  ) {
     if (source && target) {
-      Object.keys(source).forEach(key => {
+      const keys = useTargetProperties ? Object.keys(target) : Object.keys(source);
+
+      keys.forEach(key => {
         if (source[key] != null) {
-          target[key] = source[key];
+          if (onlyCopyIfDefined) {
+            if (source[key] !== undefined) {
+              target[key] = source[key];
+            }
+          } else {
+            target[key] = source[key];
+          }
         }
       });
     }

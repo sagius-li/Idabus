@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -51,6 +51,7 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
 
     FlexLayoutModule,
@@ -75,7 +76,14 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     MatRadioModule
   ],
   entryComponents: [StateCardComponent, StateCardConfigComponent],
-  providers: [ConfigService, ResourceService, AuthService, StartupService, TransService],
+  providers: [
+    ExtraValuePipe,
+    ConfigService,
+    ResourceService,
+    AuthService,
+    StartupService,
+    TransService
+  ],
   exports: [
     FlexLayoutModule,
     LocalizationModule,

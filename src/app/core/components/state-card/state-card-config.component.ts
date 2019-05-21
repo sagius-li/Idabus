@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, Validators } from '@angular/forms';
 
 import { StateCardConfig, StateCardComponent } from './state-card.component';
-import { componentFactoryName } from '@angular/compiler';
 
 @Component({
   selector: 'app-state-card-config',
@@ -10,6 +10,8 @@ import { componentFactoryName } from '@angular/compiler';
   styleUrls: ['./state-card-config.component.scss']
 })
 export class StateCardConfigComponent implements OnInit {
+  fcMainText = new FormControl('', [Validators.required]);
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
