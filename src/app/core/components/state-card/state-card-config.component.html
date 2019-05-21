@@ -39,11 +39,8 @@
         matInput
         [placeholder]="'key_stateCardMainText' | translate"
         [(ngModel)]="data.config.mainText"
-        [formControl]="fcMainText"
+        required
       />
-      <mat-error *ngIf="fcMainText.hasError('required')">
-        Input is <strong>required</strong>
-      </mat-error>
     </mat-form-field>
     <div
       fxFlex="0 0 auto"
@@ -75,6 +72,7 @@
         [placeholder]="'key_attributeName' | translate"
         [(ngModel)]="data.config.queryAttribute"
         [disabled]="data.config.queryMode === 'counter'"
+        required
       />
     </mat-form-field>
   </div>
@@ -96,7 +94,9 @@
     mat-stroked-button
     color="primary"
     [mat-dialog-close]="data.config"
-    [disabled]="fcMainText.hasError('required')"
+    [disabled]="
+      !data.config.mainText || (data.config.queryMode !== 'counter' && !data.config.queryAttribute)
+    "
   >
     {{ 'key_submit' | translate }}
   </button>
@@ -104,7 +104,9 @@
     fxFlex="none"
     mat-stroked-button
     (click)="onRefresh()"
-    [disabled]="fcMainText.hasError('required')"
+    [disabled]="
+      !data.config.mainText || (data.config.queryMode !== 'counter' && !data.config.queryAttribute)
+    "
   >
     {{ 'key_refresh' | translate }}
   </button>
