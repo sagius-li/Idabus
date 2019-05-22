@@ -24,6 +24,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
+
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
 import { ResourceService } from '../services/resource.service';
@@ -38,6 +40,7 @@ import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
+import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,8 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     SigninComponent,
     EditMenuComponent,
     StateCardComponent,
-    StateCardConfigComponent
+    StateCardConfigComponent,
+    ResourceTableComponent
   ],
   imports: [
     CommonModule,
@@ -73,9 +77,13 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     MatDialogModule,
     MatDividerModule,
     MatGridListModule,
-    MatRadioModule
+    MatRadioModule,
+
+    GridModule,
+    PDFModule,
+    ExcelModule
   ],
-  entryComponents: [StateCardComponent, StateCardConfigComponent],
+  entryComponents: [StateCardComponent, StateCardConfigComponent, ResourceTableComponent],
   providers: [
     ExtraValuePipe,
     ConfigService,
@@ -106,6 +114,10 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     MatGridListModule,
     MatRadioModule,
 
+    GridModule,
+    PDFModule,
+    ExcelModule,
+
     ExtraValuePipe,
 
     DynamicContainerDirective,
@@ -113,7 +125,8 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
     SigninComponent,
     EditMenuComponent,
     StateCardComponent,
-    StateCardConfigComponent
+    StateCardConfigComponent,
+    ResourceTableComponent
   ]
 })
 export class CoreModule {}

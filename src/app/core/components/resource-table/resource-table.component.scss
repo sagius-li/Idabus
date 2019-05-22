@@ -1,0 +1,19 @@
+.table-title {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: -8px;
+}
+
+.export-button {
+  font-size: 8px;
+  margin-bottom: -10px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.withTitle {
+  height: calc(100% - 50px);
+}
+
+.withoutTitle {
+  height: 100%;
+}

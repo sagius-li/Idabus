@@ -26,7 +26,9 @@ import { Resource } from '../core/models/dataContract.model';
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
 import { AuthService } from '../core/services/auth.service';
+
 import { StateCardComponent } from '../core/components/state-card/state-card.component';
+import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
 
 @Component({
   selector: 'app-test',
@@ -120,7 +122,6 @@ export class TestComponent implements OnInit, AfterViewInit {
       componentType: StateCardComponent,
       componentConfig: {
         name: '',
-        minimized: false,
         title: 'total users',
         query: '/Person',
         mainText: '{0}',
@@ -128,13 +129,13 @@ export class TestComponent implements OnInit, AfterViewInit {
       }
     },
     {
-      cols: 2,
+      cols: 3,
       rows: 2,
       y: 0,
       x: 2,
       name: 'scc2',
-      componentType: StateCardComponent,
-      componentConfig: { name: '', minimized: false }
+      componentType: ResourceTableComponent,
+      componentConfig: { name: '' }
     }
   ];
   // #endregion

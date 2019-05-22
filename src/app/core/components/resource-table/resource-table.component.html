@@ -1,0 +1,97 @@
+<div fxLayout="column" class="full-size-relative">
+  <div fxFlex [ngClass]="localConfig.title ? 'withTitle' : 'withoutTitle'">
+    <kendo-grid
+      #grid="kendoGrid"
+      [style.height.%]="100"
+      [style.fontSize.px]="localConfig.fontSize"
+      [data]="gridResources | async"
+      [loading]="gridLoading"
+      [pageSize]="localConfig.pageSize"
+      [skip]="gridState.skip"
+      [pageable]="{
+        buttonCount: localConfig.pageCountNumber,
+        info: localConfig.pageInfo,
+        type: localConfig.pageType,
+        pageSize: localConfig.pageSize,
+        previousNext: localConfig.pageButton
+      }"
+      [filter]="gridState.filter"
+      [sort]="gridState.sort"
+      [sortable]="{
+        allowUnsort: localConfig.allowUnsort,
+        mode: localConfig.sortMode
+      }"
+      [selectable]="gridSelect"
+      [filterable]="localConfig.filterMode"
+      [resizable]="localConfig.resizable"
+      (dataStateChange)="dataStateChange($event)"
+    >
+      <ng-template
+        kendoGridToolbarTemplate
+        *ngIf="localConfig.title || localConfig.exportToPDF || localConfig.exportToExcel"
+      >
+        <div fxLayout="row" fxLayoutAlign="end center">
+          <div fxFlex="1 1 auto" class="table-title">{{ localConfig.title | translate }}</div>
+          <button
+            fxFlex="0 0 auto"
+            class="export-button"
+            kendoGridPDFCommand
+            icon="file-pdf"
+            *ngIf="localConfig.exportToPDF"
+          >
+            {{ 'key_exportToPDF' | translate }}
+          </button>
+          <button
+            fxFlex="0 0 auto"
+            class="export-button"
+            kendoGridExcelCommand
+            icon="file-excel"
+            *ngIf="localConfig.exportToExcel"
+          >
+            {{ 'key_exportToExcel' | translate }}
+          </button>
+        </div>
+      </ng-template>
+      <kendo-grid-checkbox-column
+        *ngIf="localConfig.selectable"
+        [showSelectAll]="localConfig.selectMode === 'multiple'"
+        [width]="localConfig.selectBoxWidth"
+      >
+      </kendo-grid-checkbox-column>
+      <kendo-grid-column
+        *ngFor="let col of localConfig.columns"
+        [field]="col.field"
+        [title]="col.title"
+        [sortable]="col.sortable"
+        [filterable]="col.filterable"
+        [filter]="col.filter"
+        [width]="col.width"
+        [locked]="col.locked"
+        [style]="{
+          'padding-top': localConfig.cellPadding.toString() + 'px',
+          'padding-bottom': localConfig.cellPadding.toString() + 'px'
+        }"
+      >
+      </kendo-grid-column>
+      <kendo-grid-pdf
+        *ngIf="localConfig.exportToPDF"
+        fileName="export.pdf"
+        [allPages]="localConfig.exportAllPages"
+      >
+        <kendo-grid-pdf-margin
+          top="1cm"
+          left="1cm"
+          right="1cm"
+          bottom="1cm"
+        ></kendo-grid-pdf-margin>
+      </kendo-grid-pdf>
+
+      <kendo-grid-excel
+        *ngIf="localConfig.exportToExcel"
+        fileName="export.xlsx"
+        [fetchData]="allData"
+      >
+      </kendo-grid-excel>
+    </kendo-grid>
+  </div>
+</div>
