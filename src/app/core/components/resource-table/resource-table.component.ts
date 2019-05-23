@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { skip, take, map, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 import { State } from '@progress/kendo-data-query';
 import { GridDataResult, DataStateChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
@@ -77,7 +76,6 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
 
   constructor(
     private dialog: MatDialog,
-    private spinner: NgxSpinnerService,
     private resource: ResourceService,
     private utils: UtilsService
   ) {}

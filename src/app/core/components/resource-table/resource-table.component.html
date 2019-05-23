@@ -60,8 +60,8 @@
       </kendo-grid-checkbox-column>
       <kendo-grid-column
         *ngFor="let col of localConfig.columns"
-        [field]="col.field"
         [title]="col.title"
+        [field]="col.field"
         [sortable]="col.sortable"
         [filterable]="col.filterable"
         [filter]="col.filter"
@@ -72,6 +72,61 @@
           'padding-bottom': localConfig.cellPadding.toString() + 'px'
         }"
       >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span> {{ dataItem | extraValue: col.field + ':DisplayName' }} </span>
+        </ng-template>
+        <ng-template
+          kendoGridFilterMenuTemplate
+          *ngIf="col.filterable"
+          let-filter
+          let-column="column"
+          let-filterService="filterService"
+        >
+          <kendo-grid-string-filter-menu
+            *ngIf="col.filter === 'text'"
+            [column]="column"
+            [filter]="filter"
+            [filterService]="filterService"
+            operator="startswith"
+          >
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            <kendo-filter-isempty-operator></kendo-filter-isempty-operator>
+            <kendo-filter-isnotempty-operator></kendo-filter-isnotempty-operator>
+          </kendo-grid-string-filter-menu>
+          <kendo-grid-boolean-filter-menu
+            *ngIf="col.filter === 'boolean'"
+            [column]="column"
+            [filter]="filter"
+            [filterService]="filterService"
+          >
+          </kendo-grid-boolean-filter-menu>
+          <kendo-grid-numeric-filter-menu
+            *ngIf="col.filter === 'numeric'"
+            [column]="column"
+            [filter]="filter"
+            [filterService]="filterService"
+          >
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+          </kendo-grid-numeric-filter-menu>
+          <kendo-grid-date-filter-menu
+            *ngIf="col.filter === 'date'"
+            [column]="column"
+            [filter]="filter"
+            [filterService]="filterService"
+            operator="lt"
+          >
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-before-operator></kendo-filter-before-operator>
+            <kendo-filter-after-operator></kendo-filter-after-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
       </kendo-grid-column>
       <kendo-grid-pdf
         *ngIf="localConfig.exportToPDF"
@@ -85,7 +140,6 @@
           bottom="1cm"
         ></kendo-grid-pdf-margin>
       </kendo-grid-pdf>
-
       <kendo-grid-excel
         *ngIf="localConfig.exportToExcel"
         fileName="export.xlsx"
