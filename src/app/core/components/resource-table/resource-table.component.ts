@@ -83,19 +83,38 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   private fetchDataDic() {
     if (this.localConfig.query) {
       this.gridLoading = true;
+
       let sortString: string[];
+      let queryWithFilter: string;
       if (this.gridState) {
         if (this.gridState.sort) {
           sortString = this.gridState.sort
             .filter(element => element.dir !== undefined)
             .map(item => `${item.field}:${item.dir}`);
         }
+        if (
+          this.gridState.filter &&
+          this.gridState.filter.filters &&
+          this.gridState.filter.filters.length > 0
+        ) {
+          queryWithFilter = this.utils.FilterToXPath(this.gridState.filter);
+          if (queryWithFilter) {
+            if (this.localConfig.query.endsWith(']')) {
+              queryWithFilter = `${this.localConfig.query.substr(
+                0,
+                this.localConfig.query.length - 1
+              )} and (${queryWithFilter})]`;
+            } else {
+              queryWithFilter = `${this.localConfig.query}[${queryWithFilter}]`;
+            }
+          }
+        }
       }
 
       const attributesToLoad = this.localConfig.columns.map(c => c.field);
       this.resource
         .getResourceByQuery(
-          this.resource.lookup(this.localConfig.query),
+          this.resource.lookup(queryWithFilter ? queryWithFilter : this.localConfig.query),
           attributesToLoad,
           this.gridState ? this.gridState.take : undefined,
           this.gridState ? this.gridState.skip : undefined,

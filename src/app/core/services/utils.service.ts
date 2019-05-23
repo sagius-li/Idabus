@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import * as cryptojs from 'crypto-js';
 import * as moment from 'moment';
 
@@ -207,5 +208,54 @@ export class UtilsService {
         }
       });
     }
+  }
+
+  /**
+   * Convert Filter to XPath query
+   * @param filterDescriptor Composite filter descriptior
+   */
+  public FilterToXPath(filterDescriptor: CompositeFilterDescriptor) {
+    if (filterDescriptor.filters && filterDescriptor.filters[0]) {
+      const descriptor = filterDescriptor.filters[0] as CompositeFilterDescriptor;
+
+      if (descriptor) {
+        const conditions: string[] = [];
+
+        descriptor.filters.forEach((filter: FilterDescriptor) => {
+          switch (filter.operator) {
+            case 'eq':
+              conditions.push(`${filter.field}='${filter.value}'`);
+              break;
+            case 'neq':
+              conditions.push(`not(${filter.field}='${filter.value}')`);
+              break;
+            case 'startswith':
+              conditions.push(`starts-with(${filter.field},'${filter.value}')`);
+              break;
+            case 'endswith':
+              conditions.push(`ends-with(${filter.field},'${filter.value}')`);
+              break;
+            case 'isempty':
+              conditions.push(`not(starts-with(${filter.field},'%'))`);
+              break;
+            case 'isnotempty':
+              conditions.push(`starts-with(${filter.field},'%')`);
+              break;
+            case 'gt':
+              conditions.push(`${filter.field}>'${filter.value}'`);
+              break;
+            case 'lt':
+              conditions.push(`${filter.field}<'${filter.value}'`);
+              break;
+            default:
+              break;
+          }
+        });
+
+        return conditions.join(` ${descriptor.logic} `);
+      }
+    }
+
+    return undefined;
   }
 }
