@@ -1,0 +1,198 @@
+<h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  {{ 'key_resourceTableConfig' | translate }}
+</h3>
+<div mat-dialog-content>
+  <mat-tab-group class="config-tab-group">
+    <mat-tab [label]="'key_general' | translate">
+      <div fxFlex fxLayout="column" fxLayoutGap="50px" class="first-dialog-item">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="auto">
+            <input
+              matInput
+              [placeholder]="'key_title' | translate"
+              [(ngModel)]="data.config.title"
+            />
+          </mat-form-field>
+          <mat-form-field fxFlex="auto">
+            <input
+              matInput
+              type="number"
+              min="10"
+              max="20"
+              [placeholder]="'key_fontSize' | translate"
+              [(ngModel)]="data.config.fontSize"
+            />
+          </mat-form-field>
+          <mat-form-field fxFlex="auto">
+            <input
+              matInput
+              type="number"
+              min="0"
+              max="20"
+              [placeholder]="'key_padding' | translate"
+              [(ngModel)]="data.config.cellPadding"
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="1 1 auto">
+          <mat-form-field fxFlex="1 1 auto">
+            <input
+              matInput
+              [placeholder]="'key_query' | translate"
+              [(ngModel)]="data.config.query"
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <mat-slide-toggle fxFlex="auto" [(ngModel)]="data.config.exportToPDF">
+            {{ 'key_exportToPDF' | translate }}</mat-slide-toggle
+          >
+          <mat-slide-toggle fxFlex="auto" [(ngModel)]="data.config.exportToExcel">
+            {{ 'key_exportToExcel' | translate }}</mat-slide-toggle
+          >
+          <mat-slide-toggle fxFlex="auto" [(ngModel)]="data.config.exportAllPages">
+            {{ 'key_exportAllPages' | translate }}</mat-slide-toggle
+          >
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'key_pagingAndSort' | translate">
+      <div fxFlex fxLayout="column" fxLayoutGap="50px" class="first-dialog-item">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="auto">
+            <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="data.config.pageType">
+              <mat-option value="numeric">numeric</mat-option>
+              <mat-option value="input">input</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div fxFlex="auto">
+            <mat-slide-toggle [(ngModel)]="data.config.pageInfo">{{
+              'key_showPageInfo' | translate
+            }}</mat-slide-toggle>
+          </div>
+          <div fxFlex="auto">
+            <mat-slide-toggle [(ngModel)]="data.config.pageButton">{{
+              'key_showPageButton' | translate
+            }}</mat-slide-toggle>
+          </div>
+        </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="auto">
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="10"
+              [placeholder]="'key_maxCounterNumber' | translate"
+              [(ngModel)]="data.config.pageCountNumber"
+            />
+          </mat-form-field>
+          <div fxFlex="auto">
+            <mat-form-field fxFlex="1 1 auto">
+              <input
+                matInput
+                type="number"
+                min="1"
+                max="100"
+                [placeholder]="'key_pageSize' | translate"
+                [(ngModel)]="data.config.pageSize"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex="33">
+            <mat-slide-toggle [(ngModel)]="data.config.sortable">{{
+              'key_sortable' | translate
+            }}</mat-slide-toggle>
+          </div>
+          <mat-form-field fxFlex="33">
+            <mat-select
+              [disabled]="!data.config.sortable"
+              [placeholder]="'key_sortMode' | translate"
+              [(ngModel)]="data.config.sortMode"
+            >
+              <mat-option value="single">single</mat-option>
+              <mat-option value="multiple">multiple</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div fxFlex="33">
+            <mat-slide-toggle
+              [disabled]="!data.config.sortable"
+              [(ngModel)]="data.config.allowUnsort"
+            >
+              {{ 'key_allowUnsort' | translate }}</mat-slide-toggle
+            >
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'key_selectAndResize' | translate">
+      <div fxFlex fxLayout="column" fxLayoutGap="50px" class="first-dialog-item">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex="auto">
+            <mat-slide-toggle [(ngModel)]="data.config.selectable">{{
+              'key_selectable' | translate
+            }}</mat-slide-toggle>
+          </div>
+          <div fxFlex="auto">
+            <mat-slide-toggle
+              [disabled]="!data.config.selectable"
+              [(ngModel)]="data.config.checkboxSelectOnly"
+            >
+              {{ 'key_checkboxSelectionOnly' | translate }}</mat-slide-toggle
+            >
+          </div>
+        </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <mat-form-field fxFlex="auto">
+            <mat-select
+              [disabled]="!data.config.selectable"
+              [placeholder]="'key_selectionMode' | translate"
+              [(ngModel)]="data.config.selectMode"
+            >
+              <mat-option value="single">single</mat-option>
+              <mat-option value="multiple">multiple</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field fxFlex="auto">
+            <input
+              [disabled]="!data.config.selectable"
+              matInput
+              type="number"
+              min="10"
+              max="100"
+              [placeholder]="'key_selectBoxWidth' | translate"
+              [(ngModel)]="data.config.selectBoxWidth"
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+          <div fxFlex="auto">
+            <mat-slide-toggle [(ngModel)]="data.config.resizable">{{
+              'key_resizable' | translate
+            }}</mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div
+  mat-dialog-actions
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  style="margin-top: 10px;"
+>
+  <button fxFlex="none" mat-stroked-button color="primary" [mat-dialog-close]="data.config">
+    {{ 'key_submit' | translate }}
+  </button>
+  <button fxFlex="none" mat-stroked-button (click)="onRefresh()">
+    {{ 'key_refresh' | translate }}
+  </button>
+  <div fxFlex="auto"></div>
+  <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">
+    {{ 'key_cancel' | translate }}
+  </button>
+</div>

@@ -23,6 +23,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 
@@ -41,6 +43,7 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
+import { ResourceTableConfigComponent } from '../components/resource-table/resource-table-config.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,8 @@ import { ResourceTableComponent } from '../components/resource-table/resource-ta
     EditMenuComponent,
     StateCardComponent,
     StateCardConfigComponent,
-    ResourceTableComponent
+    ResourceTableComponent,
+    ResourceTableConfigComponent
   ],
   imports: [
     CommonModule,
@@ -78,12 +82,19 @@ import { ResourceTableComponent } from '../components/resource-table/resource-ta
     MatDividerModule,
     MatGridListModule,
     MatRadioModule,
+    MatSlideToggleModule,
+    MatSelectModule,
 
     GridModule,
     PDFModule,
     ExcelModule
   ],
-  entryComponents: [StateCardComponent, StateCardConfigComponent, ResourceTableComponent],
+  entryComponents: [
+    StateCardComponent,
+    StateCardConfigComponent,
+    ResourceTableComponent,
+    ResourceTableConfigComponent
+  ],
   providers: [
     ExtraValuePipe,
     ConfigService,
@@ -113,6 +124,8 @@ import { ResourceTableComponent } from '../components/resource-table/resource-ta
     MatDividerModule,
     MatGridListModule,
     MatRadioModule,
+    MatSlideToggleModule,
+    MatSelectModule,
 
     GridModule,
     PDFModule,
@@ -126,7 +139,8 @@ import { ResourceTableComponent } from '../components/resource-table/resource-ta
     EditMenuComponent,
     StateCardComponent,
     StateCardConfigComponent,
-    ResourceTableComponent
+    ResourceTableComponent,
+    ResourceTableConfigComponent
   ]
 })
 export class CoreModule {}

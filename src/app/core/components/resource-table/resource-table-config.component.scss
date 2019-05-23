@@ -1,0 +1,25 @@
+::ng-deep .mat-dialog-title {
+  margin: -24px -24px 0px -24px !important;
+  padding: 10px 24px;
+  background: #3f51b5; //#369;
+  color: #fff;
+  cursor: move;
+}
+::ng-deep .mat-dialog-content {
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+}
+::ng-deep .mat-tab-body-content {
+  overflow: hidden;
+  padding: 10px;
+}
+
+.first-dialog-item {
+  margin-top: 20px;
+}
+
+.config-tab-group {
+  height: 400px;
+  width: 600px;
+}

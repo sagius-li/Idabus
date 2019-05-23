@@ -135,7 +135,7 @@ export class TestComponent implements OnInit, AfterViewInit {
       x: 2,
       name: 'scc2',
       componentType: ResourceTableComponent,
-      componentConfig: { name: '' }
+      componentConfig: { name: '', query: '/Person' }
     }
   ];
   // #endregion

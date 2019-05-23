@@ -24,6 +24,8 @@
       [selectable]="gridSelect"
       [filterable]="localConfig.filterMode"
       [resizable]="localConfig.resizable"
+      [kendoGridSelectBy]="getSelectionAttribute"
+      [selectedKeys]="selection"
       (dataStateChange)="dataStateChange($event)"
     >
       <ng-template
@@ -58,6 +60,13 @@
         [width]="localConfig.selectBoxWidth"
       >
       </kendo-grid-checkbox-column>
+      <kendo-grid-column
+        title="ObjectID"
+        field="ObjectID"
+        [sortable]="false"
+        [filterable]="false"
+        [hidden]="true"
+      ></kendo-grid-column>
       <kendo-grid-column
         *ngFor="let col of localConfig.columns"
         [title]="col.title"

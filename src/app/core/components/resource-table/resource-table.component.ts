@@ -1,17 +1,24 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { skip, take, map, tap } from 'rxjs/operators';
+import { skip, take, map, tap, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 import { State } from '@progress/kendo-data-query';
-import { GridDataResult, DataStateChangeEvent, GridComponent } from '@progress/kendo-angular-grid';
+import {
+  GridDataResult,
+  DataStateChangeEvent,
+  GridComponent,
+  RowArgs
+} from '@progress/kendo-angular-grid';
 
 import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 import { ResourceSet } from '../../models/dataContract.model';
+
+import { ResourceTableConfigComponent } from './resource-table-config.component';
 
 export class ResourceColumnConfig {
   field: string = undefined;
@@ -73,6 +80,7 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   excelData: Observable<GridDataResult>;
   gridLoading = false;
   gridSelect: any;
+  selection: string[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -202,23 +210,55 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   }
 
   configure() {
-    return null;
+    const configCopy = this.utils.DeepCopy(this.localConfig);
+
+    const dialogRef = this.dialog.open(ResourceTableConfigComponent, {
+      minWidth: '600px',
+      data: {
+        component: this,
+        config: this.localConfig
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      tap(result => {
+        if (!result || (result && result === 'cancel')) {
+          this.localConfig = configCopy;
+        }
+        this.updateDataSource();
+      }),
+      switchMap(() => {
+        return of(this.localConfig);
+      })
+    );
   }
 
   updateDataSource() {
     this.gridState = { take: this.localConfig.pageSize, skip: 0 };
+
+    this.gridSelect = this.localConfig.selectable
+      ? {
+          checkboxOnly: this.localConfig.checkboxSelectOnly,
+          mode: this.localConfig.selectMode
+        }
+      : false;
+
+    this.selection = [];
+
     this.fetchDataDic();
   }
 
   dataStateChange(state: DataStateChangeEvent): void {
     this.gridState = state;
-
     this.fetchDataDic();
   }
 
-  allData = (): Observable<any> => {
+  allData(): Observable<any> {
     this.gridLoading = true;
     const attributesToLoad = this.localConfig.columns.map(c => c.field);
+    if (attributesToLoad.findIndex(item => item.toLowerCase() === 'objectid') < 0) {
+      attributesToLoad.unshift('ObjectID');
+    }
     return this.resource.getResourceByQuery(this.localConfig.query, attributesToLoad).pipe(
       map(result => {
         return { data: result.results, total: result.totalCount };
@@ -227,9 +267,13 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
         this.gridLoading = false;
       })
     );
-  };
+  }
 
   onExcelExport(grid: GridComponent) {
     grid.saveAsExcel();
+  }
+
+  getSelectionAttribute(context: RowArgs): string {
+    return context.dataItem.ObjectID;
   }
 }
