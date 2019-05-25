@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/modules/core.module';
 
@@ -15,7 +17,14 @@ import { SplashComponent } from './splash/splash.component';
 
 @NgModule({
   declarations: [AppComponent, TestComponent, LoginComponent, SplashComponent],
-  imports: [BrowserModule, FormsModule, AppRoutingModule, BrowserAnimationsModule, CoreModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    DragulaModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    CoreModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

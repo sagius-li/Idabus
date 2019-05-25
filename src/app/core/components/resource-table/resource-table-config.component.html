@@ -56,6 +56,122 @@
         </div>
       </div>
     </mat-tab>
+    <mat-tab [label]="'key_columns' | translate">
+      <ng-template matTabContent>
+        <div fxLayout="column" style="height: 100%;">
+          <div
+            fxFlex="auto"
+            dragula="COLUMNS"
+            [(dragulaModel)]="data.config.columns"
+            style="overflow-y: auto;"
+          >
+            <mat-card
+              *ngFor="let column of data.config.columns"
+              style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;"
+            >
+              <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+                <div
+                  fxFlex="none"
+                  class="handle"
+                  (click)="onToggleColumnDisplay(column)"
+                  style="width: 36px; margin-left: -20px; cursor: pointer; color: lightgray;"
+                >
+                  <mat-icon>menu</mat-icon>
+                </div>
+                <div fxFlex="auto" style="margin-top: -8px;">{{ column.title }}</div>
+                <button
+                  mat-button
+                  color="warn"
+                  [disabled]="data.config.columns.length === 1"
+                  matTooltip="{{ 'key_delete' | translate }}"
+                  (click)="onDeleteColumn(column)"
+                  style="width: 24px; min-width: 24px; padding: 0; margin: 0; margin-top: -10px;"
+                >
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
+              </mat-card-header>
+              <mat-card-content
+                *ngIf="column.display"
+                fxLayout="column"
+                style="margin-top: 10px; font-size: 12px;"
+              >
+                <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <mat-form-field fxFlex="auto">
+                    <input
+                      matInput
+                      [placeholder]="'key_title' | translate"
+                      [(ngModel)]="column.title"
+                    />
+                  </mat-form-field>
+                  <mat-form-field fxFlex="auto">
+                    <input
+                      matInput
+                      [placeholder]="'key_field' | translate"
+                      [(ngModel)]="column.field"
+                    />
+                  </mat-form-field>
+                  <div fxFlex="auto">
+                    <mat-slide-toggle [(ngModel)]="column.sortable">{{
+                      'key_sortable' | translate
+                    }}</mat-slide-toggle>
+                  </div>
+                </div>
+                <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <div fxFlex="auto">
+                    <mat-slide-toggle [(ngModel)]="column.filterable">{{
+                      'key_filterable' | translate
+                    }}</mat-slide-toggle>
+                  </div>
+                  <mat-form-field fxFlex="auto">
+                    <mat-select
+                      [disabled]="!column.filterable"
+                      [placeholder]="'key_filterType' | translate"
+                      [(ngModel)]="column.filter"
+                    >
+                      <mat-option value="text">text</mat-option>
+                      <mat-option value="numeric">numeric</mat-option>
+                      <mat-option value="boolean">boolean</mat-option>
+                      <mat-option value="date">date</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-slider fxFlex="auto" [max]="800" [min]="80" [step]="10"
+                    [thumbLabel]="true" [(ngModel)]="column.width">
+                  </mat-slider>
+                  <div fxFlex="auto">
+                    <mat-slide-toggle [(ngModel)]="column.locked" [disabled]="data.config.columns.length === 1">{{
+                      'key_locked' | translate
+                    }}</mat-slide-toggle>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div fxFlex></div>
+          <div fxFlex="none" fxLayout="row">
+            <button fxFlex mat-button (click)="onAddColumn()">
+              <mat-icon style="margin-right: 10px; font-size: 16px; height: 18px;"
+                >playlist_add</mat-icon
+              >
+              {{ 'key_add' | translate }}
+            </button>
+            <button fxFlex mat-button (click)="onExpendAll()">
+              <fa-icon
+                [icon]="faExpendAll"
+                style="margin-right: 10px; font-size: 12px; height: 18px;"
+              ></fa-icon>
+              {{ 'key_expendAll' | translate }}
+            </button>
+            <button fxFlex mat-button (click)="onCollapseAll()">
+              <fa-icon
+                [icon]="faCollapseAll"
+                style="margin-right: 10px; font-size: 14px; height: 18px;"
+              ></fa-icon>
+              {{ 'key_collapseAll' | translate }}
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
     <mat-tab [label]="'key_pagingAndSort' | translate">
       <div fxFlex fxLayout="column" fxLayoutGap="50px" class="first-dialog-item">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
@@ -189,7 +305,7 @@
     {{ 'key_submit' | translate }}
   </button>
   <button fxFlex="none" mat-stroked-button (click)="onRefresh()">
-    {{ 'key_refresh' | translate }}
+    {{ 'key_apply' | translate }}
   </button>
   <div fxFlex="auto"></div>
   <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">

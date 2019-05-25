@@ -9,6 +9,7 @@ import { LocalizationModule } from './localization.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { GridsterModule } from 'angular-gridster2';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { DragulaModule } from 'ng2-dragula';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
@@ -68,6 +70,7 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
     NgxSpinnerModule,
     GridsterModule,
     ColorPickerModule,
+    DragulaModule,
 
     DragDropModule,
     MatInputModule,
@@ -83,6 +86,7 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
     MatGridListModule,
     MatRadioModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatSelectModule,
 
     GridModule,
@@ -125,6 +129,7 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
     MatGridListModule,
     MatRadioModule,
     MatSlideToggleModule,
+    MatSliderModule,
     MatSelectModule,
 
     GridModule,
