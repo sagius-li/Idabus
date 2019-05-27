@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { skip, take, map, tap, switchMap } from 'rxjs/operators';
@@ -9,14 +9,15 @@ import {
   GridDataResult,
   DataStateChangeEvent,
   GridComponent,
-  RowArgs
+  RowArgs,
+  CellClickEvent
 } from '@progress/kendo-angular-grid';
 
 import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
-import { ResourceSet } from '../../models/dataContract.model';
+import { ResourceSet, Resource } from '../../models/dataContract.model';
 
 import { ResourceTableConfigComponent } from './resource-table-config.component';
 
@@ -73,6 +74,9 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   @Input()
   config: ResourceTableConfig;
 
+  @Output()
+  doubleClick = new EventEmitter();
+
   localConfig: ResourceTableConfig;
 
   gridState: State;
@@ -81,6 +85,7 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   gridLoading = false;
   gridSelect: any;
   selection: string[] = [];
+  clickedRowItem: Resource;
 
   constructor(
     private dialog: MatDialog,
@@ -275,5 +280,13 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
 
   getSelectionAttribute(context: RowArgs): string {
     return context.dataItem.ObjectID;
+  }
+
+  onCellClick(event: CellClickEvent) {
+    this.clickedRowItem = event.dataItem;
+  }
+
+  onDoubleClick() {
+    this.doubleClick.emit(this.clickedRowItem);
   }
 }

@@ -27,6 +27,8 @@
       [kendoGridSelectBy]="getSelectionAttribute"
       [selectedKeys]="selection"
       (dataStateChange)="dataStateChange($event)"
+      (cellClick)="onCellClick($event)"
+      (dblclick)="onDoubleClick()"
     >
       <ng-template
         kendoGridToolbarTemplate
