@@ -29,6 +29,7 @@ import { AuthService } from '../core/services/auth.service';
 
 import { StateCardComponent } from '../core/components/state-card/state-card.component';
 import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
+import { ResourceChartComponent } from '../core/components/resource-chart/resource-chart.component';
 
 @Component({
   selector: 'app-test',
@@ -136,6 +137,15 @@ export class TestComponent implements OnInit, AfterViewInit {
       name: 'scc2',
       componentType: ResourceTableComponent,
       componentConfig: { name: '', query: '/Person' }
+    },
+    {
+      cols: 3,
+      rows: 2,
+      y: 0,
+      x: 5,
+      name: 'scc3',
+      componentType: ResourceChartComponent,
+      componentConfig: { name: '' }
     }
   ];
   // #endregion

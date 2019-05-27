@@ -1,0 +1,47 @@
+<div fxLayout="row nowrap" class="full-size-relative">
+  <div fxFlex="1 1 100%">
+    <ngx-spinner
+      [attr.name]="localConfig.name"
+      bdColor="rgba(51,51,51,0.4)"
+      size="default"
+      color="#fff"
+      type="line-scale"
+    >
+    </ngx-spinner>
+    <kendo-chart [seriesColors]="localConfig.seriesColor" style="height: 100%; width: 100%;">
+      <kendo-chart-legend
+        [position]="localConfig.legendPosition"
+        [visible]="localConfig.enableLegend && localConfig.legendPosition"
+      ></kendo-chart-legend>
+      <kendo-chart-series>
+        <kendo-chart-title
+          [text]="localConfig.chartTitle"
+          [visible]="localConfig.chartTitle"
+        ></kendo-chart-title>
+        <kendo-chart-series-item
+          *ngFor="let config of localConfig.seriesConfig"
+          [name]="getSeriesName(config.name)"
+          [type]="localConfig.chartType"
+          [data]="config.data"
+          [field]="config.valueField"
+          [categoryField]="config.categoryField"
+        >
+          <kendo-chart-series-item-tooltip
+            [visible]="localConfig.enableTooltip && localConfig.tooltipFormat"
+          >
+            <ng-template let-category="category" let-value="value">
+              {{ tooltipContent(category, value, config) }}
+            </ng-template>
+          </kendo-chart-series-item-tooltip>
+          <kendo-chart-series-item-labels
+            [visible]="localConfig.enableLabel && localConfig.labelFormat"
+            [content]="labelContent"
+            background="none"
+            [color]="localConfig.labelColor"
+          >
+          </kendo-chart-series-item-labels>
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</div>

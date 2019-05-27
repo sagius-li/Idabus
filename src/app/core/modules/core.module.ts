@@ -29,6 +29,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -46,17 +47,21 @@ import { StateCardComponent } from '../components/state-card/state-card.componen
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 import { ResourceTableConfigComponent } from '../components/resource-table/resource-table-config.component';
+import { ResourceChartComponent } from '../components/resource-chart/resource-chart.component';
 
 @NgModule({
   declarations: [
     ExtraValuePipe,
+
     DynamicContainerDirective,
+
     SigninComponent,
     EditMenuComponent,
     StateCardComponent,
     StateCardConfigComponent,
     ResourceTableComponent,
-    ResourceTableConfigComponent
+    ResourceTableConfigComponent,
+    ResourceChartComponent
   ],
   imports: [
     CommonModule,
@@ -91,13 +96,15 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
 
     GridModule,
     PDFModule,
-    ExcelModule
+    ExcelModule,
+    ChartsModule
   ],
   entryComponents: [
     StateCardComponent,
     StateCardConfigComponent,
     ResourceTableComponent,
-    ResourceTableConfigComponent
+    ResourceTableConfigComponent,
+    ResourceChartComponent
   ],
   providers: [
     ExtraValuePipe,
@@ -135,6 +142,7 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
     GridModule,
     PDFModule,
     ExcelModule,
+    ChartsModule,
 
     ExtraValuePipe,
 
@@ -145,7 +153,8 @@ import { ResourceTableConfigComponent } from '../components/resource-table/resou
     StateCardComponent,
     StateCardConfigComponent,
     ResourceTableComponent,
-    ResourceTableConfigComponent
+    ResourceTableConfigComponent,
+    ResourceChartComponent
   ]
 })
 export class CoreModule {}
