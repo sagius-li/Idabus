@@ -6,33 +6,14 @@ import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 
-import { StateCardConfigComponent } from './state-card-config.component';
-
-export class StateCardConfig implements ComponentConfig {
-  name = undefined;
-  permissionSets = undefined;
-  iconText: string = undefined;
-  iconColor: string = undefined;
-  backgroundColor: string = undefined;
-  textColor: string = undefined;
-  mainTextColor: string = undefined;
-  title: string = undefined;
-  mainText: string = undefined;
-  queryMode: string = undefined;
-  queryAttribute: string = undefined;
-  query: string = undefined;
-
-  public constructor(init?: Partial<StateCardConfig>) {
-    Object.assign(this, init);
-  }
-}
+import { StateCardConfigComponent, StateCardConfig } from './state-card-config.component';
 
 @Component({
   selector: 'app-state-card',

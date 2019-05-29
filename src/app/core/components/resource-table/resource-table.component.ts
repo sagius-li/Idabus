@@ -13,57 +13,16 @@ import {
   CellClickEvent
 } from '@progress/kendo-angular-grid';
 
-import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 import { ResourceSet, Resource } from '../../models/dataContract.model';
 
-import { ResourceTableConfigComponent } from './resource-table-config.component';
-
-export class ResourceColumnConfig {
-  field: string = undefined;
-  title: string = undefined;
-  width?: number = undefined;
-  sortable?: boolean = undefined;
-  filterable?: boolean = undefined;
-  filter?: string = undefined;
-  locked?: boolean = undefined;
-  display?: boolean = undefined;
-}
-
-export class ResourceTableConfig implements ComponentConfig {
-  name = undefined;
-  permissionSets = undefined;
-  title?: string = undefined;
-  fontSize?: number = undefined;
-  cellPadding?: number = undefined;
-  pageSize?: number = undefined;
-  pageCountNumber?: number = undefined;
-  pageInfo?: boolean = undefined;
-  pageType?: string = undefined;
-  pageButton?: boolean = undefined;
-  sortable?: boolean = undefined;
-  sortMode?: string = undefined;
-  allowUnsort?: boolean = undefined;
-  filterable?: boolean = undefined;
-  filterMode?: string = undefined;
-  selectable?: boolean = undefined;
-  selectBoxWidth?: number = undefined;
-  selectMode?: string = undefined;
-  checkboxSelectOnly?: boolean = undefined;
-  resizable?: boolean = undefined;
-  exportToPDF?: boolean = undefined;
-  exportToExcel?: boolean = undefined;
-  exportAllPages?: boolean = undefined;
-  resources?: any[] = undefined;
-  query?: string = undefined;
-  columns?: ResourceColumnConfig[] = undefined;
-
-  public constructor(init?: Partial<ResourceTableConfig>) {
-    Object.assign(this, init);
-  }
-}
+import {
+  ResourceTableConfigComponent,
+  ResourceTableConfig
+} from './resource-table-config.component';
 
 @Component({
   selector: 'app-resource-table',

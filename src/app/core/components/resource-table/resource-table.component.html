@@ -1,5 +1,5 @@
 <div fxLayout="column" class="full-size-relative">
-  <div fxFlex [ngClass]="localConfig.title ? 'withTitle' : 'withoutTitle'">
+  <div fxFlex="auto" [ngClass]="localConfig.title ? 'withTitle' : 'withoutTitle'">
     <kendo-grid
       #grid="kendoGrid"
       [style.height.%]="100"

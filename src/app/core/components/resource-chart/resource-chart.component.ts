@@ -5,49 +5,16 @@ import { tap, switchMap, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent.interface';
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
-import { ResourceChartConfigComponent } from './resource-chart-config.component';
+import {
+  ResourceChartConfigComponent,
+  ResourceChartConfig,
+  ChartSerieConfig
+} from './resource-chart-config.component';
 import { Resource, ResourceSet } from '../../models/dataContract.model';
-
-export class ChartQueryConfig {
-  name = '';
-  method = 'counter';
-  attribute = '';
-  query = '';
-  display = true;
-}
-
-export class ChartSerieConfig {
-  name = 'test';
-  categoryField = 'category';
-  valueField = 'value';
-  color: string = undefined;
-  data: any = [{ category: 'test', value: 1 }];
-  queryConfig: ChartQueryConfig[] = undefined;
-}
-
-export class ResourceChartConfig implements ComponentConfig {
-  name = undefined;
-  permissionSets = undefined;
-  chartType = 'pie';
-  chartTitle = '';
-  seriesColor = ['#3f51b5', '#2196f3', '#43a047', '#ffc107', '#ff5722', '#e91E63'];
-  enableLegend = false;
-  legendPosition = 'bottom';
-  enableTooltip = false;
-  tooltipFormat = '{0}: {1}';
-  enableLabel = false;
-  labelFormat = '{1}';
-  labelColor = 'black';
-  seriesConfig: ChartSerieConfig[] = [new ChartSerieConfig()];
-
-  public constructor(init?: Partial<ResourceChartConfig>) {
-    Object.assign(this, init);
-  }
-}
 
 @Component({
   selector: 'app-resource-chart',
