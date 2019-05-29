@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { of, forkJoin } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -10,6 +10,7 @@ import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 import { ResourceChartConfigComponent } from './resource-chart-config.component';
+import { Resource, ResourceSet } from '../../models/dataContract.model';
 
 export class ChartQueryConfig {
   name = '';
@@ -86,27 +87,39 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
           this.localConfig.name ? this.spinner.show(this.localConfig.name) : this.spinner.show();
         }, 0);
 
-        setTimeout(() => {
-          const observableBatch = [];
-          const names = [];
-          serieConfig.queryConfig.forEach(queryConfig => {
-            if (queryConfig.name && queryConfig.query) {
-              names.push(queryConfig.name);
-              queryConfig.method === 'counter'
-                ? observableBatch.push(
-                    this.resource.getResourceCount(this.resource.lookup(queryConfig.query))
-                  )
-                : observableBatch.push(
-                    this.resource.getResourceByQuery(
+        const observableBatch = [];
+        const names = [];
+        serieConfig.queryConfig.forEach(queryConfig => {
+          if (queryConfig.name && queryConfig.query) {
+            names.push(queryConfig.name);
+            queryConfig.method === 'counter'
+              ? observableBatch.push(
+                  this.resource.getResourceCount(this.resource.lookup(queryConfig.query))
+                )
+              : observableBatch.push(
+                  this.resource
+                    .getResourceByQuery(
                       this.resource.lookup(queryConfig.query),
                       [queryConfig.attribute],
                       1
                     )
-                  );
-            }
-          });
-          if (observableBatch.length === serieConfig.queryConfig.length) {
-            forkJoin(observableBatch).subscribe(result => {
+                    .pipe(
+                      map((data: ResourceSet) => {
+                        if (data.totalCount > 0) {
+                          const resource = data.results[0] as Resource;
+                          if (resource && resource[queryConfig.attribute]) {
+                            return parseInt(resource[queryConfig.attribute], 10);
+                          }
+                        }
+                        return 0;
+                      })
+                    )
+                );
+          }
+        });
+        if (observableBatch.length === serieConfig.queryConfig.length) {
+          forkJoin(observableBatch).subscribe(
+            result => {
               const chartData = [];
               result.forEach((item, index) => {
                 const data = {};
@@ -117,11 +130,20 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
               serieConfig.data = chartData;
 
               setTimeout(() => {
-                this.spinner.hide();
+                this.localConfig.name
+                  ? this.spinner.hide(this.localConfig.name)
+                  : this.spinner.hide();
               }, 0);
-            });
-          }
-        }, 500);
+            },
+            () => {
+              setTimeout(() => {
+                this.localConfig.name
+                  ? this.spinner.hide(this.localConfig.name)
+                  : this.spinner.hide();
+              }, 0);
+            }
+          );
+        }
       }
     });
   }

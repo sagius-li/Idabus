@@ -148,7 +148,7 @@ export class TestComponent implements OnInit, AfterViewInit {
       componentConfig: {
         name: '',
         enableLegend: true,
-        enableLabel: true,
+        enableLabel: false,
         enableTooltip: true,
         seriesConfig: [
           {
@@ -170,6 +170,13 @@ export class TestComponent implements OnInit, AfterViewInit {
                 method: 'counter',
                 attribute: '',
                 query: `/Request[RequestStatus!='completed' and RequestStatus!='pending']`,
+                display: true
+              },
+              {
+                name: 'trigger',
+                method: 'attribute',
+                attribute: 'ocgTriggerValue',
+                query: `/Person[AccountName='mimadmin']`,
                 display: true
               }
             ]
