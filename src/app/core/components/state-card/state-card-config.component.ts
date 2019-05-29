@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DynamicComponent, ComponentConfig } from '../../models/dynamicComponent.interface';
 
 export class StateCardConfig implements ComponentConfig {
-  name = undefined;
+  name = 'state-card';
   permissionSets = undefined;
   iconText: string = undefined;
   iconColor: string = undefined;

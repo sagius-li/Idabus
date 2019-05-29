@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { of, forkJoin } from 'rxjs';
 import { tap, switchMap, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
 
@@ -25,13 +25,14 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
   @Input()
   config: ResourceChartConfig;
 
+  spinnerType = SPINNER;
   localConfig: ResourceChartConfig;
 
   constructor(
     private dialog: MatDialog,
     private resource: ResourceService,
     private utils: UtilsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxUiLoaderService
   ) {}
 
   ngOnInit() {
@@ -51,7 +52,7 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
     this.localConfig.seriesConfig.forEach(serieConfig => {
       if (serieConfig.queryConfig) {
         setTimeout(() => {
-          this.localConfig.name ? this.spinner.show(this.localConfig.name) : this.spinner.show();
+          this.spinner.startLoader(this.localConfig.name);
         }, 0);
 
         const observableBatch = [];
@@ -97,16 +98,12 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
               serieConfig.data = chartData;
 
               setTimeout(() => {
-                this.localConfig.name
-                  ? this.spinner.hide(this.localConfig.name)
-                  : this.spinner.hide();
+                this.spinner.stopLoader(this.localConfig.name);
               }, 0);
             },
             () => {
               setTimeout(() => {
-                this.localConfig.name
-                  ? this.spinner.hide(this.localConfig.name)
-                  : this.spinner.hide();
+                this.spinner.stopLoader(this.localConfig.name);
               }, 0);
             }
           );

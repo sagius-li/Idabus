@@ -1,13 +1,5 @@
 <div fxLayout="column" class="full-size-relative">
-  <div fxFlex="auto">
-    <ngx-spinner
-      [attr.name]="localConfig.name"
-      bdColor="rgba(51,51,51,0.4)"
-      size="default"
-      color="#fff"
-      type="line-scale"
-    >
-    </ngx-spinner>
+  <div fxFlex="auto" ngxUiLoaderBlurred blur="1" [loaderId]="localConfig.name">
     <kendo-chart [seriesColors]="localConfig.seriesColor" style="height: 100%; width: 100%;">
       <kendo-chart-legend
         [position]="localConfig.legendPosition"
@@ -44,4 +36,12 @@
       </kendo-chart-series>
     </kendo-chart>
   </div>
+  <ngx-ui-loader
+    [loaderId]="localConfig.name"
+    [fgsType]="spinnerType.rectangleBounce"
+    [fgsSize]="40"
+    [fgsColor]="'white'"
+    [overlayColor]="'rgba(50,50,50,.5)'"
+    [pbColor]="'white'"
+  ></ngx-ui-loader>
 </div>

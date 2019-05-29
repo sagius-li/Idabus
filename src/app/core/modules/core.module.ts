@@ -6,10 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LocalizationModule } from './localization.module';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { GridsterModule } from 'angular-gridster2';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DragulaModule } from 'ng2-dragula';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
@@ -74,10 +74,10 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     FlexLayoutModule,
     LocalizationModule,
     FontAwesomeModule,
-    NgxSpinnerModule,
     GridsterModule,
     ColorPickerModule,
     DragulaModule,
+    NgxUiLoaderModule,
 
     DragDropModule,
     MatInputModule,
@@ -121,9 +121,9 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     FlexLayoutModule,
     LocalizationModule,
     FontAwesomeModule,
-    NgxSpinnerModule,
     GridsterModule,
     ColorPickerModule,
+    NgxUiLoaderModule,
 
     DragDropModule,
     MatInputModule,

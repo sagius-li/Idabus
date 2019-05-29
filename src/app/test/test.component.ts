@@ -10,8 +10,8 @@ import {
 import { Router } from '@angular/router';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { environment } from '../../environments/environment';
 
@@ -53,6 +53,10 @@ export class TestComponent implements OnInit, AfterViewInit {
   fetchText = '';
   fetchedResources: Resource[] = [];
   testResource: Resource;
+  // #endregion
+
+  // #region spinner
+  spinnerType = SPINNER;
   // #endregion
 
   // #region angular gridster
@@ -122,9 +126,9 @@ export class TestComponent implements OnInit, AfterViewInit {
       name: 'scc1',
       componentType: StateCardComponent,
       componentConfig: {
-        name: '',
+        name: 'scc1',
         title: 'total users',
-        query: '/Person',
+        query: `/Person[FirstName='eva']`,
         mainText: '{0}',
         iconText: 'person'
       }
@@ -136,7 +140,7 @@ export class TestComponent implements OnInit, AfterViewInit {
       x: 2,
       name: 'scc2',
       componentType: ResourceTableComponent,
-      componentConfig: { name: '', query: '/Person' }
+      componentConfig: { name: 'scc2', query: '/Person' }
     },
     {
       cols: 3,
@@ -146,7 +150,7 @@ export class TestComponent implements OnInit, AfterViewInit {
       name: 'scc3',
       componentType: ResourceChartComponent,
       componentConfig: {
-        name: '',
+        name: 'scc3',
         enableLegend: true,
         enableLabel: false,
         enableTooltip: true,
@@ -193,16 +197,16 @@ export class TestComponent implements OnInit, AfterViewInit {
     private translate: TransService,
     private resource: ResourceService,
     private auth: AuthService,
-    private spinner: NgxSpinnerService,
-    private cfr: ComponentFactoryResolver
+    private cfr: ComponentFactoryResolver,
+    private spinner: NgxUiLoaderService
   ) {}
 
   ngOnInit() {
     setTimeout(() => {
-      this.spinner.show('spnWelcome');
+      this.spinner.startLoader('loader-01');
     }, 2000);
     setTimeout(() => {
-      this.spinner.hide('spnWelcome');
+      this.spinner.stopLoader('loader-01');
     }, 5000);
 
     this.gdOptions.draggable.enabled = false;

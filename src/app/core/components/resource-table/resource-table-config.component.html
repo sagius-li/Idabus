@@ -174,7 +174,7 @@
     </mat-tab>
     <mat-tab [label]="'key_pagingAndSort' | translate">
       <div fxFlex fxLayout="column" fxLayoutGap="50px" class="first-dialog-item">
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
           <mat-form-field fxFlex="auto">
             <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="data.config.pageType">
               <mat-option value="numeric">numeric</mat-option>
@@ -192,7 +192,7 @@
             }}</mat-slide-toggle>
           </div>
         </div>
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
           <mat-form-field fxFlex="auto">
             <input
               matInput
@@ -216,7 +216,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
           <div fxFlex="33">
             <mat-slide-toggle [(ngModel)]="data.config.sortable">{{
               'key_sortable' | translate

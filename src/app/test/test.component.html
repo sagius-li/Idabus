@@ -19,12 +19,19 @@
             <mat-card-title>{{ 'l10n_greeting' | translate }}</mat-card-title>
           </mat-card-header>
           <mat-card-content style="position:relative;">
-            <p>
+            <p ngxUiLoaderBlurred blur="1" [loaderId]="'loader-01'">
               The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
               from Japan. A small, agile dog that copes very well with mountainous terrain, the
               Shiba Inu was originally bred for hunting.
             </p>
-            <ngx-spinner name="spnWelcome" [fullScreen]="false"></ngx-spinner>
+            <ngx-ui-loader
+              [loaderId]="'loader-01'"
+              [fgsType]="spinnerType.rectangleBounce"
+              [fgsSize]="40"
+              [fgsColor]="'white'"
+              [overlayColor]="'rgba(50,50,50,.5)'"
+              [pbColor]="'white'"
+            ></ngx-ui-loader>
           </mat-card-content>
         </mat-card>
       </div>
@@ -57,7 +64,7 @@
   <!-- components -->
   <mat-tab label="Components">
     <div fxLayout="row wrap">
-      <div fxFlex="20">
+      <div fxFlex="20" style="position: relative;">
         <app-state-card
           [query]="'/Person'"
           [mainText]="'{0}'"

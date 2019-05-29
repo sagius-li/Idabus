@@ -144,6 +144,7 @@
               <mat-card-header fxLayout="row" fxLayoutAlign="start center">
                 <div
                   fxFlex="none"
+                  class="handle"
                   (click)="onToggleQueryDisplay(query)"
                   style="width: 36px; margin-left: -20px; cursor: pointer; color: lightgray;"
                 >
@@ -213,19 +214,32 @@
           <div fxFlex></div>
           <div fxFlex="none" fxLayout="row" style="margin-top: 20px;">
             <button fxFlex mat-button (click)="onAddQuery(serie)">
-              <mat-icon style="margin-right: 10px; font-size: 16px; height: 18px;">playlist_add</mat-icon>
+              <mat-icon style="margin-right: 10px; font-size: 16px; height: 18px;"
+                >playlist_add</mat-icon
+              >
               {{ 'key_add' | translate }}
             </button>
             <button fxFlex mat-button (click)="onExpendAll(serie)">
-              <fa-icon [icon]="faExpendAll" style="margin-right: 10px; font-size: 12px; height: 18px;"></fa-icon>
+              <fa-icon
+                [icon]="faExpendAll"
+                style="margin-right: 10px; font-size: 12px; height: 18px;"
+              ></fa-icon>
               {{ 'key_expendAll' | translate }}
             </button>
             <button fxFlex mat-button (click)="onCollapseAll(serie)">
-              <fa-icon [icon]="faCollapseAll" style="margin-right: 10px; font-size: 14px; height: 18px;"></fa-icon>
+              <fa-icon
+                [icon]="faCollapseAll"
+                style="margin-right: 10px; font-size: 14px; height: 18px;"
+              ></fa-icon>
               {{ 'key_collapseAll' | translate }}
             </button>
-            <button fxFlex mat-button color="warn" [disabled]="data.config.seriesConfig.length === 1"
-              (click)="onDeleteSeries(serie)">
+            <button
+              fxFlex
+              mat-button
+              color="warn"
+              [disabled]="data.config.seriesConfig.length === 1"
+              (click)="onDeleteSeries(serie)"
+            >
               <mat-icon style="margin-right: 10px; font-size: 16px; height: 18px;">delete</mat-icon>
               {{ 'key_delete' | translate }}
             </button>

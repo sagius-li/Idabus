@@ -24,7 +24,7 @@ export class ChartSerieConfig {
 }
 
 export class ResourceChartConfig implements ComponentConfig {
-  name = undefined;
+  name = 'resource-chart';
   permissionSets = undefined;
   chartType = 'pie';
   chartTitle = '';
@@ -61,7 +61,18 @@ export class ResourceChartConfigComponent implements OnInit {
       config: ResourceChartConfig;
     },
     private dragula: DragulaService
-  ) {}
+  ) {
+    try {
+      this.dragula.createGroup('QUERIES', {
+        moves: (el, container, handle) => {
+          return (
+            handle.classList.contains('handle') ||
+            (handle.parentNode as Element).classList.contains('handle')
+          );
+        }
+      });
+    } catch {}
+  }
 
   ngOnInit() {}
 

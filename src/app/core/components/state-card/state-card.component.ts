@@ -4,7 +4,7 @@ import { tap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
 
@@ -50,12 +50,12 @@ export class StateCardComponent implements OnInit, DynamicComponent {
   query: string = undefined;
 
   localConfig: StateCardConfig;
-
   mainTextValue: string;
+  spinnerType = SPINNER;
 
   constructor(
     private dialog: MatDialog,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxUiLoaderService,
     private resource: ResourceService,
     private utils: UtilsService,
     private extraValuePipe: ExtraValuePipe
@@ -105,27 +105,17 @@ export class StateCardComponent implements OnInit, DynamicComponent {
 
   updateDataSource() {
     if (this.localConfig.query) {
-      setTimeout(() => {
-        this.localConfig.name ? this.spinner.show(this.localConfig.name) : this.spinner.show();
-      }, 0);
+      this.spinner.startLoader(this.localConfig.name);
 
       setTimeout(() => {
         if (this.localConfig.queryMode === 'counter') {
           this.resource.getResourceCount(this.resource.lookup(this.localConfig.query)).subscribe(
             result => {
               this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, result.toString());
-              setTimeout(() => {
-                this.localConfig.name
-                  ? this.spinner.hide(this.localConfig.name)
-                  : this.spinner.hide();
-              }, 0);
+              this.spinner.stopLoader(this.localConfig.name);
             },
             () => {
-              setTimeout(() => {
-                this.localConfig.name
-                  ? this.spinner.hide(this.localConfig.name)
-                  : this.spinner.hide();
-              }, 0);
+              this.spinner.stopLoader(this.localConfig.name);
             }
           );
         } else {
@@ -147,19 +137,11 @@ export class StateCardComponent implements OnInit, DynamicComponent {
                   value = value ? value : 'n.a.';
                   this.mainTextValue = this.localConfig.mainText.replace(/\{0\}/g, value);
                 }
-                setTimeout(() => {
-                  this.localConfig.name
-                    ? this.spinner.hide(this.localConfig.name)
-                    : this.spinner.hide();
-                }, 0);
+                this.spinner.stopLoader(this.localConfig.name);
               },
               () => {
                 this.mainTextValue = 'err.';
-                setTimeout(() => {
-                  this.localConfig.name
-                    ? this.spinner.hide(this.localConfig.name)
-                    : this.spinner.hide();
-                }, 0);
+                this.spinner.stopLoader(this.localConfig.name);
               }
             );
         }
