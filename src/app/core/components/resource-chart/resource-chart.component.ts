@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { of, forkJoin } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -7,10 +9,12 @@ import { ComponentConfig, DynamicComponent } from '../../models/dynamicComponent
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
+import { ResourceChartConfigComponent } from './resource-chart-config.component';
 
 export class ChartQueryConfig {
   name = '';
   method = 'counter';
+  attribute = '';
   query = '';
   display = true;
 }
@@ -75,12 +79,77 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
     return this.localConfig;
   }
 
-  updateDataSource() {}
+  updateDataSource() {
+    this.localConfig.seriesConfig.forEach(serieConfig => {
+      if (serieConfig.queryConfig) {
+        setTimeout(() => {
+          this.localConfig.name ? this.spinner.show(this.localConfig.name) : this.spinner.show();
+        }, 0);
+
+        setTimeout(() => {
+          const observableBatch = [];
+          const names = [];
+          serieConfig.queryConfig.forEach(queryConfig => {
+            if (queryConfig.name && queryConfig.query) {
+              names.push(queryConfig.name);
+              queryConfig.method === 'counter'
+                ? observableBatch.push(
+                    this.resource.getResourceCount(this.resource.lookup(queryConfig.query))
+                  )
+                : observableBatch.push(
+                    this.resource.getResourceByQuery(
+                      this.resource.lookup(queryConfig.query),
+                      [queryConfig.attribute],
+                      1
+                    )
+                  );
+            }
+          });
+          if (observableBatch.length === serieConfig.queryConfig.length) {
+            forkJoin(observableBatch).subscribe(result => {
+              const chartData = [];
+              result.forEach((item, index) => {
+                const data = {};
+                data[serieConfig.categoryField] = this.utils.EvalScript(names[index]);
+                data[serieConfig.valueField] = item;
+                chartData.push(data);
+              });
+              serieConfig.data = chartData;
+
+              setTimeout(() => {
+                this.spinner.hide();
+              }, 0);
+            });
+          }
+        }, 500);
+      }
+    });
+  }
 
   resize() {}
 
   configure() {
-    return null;
+    const configCopy = this.utils.DeepCopy(this.localConfig);
+
+    const dialogRef = this.dialog.open(ResourceChartConfigComponent, {
+      minWidth: '600px',
+      data: {
+        component: this,
+        config: this.localConfig
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      tap(result => {
+        if (!result || (result && result === 'cancel')) {
+          this.localConfig = configCopy;
+        }
+        this.updateDataSource();
+      }),
+      switchMap(() => {
+        return of(this.localConfig);
+      })
+    );
   }
 
   getSeriesName(name: string) {

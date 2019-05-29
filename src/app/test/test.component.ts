@@ -145,7 +145,37 @@ export class TestComponent implements OnInit, AfterViewInit {
       x: 5,
       name: 'scc3',
       componentType: ResourceChartComponent,
-      componentConfig: { name: '' }
+      componentConfig: {
+        name: '',
+        enableLegend: true,
+        enableLabel: true,
+        enableTooltip: true,
+        seriesConfig: [
+          {
+            name: 'Requests',
+            categoryField: 'category',
+            valueField: 'value',
+            color: undefined,
+            data: undefined,
+            queryConfig: [
+              {
+                name: 'completed',
+                method: 'counter',
+                attribute: '',
+                query: `/Request[RequestStatus='completed']`,
+                display: true
+              },
+              {
+                name: 'failed',
+                method: 'counter',
+                attribute: '',
+                query: `/Request[RequestStatus!='completed' and RequestStatus!='pending']`,
+                display: true
+              }
+            ]
+          }
+        ]
+      }
     }
   ];
   // #endregion

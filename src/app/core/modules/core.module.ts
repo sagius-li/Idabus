@@ -48,6 +48,7 @@ import { StateCardConfigComponent } from '../components/state-card/state-card-co
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 import { ResourceTableConfigComponent } from '../components/resource-table/resource-table-config.component';
 import { ResourceChartComponent } from '../components/resource-chart/resource-chart.component';
+import { ResourceChartConfigComponent } from '../components/resource-chart/resource-chart-config.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ResourceChartComponent } from '../components/resource-chart/resource-ch
     StateCardConfigComponent,
     ResourceTableComponent,
     ResourceTableConfigComponent,
-    ResourceChartComponent
+    ResourceChartComponent,
+    ResourceChartConfigComponent
   ],
   imports: [
     CommonModule,
@@ -104,7 +106,8 @@ import { ResourceChartComponent } from '../components/resource-chart/resource-ch
     StateCardConfigComponent,
     ResourceTableComponent,
     ResourceTableConfigComponent,
-    ResourceChartComponent
+    ResourceChartComponent,
+    ResourceChartConfigComponent
   ],
   providers: [
     ExtraValuePipe,
@@ -154,7 +157,8 @@ import { ResourceChartComponent } from '../components/resource-chart/resource-ch
     StateCardConfigComponent,
     ResourceTableComponent,
     ResourceTableConfigComponent,
-    ResourceChartComponent
+    ResourceChartComponent,
+    ResourceChartConfigComponent
   ]
 })
 export class CoreModule {}
