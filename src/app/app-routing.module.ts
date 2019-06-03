@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Router, RouterEvent } from '@angular/router';
 
+import { RouteGuardService } from './core/services/route-guard.service';
+
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
@@ -19,6 +21,7 @@ const routes: Routes = [
   {
     path: 'test',
     component: TestComponent,
+    canActivate: [RouteGuardService],
     children: []
   }
 ];

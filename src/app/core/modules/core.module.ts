@@ -36,6 +36,7 @@ import { ConfigService } from '../services/config.service';
 import { ResourceService } from '../services/resource.service';
 import { AuthService } from '../services/auth.service';
 import { StartupService } from '../services/startup.service';
+import { RouteGuardService } from '../services/route-guard.service';
 
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 
@@ -115,7 +116,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ResourceService,
     AuthService,
     StartupService,
-    TransService
+    TransService,
+    RouteGuardService
   ],
   exports: [
     FlexLayoutModule,
