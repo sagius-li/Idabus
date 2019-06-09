@@ -4,6 +4,13 @@ export enum AuthMode {
   azure = 'azure'
 }
 
+export class SidebarItem {
+  path: string;
+  title: string;
+  icon: string;
+  enabled: boolean;
+}
+
 export class AuthUser {
   DisplayName?: string;
   ObjectID?: string;

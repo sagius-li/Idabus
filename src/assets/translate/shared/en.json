@@ -1,3 +1,9 @@
 {
-  "l10n_greeting": "Welcome to Idabus"
+  "l10n_greeting": "Welcome to Idabus",
+  "l10n_dashboard": "Dashboard",
+  "l10n_userProfile": "User Profile",
+  "l10n_allResources": "All Resources",
+  "l10n_newItems": "New Items",
+  "l10n_notifications": "Notifications",
+  "l10n_settings": "Settings"
 }

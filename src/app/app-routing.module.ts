@@ -6,6 +6,7 @@ import { RouteGuardService } from './core/services/route-guard.service';
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,12 @@ const routes: Routes = [
   {
     path: 'test',
     component: TestComponent,
+    canActivate: [RouteGuardService],
+    children: []
+  },
+  {
+    path: 'app',
+    component: HomeComponent,
     canActivate: [RouteGuardService],
     children: []
   }

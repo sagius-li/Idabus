@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { StartupService } from './core/services/startup.service';
-import { ConfigService } from './core/services/config.service';
-import { AuthService } from './core/services/auth.service';
+import { SwapService } from './core/services/swap.service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +11,11 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent implements OnInit {
   title = 'Idabus';
 
-  constructor(
-    private config: ConfigService,
-    private router: Router,
-    private startup: StartupService,
-    private auth: AuthService
-  ) {}
+  constructor(private startup: StartupService, private swap: SwapService) {
+    window.onresize = () => {
+      this.swap.verifyWindowSize();
+    };
+  }
 
   ngOnInit() {
     this.startup.init(window.location.pathname).subscribe();

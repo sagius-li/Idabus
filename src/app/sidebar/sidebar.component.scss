@@ -1,0 +1,71 @@
+.sidebar-filter {
+  height: 100%;
+  width: 100%;
+  background: white;
+  opacity: 0.93;
+  display: block;
+}
+
+.sidebar-filter .logo {
+  padding: 5px;
+}
+.sidebar-filter .logo .fullImage {
+  max-height: 54px;
+}
+.sidebar-filter .logo .iconImage {
+  max-height: 46px;
+  margin-top: 4px;
+  margin-bottom: 3px;
+}
+
+.sidebar-filter .sidebar-seperator {
+  width: 90%;
+  height: 1px;
+  background-color: rgba(180, 180, 180, 0.3);
+  margin-top: -5px;
+}
+
+.sidebar-filter .sidebar-nav {
+  width: 90%;
+  height: 20px;
+  cursor: pointer;
+  margin-top: 2px;
+  margin-bottom: -8px;
+}
+.sidebar-filter .sidebar-nav:hover {
+  background-color: rgba(180, 180, 180, 0.1);
+}
+.sidebar-filter .sidebar-nav .nav-icon {
+  color: rgba(160, 160, 160, 1);
+}
+
+.sidebar-filter .sidebar-item {
+  width: 90%;
+}
+
+.sidebar-item-focus {
+  background-color: rgba(238, 238, 238, 0.8);
+}
+
+.sidebar-filter .sidebar-item a {
+  display: block;
+  margin: 10px 0px;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 3px;
+  color: #3c4858;
+  background-color: transparent;
+  -webkit-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  transition: background-color 0.5s;
+}
+.sidebar-filter .sidebar-item a:hover {
+  background-color: rgba(238, 238, 238, 0.8);
+}
+
+.sidebar-filter .sidebar-item .material-icons {
+  color: #a9afbb;
+  text-align: center;
+  margin-right: 20px;
+  vertical-align: bottom;
+}

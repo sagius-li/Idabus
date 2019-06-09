@@ -14,9 +14,11 @@ import 'hammerjs';
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, TestComponent, LoginComponent, SplashComponent],
+  declarations: [AppComponent, TestComponent, LoginComponent, SplashComponent, SidebarComponent, HomeComponent],
   imports: [
     BrowserModule,
     FormsModule,

@@ -1,3 +1,9 @@
 {
-  "l10n_greeting": "欢迎来到依达布斯"
+  "l10n_greeting": "欢迎来到依达布斯",
+  "l10n_dashboard": "控制板",
+  "l10n_userProfile": "用户侧写",
+  "l10n_allResources": "所有资源",
+  "l10n_newItems": "新建资源",
+  "l10n_notifications": "通知",
+  "l10n_settings": "设定"
 }
