@@ -13,7 +13,7 @@ export class ExtraValuePipe implements PipeTransform {
     if (index === keys.length) {
       return value;
     }
-    // return the last available value if key was found any more
+    // return the last available value if key was not found any more
     if (!value.hasOwnProperty(keys[index].trim())) {
       return value;
     } else {

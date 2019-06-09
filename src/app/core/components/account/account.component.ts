@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Resource, AttributeResource } from '../../models/dataContract.model';
 
@@ -23,7 +22,6 @@ export class AccountComponent implements OnInit {
   loginUser: Resource;
   brandLetter = '';
   attrPhoto: AttributeResource;
-  attrJobTitle: AttributeResource;
   currentLanguage = '';
 
   private contains(target: any): boolean {
@@ -34,7 +32,6 @@ export class AccountComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
     private resource: ResourceService,
     private translate: TranslateService,
     private auth: AuthService
@@ -60,7 +57,6 @@ export class AccountComponent implements OnInit {
     if (this.loginUser) {
       this.brandLetter = this.loginUser.DisplayName ? this.loginUser.DisplayName.substr(0, 1) : '-';
       this.attrPhoto = this.loginUser.Photo;
-      this.attrJobTitle = this.loginUser.JobTitle;
     }
   }
 

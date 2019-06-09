@@ -42,6 +42,7 @@ import { RouteGuardService } from '../services/route-guard.service';
 import { SwapService } from '../services/swap.service';
 
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
+import { ExamValuePipe } from '../pipes/exam-value.pipe';
 
 import { DynamicContainerDirective } from '../directives/dynamic-container.directive';
 
@@ -60,6 +61,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
 @NgModule({
   declarations: [
     ExtraValuePipe,
+    ExamValuePipe,
 
     DynamicContainerDirective,
 
@@ -123,6 +125,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
   ],
   providers: [
     ExtraValuePipe,
+    ExamValuePipe,
+
     ConfigService,
     ResourceService,
     AuthService,
@@ -164,6 +168,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     PopupModule,
 
     ExtraValuePipe,
+    ExamValuePipe,
 
     DynamicContainerDirective,
 

@@ -27,11 +27,11 @@
           </div>
         </div>
         <div fxFlex fxLayout="column" fxLayoutGap="10px">
-          <div fxFlex="none" *ngIf="loginUser.DisplayName" class="profile-name">
+          <div fxFlex="none" *ngIf="loginUser | examValue: 'DisplayName'" class="profile-name">
             {{ loginUser | extraValue: 'DisplayName' }}
           </div>
-          <div fxFlex="none" *ngIf="attrJobTitle" class="profile-info">
-            {{ attrJobTitle }}
+          <div fxFlex="none" *ngIf="loginUser | examValue: 'JobTitle'" class="profile-info">
+            {{ loginUser | extraValue: 'JobTitle' }}
           </div>
         </div>
       </div>
