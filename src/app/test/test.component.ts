@@ -7,7 +7,6 @@ import {
   QueryList,
   ComponentFactoryResolver
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
@@ -192,7 +191,6 @@ export class TestComponent implements OnInit, AfterViewInit {
   // #endregion
 
   constructor(
-    private router: Router,
     private config: ConfigService,
     private translate: TransService,
     private resource: ResourceService,
@@ -349,7 +347,6 @@ export class TestComponent implements OnInit, AfterViewInit {
 
   onLogout() {
     this.auth.logout();
-    this.router.navigate(['/login']);
   }
 
   onTabChange(event: MatTabChangeEvent) {

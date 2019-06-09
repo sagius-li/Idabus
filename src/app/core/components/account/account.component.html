@@ -1,0 +1,77 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="outer-brand"
+  [ngClass]="showMenu === true ? 'active' : ''"
+>
+  <div #anchor class="inner-brand" (click)="onToggle()">{{ brandLetter | uppercase }}</div>
+</div>
+<kendo-popup
+  #popup
+  [anchor]="anchor"
+  [margin]="{ horizontal: -260, vertical: 8 }"
+  (anchorViewportLeave)="showMenu = false"
+  *ngIf="showMenu"
+>
+  <div class="profile-menu">
+    <div fxLayout="column" style="margin: 20px;">
+      <div fxFlex="none" fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="none" class="profile-avatar">
+          <img
+            *ngIf="attrPhoto"
+            [src]="'data:image/png;base64,' + attrPhoto"
+            class="profile-avatar-image"
+          />
+          <div *ngIf="!attrPhoto" class="profile-avatar-initial">
+            {{ brandLetter | uppercase }}
+          </div>
+        </div>
+        <div fxFlex fxLayout="column" fxLayoutGap="10px">
+          <div fxFlex="none" *ngIf="loginUser.DisplayName" class="profile-name">
+            {{ loginUser | extraValue: 'DisplayName' }}
+          </div>
+          <div fxFlex="none" *ngIf="attrJobTitle" class="profile-info">
+            {{ attrJobTitle }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" class="profile-footer">
+      <hr style="border: 0; border-top: 1px solid #ccc; width: 80%;" />
+      <div fxLayout="row" fxLayoutGap="10px;" style="margin: 5px 30px;">
+        <div class="outer-country" [ngClass]="currentLanguage === 'en' ? 'active' : ''">
+          <img
+            src="../../../../assets/img/united-states.png"
+            class="inner-country"
+            (click)="onChangeLanguage('en')"
+          />
+        </div>
+        <div class="outer-country" [ngClass]="currentLanguage === 'de' ? 'active' : ''">
+          <img
+            src="../../../../assets/img/germany.png"
+            class="inner-country"
+            (click)="onChangeLanguage('de')"
+          />
+        </div>
+        <div class="outer-country" [ngClass]="currentLanguage === 'cn' ? 'active' : ''">
+          <img
+            src="../../../../assets/img/china.png"
+            class="inner-country"
+            (click)="onChangeLanguage('cn')"
+          />
+        </div>
+        <div fxFlex></div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="5px"
+          style="cursor: pointer; color:#6f6f6f;"
+          (click)="onLogout()"
+        >
+          <div>{{ 'key_logout' | translate }}</div>
+          <mat-icon>exit_to_app</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</kendo-popup>

@@ -1,0 +1,101 @@
+:host /deep/ kendo-popup .k-popup {
+  padding: 0;
+  border: solid 1px lightgray;
+  border-radius: 2px;
+}
+
+.outer-brand {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.outer-brand:hover {
+  background-color: #e3e3e3;
+}
+
+.inner-brand {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  color: white;
+  background-color: #8d6e5d;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.profile-menu {
+  height: 180px;
+  width: 300px;
+}
+
+.profile-avatar {
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-avatar-image {
+  height: 85px;
+  width: 85px;
+}
+
+.profile-avatar-initial {
+  color: white;
+  background-color: #8d6e5d;
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  height: 85px;
+  width: 85px;
+  line-height: 85px;
+  display: table-cell;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+  color: #8d6e5d;
+}
+
+.profile-info {
+  font-size: 14px;
+  line-height: 20px;
+  color: #6f6f6f;
+}
+
+.profile-footer {
+  position: absolute;
+  left: 0px;
+  bottom: 5px;
+  width: 100%;
+}
+
+.outer-country {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.outer-country:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.inner-country {
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #ccc;
+}

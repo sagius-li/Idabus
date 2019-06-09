@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { throwError, EMPTY } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
 import { AuthMode, AuthUser, Resource } from '../models/dataContract.model';
 
-import { ConfigService } from './config.service';
 import { ResourceService } from './resource.service';
 import { UtilsService } from './utils.service';
 import { StorageService } from './storage.service';
@@ -27,7 +26,6 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private config: ConfigService,
     private resource: ResourceService,
     private utils: UtilsService,
     private storage: StorageService
@@ -88,5 +86,7 @@ export class AuthService {
     this.resource.clear();
     this.mode = undefined;
     this.user = undefined;
+
+    this.router.navigate(['/login']);
   }
 }

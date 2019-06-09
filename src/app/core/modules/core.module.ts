@@ -31,6 +31,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -47,6 +48,7 @@ import { DynamicContainerDirective } from '../directives/dynamic-container.direc
 import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { SearchComponent } from '../components/search/search.component';
+import { AccountComponent } from '../components/account/account.component';
 
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
@@ -64,6 +66,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SigninComponent,
     EditMenuComponent,
     SearchComponent,
+    AccountComponent,
 
     StateCardComponent,
     StateCardConfigComponent,
@@ -107,7 +110,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     PDFModule,
     ExcelModule,
     ChartsModule,
-    DropDownsModule
+    DropDownsModule,
+    PopupModule
   ],
   entryComponents: [
     StateCardComponent,
@@ -157,6 +161,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExcelModule,
     ChartsModule,
     DropDownsModule,
+    PopupModule,
 
     ExtraValuePipe,
 
@@ -165,6 +170,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SigninComponent,
     EditMenuComponent,
     SearchComponent,
+    AccountComponent,
 
     StateCardComponent,
     StateCardConfigComponent,
