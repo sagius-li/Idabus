@@ -18,7 +18,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, TestComponent, LoginComponent, SplashComponent, SidebarComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    TestComponent,
+    LoginComponent,
+    SplashComponent,
+    SidebarComponent,
+    HomeComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,

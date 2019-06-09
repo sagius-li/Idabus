@@ -33,12 +33,14 @@ export class SidebarComponent implements OnInit {
         case 'xs':
         case 'sm':
           this.mode = 'collapsed';
+          this.icon = 'chevron_right';
           this.currentSize = this.minSize;
           break;
         case 'md':
         case 'lg':
         default:
           this.mode = 'expanded';
+          this.icon = 'chevron_left';
           this.currentSize = this.maxSize;
           break;
       }
@@ -49,6 +51,8 @@ export class SidebarComponent implements OnInit {
     this.sidebarItems = this.config
       .getConfig('sidebarItems', [])
       .filter((item: SidebarItem) => item.enabled !== false);
+
+    this.swap.verifyWindowSize();
   }
 
   isFocusedItem(item: SidebarItem) {

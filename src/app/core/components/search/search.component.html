@@ -1,0 +1,29 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="search-input">
+  <mat-icon class="search-icon">search</mat-icon>
+  <kendo-combobox
+    #resourceList
+    fxFlex
+    [allowCustom]="true"
+    [data]="resourceData"
+    [textField]="'DisplayName'"
+    [valueField]="'ObjectID'"
+    [filterable]="true"
+    (filterChange)="handleSearchFilter($event)"
+    (valueChange)="searchValueChange($event)"
+    [placeholder]="'key_searchAllResources' | translate"
+  >
+    <ng-template kendoComboBoxItemTemplate let-dataItem>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="10px"
+        style="font-size: 18px; color: gray; padding: 10px;"
+      >
+        <div fxFlex="none">
+          <mat-icon style="margin-top: 6px;">person</mat-icon>
+        </div>
+        <div fxFlex>{{ dataItem.DisplayName }}</div>
+      </div>
+    </ng-template>
+  </kendo-combobox>
+</div>
