@@ -26,7 +26,7 @@
             {{ brandLetter | uppercase }}
           </div>
         </div>
-        <div fxFlex fxLayout="column" fxLayoutGap="10px">
+        <div fxFlex="auto" fxLayout="column" fxLayoutGap="10px">
           <div fxFlex="none" *ngIf="loginUser | examValue: 'DisplayName'" class="profile-name">
             {{ loginUser | extraValue: 'DisplayName' }}
           </div>
@@ -60,7 +60,7 @@
             (click)="onChangeLanguage('cn')"
           />
         </div>
-        <div fxFlex></div>
+        <div fxFlex="auto"></div>
         <div
           fxLayout="row"
           fxLayoutAlign="start center"

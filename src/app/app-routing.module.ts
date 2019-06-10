@@ -7,6 +7,7 @@ import { TestComponent } from './test/test.component';
 import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,17 @@ const routes: Routes = [
     path: 'app',
     component: HomeComponent,
     canActivate: [RouteGuardService],
-    children: []
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'home',
+        component: DashboardComponent
+      }
+    ]
   }
 ];
 

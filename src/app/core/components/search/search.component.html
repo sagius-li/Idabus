@@ -1,9 +1,8 @@
 <div fxLayout="row" fxLayoutAlign="start center" class="search-input">
-  <mat-icon class="search-icon">search</mat-icon>
+  <mat-icon class="search-icon search-icon-ie">search</mat-icon>
   <kendo-combobox
     #resourceList
-    fxFlex
-    [allowCustom]="true"
+    fxFlex="auto"
     [data]="resourceData"
     [textField]="'DisplayName'"
     [valueField]="'ObjectID'"
@@ -22,7 +21,7 @@
         <div fxFlex="none">
           <mat-icon style="margin-top: 6px;">person</mat-icon>
         </div>
-        <div fxFlex>{{ dataItem.DisplayName }}</div>
+        <div fxFlex="auto">{{ dataItem.DisplayName }}</div>
       </div>
     </ng-template>
   </kendo-combobox>

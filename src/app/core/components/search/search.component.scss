@@ -33,8 +33,15 @@
 .search-icon {
   position: absolute;
   float: left;
-  z-index: 100;
+  z-index: 10;
   margin-top: 2px;
   margin-left: 10px;
   color: gray;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+  .search-icon-ie {
+    margin-top: -10px !important;
+  }
 }
