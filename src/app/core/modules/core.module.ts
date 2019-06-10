@@ -40,6 +40,7 @@ import { AuthService } from '../services/auth.service';
 import { StartupService } from '../services/startup.service';
 import { RouteGuardService } from '../services/route-guard.service';
 import { SwapService } from '../services/swap.service';
+import { ComponentIndexService } from '../services/component-index.service';
 
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 import { ExamValuePipe } from '../pipes/exam-value.pipe';
@@ -133,7 +134,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     StartupService,
     TransService,
     RouteGuardService,
-    SwapService
+    SwapService,
+    ComponentIndexService
   ],
   exports: [
     FlexLayoutModule,

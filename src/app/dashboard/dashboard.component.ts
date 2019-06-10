@@ -11,6 +11,8 @@ import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-grid
 import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
 import { DynamicContainerDirective } from '../core/directives/dynamic-container.directive';
 
+import { ResourceService } from '../core/services/resource.service';
+
 import { StateCardComponent } from '../core/components/state-card/state-card.component';
 import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
 import { ResourceChartComponent } from '../core/components/resource-chart/resource-chart.component';
@@ -78,80 +80,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     scrollToNewItems: false
   };
 
-  gdItems: Array<GridsterComponentItem> = [
-    {
-      cols: 2,
-      rows: 1,
-      y: 0,
-      x: 0,
-      name: 'scc1',
-      componentType: StateCardComponent,
-      componentConfig: {
-        name: 'scc1',
-        title: 'total users',
-        query: `/Person`,
-        mainText: '{0}',
-        iconText: 'person'
-      }
-    },
-    {
-      cols: 3,
-      rows: 2,
-      y: 0,
-      x: 2,
-      name: 'scc2',
-      componentType: ResourceTableComponent,
-      componentConfig: { name: 'scc2', query: '/Person' }
-    },
-    {
-      cols: 3,
-      rows: 2,
-      y: 0,
-      x: 5,
-      name: 'scc3',
-      componentType: ResourceChartComponent,
-      componentConfig: {
-        name: 'scc3',
-        enableLegend: true,
-        enableLabel: false,
-        enableTooltip: true,
-        seriesConfig: [
-          {
-            name: 'Requests',
-            categoryField: 'category',
-            valueField: 'value',
-            color: undefined,
-            data: undefined,
-            queryConfig: [
-              {
-                name: 'completed',
-                method: 'counter',
-                attribute: '',
-                query: `/Request[RequestStatus='completed']`,
-                display: true
-              },
-              {
-                name: 'failed',
-                method: 'counter',
-                attribute: '',
-                query: `/Request[RequestStatus!='completed' and RequestStatus!='pending']`,
-                display: true
-              },
-              {
-                name: 'trigger',
-                method: 'attribute',
-                attribute: 'ocgTriggerValue',
-                query: `/Person[AccountName='mimadmin']`,
-                display: true
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ];
+  gdItems: Array<GridsterComponentItem> = this.resource.primaryViewSetting.dashboard
+    .components as Array<GridsterComponentItem>;
 
-  constructor(private cfr: ComponentFactoryResolver) {}
+  constructor(private cfr: ComponentFactoryResolver, private resource: ResourceService) {}
 
   ngOnInit() {
     this.gdOptions.draggable.enabled = false;

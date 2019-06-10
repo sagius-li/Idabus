@@ -1,5 +1,3 @@
-import { ComponentRef } from '@angular/core';
-
 import { Observable } from 'rxjs';
 
 import { GridsterItem } from 'angular-gridster2';

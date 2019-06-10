@@ -14,15 +14,13 @@ import {
 } from '@progress/kendo-angular-grid';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import { ResourceTableConfig } from '../../models/componentContract.model';
+import { ResourceSet, Resource } from '../../models/dataContract.model';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
-import { ResourceSet, Resource } from '../../models/dataContract.model';
 
-import {
-  ResourceTableConfigComponent,
-  ResourceTableConfig
-} from './resource-table-config.component';
+import { ResourceTableConfigComponent } from './resource-table-config.component';
 
 @Component({
   selector: 'app-resource-table',

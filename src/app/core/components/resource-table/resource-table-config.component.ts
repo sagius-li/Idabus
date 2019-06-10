@@ -4,51 +4,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faCompress, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { DragulaService } from 'ng2-dragula';
 
-import { DynamicComponent, ComponentConfig } from '../../models/dynamicComponent.interface';
-
-export class ResourceColumnConfig {
-  field: string = undefined;
-  title: string = undefined;
-  width?: number = undefined;
-  sortable?: boolean = undefined;
-  filterable?: boolean = undefined;
-  filter?: string = undefined;
-  locked?: boolean = undefined;
-  display?: boolean = undefined;
-}
-
-export class ResourceTableConfig implements ComponentConfig {
-  name = undefined;
-  permissionSets = undefined;
-  title?: string = undefined;
-  fontSize?: number = undefined;
-  cellPadding?: number = undefined;
-  pageSize?: number = undefined;
-  pageCountNumber?: number = undefined;
-  pageInfo?: boolean = undefined;
-  pageType?: string = undefined;
-  pageButton?: boolean = undefined;
-  sortable?: boolean = undefined;
-  sortMode?: string = undefined;
-  allowUnsort?: boolean = undefined;
-  filterable?: boolean = undefined;
-  filterMode?: string = undefined;
-  selectable?: boolean = undefined;
-  selectBoxWidth?: number = undefined;
-  selectMode?: string = undefined;
-  checkboxSelectOnly?: boolean = undefined;
-  resizable?: boolean = undefined;
-  exportToPDF?: boolean = undefined;
-  exportToExcel?: boolean = undefined;
-  exportAllPages?: boolean = undefined;
-  resources?: any[] = undefined;
-  query?: string = undefined;
-  columns?: ResourceColumnConfig[] = undefined;
-
-  public constructor(init?: Partial<ResourceTableConfig>) {
-    Object.assign(this, init);
-  }
-}
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import { ResourceTableConfig, ResourceColumnConfig } from '../../models/componentContract.model';
 
 @Component({
   selector: 'app-resource-table-config',

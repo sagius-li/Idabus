@@ -4,44 +4,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faCompress, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { DragulaService } from 'ng2-dragula';
 
-import { DynamicComponent, ComponentConfig } from '../../models/dynamicComponent.interface';
-
-export class ChartQueryConfig {
-  name = '';
-  method = 'counter';
-  attribute = '';
-  query = '';
-  display?: boolean = undefined;
-}
-
-export class ChartSerieConfig {
-  name = 'test';
-  categoryField = 'category';
-  valueField = 'value';
-  color: string = undefined;
-  data: any = [{ category: 'test', value: 1 }];
-  queryConfig: ChartQueryConfig[] = undefined;
-}
-
-export class ResourceChartConfig implements ComponentConfig {
-  name = 'resource-chart';
-  permissionSets = undefined;
-  chartType = 'pie';
-  chartTitle = '';
-  seriesColor = ['#3f51b5', '#2196f3', '#43a047', '#ffc107', '#ff5722', '#e91E63'];
-  enableLegend = false;
-  legendPosition = 'bottom';
-  enableTooltip = false;
-  tooltipFormat = '{0}: {1}';
-  enableLabel = false;
-  labelFormat = '{1}';
-  labelColor = 'black';
-  seriesConfig: ChartSerieConfig[] = [new ChartSerieConfig()];
-
-  public constructor(init?: Partial<ResourceChartConfig>) {
-    Object.assign(this, init);
-  }
-}
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import {
+  ResourceChartConfig,
+  ChartSerieConfig,
+  ChartQueryConfig
+} from '../../models/componentContract.model';
 
 @Component({
   selector: 'app-resource-chart-config',

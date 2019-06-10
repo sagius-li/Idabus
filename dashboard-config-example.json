@@ -1,0 +1,78 @@
+{
+  "name": "admin view",
+  "dashboard": {
+    "components": [
+      {
+        "cols": 2,
+        "rows": 1,
+        "y": 0,
+        "x": 0,
+        "name": "scc1",
+        "componentType": "StateCardComponent",
+        "componentConfig": {
+          "name": "scc1",
+          "title": "total users",
+          "query": "/Person",
+          "mainText": "{0}",
+          "iconText": "person"
+        }
+      },
+      {
+        "cols": 3,
+        "rows": 2,
+        "y": 0,
+        "x": 2,
+        "name": "scc2",
+        "componentType": "ResourceTableComponent",
+        "componentConfig": {
+          "name": "scc2",
+          "query": "/Person"
+        }
+      },
+      {
+        "cols": 3,
+        "rows": 2,
+        "y": 0,
+        "x": 5,
+        "name": "scc3",
+        "componentType": "ResourceChartComponent",
+        "componentConfig": {
+          "name": "scc3",
+          "enableLegend": true,
+          "enableLabel": false,
+          "enableTooltip": true,
+          "seriesConfig": [
+            {
+              "name": "Requests",
+              "categoryField": "category",
+              "valueField": "value",
+              "queryConfig": [
+                {
+                  "name": "completed",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Request[RequestStatus='completed']",
+                  "display": true
+                },
+                {
+                  "name": "failed",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Request[RequestStatus!='completed' and RequestStatus!='pending']",
+                  "display": true
+                },
+                {
+                  "name": "trigger",
+                  "method": "attribute",
+                  "attribute": "ocgTriggerValue",
+                  "query": "/Person[AccountName='mimadmin']",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

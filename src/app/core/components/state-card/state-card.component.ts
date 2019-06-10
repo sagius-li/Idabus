@@ -7,13 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import { StateCardConfig } from '../../models/componentContract.model';
 
 import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
 
-import { StateCardConfigComponent, StateCardConfig } from './state-card-config.component';
+import { StateCardConfigComponent } from './state-card-config.component';
 
 @Component({
   selector: 'app-state-card',

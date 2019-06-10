@@ -6,15 +6,13 @@ import { MatDialog } from '@angular/material';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import { Resource, ResourceSet } from '../../models/dataContract.model';
+import { ResourceChartConfig, ChartSerieConfig } from '../../models/componentContract.model';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
-import {
-  ResourceChartConfigComponent,
-  ResourceChartConfig,
-  ChartSerieConfig
-} from './resource-chart-config.component';
-import { Resource, ResourceSet } from '../../models/dataContract.model';
+
+import { ResourceChartConfigComponent } from './resource-chart-config.component';
 
 @Component({
   selector: 'app-resource-chart',

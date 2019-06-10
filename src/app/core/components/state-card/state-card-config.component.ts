@@ -1,26 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { DynamicComponent, ComponentConfig } from '../../models/dynamicComponent.interface';
-
-export class StateCardConfig implements ComponentConfig {
-  name = 'state-card';
-  permissionSets = undefined;
-  iconText: string = undefined;
-  iconColor: string = undefined;
-  backgroundColor: string = undefined;
-  textColor: string = undefined;
-  mainTextColor: string = undefined;
-  title: string = undefined;
-  mainText: string = undefined;
-  queryMode: string = undefined;
-  queryAttribute: string = undefined;
-  query: string = undefined;
-
-  public constructor(init?: Partial<StateCardConfig>) {
-    Object.assign(this, init);
-  }
-}
+import { DynamicComponent } from '../../models/dynamicComponent.interface';
+import { StateCardConfig } from '../../models/componentContract.model';
 
 @Component({
   selector: 'app-state-card-config',

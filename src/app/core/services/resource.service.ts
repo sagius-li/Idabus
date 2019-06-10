@@ -88,13 +88,19 @@ export class ResourceService {
   get primaryViewSet() {
     return this.primaryUiSet;
   }
-  private standardUiSetting: string;
+  private standardUiSetting: any;
   get standardViewSetting() {
     return this.standardUiSetting;
   }
-  private primaryUiSetting: string;
+  set standardViewSetting(value: any) {
+    this.standardUiSetting = value;
+  }
+  private primaryUiSetting: any;
   get primaryViewSetting() {
     return this.primaryUiSetting;
+  }
+  set primaryViewSetting(value: any) {
+    this.primaryUiSetting = value;
   }
 
   private getConnectedUser() {

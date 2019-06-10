@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
+import { ComponentIndexService } from '../core/services/component-index.service';
 
 @Component({
   selector: 'app-splash',
@@ -18,7 +20,8 @@ export class SplashComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private config: ConfigService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private com: ComponentIndexService
   ) {}
 
   ngOnInit() {
@@ -37,7 +40,16 @@ export class SplashComponent implements OnInit, OnDestroy {
           return this.resource.getCurrentUser();
         }),
         switchMap(() => {
-          return this.resource.getUserConfig();
+          return this.resource.getUserConfig().pipe(
+            tap(() => {
+              this.resource.standardViewSetting = this.com.parseComponentConfig(
+                this.resource.standardViewSetting
+              );
+              this.resource.primaryViewSetting = this.com.parseComponentConfig(
+                this.resource.primaryViewSetting
+              );
+            })
+          );
         }),
         switchMap(() => {
           return this.route.queryParams;
