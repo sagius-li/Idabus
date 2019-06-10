@@ -20,5 +20,60 @@
       "label": "中文",
       "route": "cn"
     }
-  ]
+  ],
+  "sidebarItems": [
+    {
+      "path": "home",
+      "title": "l10n_dashboard",
+      "icon": "dashboard",
+      "enabled": true
+    },
+    {
+      "path": "profile",
+      "title": "l10n_userProfile",
+      "icon": "person",
+      "enabled": true
+    },
+    {
+      "path": "resources",
+      "title": "l10n_allResources",
+      "icon": "apps",
+      "enabled": true
+    },
+    {
+      "path": "newitem",
+      "title": "l10n_newItems",
+      "icon": "add_to_photos",
+      "enabled": true,
+      "items": [
+        {
+          "path": "newuser",
+          "title": "i18n_newUser",
+          "icon": "person_add"
+        },
+        {
+          "path": "newgroup",
+          "title": "i18n_newGroup",
+          "icon": "group_add"
+        }
+      ]
+    },
+    {
+      "path": "notifications",
+      "title": "l10n_notifications",
+      "icon": "notifications",
+      "enabled": true
+    },
+    {
+      "path": "settings",
+      "title": "l10n_settings",
+      "icon": "settings",
+      "enabled": true
+    }
+  ],
+  "intervalTiny": 100,
+  "intervalSmall": 300,
+  "intervalMiddle": 500,
+  "intervalLarge": 1000,
+  "intervalUltra": 2000
 }

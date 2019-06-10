@@ -10,7 +10,8 @@ import {
   ResourceSet,
   Resource,
   AuthUser,
-  AuthMode
+  AuthMode,
+  BasicResource
 } from '../models/dataContract.model';
 
 import { ConfigService } from './config.service';
@@ -66,6 +67,30 @@ export class ResourceService {
   private token = '';
   get accessToken() {
     return this.token;
+  }
+  private rights: string[] = [];
+  get rightSets() {
+    return this.rights;
+  }
+  private uiSets: BasicResource[] = [];
+  get viewSets() {
+    return this.uiSets;
+  }
+  private adminUiSets: BasicResource[] = [];
+  get adminViewSets() {
+    return this.adminUiSets;
+  }
+  private primaryUiSet: BasicResource = null;
+  get primaryViewSet() {
+    return this.primaryUiSet;
+  }
+  private standardUiSetting: string;
+  get standardViewSetting() {
+    return this.standardUiSetting;
+  }
+  private primaryUiSetting: string;
+  get primaryViewSetting() {
+    return this.primaryUiSetting;
   }
 
   private getConnectedUser() {
@@ -254,6 +279,113 @@ export class ResourceService {
         );
       })
     );
+  }
+
+  public getUserConfig(): Observable<ResourceSet> {
+    const urlSearchResource = this.utils.buildDataServiceUrl(
+      this.baseUrl,
+      'admin/resources',
+      'search',
+      this.serviceType
+    );
+
+    // get right sets
+    const queryGetRightSets = `/Set[ComputedMember='${this.loginUser.ObjectID}']`;
+    const paramsGetRightSets: HttpParams = new HttpParams({
+      fromObject: {
+        query: queryGetRightSets,
+        attributes: 'DisplayName'
+      }
+    });
+    const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+    return this.http
+      .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetRightSets })
+      .pipe(
+        tap((data: ResourceSet) => {
+          this.rights = data.results.map(item => item.DisplayName);
+        }),
+        // get view sets
+        switchMap(() => {
+          const queryGetViewSets = `/Set[ocgObjectType='ui' and ComputedMember='${
+            this.loginUser.ObjectID
+          }']`;
+          const paramsGetViewSets: HttpParams = new HttpParams({
+            fromObject: {
+              query: queryGetViewSets,
+              attributes: 'DisplayName'
+            }
+          });
+          return this.http
+            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetViewSets })
+            .pipe(
+              tap((data: ResourceSet) => {
+                this.uiSets = data.results.map(item => new BasicResource(item));
+              })
+            );
+        }),
+        // get admin view sets
+        switchMap(() => {
+          const queryGetAdminViewSets = `/Set[ocgObjectType='ui' and ObjectID=/Person[ObjectID='${
+            this.loginUser.ObjectID
+          }']/ocgAdminViewSetRefs]`;
+          const paramsGetAdminViewSets: HttpParams = new HttpParams({
+            fromObject: {
+              query: queryGetAdminViewSets,
+              attributes: 'DisplayName'
+            }
+          });
+          return this.http
+            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetAdminViewSets })
+            .pipe(
+              tap((data: ResourceSet) => {
+                this.uiSets = data.results.map(item => new BasicResource(item));
+              })
+            );
+        }),
+        // get primary view set
+        switchMap(() => {
+          const queryGetStandardViewSet = `/Set[ocgObjectType='uibase']`;
+          const paramsGetStandardViewSet: HttpParams = new HttpParams({
+            fromObject: {
+              query: queryGetStandardViewSet,
+              attributes: 'DisplayName, ocgConfigurationXML'
+            }
+          });
+          return this.http
+            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetStandardViewSet })
+            .pipe(
+              tap((data: ResourceSet) => {
+                if (data.totalCount > 0) {
+                  this.standardUiSetting = data.results[0].ocgConfigurationXML;
+                }
+              })
+            );
+        }),
+        // get primary view set
+        switchMap(() => {
+          const queryGetPrimaryViewSet = `/Set[ocgObjectType='ui' and ObjectID=/Person[ObjectID='${
+            this.loginUser.ObjectID
+          }']/ocgPrimaryViewSetRef]`;
+          const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
+            fromObject: {
+              query: queryGetPrimaryViewSet,
+              attributes: 'DisplayName, ocgConfigurationXML'
+            }
+          });
+          return this.http
+            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetPrimaryViewSet })
+            .pipe(
+              tap((data: ResourceSet) => {
+                if (data.totalCount > 0) {
+                  this.primaryUiSet = new BasicResource(data.results[0]);
+                  this.primaryUiSetting = data.results[0].ocgConfigurationXML;
+                } else {
+                  this.primaryUiSetting = this.standardUiSetting;
+                }
+              })
+            );
+        })
+      );
   }
 
   public getCurrentUser(isAuth = false): Observable<Resource> {

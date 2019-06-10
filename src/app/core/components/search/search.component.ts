@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ResourceSet, Resource } from '../../models/dataContract.model';
 
 import { ResourceService } from '../../services/resource.service';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-search',
@@ -21,7 +22,11 @@ export class SearchComponent implements OnInit {
     return this.resourceListRef.nativeElement.contains(target);
   }
 
-  constructor(private resource: ResourceService, private router: Router) {}
+  constructor(
+    private resource: ResourceService,
+    private router: Router,
+    private config: ConfigService
+  ) {}
 
   ngOnInit() {}
 
@@ -63,6 +68,6 @@ export class SearchComponent implements OnInit {
           this.router.navigate([`/app/user/${value.ObjectID}`]);
         }
       }
-    }, 100);
+    }, this.config.getConfig('intervalTiny', 100));
   }
 }

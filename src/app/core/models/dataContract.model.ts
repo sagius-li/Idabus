@@ -31,6 +31,12 @@ export class BasicResource {
   public DisplayName: string;
   public ObjectID: string;
   public ObjectType: string;
+
+  public constructor(resource: BasicResource | Resource) {
+    this.DisplayName = resource.DisplayName;
+    this.ObjectID = resource.ObjectID;
+    this.ObjectType = resource.ObjectType;
+  }
 }
 
 export class AttributeResource {

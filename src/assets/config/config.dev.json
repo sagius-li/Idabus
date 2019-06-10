@@ -70,5 +70,10 @@
       "icon": "settings",
       "enabled": true
     }
-  ]
+  ],
+  "intervalTiny": 100,
+  "intervalSmall": 300,
+  "intervalMiddle": 500,
+  "intervalLarge": 1000,
+  "intervalUltra": 2000
 }

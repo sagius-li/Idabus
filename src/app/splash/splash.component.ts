@@ -28,7 +28,7 @@ export class SplashComponent implements OnInit, OnDestroy {
     if (this.resource.isLoaded) {
       obs = this.resource.getCurrentUser().pipe(
         switchMap(() => {
-          return this.route.queryParams.pipe(delay(2000));
+          return this.route.queryParams;
         })
       );
     } else {
@@ -37,7 +37,10 @@ export class SplashComponent implements OnInit, OnDestroy {
           return this.resource.getCurrentUser();
         }),
         switchMap(() => {
-          return this.route.queryParams.pipe(delay(2000));
+          return this.resource.getUserConfig();
+        }),
+        switchMap(() => {
+          return this.route.queryParams;
         })
       );
     }
