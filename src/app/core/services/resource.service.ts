@@ -60,6 +60,10 @@ export class ResourceService {
   get isLoaded() {
     return this.loaded;
   }
+  private configured = false;
+  get isConfigured() {
+    return this.configured;
+  }
   private connection = '';
   get accessConnection() {
     return this.connection;
@@ -338,11 +342,11 @@ export class ResourceService {
             .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetAdminViewSets })
             .pipe(
               tap((data: ResourceSet) => {
-                this.uiSets = data.results.map(item => new BasicResource(item));
+                this.adminUiSets = data.results.map(item => new BasicResource(item));
               })
             );
         }),
-        // get primary view set
+        // get standard view set
         switchMap(() => {
           const queryGetStandardViewSet = `/Set[ocgObjectType='uibase']`;
           const paramsGetStandardViewSet: HttpParams = new HttpParams({
@@ -382,6 +386,7 @@ export class ResourceService {
                 } else {
                   this.primaryUiSetting = this.standardUiSetting;
                 }
+                this.configured = true;
               })
             );
         })

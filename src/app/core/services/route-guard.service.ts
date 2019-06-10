@@ -20,7 +20,7 @@ export class RouteGuardService implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    if (this.resource.isLoaded) {
+    if (this.resource.isLoaded && this.resource.isConfigured) {
       return true;
     }
 
