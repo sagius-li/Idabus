@@ -1,0 +1,41 @@
+.setting-header {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.setting-card {
+  width: 100%;
+}
+
+.profile-avatar {
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-avatar-image {
+  height: 85px;
+  width: 85px;
+}
+
+.profile-avatar-initial {
+  color: white;
+  background-color: #8d6e5d;
+  font-size: 50px;
+  text-align: center;
+  vertical-align: middle;
+  height: 85px;
+  width: 85px;
+  line-height: 85px;
+  display: table-cell;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.profile-info {
+  font-size: 18px;
+}

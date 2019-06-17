@@ -3,7 +3,7 @@
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
   "startPath": "/app",
-  "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle", "ocgConfigurationXML"],
+  "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle"],
   "supportedLanguages": [
     {
       "code": ["en-US", "en"],

@@ -17,6 +17,7 @@ import { SplashComponent } from './splash/splash.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SplashComponent,
     SidebarComponent,
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -84,9 +84,20 @@ export class ResourceService {
   get adminViewSets() {
     return this.adminUiSets;
   }
+  private standardUiSet: BasicResource = null;
+  get standardViewSet() {
+    return this.standardUiSet;
+  }
   private primaryUiSet: BasicResource = null;
   get primaryViewSet() {
     return this.primaryUiSet;
+  }
+  private customUiSetting: any;
+  get customViewSetting() {
+    return this.customUiSetting;
+  }
+  set customViewSetting(value: any) {
+    this.customUiSetting = value;
   }
   private standardUiSetting: any;
   get standardViewSetting() {
@@ -291,6 +302,11 @@ export class ResourceService {
     );
   }
 
+  /**
+   * get the available standard, primary and admin ui settings
+   * requires ocgAdminViewSetRefs and ocgPrimaryViewSetRef attribute on User object
+   * and ocgConfigurationXML on Set object
+   */
   public getUserConfig(): Observable<ResourceSet> {
     const urlSearchResource = this.utils.buildDataServiceUrl(
       this.baseUrl,
@@ -366,6 +382,7 @@ export class ResourceService {
             .pipe(
               tap((data: ResourceSet) => {
                 if (data.totalCount > 0) {
+                  this.standardUiSet = new BasicResource(data.results[0]);
                   this.standardUiSetting = data.results[0].ocgConfigurationXML;
                 }
               })
@@ -386,10 +403,11 @@ export class ResourceService {
             .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetPrimaryViewSet })
             .pipe(
               tap((data: ResourceSet) => {
-                if (data.totalCount > 0) {
+                if (data.totalCount > 0 && data.results[0].ocgConfigurationXML) {
                   this.primaryUiSet = new BasicResource(data.results[0]);
                   this.primaryUiSetting = data.results[0].ocgConfigurationXML;
                 } else {
+                  this.primaryUiSet = this.standardUiSet;
                   this.primaryUiSetting = this.standardUiSetting;
                 }
                 this.configured = true;
@@ -399,6 +417,11 @@ export class ResourceService {
       );
   }
 
+  /**
+   * get current login user with attributes defined in config.json
+   * requires ocgConfigurationXML attribute on User object
+   * @param isAuth if set to true, only minimal attributes will be loaded to authenticate the user
+   */
   public getCurrentUser(isAuth = false): Observable<Resource> {
     if (this.connection) {
       // using basic authentication
@@ -410,6 +433,9 @@ export class ResourceService {
       );
       if (!this.connectedUser.name) {
         return throwError(new Error('invalid connection'));
+      }
+      if (!this.loginUserAttributes.includes('ocgConfigurationXML')) {
+        this.loginUserAttributes.push('ocgConfigurationXML');
       }
       const params: HttpParams = new HttpParams({
         fromObject: {
@@ -440,6 +466,7 @@ export class ResourceService {
       return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
         tap((user: Resource) => {
           this.user = user;
+          this.customUiSetting = user.ocgConfigurationXML;
         })
       );
     }

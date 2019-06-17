@@ -37,14 +37,17 @@ export class SplashComponent implements OnInit, OnDestroy {
     } else {
       obs = this.resource.load(this.resource.accessConnection).pipe(
         switchMap(() => {
-          return this.resource.getCurrentUser();
+          return this.resource.getCurrentUser().pipe(
+            tap(() => {
+              this.resource.customViewSetting = this.com.parseComponentConfig(
+                this.resource.customViewSetting
+              );
+            })
+          );
         }),
         switchMap(() => {
           return this.resource.getUserConfig().pipe(
             tap(() => {
-              this.resource.standardViewSetting = this.com.parseComponentConfig(
-                this.resource.standardViewSetting
-              );
               this.resource.primaryViewSetting = this.com.parseComponentConfig(
                 this.resource.primaryViewSetting
               );

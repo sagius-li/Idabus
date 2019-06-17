@@ -28,6 +28,10 @@ export class ComponentIndexService {
    * @param config Widget configuration in string format
    */
   public parseComponentConfig(config: string) {
+    if (!config) {
+      return null;
+    }
+
     const obj = JSON.parse(config, (key, value) => {
       if (key === 'componentType') {
         return this.componentIndex[value];
