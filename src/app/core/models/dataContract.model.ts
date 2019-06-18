@@ -11,6 +11,11 @@ export class SidebarItem {
   enabled: boolean;
 }
 
+export class BroadcastEvent {
+  name: string;
+  parameter: any;
+}
+
 export class AuthUser {
   DisplayName?: string;
   ObjectID?: string;

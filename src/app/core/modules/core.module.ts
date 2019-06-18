@@ -32,6 +32,7 @@ import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -114,7 +115,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExcelModule,
     ChartsModule,
     DropDownsModule,
-    PopupModule
+    PopupModule,
+    UploadModule
   ],
   entryComponents: [
     StateCardComponent,
@@ -168,6 +170,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ChartsModule,
     DropDownsModule,
     PopupModule,
+    UploadModule,
 
     ExtraValuePipe,
     ExamValuePipe,

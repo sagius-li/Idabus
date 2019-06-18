@@ -40,6 +40,7 @@
     "@progress/kendo-angular-l10n": "^1.1.0",
     "@progress/kendo-angular-layout": "^3.3.0",
     "@progress/kendo-angular-popup": "^2.0.0",
+    "@progress/kendo-angular-upload": "^4.3.2",
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.1.2",
     "@progress/kendo-theme-default": "latest",

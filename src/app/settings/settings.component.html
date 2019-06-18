@@ -1,33 +1,55 @@
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
   <div fxFlex="auto" class="setting-header">{{ 'l10n_userSettings' | translate }}</div>
-  <mat-card fxFlex="auto" class="setting-card">
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
-        <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-          <div fxFlex="none" class="profile-avatar">
-            <img
-              *ngIf="attrPhoto"
-              [src]="'data:image/png;base64,' + attrPhoto"
-              class="profile-avatar-image"
-            />
-            <div *ngIf="!attrPhoto" class="profile-avatar-initial">
-              {{ brandLetter | uppercase }}
+  <div fxFlex="auto" class="setting-card">
+    <mat-card>
+      <mat-card-content ngxUiLoaderBlurred blur="1" [loaderId]="loaderUserSettings">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+          <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="none" class="profile-avatar">
+              <img
+                *ngIf="attrPhoto"
+                [src]="'data:image/png;base64,' + attrPhoto"
+                class="profile-avatar-image"
+              />
+              <div *ngIf="!attrPhoto" class="profile-avatar-initial">
+                {{ brandLetter | uppercase }}
+              </div>
             </div>
-          </div>
-          <div fxFlex="auto" fxLayout="column" fxLayoutGap="10px">
-            <div fxFlex="none" *ngIf="loginUser | examValue: 'DisplayName'" class="profile-name">
-              {{ loginUser | extraValue: 'DisplayName' }}
+            <div fxFlex="auto" fxLayout="column" fxLayoutGap="10px" style="margin-left: 20px;">
+              <div fxFlex="none" *ngIf="loginUser | examValue: 'DisplayName'" class="profile-name">
+                {{ loginUser | extraValue: 'DisplayName' }}
+              </div>
+              <div fxFlex="none" *ngIf="loginUser | examValue: 'JobTitle'" class="profile-info">
+                {{ loginUser | extraValue: 'JobTitle' }}
+              </div>
             </div>
-            <div fxFlex="none" *ngIf="loginUser | examValue: 'JobTitle'" class="profile-info">
-              {{ loginUser | extraValue: 'JobTitle' }}
+            <div fxFlex="auto" style="margin-left: 50px;">
+              <kendo-upload
+                [saveUrl]="'uploadSaveUrl'"
+                [multiple]="false"
+                [showFileList]="false"
+                (select)="onPhotoSelected($event)"
+              >
+                <kendo-upload-messages
+                  select="{{ 'l10n_changePhoto' | translate }}"
+                ></kendo-upload-messages>
+              </kendo-upload>
             </div>
           </div>
         </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
-    </mat-card-actions>
-  </mat-card>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+    <ngx-ui-loader
+      [loaderId]="loaderUserSettings"
+      [fgsType]="spinnerType.rectangleBounce"
+      [fgsSize]="40"
+      [fgsColor]="'white'"
+      [overlayColor]="'rgba(50,50,50,.5)'"
+      [pbColor]="'white'"
+    ></ngx-ui-loader>
+  </div>
 </div>

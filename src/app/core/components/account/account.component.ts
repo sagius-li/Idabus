@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
-import { Resource, AttributeResource } from '../../models/dataContract.model';
+import { Resource, BroadcastEvent } from '../../models/dataContract.model';
 
 import { ResourceService } from '../../services/resource.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
+import { SwapService } from '../../services/swap.service';
 
 @Component({
   selector: 'app-account',
@@ -21,7 +22,7 @@ export class AccountComponent implements OnInit {
   showMenu = false;
   loginUser: Resource;
   brandLetter = '';
-  attrPhoto: AttributeResource;
+  attrPhoto: string;
   currentLanguage = '';
 
   private contains(target: any): boolean {
@@ -32,9 +33,10 @@ export class AccountComponent implements OnInit {
   }
 
   constructor(
-    private resource: ResourceService,
+    public resource: ResourceService,
     private translate: TranslateService,
-    private auth: AuthService
+    private auth: AuthService,
+    private swap: SwapService
   ) {}
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -52,6 +54,16 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
+      if (event.name === 'refresh-avatar') {
+        this.loginUser = this.resource.loginUser;
+        this.brandLetter = this.loginUser.DisplayName
+          ? this.loginUser.DisplayName.substr(0, 1)
+          : '-';
+        this.attrPhoto = this.loginUser.Photo;
+      }
+    });
+
     this.currentLanguage = this.translate.currentLang;
     this.loginUser = this.resource.loginUser;
     if (this.loginUser) {

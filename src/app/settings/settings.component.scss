@@ -1,3 +1,7 @@
+::ng-deep .k-upload-status-total {
+  display: none !important;
+}
+
 .setting-header {
   font-size: 18px;
   font-weight: 400;
@@ -5,6 +9,7 @@
 
 .setting-card {
   width: 100%;
+  position: relative;
 }
 
 .profile-avatar {

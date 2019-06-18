@@ -1,5 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 
+import { BroadcastEvent } from '../models/dataContract.model';
+
 /**
  * Service used to communicate between components
  */
@@ -15,6 +17,9 @@ export class SwapService {
   @Output()
   editorValueChanged: EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  broadcasted: EventEmitter<BroadcastEvent> = new EventEmitter();
+
   /** @ignore */
   constructor() {}
 
@@ -29,6 +34,14 @@ export class SwapService {
   /** Emit the event for editor value changed */
   changeEditorValue(config: any) {
     this.editorValueChanged.emit(config);
+  }
+
+  /**
+   * Common broadcast event
+   * @param event Broadcast event
+   */
+  broadcast(event: BroadcastEvent) {
+    this.broadcasted.emit(event);
   }
 
   /**
