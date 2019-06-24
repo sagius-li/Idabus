@@ -6,6 +6,18 @@
   "l10n_newItems": "Neue Objekte",
   "l10n_notifications": "Notifikationen",
   "l10n_settings": "Einstellungen",
-  "l10n_userSettings": "Benutzer Einstellungen",
-  "l10n_changePhoto": "Foto ändern"
+  "l10n_userSettings": "Benutzer-Einstellungen",
+  "l10n_changePhoto": "Foto ändern",
+  "l10n_sideMenu": "Seitenmenü",
+  "l10n_sideMenuExpanded": "erweitert",
+  "l10n_sideMenuCollapsed": "minimiet",
+  "l10n_advancedSearch": "Erweiterte Suche",
+  "l10n_allowed": "erlaubt",
+  "l10n_forbidden": "verboten",
+  "l10n_uiGroups": "UI Gruppen",
+  "l10n_primaryUiGroup": "Haupte UI-Gruppe",
+  "l10n_availableUiGroup": "Verfügbare UI-Groupen",
+  "l10n_selectUiGroup": "UI-Gruppe wählen",
+  "l10n_hasAdminRight": "Sie können diese UI Gruppe konfigurieren",
+  "l10n_hasNoAdminRight": "Sie haben keine Recht, diese UI Gruppe zu konfigurieren"
 }

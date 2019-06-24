@@ -5,6 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { ConfigService } from '../core/services/config.service';
+import { TransService } from '../core/models/translation.model';
 import { ResourceService } from '../core/services/resource.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 
@@ -20,6 +21,7 @@ export class SplashComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private config: ConfigService,
+    private translate: TransService,
     private resource: ResourceService,
     private com: ComponentIndexService
   ) {}
@@ -42,6 +44,7 @@ export class SplashComponent implements OnInit, OnDestroy {
               this.resource.customViewSetting = this.com.parseComponentConfig(
                 this.resource.customViewSetting
               );
+              this.translate.use(this.resource.customViewSetting.language);
             })
           );
         }),

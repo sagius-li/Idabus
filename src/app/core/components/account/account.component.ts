@@ -55,12 +55,19 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
-      if (event.name === 'refresh-avatar') {
-        this.loginUser = this.resource.loginUser;
-        this.brandLetter = this.loginUser.DisplayName
-          ? this.loginUser.DisplayName.substr(0, 1)
-          : '-';
-        this.attrPhoto = this.loginUser.Photo;
+      switch (event.name) {
+        case 'refresh-avatar':
+          this.loginUser = this.resource.loginUser;
+          this.brandLetter = this.loginUser.DisplayName
+            ? this.loginUser.DisplayName.substr(0, 1)
+            : '-';
+          this.attrPhoto = this.loginUser.Photo;
+          break;
+        case 'refresh-language':
+          this.currentLanguage = event.parameter;
+          break;
+        default:
+          break;
       }
     });
 

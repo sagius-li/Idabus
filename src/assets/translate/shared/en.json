@@ -6,6 +6,18 @@
   "l10n_newItems": "New Items",
   "l10n_notifications": "Notifications",
   "l10n_settings": "Settings",
-  "l10n_userSettings": "User Settings",
-  "l10n_changePhoto": "Change Photo"
+  "l10n_userSettings": "Personal Settings",
+  "l10n_changePhoto": "Change Photo",
+  "l10n_sideMenu": "Side Menu",
+  "l10n_sideMenuExpanded": "expanded",
+  "l10n_sideMenuCollapsed": "collapsed",
+  "l10n_advancedSearch": "Advanced search",
+  "l10n_allowed": "allowed",
+  "l10n_forbidden": "forbidden",
+  "l10n_uiGroups": "UI Groups",
+  "l10n_primaryUiGroup": "Primary UI Group",
+  "l10n_availableUiGroup": "Available UI Groups",
+  "l10n_selectUiGroup": "Select UI Group",
+  "l10n_hasAdminRight": "You can configure this UI group",
+  "l10n_hasNoAdminRight": "You have no right to configure this UI group"
 }

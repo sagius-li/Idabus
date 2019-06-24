@@ -1,3 +1,6 @@
+::ng-deep .k-upload {
+  border-width: 0 !important;
+}
 ::ng-deep .k-upload-status-total {
   display: none !important;
 }
@@ -43,4 +46,36 @@
 
 .profile-info {
   font-size: 18px;
+}
+
+.outer-country {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.outer-country:not(:first-child) {
+  margin-left: 20px;
+}
+
+.outer-country:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.inner-country {
+  height: 30px;
+  width: 30px;
+  vertical-align: middle;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #ccc;
+}
+
+.slider-text {
+  margin-left: 10px;
+  font-size: 14px;
+  width: 80px;
 }

@@ -92,7 +92,10 @@ export class ResourceService {
   get primaryViewSet() {
     return this.primaryUiSet;
   }
-  private customUiSetting: any;
+  set primaryViewSet(value: any) {
+    this.primaryUiSet = value;
+  }
+  private customUiSetting: any = `{ "language": "en" }`;
   get customViewSetting() {
     return this.customUiSetting;
   }
@@ -351,7 +354,7 @@ export class ResourceService {
         }),
         // get admin view sets
         switchMap(() => {
-          const queryGetAdminViewSets = `/Set[ocgObjectType='ui' and ObjectID=/Person[ObjectID='${
+          const queryGetAdminViewSets = `/Set[starts-with(ocgObjectType,'ui') and ObjectID=/Person[ObjectID='${
             this.loginUser.ObjectID
           }']/ocgAdminViewSetRefs]`;
           const paramsGetAdminViewSets: HttpParams = new HttpParams({
@@ -447,6 +450,9 @@ export class ResourceService {
       return this.http.get(urlGetPortalUser, { headers, params }).pipe(
         tap((user: Resource) => {
           this.user = user;
+          if (user.ocgConfigurationXML) {
+            this.customUiSetting = user.ocgConfigurationXML;
+          }
         })
       );
     } else {
@@ -457,6 +463,9 @@ export class ResourceService {
         'winuser',
         this.serviceType
       );
+      if (!this.loginUserAttributes.includes('ocgConfigurationXML')) {
+        this.loginUserAttributes.push('ocgConfigurationXML');
+      }
       const params: HttpParams = new HttpParams({
         fromObject: {
           attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
@@ -466,7 +475,9 @@ export class ResourceService {
       return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
         tap((user: Resource) => {
           this.user = user;
-          this.customUiSetting = user.ocgConfigurationXML;
+          if (user.ocgConfigurationXML) {
+            this.customUiSetting = user.ocgConfigurationXML;
+          }
         })
       );
     }

@@ -1,11 +1,12 @@
 <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+  <!-- personal settings -->
   <div fxFlex="auto" class="setting-header">{{ 'l10n_userSettings' | translate }}</div>
   <div fxFlex="auto" class="setting-card">
     <mat-card>
       <mat-card-content ngxUiLoaderBlurred blur="1" [loaderId]="loaderUserSettings">
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
-          <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center">
-            <div fxFlex="none" class="profile-avatar">
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <div fxFlex="85px" class="profile-avatar">
               <img
                 *ngIf="attrPhoto"
                 [src]="'data:image/png;base64,' + attrPhoto"
@@ -35,16 +36,153 @@
                 ></kendo-upload-messages>
               </kendo-upload>
             </div>
+            <div fxFlex="auto" style="margin-left: 20px;">
+              <button mat-stroked-button color="warn" (click)="onPhotoDeleted()">
+                {{ 'key_delete' | translate | uppercase }}
+              </button>
+            </div>
+          </div>
+          <div fxFlex="auto">
+            <mat-divider></mat-divider>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <div fxFlex="85px" class="profile-info">{{ 'key_language' | translate }}</div>
+            <div fxFlex="auto" style="margin-left: 20px;">
+              <div fxLayout="row" fxLayoutGap="30px;">
+                <div class="outer-country" [ngClass]="currentLanguage === 'en' ? 'active' : ''">
+                  <img
+                    src="../../../../assets/img/united-states.png"
+                    class="inner-country"
+                    (click)="onLanguageChanged('en')"
+                  />
+                </div>
+                <div class="outer-country" [ngClass]="currentLanguage === 'de' ? 'active' : ''">
+                  <img
+                    src="../../../../assets/img/germany.png"
+                    class="inner-country"
+                    (click)="onLanguageChanged('de')"
+                  />
+                </div>
+                <div class="outer-country" [ngClass]="currentLanguage === 'cn' ? 'active' : ''">
+                  <img
+                    src="../../../../assets/img/china.png"
+                    class="inner-country"
+                    (click)="onLanguageChanged('cn')"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div fxFlex="auto">
+            <mat-divider></mat-divider>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <div fxFlex="85px" class="profile-info">{{ 'l10n_sideMenu' | translate }}</div>
+            <div fxFlex="none" style="margin-left: 20px;">
+              <mat-slide-toggle [(ngModel)]="sideMenuExpanded">
+                <div class="slider-text">
+                  {{
+                    sideMenuExpanded
+                      ? ('l10n_sideMenuExpanded' | translate)
+                      : ('l10n_sideMenuCollapsed' | translate)
+                  }}
+                </div>
+              </mat-slide-toggle>
+            </div>
+            <div fxFlex="60px"></div>
+            <div fxFlex="150px" class="profile-info">
+              {{ 'l10n_advancedSearch' | translate }}
+            </div>
+            <div fxFlex="none" style="margin-left: 20px;">
+              <mat-slide-toggle [(ngModel)]="advancedSearchAllowed">
+                <div class="slider-text">
+                  {{
+                    advancedSearchAllowed
+                      ? ('l10n_allowed' | translate)
+                      : ('l10n_forbidden' | translate)
+                  }}
+                </div>
+              </mat-slide-toggle>
+            </div>
           </div>
         </div>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
     </mat-card>
     <ngx-ui-loader
       [loaderId]="loaderUserSettings"
+      [fgsType]="spinnerType.rectangleBounce"
+      [fgsSize]="40"
+      [fgsColor]="'white'"
+      [overlayColor]="'rgba(50,50,50,.5)'"
+      [pbColor]="'white'"
+    ></ngx-ui-loader>
+  </div>
+  <!-- ui groups -->
+  <div fxFlex="auto" class="setting-header">{{ 'l10n_uiGroups' | translate }}</div>
+  <div fxFlex="auto" class="setting-card">
+    <mat-card>
+      <mat-card-content ngxUiLoaderBlurred blur="1" [loaderId]="loaderUserSettings">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <div fxFlex="200px" class="profile-info">{{ 'l10n_primaryUiGroup' | translate }}</div>
+            <div fxFlex="auto" class="profile-info">
+              {{ primaryViewSet | extraValue: 'DisplayName' }}
+            </div>
+            <div fxFlex="auto" [ngStyle]="{ color: colorAdminRightSet }" style="margin-left: 20px;">
+              {{ textAdminRightSet | translate }}
+            </div>
+          </div>
+          <div fxFlex="auto">
+            <mat-divider></mat-divider>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <div fxFlex="200px" class="profile-info">{{ 'l10n_availableUiGroup' | translate }}</div>
+            <div fxFlex="auto" style="width: 200px;">
+              <mat-form-field>
+                <mat-label>{{ 'l10n_selectUiGroup' | translate }}</mat-label>
+                <mat-select
+                  [(value)]="selectedViewSetID"
+                  (selectionChange)="onUiGroupSelectionChanged()"
+                  style="font-size: 16px;"
+                >
+                  <mat-option>--</mat-option>
+                  <mat-option
+                    *ngFor="let group of availableViewSets"
+                    [value]="group.ObjectID"
+                    [disabled]="group.ObjectID === primaryViewSet.ObjectID"
+                  >
+                    {{ group.DisplayName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div
+              fxFlex="auto"
+              *ngIf="selectedViewSetID"
+              [ngStyle]="{ color: colorCurrentRightSet }"
+              style="margin-left: 20px;"
+            >
+              {{ textCurrentRightSet | translate }}
+            </div>
+          </div>
+          <div fxFlex="auto">
+            <mat-divider></mat-divider>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <button
+              mat-stroked-button
+              [disabled]="!selectedViewSetID"
+              (click)="onApplyUiGroup()"
+              color="primary"
+            >
+              {{ 'key_apply' | translate }}
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <ngx-ui-loader
+      [loaderId]="loaderUiGroups"
       [fgsType]="spinnerType.rectangleBounce"
       [fgsSize]="40"
       [fgsColor]="'white'"
