@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ResourcesComponent } from './resources/resources.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
@@ -40,6 +41,10 @@ const routes: Routes = [
       {
         path: 'home',
         component: DashboardComponent
+      },
+      {
+        path: 'resources',
+        component: ResourcesComponent
       },
       {
         path: 'settings',

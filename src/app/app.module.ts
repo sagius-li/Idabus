@@ -19,6 +19,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ResourcesComponent } from './resources/resources.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SettingsComponent } from './settings/settings.component';
     SidebarComponent,
     HomeComponent,
     DashboardComponent,
-    SettingsComponent
+    SettingsComponent,
+    ResourcesComponent
   ],
   imports: [
     BrowserModule,

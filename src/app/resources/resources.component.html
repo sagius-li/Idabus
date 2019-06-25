@@ -1,0 +1,20 @@
+<div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+  <div fxFlex="auto" class="setting-header">{{ 'l10n_managedResources' | translate }}</div>
+  <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start start">
+    <div *ngFor="let action of managedResources" fxFlex="none">
+      <app-action-card [config]="action"></app-action-card>
+    </div>
+  </div>
+  <div fxFlex="auto" class="setting-header">{{ 'l10n_configurationResources' | translate }}</div>
+  <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start start">
+    <div *ngFor="let action of configurationResources" fxFlex="none">
+      <app-action-card [config]="action"></app-action-card>
+    </div>
+  </div>
+  <div fxFlex="auto" class="setting-header">{{ 'l10n_schemaResources' | translate }}</div>
+  <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start start">
+    <div *ngFor="let action of schemaResources" fxFlex="none">
+      <app-action-card [config]="action"></app-action-card>
+    </div>
+  </div>
+</div>

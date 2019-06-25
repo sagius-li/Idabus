@@ -3,9 +3,18 @@
     <mat-card-content class="full-height">
       <div class="full-height" fxLayout="row wrap" fxLayoutAlign="start stretch">
         <div class="mouse-link" fxFlex="80px" (click)="onPrimaryAction()">
-          <mat-icon style="font-size: 52px;" [style.color]="localConfig.primaryIconColor">
+          <mat-icon
+            *ngIf="!localConfig.primaryImage"
+            style="font-size: 52px;"
+            [style.color]="localConfig.primaryIconColor"
+          >
             {{ localConfig.primaryIcon }}</mat-icon
           >
+          <img
+            *ngIf="localConfig.primaryImage"
+            [src]="'../../../../assets/img/' + localConfig.primaryImage"
+            style="width: 45px;"
+          />
         </div>
         <div fxFlex="auto" fxLayout="column" [style.width.px]="localConfig.textWidth">
           <div

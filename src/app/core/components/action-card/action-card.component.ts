@@ -45,6 +45,7 @@ export class ActionCardComponent implements OnInit, DynamicComponent {
       primaryAction: 'primary-action',
       primaryIcon: 'public',
       primaryIconColor: 'darkseagreen',
+      primaryImage: undefined,
       secondaryAction: 'secondary-action',
       secondaryIcon: 'add_to_queue',
       secondaryIconColor: 'darkgray',

@@ -120,6 +120,7 @@ export class ActionCardConfig implements ComponentConfig {
   actionSets: string[] = undefined;
   primaryIcon?: string = undefined;
   primaryIconColor?: string = undefined;
+  primaryImage?: string = undefined;
   secondaryIcon?: string = undefined;
   secondaryIconColor?: string = undefined;
   backgroundColor?: string = undefined;
