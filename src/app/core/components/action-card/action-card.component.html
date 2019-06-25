@@ -1,0 +1,49 @@
+<div *ngIf="displayComponent" class="full-size-relative" style="padding: 10px;">
+  <mat-card class="full-height" [style.backgroundColor]="localConfig.backgroundColor">
+    <mat-card-content class="full-height">
+      <div class="full-height" fxLayout="row wrap" fxLayoutAlign="start stretch">
+        <div class="mouse-link" fxFlex="80px" (click)="onPrimaryAction()">
+          <mat-icon style="font-size: 52px;" [style.color]="localConfig.primaryIconColor">
+            {{ localConfig.primaryIcon }}</mat-icon
+          >
+        </div>
+        <div fxFlex="auto" fxLayout="column" [style.width.px]="localConfig.textWidth">
+          <div
+            fxFlex="none"
+            [style.color]="localConfig.titleColor"
+            [style.margin-top.px]="localConfig.description ? 0 : 12"
+            style="font-size: 20px; font-weight: bolder;"
+          >
+            {{ localConfig.title | translate }}
+          </div>
+          <div fxFlex="none" [style.color]="localConfig.descriptionColor" style="margin-top: 10px;">
+            {{ localConfig.description | translate }}
+          </div>
+        </div>
+        <div
+          *ngIf="displayAction"
+          fxFlex="none"
+          style="margin: 10px; border-left: solid 1px lightgray;"
+        ></div>
+        <div
+          *ngIf="displayAction"
+          fxFlex="60px"
+          class="mouse-link"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+        >
+          <!-- <mat-icon style="font-size: 32px;" [style.color]="localConfig.secondaryIconColor">
+            {{ localConfig.secondaryIcon }}</mat-icon
+          > -->
+          <button mat-icon-button (click)="onSecondaryAction()">
+            <mat-icon
+              style="font-size: 32px; margin-left: -8px;"
+              [style.color]="localConfig.secondaryIconColor"
+              >{{ localConfig.secondaryIcon }}</mat-icon
+            >
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

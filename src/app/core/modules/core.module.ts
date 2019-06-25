@@ -55,6 +55,7 @@ import { AccountComponent } from '../components/account/account.component';
 
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
+import { ActionCardComponent } from '../components/action-card/action-card.component';
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 import { ResourceTableConfigComponent } from '../components/resource-table/resource-table-config.component';
 import { ResourceChartComponent } from '../components/resource-chart/resource-chart.component';
@@ -74,6 +75,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
 
     StateCardComponent,
     StateCardConfigComponent,
+    ActionCardComponent,
     ResourceTableComponent,
     ResourceTableConfigComponent,
     ResourceChartComponent,
@@ -184,6 +186,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
 
     StateCardComponent,
     StateCardConfigComponent,
+    ActionCardComponent,
     ResourceTableComponent,
     ResourceTableConfigComponent,
     ResourceChartComponent,

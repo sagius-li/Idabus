@@ -111,3 +111,29 @@ export class StateCardConfig implements ComponentConfig {
 }
 
 // #endregion
+
+// #region action-card
+
+export class ActionCardConfig implements ComponentConfig {
+  name = 'action-card';
+  permissionSets = undefined;
+  actionSets: string[] = undefined;
+  primaryIcon?: string = undefined;
+  primaryIconColor?: string = undefined;
+  secondaryIcon?: string = undefined;
+  secondaryIconColor?: string = undefined;
+  backgroundColor?: string = undefined;
+  title?: string = undefined;
+  titleColor?: string = undefined;
+  description?: string = undefined;
+  descriptionColor?: string = undefined;
+  primaryAction?: string = undefined;
+  secondaryAction?: string = undefined;
+  textWidth?: number = undefined;
+
+  public constructor(init?: Partial<ActionCardConfig>) {
+    Object.assign(this, init);
+  }
+}
+
+// #endregion
