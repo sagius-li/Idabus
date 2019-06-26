@@ -47,5 +47,7 @@
   "l10n_mprDes": "Automatisierungs-Regeln",
   "l10n_setDes": "Objekte Sammlung",
   "l10n_wfDes": "Aktivitäten Aufbau",
-  "l10n_configDes": "Portal Konfigurationen"
+  "l10n_configDes": "Portal Konfigurationen",
+  "l10n_editPage": "Seite editieren",
+  "l10n_exitEdit": "Editieren beenden"
 }

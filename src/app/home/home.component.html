@@ -7,8 +7,37 @@
     <div class="topbar" fxFlex="0 0 60px">
       <div fxLayout="row" fxLayoutAlign="start center" style="padding: 10px 20px;">
         <app-search fxFlex="auto"></app-search>
-        <div fxFlex="auto"></div>
-        <app-account fxFlex="none" style="margin-left: 50px;"></app-account>
+        <div fxFlex="none" style="margin-left: 20px;">
+          <button
+            *ngIf="!editMode"
+            mat-icon-button
+            [disabled]="!adminMode"
+            (click)="onEnterEditMode()"
+            matTooltip="{{ 'l10n_editPage' | translate }}"
+          >
+            <fa-icon
+              icon="edit"
+              size="lg"
+              [fixedWidth]="true"
+              [style.color]="adminMode ? 'slategray' : 'lightgray'"
+            ></fa-icon>
+          </button>
+          <button
+            *ngIf="editMode"
+            mat-icon-button
+            [disabled]="!adminMode"
+            (click)="onExitEditMode()"
+            matTooltip="{{ 'l10n_exitEdit' | translate }}"
+          >
+            <fa-icon
+              icon="sign-out-alt"
+              size="lg"
+              [fixedWidth]="true"
+              [style.color]="adminMode ? 'slategray' : 'lightgray'"
+            ></fa-icon>
+          </button>
+        </div>
+        <app-account fxFlex="none" style="margin-left: 20px;"></app-account>
       </div>
     </div>
     <div class="main" fxFlex="1 1 auto">

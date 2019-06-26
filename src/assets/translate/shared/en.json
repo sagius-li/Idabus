@@ -47,5 +47,7 @@
   "l10n_mprDes": "automation rules",
   "l10n_setDes": "object collections",
   "l10n_wfDes": "orchestrated activities",
-  "l10n_configDes": "portal configuration"
+  "l10n_configDes": "portal configuration",
+  "l10n_editPage": "edit page",
+  "l10n_exitEdit": "exit edition"
 }

@@ -17,8 +17,18 @@ export class SwapService {
   @Output()
   editorValueChanged: EventEmitter<any> = new EventEmitter();
 
+  /** Broadcase event */
   @Output()
   broadcasted: EventEmitter<BroadcastEvent> = new EventEmitter();
+
+  /** Indicate global page edit mode */
+  isEditMode = false;
+  get editMode() {
+    return this.isEditMode;
+  }
+  set editMode(value: boolean) {
+    this.isEditMode = value;
+  }
 
   /** @ignore */
   constructor() {}

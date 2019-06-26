@@ -47,5 +47,7 @@
   "l10n_mprDes": "自动化规则",
   "l10n_setDes": "资源集合",
   "l10n_wfDes": "编写工作流",
-  "l10n_configDes": "网站管理"
+  "l10n_configDes": "网站管理",
+  "l10n_editPage": "编辑页面",
+  "l10n_exitEdit": "退出编辑"
 }

@@ -218,6 +218,7 @@ export class SettingsComponent implements OnInit {
           this.resource.primaryViewSet = selectedViewSet;
           this.resource.checkCurrentViewSet();
           this.initUiGroups();
+          this.swap.broadcast({ name: 'refresh-viewset', parameter: null });
           this.spinner.stopLoader(this.loaderUiGroups);
         },
         () => {
