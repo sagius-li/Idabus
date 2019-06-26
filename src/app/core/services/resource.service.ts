@@ -116,6 +116,10 @@ export class ResourceService {
   set primaryViewSetting(value: any) {
     this.primaryUiSetting = value;
   }
+  private isAdminUiSet = false;
+  get isAdminViewSet() {
+    return this.isAdminUiSet;
+  }
 
   private getConnectedUser() {
     const result = new ConnectedUser();
@@ -186,6 +190,17 @@ export class ResourceService {
             this.token = token;
           })
         );
+    }
+  }
+
+  public checkCurrentViewSet() {
+    if (this.adminUiSets && this.primaryUiSet) {
+      const found = this.adminUiSets.find(
+        s => s.ObjectID.toLowerCase() === this.primaryUiSet.ObjectID.toLowerCase()
+      );
+      this.isAdminUiSet = found ? true : false;
+    } else {
+      this.isAdminUiSet = false;
     }
   }
 
@@ -417,6 +432,7 @@ export class ResourceService {
                   this.primaryUiSet = this.standardUiSet;
                   this.primaryUiSetting = this.standardUiSetting;
                 }
+                this.checkCurrentViewSet();
                 this.configured = true;
               })
             );

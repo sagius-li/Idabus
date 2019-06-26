@@ -74,11 +74,7 @@ export class SettingsComponent implements OnInit {
       this.availableViewSets.unshift(this.resource.standardViewSet);
     }
 
-    if (
-      this.resource.adminViewSets.find(
-        s => s.DisplayName.toLowerCase() === this.primaryViewSet.DisplayName.toLowerCase()
-      )
-    ) {
+    if (this.resource.isAdminViewSet) {
       this.textAdminRightSet = 'l10n_hasAdminRight';
       this.colorAdminRightSet = 'seagreen';
     } else {
@@ -220,6 +216,7 @@ export class SettingsComponent implements OnInit {
       .subscribe(
         () => {
           this.resource.primaryViewSet = selectedViewSet;
+          this.resource.checkCurrentViewSet();
           this.initUiGroups();
           this.spinner.stopLoader(this.loaderUiGroups);
         },
