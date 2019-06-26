@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { faCompress, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { DragulaService } from 'ng2-dragula';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
@@ -17,9 +16,6 @@ import {
   styleUrls: ['./resource-chart-config.component.scss']
 })
 export class ResourceChartConfigComponent implements OnInit {
-  faCollapseAll = faCompress;
-  faExpendAll = faExpandArrowsAlt;
-
   isFormValid = true;
 
   constructor(

@@ -4,6 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faWindows } from '@fortawesome/free-brands-svg-icons';
+import {
+  faCloud,
+  faUserAlt,
+  faUserCircle,
+  faUnlockAlt,
+  faCompress,
+  faExpandArrowsAlt
+} from '@fortawesome/free-solid-svg-icons';
+
 import { DragulaModule } from 'ng2-dragula';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +48,7 @@ import { ResourcesComponent } from './resources/resources.component';
   imports: [
     BrowserModule,
     FormsModule,
+    FontAwesomeModule,
     DragulaModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -50,4 +63,16 @@ import { ResourcesComponent } from './resources/resources.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    library.add(
+      faWindows,
+      faCloud,
+      faUnlockAlt,
+      faUserAlt,
+      faUserCircle,
+      faCompress,
+      faExpandArrowsAlt
+    );
+  }
+}

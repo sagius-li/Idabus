@@ -134,13 +134,21 @@
                       <mat-option value="date">date</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <mat-slider fxFlex="auto" [max]="800" [min]="80" [step]="10"
-                    [thumbLabel]="true" [(ngModel)]="column.width">
+                  <mat-slider
+                    fxFlex="auto"
+                    [max]="800"
+                    [min]="80"
+                    [step]="10"
+                    [thumbLabel]="true"
+                    [(ngModel)]="column.width"
+                  >
                   </mat-slider>
                   <div fxFlex="auto">
-                    <mat-slide-toggle [(ngModel)]="column.locked" [disabled]="data.config.columns.length === 1">{{
-                      'key_locked' | translate
-                    }}</mat-slide-toggle>
+                    <mat-slide-toggle
+                      [(ngModel)]="column.locked"
+                      [disabled]="data.config.columns.length === 1"
+                      >{{ 'key_locked' | translate }}</mat-slide-toggle
+                    >
                   </div>
                 </div>
               </mat-card-content>
@@ -156,14 +164,14 @@
             </button>
             <button fxFlex mat-button (click)="onExpendAll()">
               <fa-icon
-                [icon]="faExpendAll"
+                icon="expand-arrows-alt"
                 style="margin-right: 10px; font-size: 12px; height: 18px;"
               ></fa-icon>
               {{ 'key_expendAll' | translate }}
             </button>
             <button fxFlex mat-button (click)="onCollapseAll()">
               <fa-icon
-                [icon]="faCollapseAll"
+                icon="compress"
                 style="margin-right: 10px; font-size: 14px; height: 18px;"
               ></fa-icon>
               {{ 'key_collapseAll' | translate }}

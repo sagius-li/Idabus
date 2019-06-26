@@ -31,11 +31,32 @@ export class SplashComponent implements OnInit, OnDestroy {
     let obs: Observable<Params>;
 
     if (this.resource.isLoaded) {
-      obs = this.resource.getCurrentUser().pipe(
-        switchMap(() => {
-          return this.route.queryParams;
-        })
-      );
+      obs = this.resource.isConfigured
+        ? this.resource.getCurrentUser().pipe(
+            switchMap(() => {
+              return this.route.queryParams;
+            })
+          )
+        : this.resource.getCurrentUser().pipe(
+            tap(() => {
+              this.resource.customViewSetting = this.com.parseComponentConfig(
+                this.resource.customViewSetting
+              );
+              this.translate.use(this.resource.customViewSetting.language);
+            }),
+            switchMap(() => {
+              return this.resource.getUserConfig().pipe(
+                tap(() => {
+                  this.resource.primaryViewSetting = this.com.parseComponentConfig(
+                    this.resource.primaryViewSetting
+                  );
+                })
+              );
+            }),
+            switchMap(() => {
+              return this.route.queryParams;
+            })
+          );
     } else {
       obs = this.resource.load(this.resource.accessConnection).pipe(
         switchMap(() => {

@@ -14,7 +14,7 @@
     <div fxFlex="auto" fxLayout="column" fxLayoutAlign="start center" class="login-icon">
       <div fxFlex="auto">
         <fa-icon
-          [icon]="faWindows"
+          [icon]="['fab', 'windows']"
           matTooltip="{{ 'key_windowsLogin' | translate }}"
           (click)="onWindowsLogin()"
         ></fa-icon>
@@ -26,7 +26,7 @@
     <div fxFlex="auto" fxLayout="column" fxLayoutAlign="start center" class="login-icon">
       <div fxFlex="auto">
         <fa-icon
-          [icon]="faUserAlt"
+          icon="user-alt"
           matTooltip="{{ 'key_basicLogin' | translate }}"
           (click)="onClassicLogin()"
         ></fa-icon>
@@ -37,7 +37,7 @@
     </div>
     <div fxFlex="auto" class="login-icon">
       <fa-icon
-        [icon]="faCloud"
+        icon="cloud"
         matTooltip="{{ 'key_azureLogin' | translate }}"
         (click)="onAzureLogin()"
       ></fa-icon>
@@ -46,7 +46,7 @@
   <div *ngIf="classicLogin === 'collapsed'" class="login-footer">{{ version }}</div>
   <div @loginForm *ngIf="classicLogin === 'expanded'" class="login-input" fxLayout="column">
     <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center">
-      <fa-icon fxFlex="0 0 auto" class="login-input-icon" [icon]="faUserCircle"></fa-icon>
+      <fa-icon fxFlex="0 0 auto" class="login-input-icon" icon="user-circle"></fa-icon>
       <mat-form-field fxFlex="auto">
         <input
           #txtUserName
@@ -58,7 +58,7 @@
       </mat-form-field>
     </div>
     <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center">
-      <fa-icon fxFlex="0 0 auto" class="login-input-icon" [icon]="faLock"></fa-icon>
+      <fa-icon fxFlex="0 0 auto" class="login-input-icon" icon="unlock-alt"></fa-icon>
       <mat-form-field fxFlex="auto">
         <input
           matInput

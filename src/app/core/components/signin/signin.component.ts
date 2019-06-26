@@ -11,9 +11,6 @@ import {
   query
 } from '@angular/animations';
 
-import { faWindows } from '@fortawesome/free-brands-svg-icons';
-import { faCloud, faUserAlt, faUserCircle, faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
-
 import { AuthMode } from '../../models/dataContract.model';
 
 import { AuthService } from '../../services/auth.service';
@@ -74,12 +71,6 @@ export class SigninComponent implements OnInit {
   flyIn = 'out';
   classicLogin = 'collapsed';
   loginForm = 'hide';
-
-  faWindows = faWindows;
-  faCloud = faCloud;
-  faUserAlt = faUserAlt;
-  faUserCircle = faUserCircle;
-  faLock = faUnlockAlt;
 
   userName: string;
   password: string;

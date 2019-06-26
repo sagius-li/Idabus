@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { faCompress, faExpandArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import { DragulaService } from 'ng2-dragula';
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
@@ -13,9 +12,6 @@ import { ResourceTableConfig, ResourceColumnConfig } from '../../models/componen
   styleUrls: ['./resource-table-config.component.scss']
 })
 export class ResourceTableConfigComponent implements OnInit {
-  faCollapseAll = faCompress;
-  faExpendAll = faExpandArrowsAlt;
-
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {

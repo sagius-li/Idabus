@@ -2,7 +2,7 @@
   "dataServiceUrl": "http://localhost:6768/api/",
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
-  "startPath": "/app",
+  "startPath": "/test",
   "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle"],
   "supportedLanguages": [
     {
