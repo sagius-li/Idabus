@@ -34,7 +34,7 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_ou',
-      description: 'l10n_ouDes',
+      description: '',
       primaryIcon: 'device_hub',
       primaryAction: 'ou-view',
       secondaryAction: 'ou-creation'
@@ -107,7 +107,7 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_emailTemp',
-      description: 'l10n_emailTempDes',
+      description: '',
       primaryIcon: 'email',
       primaryAction: 'emailTemp-view',
       secondaryAction: 'emailTemp-creation'
@@ -117,7 +117,6 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_request',
-      description: 'l10n_requestDes',
       primaryIcon: 'rate_review',
       primaryAction: 'request-view',
       secondaryAction: 'request-creation'
@@ -127,7 +126,6 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_approval',
-      description: 'l10n_approvalDes',
       primaryIcon: 'playlist_add_check',
       primaryAction: 'approval-view',
       secondaryAction: 'approval-creation'
@@ -150,7 +148,6 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_type',
-      description: 'l10n_typeDes',
       primaryIcon: 'line_style',
       primaryAction: 'type-view',
       secondaryAction: 'type-creation'
@@ -160,7 +157,6 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_attribute',
-      description: 'l10n_attributeDes',
       primaryIcon: 'view_module',
       primaryAction: 'attribute-view',
       secondaryAction: 'attribute-creation'
@@ -170,7 +166,6 @@ export class ResourcesComponent implements OnInit {
       permissionSets: undefined,
       actionSets: undefined,
       title: 'l10n_binding',
-      description: 'l10n_bindingDes',
       primaryIcon: 'linear_scale',
       primaryAction: 'binding-view',
       secondaryAction: 'binding-creation'

@@ -51,7 +51,7 @@ export class ActionCardComponent implements OnInit, DynamicComponent {
       secondaryIconColor: 'darkgray',
       title: 'Text',
       titleColor: 'black',
-      textWidth: 120
+      textWidth: 130
     });
 
     this.utils.CopyInto(this.config, this.localConfig, true, true);

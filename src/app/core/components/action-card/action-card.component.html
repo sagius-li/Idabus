@@ -2,7 +2,7 @@
   <mat-card class="full-height" [style.backgroundColor]="localConfig.backgroundColor">
     <mat-card-content class="full-height">
       <div class="full-height" fxLayout="row wrap" fxLayoutAlign="start stretch">
-        <div class="mouse-link" fxFlex="80px" (click)="onPrimaryAction()">
+        <div class="mouse-link" fxFlex="70px" (click)="onPrimaryAction()">
           <mat-icon
             *ngIf="!localConfig.primaryImage"
             style="font-size: 52px;"
@@ -20,7 +20,7 @@
           <div
             fxFlex="none"
             [style.color]="localConfig.titleColor"
-            [style.margin-top.px]="localConfig.description ? 0 : 12"
+            [style.margin-top.px]="localConfig.description !== undefined ? 0 : 12"
             style="font-size: 20px; font-weight: bolder;"
           >
             {{ localConfig.title | translate }}
