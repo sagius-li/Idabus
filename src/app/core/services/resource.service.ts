@@ -335,7 +335,7 @@ export class ResourceService {
         }),
         // get view sets
         switchMap(() => {
-          const queryGetViewSets = `/Set[ocgObjectType='ui' and ComputedMember='${
+          const queryGetViewSets = `/Set[${this.utils.attObjectType}='ui' and ComputedMember='${
             this.loginUser.ObjectID
           }']`;
           const paramsGetViewSets: HttpParams = new HttpParams({
@@ -354,9 +354,11 @@ export class ResourceService {
         }),
         // get admin view sets
         switchMap(() => {
-          const queryGetAdminViewSets = `/Set[starts-with(ocgObjectType,'ui') and ObjectID=/Person[ObjectID='${
-            this.loginUser.ObjectID
-          }']/ocgAdminViewSetRefs]`;
+          const queryGetAdminViewSets = `/Set[starts-with(${
+            this.utils.attObjectType
+          },'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
+            this.utils.attAdminViewSets
+          }]`;
           const paramsGetAdminViewSets: HttpParams = new HttpParams({
             fromObject: {
               query: queryGetAdminViewSets,
@@ -373,11 +375,11 @@ export class ResourceService {
         }),
         // get standard view set
         switchMap(() => {
-          const queryGetStandardViewSet = `/Set[ocgObjectType='uibase']`;
+          const queryGetStandardViewSet = `/Set[${this.utils.attObjectType}='uibase']`;
           const paramsGetStandardViewSet: HttpParams = new HttpParams({
             fromObject: {
               query: queryGetStandardViewSet,
-              attributes: 'DisplayName, ocgConfigurationXML'
+              attributes: `DisplayName, ${this.utils.attConfiguration}`
             }
           });
           return this.http
@@ -386,29 +388,31 @@ export class ResourceService {
               tap((data: ResourceSet) => {
                 if (data.totalCount > 0) {
                   this.standardUiSet = new BasicResource(data.results[0]);
-                  this.standardUiSetting = data.results[0].ocgConfigurationXML;
+                  this.standardUiSetting = data.results[0][this.utils.attConfiguration];
                 }
               })
             );
         }),
         // get primary view set
         switchMap(() => {
-          const queryGetPrimaryViewSet = `/Set[ocgObjectType='ui' and ObjectID=/Person[ObjectID='${
-            this.loginUser.ObjectID
-          }']/ocgPrimaryViewSetRef]`;
+          const queryGetPrimaryViewSet = `/Set[${
+            this.utils.attObjectType
+          }='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
+            this.utils.attPrimaryViewSets
+          }]`;
           const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
             fromObject: {
               query: queryGetPrimaryViewSet,
-              attributes: 'DisplayName, ocgConfigurationXML'
+              attributes: `DisplayName, ${this.utils.attConfiguration}`
             }
           });
           return this.http
             .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetPrimaryViewSet })
             .pipe(
               tap((data: ResourceSet) => {
-                if (data.totalCount > 0 && data.results[0].ocgConfigurationXML) {
+                if (data.totalCount > 0 && data.results[0][this.utils.attConfiguration]) {
                   this.primaryUiSet = new BasicResource(data.results[0]);
-                  this.primaryUiSetting = data.results[0].ocgConfigurationXML;
+                  this.primaryUiSetting = data.results[0][this.utils.attConfiguration];
                 } else {
                   this.primaryUiSet = this.standardUiSet;
                   this.primaryUiSetting = this.standardUiSetting;
@@ -437,8 +441,8 @@ export class ResourceService {
       if (!this.connectedUser.name) {
         return throwError(new Error('invalid connection'));
       }
-      if (!this.loginUserAttributes.includes('ocgConfigurationXML')) {
-        this.loginUserAttributes.push('ocgConfigurationXML');
+      if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
+        this.loginUserAttributes.push(this.utils.attConfiguration);
       }
       const params: HttpParams = new HttpParams({
         fromObject: {
@@ -450,8 +454,8 @@ export class ResourceService {
       return this.http.get(urlGetPortalUser, { headers, params }).pipe(
         tap((user: Resource) => {
           this.user = user;
-          if (user.ocgConfigurationXML) {
-            this.customUiSetting = user.ocgConfigurationXML;
+          if (user[this.utils.attConfiguration]) {
+            this.customUiSetting = user[this.utils.attConfiguration];
           }
         })
       );
@@ -463,8 +467,8 @@ export class ResourceService {
         'winuser',
         this.serviceType
       );
-      if (!this.loginUserAttributes.includes('ocgConfigurationXML')) {
-        this.loginUserAttributes.push('ocgConfigurationXML');
+      if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
+        this.loginUserAttributes.push(this.utils.attConfiguration);
       }
       const params: HttpParams = new HttpParams({
         fromObject: {
@@ -475,8 +479,8 @@ export class ResourceService {
       return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
         tap((user: Resource) => {
           this.user = user;
-          if (user.ocgConfigurationXML) {
-            this.customUiSetting = user.ocgConfigurationXML;
+          if (user[this.utils.attConfiguration]) {
+            this.customUiSetting = user[this.utils.attConfiguration];
           }
         })
       );

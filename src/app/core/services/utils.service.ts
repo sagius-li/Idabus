@@ -22,6 +22,11 @@ export class UtilsService {
   public localStorageLoginMode = 'OCG_LS_LoginMode';
   public localStorageLoginUser = 'OCG_LS_LoginUser';
 
+  public attConfiguration = 'ocgConfigurationXML';
+  public attAdminViewSets = 'ocgAdminViewSetRefs';
+  public attPrimaryViewSets = 'ocgPrimaryViewSetRef';
+  public attObjectType = 'ocgObjectType';
+
   /**
    * @ignore
    */

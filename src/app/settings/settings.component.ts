@@ -9,6 +9,7 @@ import { Resource, BasicResource } from '../core/models/dataContract.model';
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
 import { SwapService } from '../core/services/swap.service';
+import { UtilsService } from '../core/services/utils.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 
 @Component({
@@ -46,6 +47,7 @@ export class SettingsComponent implements OnInit {
     private resource: ResourceService,
     private translate: TransService,
     private swap: SwapService,
+    private utils: UtilsService,
     private com: ComponentIndexService,
     private spinner: NgxUiLoaderService
   ) {}
@@ -154,7 +156,7 @@ export class SettingsComponent implements OnInit {
 
     this.customViewSetting.language = language;
 
-    this.resource.loginUser.ocgConfigurationXML = JSON.stringify(this.customViewSetting);
+    this.resource.loginUser[this.utils.attConfiguration] = JSON.stringify(this.customViewSetting);
     this.resource.updateResource(this.resource.loginUser, true).subscribe(
       () => {
         this.currentLanguage = language;
@@ -191,7 +193,7 @@ export class SettingsComponent implements OnInit {
       s => s.ObjectID.toLowerCase() === this.selectedViewSetID.toLowerCase()
     );
     if (selectedViewSet) {
-      this.resource.loginUser.ocgPrimaryViewSetRef = selectedViewSet.ObjectID;
+      this.resource.loginUser[this.utils.attPrimaryViewSets] = selectedViewSet.ObjectID;
     }
     this.resource
       .updateResource(this.resource.loginUser, true)
@@ -200,7 +202,7 @@ export class SettingsComponent implements OnInit {
           return this.resource
             .getResourceByID(
               this.selectedViewSetID,
-              ['ocgConfigurationXML'],
+              [this.utils.attConfiguration],
               'simple',
               '',
               false,
@@ -209,7 +211,7 @@ export class SettingsComponent implements OnInit {
             .pipe(
               tap((uiSet: Resource) => {
                 this.resource.primaryViewSetting = this.com.parseComponentConfig(
-                  uiSet.ocgConfigurationXML
+                  uiSet[this.utils.attConfiguration]
                 );
               })
             );
