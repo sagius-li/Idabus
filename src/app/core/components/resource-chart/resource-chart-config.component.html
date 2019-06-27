@@ -6,8 +6,12 @@
     <mat-tab [label]="'key_general' | translate">
       <div fxFlex fxLayout="column" class="first-dialog-item">
         <div fxFlex="auto" fxLayout="row" fxLayoutGap="20px">
-          <mat-form-field fxFlex="auto" cdkFocusInitial>
-            <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="data.config.chartType">
+          <mat-form-field fxFlex="auto">
+            <mat-select
+              [placeholder]="'key_type' | translate"
+              [(ngModel)]="data.config.chartType"
+              cdkFocusInitial
+            >
               <mat-option value="pie">pie</mat-option>
               <mat-option value="donut">donut</mat-option>
               <mat-option value="column">column</mat-option>

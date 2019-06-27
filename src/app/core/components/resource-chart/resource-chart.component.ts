@@ -93,7 +93,7 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
                 data[serieConfig.valueField] = item;
                 chartData.push(data);
               });
-              serieConfig.data = chartData;
+              serieConfig.chartData = chartData;
 
               setTimeout(() => {
                 this.spinner.stopLoader(this.localConfig.name);
@@ -106,6 +106,8 @@ export class ResourceChartComponent implements OnInit, DynamicComponent {
             }
           );
         }
+      } else if (serieConfig.data) {
+        serieConfig.chartData = serieConfig.data;
       }
     });
   }

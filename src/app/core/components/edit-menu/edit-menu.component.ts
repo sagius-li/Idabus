@@ -34,10 +34,12 @@ export class EditMenuComponent implements OnInit {
   direction = 'row';
   /** Edit menu buttons */
   @Input()
-  buttons = ['refresh', 'add', 'save'];
+  buttons = ['setting', 'add', 'save'];
   /** Click save button can return to non-edit mode */
   @Input()
   saveAndReturn = true;
+  @Input()
+  buttonColor = 'transparent';
 
   /** Event emitter for action add */
   @Output()
@@ -54,6 +56,9 @@ export class EditMenuComponent implements OnInit {
   /** Event emitter for action save */
   @Output()
   save = new EventEmitter();
+  /** Event emitter for action setting */
+  @Output()
+  setting = new EventEmitter();
 
   /** Edit mode (inactive, active) */
   editMode = 'inactive';
@@ -100,5 +105,10 @@ export class EditMenuComponent implements OnInit {
       this.toggleEditMode();
     }
     this.save.emit();
+  }
+
+  /** Emit setting action */
+  onSetting() {
+    this.setting.emit();
   }
 }

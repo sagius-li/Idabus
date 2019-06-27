@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 import { ResourceChartComponent } from '../components/resource-chart/resource-chart.component';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 /**
  * Service for dynamic component creation
@@ -32,14 +33,30 @@ export class ComponentIndexService {
       return null;
     }
 
-    const obj = JSON.parse(config, (key, value) => {
+    return JSON.parse(config, (key, value) => {
       if (key === 'componentType') {
         return this.componentIndex[value];
       } else {
         return value;
       }
     });
+  }
 
-    return obj;
+  public stringifyComponentConfig(config: any) {
+    if (!config) {
+      throw new Error('cannot stringify');
+    }
+
+    return JSON.stringify(config, (key, value) => {
+      switch (key) {
+        case 'componentInstance':
+        case 'chartData':
+          return undefined;
+        case 'componentType':
+          return value.name;
+        default:
+          return value;
+      }
+    });
   }
 }

@@ -22,6 +22,7 @@
       class="link-div"
       matTooltip="{{ 'key_save' | translate }}"
       [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
+      [style.background]="buttonColor"
       (click)="onSave()"
     >
       <mat-icon class="action-icon">save</mat-icon>
@@ -33,6 +34,7 @@
       class="link-div"
       matTooltip="{{ 'key_add' | translate }}"
       [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
+      [style.background]="buttonColor"
       (click)="onAdd()"
     >
       <mat-icon class="action-icon">add_box</mat-icon>
@@ -44,9 +46,22 @@
       class="link-div"
       matTooltip="{{ 'key_refresh' | translate }}"
       [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
+      [style.background]="buttonColor"
       (click)="onRefresh()"
     >
       <mat-icon class="action-icon">refresh</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      *ngIf="buttons.includes('setting')"
+      fxFlex="0 0 auto"
+      class="link-div"
+      matTooltip="{{ 'key_settings' | translate }}"
+      [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
+      [style.background]="buttonColor"
+      (click)="onSetting()"
+    >
+      <mat-icon class="action-icon">settings</mat-icon>
     </button>
   </div>
   <button
@@ -55,9 +70,10 @@
     [fxFlexOrder]="direction === 'row' ? 2 : 1"
     class="link-div"
     [ngClass]="{ 'link-div-row': direction === 'row', 'link-div-column': direction === 'column' }"
-    (click)="toggleEditMode()"
     matTooltip="{{ mainIconText | translate }}"
     [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
+    [style.background]="buttonColor"
+    (click)="toggleEditMode()"
   >
     <mat-icon class="brand-icon">{{ mainIcon }}</mat-icon>
   </button>

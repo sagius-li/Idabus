@@ -15,8 +15,9 @@ export class ChartSerieConfig {
   categoryField = 'category';
   valueField = 'value';
   color: string = undefined;
-  data: any = [{ category: 'test', value: 1 }];
-  queryConfig: ChartQueryConfig[] = undefined;
+  data?: any;
+  queryConfig?: ChartQueryConfig[];
+  chartData?: any;
 }
 
 export class ResourceChartConfig implements ComponentConfig {
