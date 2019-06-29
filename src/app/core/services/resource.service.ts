@@ -272,7 +272,6 @@ export class ResourceService {
     return this.http.get(urlGetVersion).pipe(
       tap((ver: string) => {
         this.version = ver;
-        this.loaded = true;
       }),
       // get encryption key
       switchMap(() => {
