@@ -19,7 +19,9 @@ export class DemoTeamCreationComponent implements OnInit {
   teamName: string;
   teamDescription: string;
 
-  idpValue: Array<{ name: string; email: string }>;
+  idpValue: Array<{ name: string; email: string }> = [
+    { name: 'mimadmin', email: 'mimadmin@contoso.demo' }
+  ];
   idpData: Array<{ name: string; email: string }>;
   idpSource: Array<{ name: string; email: string }> = [
     { name: 'mimadmin', email: 'mimadmin@contoso.demo' },
@@ -32,8 +34,7 @@ export class DemoTeamCreationComponent implements OnInit {
 
   ngOnInit() {
     this.fgGeneral = this.formBuilder.group({
-      ctrlTeamName: ['', Validators.required],
-      ctrlTeamOwner: ['']
+      ctrlTeamName: ['', Validators.required]
     });
     this.fgAdvanced = this.formBuilder.group({});
   }

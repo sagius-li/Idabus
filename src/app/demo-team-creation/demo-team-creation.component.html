@@ -3,49 +3,51 @@
 </h3>
 <div mat-dialog-content>
   <mat-horizontal-stepper linear #stepper>
-    <mat-step [stepControl]="fgGeneral">
-      <form [formGroup]="fgGeneral">
-        <ng-template matStepLabel>General</ng-template>
-        <div fxLayout="column" style="width: 100%;">
-          <mat-form-field fxFlex="auto" style="margin-top: 20px;">
-            <input
-              matInput
-              placeholder="Give your team a name"
-              formControlName="ctrlTeamName"
-              required
-            />
-          </mat-form-field>
-          <div
-            fxFlex="auto"
-            style="margin-top: 20px; font-size: 12px; font-weight: 400; color: #3f51b5"
-          >
-            Team Owners
-          </div>
-          <kendo-multiselect
-            #idpOwner
-            [data]="idpData"
-            formControlName="ctrlTeamOwner"
-            [textField]="'name'"
-            [valueField]="'email'"
-            [filterable]="true"
-            (filterChange)="handleSearchFilter($event)"
-            (focus)="onFocus()"
-          >
-          </kendo-multiselect>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="fgAdvanced">
-      <form [formGroup]="fgAdvanced">
-        <ng-template matStepLabel>Advanced</ng-template>
-        <mat-form-field>
-          <input matInput placeholder="Address" />
+    <mat-step>
+      <ng-template matStepLabel>General</ng-template>
+      <div fxLayout="column" style="width: 100%;">
+        <mat-form-field fxFlex="auto" style="margin-top: 10px;">
+          <input
+            matInput
+            placeholder="Give your team a name"
+            [(ngModel)]="teamName"
+            required
+            style="font-size: 20px;"
+          />
         </mat-form-field>
-      </form>
+        <div fxFlex="auto" style="font-size: 12px; font-weight: 400; color: #3f51b5">
+          Team Owners
+        </div>
+        <kendo-multiselect
+          #idpOwner
+          [data]="idpData"
+          [(ngModel)]="idpValue"
+          [textField]="'name'"
+          [valueField]="'email'"
+          [filterable]="true"
+          (filterChange)="handleSearchFilter($event)"
+          (focus)="onFocus()"
+        >
+        </kendo-multiselect>
+        <mat-form-field style="margin-top: 20px;">
+          <input matInput [matDatepicker]="picker" placeholder="Expiry date" disabled />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field style="margin-top: 20px;">
+          <textarea matInput placeholder="Team Description" rows="2"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Advanced</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" />
+      </mat-form-field>
     </mat-step>
   </mat-horizontal-stepper>
 </div>
-<div mat-dialog-actions fxLayout="row" fxLayoutAlign="start center" style="margin-top: 10px;">
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="start center" style="margin-top: -10px;">
   <button
     fxFlex="none"
     mat-stroked-button
@@ -60,7 +62,7 @@
     mat-stroked-button
     (click)="onNext(stepper)"
     style="margin-right: 20px;"
-    [disabled]="stepper.selectedIndex === 1"
+    [disabled]="stepper.selectedIndex === 1 || !teamName"
   >
     Next
   </button>
@@ -71,7 +73,7 @@
     mat-dialog-close="ok"
     [disabled]="stepper.selectedIndex !== 1"
   >
-    {{ 'key_submit' | translate }}
+    Finish
   </button>
   <div fxFlex="auto"></div>
   <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">
