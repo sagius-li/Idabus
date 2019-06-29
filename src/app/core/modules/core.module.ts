@@ -27,6 +27,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -114,6 +115,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatSlideToggleModule,
     MatSliderModule,
     MatSelectModule,
+    MatStepperModule,
 
     GridModule,
     PDFModule,
@@ -147,6 +149,9 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ModalService
   ],
   exports: [
+    FormsModule,
+    ReactiveFormsModule,
+
     FlexLayoutModule,
     LocalizationModule,
     FontAwesomeModule,
@@ -170,6 +175,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatSlideToggleModule,
     MatSliderModule,
     MatSelectModule,
+    MatStepperModule,
 
     GridModule,
     PDFModule,

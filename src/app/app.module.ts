@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -36,6 +35,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ResourcesComponent } from './resources/resources.component';
 
+import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,17 +47,19 @@ import { ResourcesComponent } from './resources/resources.component';
     HomeComponent,
     DashboardComponent,
     SettingsComponent,
-    ResourcesComponent
+    ResourcesComponent,
+
+    DemoTeamCreationComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     FontAwesomeModule,
     DragulaModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule
   ],
+  entryComponents: [DemoTeamCreationComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

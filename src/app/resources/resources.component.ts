@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MatDialog } from '@angular/material';
+
 import { ActionCardConfig } from '../core/models/componentContract.model';
+import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
 
 @Component({
   selector: 'app-resources',
@@ -172,7 +175,18 @@ export class ResourcesComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
+
+  onPrimaryAction(actionName: string) {}
+
+  onSecondaryAction(actionName: string) {
+    if (actionName === 'teams-creation') {
+      this.dialog.open(DemoTeamCreationComponent, {
+        minWidth: '580px',
+        data: {}
+      });
+    }
+  }
 }
