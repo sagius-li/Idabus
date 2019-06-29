@@ -139,3 +139,20 @@ export class ActionCardConfig implements ComponentConfig {
 }
 
 // #endregion
+
+// #region modal
+
+export enum ModalType {
+  info = 'info',
+  confirm = 'confirm',
+  error = 'error',
+  progress = 'progress'
+}
+
+export interface ModalData {
+  type: ModalType;
+  title: string;
+  content: string;
+}
+
+// #endregion

@@ -42,6 +42,7 @@ import { StartupService } from '../services/startup.service';
 import { RouteGuardService } from '../services/route-guard.service';
 import { SwapService } from '../services/swap.service';
 import { ComponentIndexService } from '../services/component-index.service';
+import { ModalService } from '../services/modal.service';
 
 import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 import { ExamValuePipe } from '../pipes/exam-value.pipe';
@@ -53,6 +54,7 @@ import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { SearchComponent } from '../components/search/search.component';
 import { AccountComponent } from '../components/account/account.component';
 
+import { ModalComponent } from '../components/modal/modal.component';
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
 import { ActionCardComponent } from '../components/action-card/action-card.component';
@@ -73,6 +75,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SearchComponent,
     AccountComponent,
 
+    ModalComponent,
     StateCardComponent,
     StateCardConfigComponent,
     ActionCardComponent,
@@ -121,6 +124,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     UploadModule
   ],
   entryComponents: [
+    ModalComponent,
     StateCardComponent,
     StateCardConfigComponent,
     ResourceTableComponent,
@@ -139,7 +143,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     TransService,
     RouteGuardService,
     SwapService,
-    ComponentIndexService
+    ComponentIndexService,
+    ModalService
   ],
   exports: [
     FlexLayoutModule,
@@ -184,6 +189,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SearchComponent,
     AccountComponent,
 
+    ModalComponent,
     StateCardComponent,
     StateCardConfigComponent,
     ActionCardComponent,

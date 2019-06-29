@@ -1,0 +1,58 @@
+<h3
+  *ngIf="data.type !== type.progress"
+  mat-dialog-title
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle
+  [style.background]="barColor"
+>
+  {{ data.title }}
+</h3>
+<div
+  *ngIf="data.type === type.progress"
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  style="margin: 0;"
+>
+  <div fxFlex="0 0 auto" style="color: lightslategray;">
+    <fa-icon [icon]="['fas', 'spinner']" size="2x" [fixedWidth]="true" [pulse]="true"></fa-icon>
+  </div>
+  <div fxFlex>
+    <h3>{{ data.title }}</h3>
+  </div>
+</div>
+<div
+  *ngIf="data.type !== type.progress"
+  mat-dialog-content
+  fxLayout="row"
+  fxLayoutAlign="start strech"
+  fxLayoutGap="10px"
+  style="margin-top: 20px;"
+>
+  <mat-icon fxFlex="0 0 auto" [style.color]="barColor">{{ iconName }}</mat-icon>
+
+  <div fxFlex [innerHTML]="data.content"></div>
+</div>
+<div
+  *ngIf="data.type !== type.progress"
+  mat-dialog-actions
+  flexLayout="row"
+  flexLayoutAlign="end center"
+>
+  <button
+    fxFlex
+    *ngIf="data.type === 'info' || data.type === 'error'"
+    mat-button
+    mat-dialog-close="ok"
+    cdkFocusInitial
+  >
+    {{ 'key_ok' | translate }}
+  </button>
+  <button fxFlex *ngIf="data.type === 'confirm'" mat-button mat-dialog-close="yes">
+    {{ 'key_yes' | translate }}
+  </button>
+  <button fxFlex *ngIf="data.type === 'confirm'" mat-button mat-dialog-close="no" cdkFocusInitial>
+    {{ 'key_no' | translate }}
+  </button>
+</div>

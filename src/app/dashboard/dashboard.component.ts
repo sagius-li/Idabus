@@ -9,15 +9,18 @@ import {
 import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 
 import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
+import { BroadcastEvent } from '../core/models/dataContract.model';
+
 import { DynamicContainerDirective } from '../core/directives/dynamic-container.directive';
 
 import { ResourceService } from '../core/services/resource.service';
 import { SwapService } from '../core/services/swap.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 import { UtilsService } from '../core/services/utils.service';
+import { ModalService } from '../core/services/modal.service';
 
 import { StateCardComponent } from '../core/components/state-card/state-card.component';
-import { BroadcastEvent } from '../core/models/dataContract.model';
+import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,7 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private resource: ResourceService,
     private swap: SwapService,
     private com: ComponentIndexService,
-    private utils: UtilsService
+    private utils: UtilsService,
+    private modal: ModalService
   ) {}
 
   ngOnInit() {
@@ -169,7 +173,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.resource.primaryViewSet[this.utils.attConfiguration] = this.com.stringifyComponentConfig(
       this.resource.primaryViewSetting
     );
-    this.resource.updateResource(this.resource.primaryViewSet, true).subscribe();
+    const process = this.modal.show(ModalType.progress, 'key_savingChanges', '', '300px');
+    this.resource.updateResource(this.resource.primaryViewSet, true).subscribe(
+      () => {
+        process.close();
+      },
+      (err: string) => {
+        process.close();
+        this.modal.show(ModalType.error, 'key_error', err, '360px');
+      }
+    );
   }
 
   onGridsterSetting() {

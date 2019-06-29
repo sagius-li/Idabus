@@ -15,7 +15,8 @@ import {
   faCompress,
   faExpandArrowsAlt,
   faEdit,
-  faSignOutAlt
+  faSignOutAlt,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 
 import { DragulaModule } from 'ng2-dragula';
@@ -76,7 +77,8 @@ export class AppModule {
       faCompress,
       faExpandArrowsAlt,
       faEdit,
-      faSignOutAlt
+      faSignOutAlt,
+      faSpinner
     );
   }
 }

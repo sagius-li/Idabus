@@ -1,0 +1,11 @@
+::ng-deep .mat-dialog-title {
+  margin: -24px -24px 0px -24px !important;
+  padding: 10px 24px;
+  color: #fff;
+  cursor: move;
+}
+::ng-deep .mat-dialog-content {
+  margin: 0;
+  padding: 10px;
+  overflow: hidden;
+}
