@@ -2,7 +2,7 @@
   Create your team
 </h3>
 <div mat-dialog-content>
-  <mat-horizontal-stepper linear #stepper>
+  <mat-horizontal-stepper linear #stepper style="height: 400px;">
     <mat-step>
       <ng-template matStepLabel>General</ng-template>
       <div fxLayout="column" style="width: 100%;">
@@ -11,6 +11,7 @@
             matInput
             placeholder="Give your team a name"
             [(ngModel)]="teamName"
+            cdkFocusInitial
             required
             style="font-size: 20px;"
           />
@@ -28,12 +29,18 @@
           (filterChange)="handleSearchFilter($event)"
           (focus)="onFocus()"
         >
+          <ng-template kendoMultiSelectItemTemplate let-dataItem>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" style="color: gray; margin: 5px;">
+              <div fxFlex="15%">
+                <mat-icon style="margin-top: 6px;">person</mat-icon>
+              </div>
+              <div fxFlex="60%" style="font-size: 16px;">
+                {{ dataItem.name }}
+              </div>
+              <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.email }}</div>
+            </div>
+          </ng-template>
         </kendo-multiselect>
-        <mat-form-field style="margin-top: 20px;">
-          <input matInput [matDatepicker]="picker" placeholder="Expiry date" disabled />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker disabled="false"></mat-datepicker>
-        </mat-form-field>
         <mat-form-field style="margin-top: 20px;">
           <textarea matInput placeholder="Team Description" rows="2"></textarea>
         </mat-form-field>
@@ -41,9 +48,80 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Advanced</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address" />
-      </mat-form-field>
+      <div fxLayout="row wrap" style="width: 100%;">
+        <div fxFlex="45%" style="margin-top: 10px; font-size: 14px;">
+          <mat-slide-toggle #chkSet>Members based on Set</mat-slide-toggle>
+        </div>
+        <div fxFlex="55%">
+          <kendo-multiselect
+            #idpSet
+            [disabled]="!chkSet.checked"
+            [data]="idpSetData"
+            [textField]="'name'"
+            [valueField]="'name'"
+            [filterable]="true"
+            (filterChange)="handleSearchFilter($event)"
+            (focus)="onFocus()"
+          >
+            <ng-template kendoMultiSelectItemTemplate let-dataItem>
+              <div
+                fxLayout="row wrap"
+                fxLayoutAlign="start center"
+                style="color: gray; margin: 5px;"
+              >
+                <div fxFlex="15%">
+                  <mat-icon style="margin-top: 6px;">list</mat-icon>
+                </div>
+                <div fxFlex="60%" style="font-size: 16px;">
+                  {{ dataItem.name }}
+                </div>
+                <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.description }}</div>
+              </div>
+            </ng-template>
+          </kendo-multiselect>
+        </div>
+        <div
+          fxFlex="100%"
+          style="font-size: 12px; font-weight: 400; color: #3f51b5; margin-top: 20px;"
+        >
+          Explicit Members
+        </div>
+        <div fxFlex="100%">
+          <kendo-multiselect
+            #idpMember
+            [data]="idpData"
+            [textField]="'name'"
+            [valueField]="'email'"
+            [filterable]="true"
+            (filterChange)="handleSearchFilter($event)"
+            (focus)="onFocus()"
+          >
+            <ng-template kendoMultiSelectItemTemplate let-dataItem>
+              <div
+                fxLayout="row wrap"
+                fxLayoutAlign="start center"
+                style="color: gray; margin: 5px;"
+              >
+                <div fxFlex="15%">
+                  <mat-icon style="margin-top: 6px;">person</mat-icon>
+                </div>
+                <div fxFlex="60%" style="font-size: 16px;">
+                  {{ dataItem.name }}
+                </div>
+                <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.email }}</div>
+              </div>
+            </ng-template>
+          </kendo-multiselect>
+        </div>
+        <div fxFlex="100%" style="margin-top: 30px; font-size: 14px;">
+          <mat-slide-toggle>Owner approval required</mat-slide-toggle>
+        </div>
+        <mat-form-field fxFlex="100%" style="margin-top: 20px;">
+          <input matInput [matDatepicker]="picker" placeholder="Expiry date" disabled />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

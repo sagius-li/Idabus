@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 
-import { ActionCardConfig } from '../core/models/componentContract.model';
+import { ModalService } from '../core/services/modal.service';
+
+import { ActionCardConfig, ModalType } from '../core/models/componentContract.model';
 import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
 
 @Component({
@@ -175,7 +177,7 @@ export class ResourcesComponent implements OnInit {
     }
   ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private modal: ModalService) {}
 
   ngOnInit() {}
 
@@ -183,10 +185,21 @@ export class ResourcesComponent implements OnInit {
 
   onSecondaryAction(actionName: string) {
     if (actionName === 'teams-creation') {
-      this.dialog.open(DemoTeamCreationComponent, {
-        minWidth: '580px',
-        data: {}
-      });
+      this.dialog
+        .open(DemoTeamCreationComponent, {
+          minWidth: '580px',
+          maxWidth: '580px',
+          data: {}
+        })
+        .afterClosed()
+        .subscribe(result => {
+          if (result === 'ok') {
+            const progress = this.modal.show(ModalType.progress, 'Saving changes', '');
+            setTimeout(() => {
+              progress.close();
+            }, 2000);
+          }
+        });
     }
   }
 }
