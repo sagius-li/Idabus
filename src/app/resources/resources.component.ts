@@ -6,6 +6,7 @@ import { ModalService } from '../core/services/modal.service';
 
 import { ActionCardConfig, ModalType } from '../core/models/componentContract.model';
 import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resources',
@@ -177,11 +178,15 @@ export class ResourcesComponent implements OnInit {
     }
   ];
 
-  constructor(private dialog: MatDialog, private modal: ModalService) {}
+  constructor(private dialog: MatDialog, private modal: ModalService, private router: Router) {}
 
   ngOnInit() {}
 
-  onPrimaryAction(actionName: string) {}
+  onPrimaryAction(actionName: string) {
+    if (actionName === 'teams-view') {
+      this.router.navigate(['app/team']);
+    }
+  }
 
   onSecondaryAction(actionName: string) {
     if (actionName === 'teams-creation') {

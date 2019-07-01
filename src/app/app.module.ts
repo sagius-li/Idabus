@@ -15,7 +15,8 @@ import {
   faExpandArrowsAlt,
   faEdit,
   faSignOutAlt,
-  faSpinner
+  faSpinner,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 
 import { DragulaModule } from 'ng2-dragula';
@@ -36,6 +37,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ResourcesComponent } from './resources/resources.component';
 
 import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
+import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creati
     SettingsComponent,
     ResourcesComponent,
 
-    DemoTeamCreationComponent
+    DemoTeamCreationComponent,
+
+    DemoTeamEditionComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +85,8 @@ export class AppModule {
       faExpandArrowsAlt,
       faEdit,
       faSignOutAlt,
-      faSpinner
+      faSpinner,
+      faUsers
     );
   }
 }

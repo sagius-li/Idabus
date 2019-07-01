@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { SettingsComponent } from './settings/settings.component';
 
+import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
+
 const routes: Routes = [
   {
     path: 'login',
@@ -49,6 +51,10 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent
+      },
+      {
+        path: 'team',
+        component: DemoTeamEditionComponent
       }
     ]
   }

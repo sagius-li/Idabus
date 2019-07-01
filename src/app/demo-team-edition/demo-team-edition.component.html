@@ -1,0 +1,31 @@
+<div style="height: 100%;">
+  <kendo-splitter style="height: 99%; background-color: #eeeeee; border-width: 0;">
+    <kendo-splitter-pane [collapsible]="true" min="300px" size="300px">
+      <div fxLayout="row wrap">
+        <mat-card
+          *ngFor="let team of teams"
+          fxFlex="260px"
+          [style.background]="team.selected ? 'lightgray' : 'white'"
+          style="margin: 10px; max-width: 260px; padding: 5px 16px; cursor: pointer;"
+        >
+          <mat-card-content>
+            <div fxLayout="row wrap" (click)="onTeamClicked(team)">
+              <div fxFlex="20%" style="font-size: 20px; color: slateblue;">
+                <fa-icon [icon]="['fas', 'users']"></fa-icon>
+              </div>
+              <div fxFlex="80%" style="font-size: 16px; line-height: 38px; font-weight: 400;">
+                {{ team.name }}
+              </div>
+              <div fxFlex="100%" style="font-size: 13px; color: darkslategray; margin-top: -8px;">
+                {{ team.description }}
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </kendo-splitter-pane>
+    <kendo-splitter-pane>
+      Details here!
+    </kendo-splitter-pane>
+  </kendo-splitter>
+</div>

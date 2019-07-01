@@ -36,6 +36,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { SplitterModule } from '@progress/kendo-angular-layout';
 
 import { TransService } from '../models/translation.model';
 import { ConfigService } from '../services/config.service';
@@ -127,7 +128,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ChartsModule,
     DropDownsModule,
     PopupModule,
-    UploadModule
+    UploadModule,
+    SplitterModule
   ],
   entryComponents: [
     ModalComponent,
@@ -190,6 +192,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     DropDownsModule,
     PopupModule,
     UploadModule,
+    SplitterModule,
 
     ExtraValuePipe,
     ExamValuePipe,
