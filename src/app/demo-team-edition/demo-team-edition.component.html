@@ -25,7 +25,60 @@
       </div>
     </kendo-splitter-pane>
     <kendo-splitter-pane>
-      Details here!
+      <div fxLayout="row">
+        <div
+          fxFlex="30%"
+          class="info-body"
+          [class.mat-elevation-z1]="true"
+          style="margin: 65px 10px 10px 10px;"
+        >
+          <div class="info-avatar-layer">
+            <div class="info-avatar">
+              <div *ngIf="infoBrandData && infoBrandData.initial" class="info-avatar-initial">
+                {{ infoBrandData.initial }}
+              </div>
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div *ngIf="infoBrandData && infoBrandData.title" fxFlex="none" class="info-title">
+              {{ infoBrandData.title | uppercase }}
+            </div>
+            <div *ngIf="infoBrandData && infoBrandData.displayName" fxFlex="none" class="info-name">
+              {{ infoBrandData.displayName }}
+            </div>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <div fxFlex="none">
+              <mat-icon style="margin-right: 10px; margin-top: 2px;">format_quote</mat-icon>
+            </div>
+            <div>{{ infoBrandData.description }}</div>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <div fxFlex="none">
+              <mat-icon style="margin-right: 10px; margin-top: 4px;">assignment_ind</mat-icon>
+            </div>
+            <kendo-multiselect
+              [data]="[{ name: 'mimadmin' }]"
+              [disabled]="true"
+              [(ngModel)]="ipdOwner"
+              [textField]="'name'"
+              [valueField]="'name'"
+              [filterable]="true"
+            >
+            </kendo-multiselect>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <div fxFlex="none">
+              <mat-icon style="margin-right: 10px; margin-top: 2px;">calendar_today</mat-icon>
+            </div>
+            <mat-form-field fxFlex="auto" style="margin-top: -10px;">
+              <input matInput [matDatepicker]="picker" [value]="expiryDate" [disabled]="true" />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     </kendo-splitter-pane>
   </kendo-splitter>
 </div>

@@ -17,6 +17,18 @@ export class DemoTeamEditionComponent implements OnInit {
       selected: false
     }
   ];
+
+  infoBrandData = {
+    displayName: 'OCG Development',
+    initial: 'OD',
+    title: 'Team Project',
+    description: 'OCG development projects'
+  };
+
+  ipdOwner = [{ name: 'mimadmin' }];
+
+  expiryDate = new Date('12/31/2020');
+
   constructor() {}
 
   ngOnInit() {}
