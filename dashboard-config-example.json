@@ -7,26 +7,116 @@
         "rows": 1,
         "y": 0,
         "x": 0,
-        "name": "scc1",
+        "name": "scUsers",
         "componentType": "StateCardComponent",
         "componentConfig": {
-          "name": "scc1",
-          "title": "total users",
-          "query": "/Person",
+          "name": "scUsers",
+          "iconText": "person",
+          "iconColor": "darkseagreen",
+          "backgroundColor": "white",
+          "textColor": "darkgray",
+          "mainTextColor": "black",
+          "title": "my users",
           "mainText": "{0}",
-          "iconText": "person"
+          "queryMode": "counter",
+          "query": "/Person[starts-with(DisplayName,'a')]"
+        }
+      },
+      {
+        "cols": 2,
+        "rows": 1,
+        "y": 1,
+        "x": 0,
+        "name": "scGroups",
+        "componentType": "StateCardComponent",
+        "componentConfig": {
+          "name": "scGroups",
+          "title": "my groups",
+          "query": "/Group",
+          "mainText": "{0}",
+          "iconText": "group"
+        }
+      },
+      {
+        "cols": 2,
+        "rows": 1,
+        "y": 3,
+        "x": 0,
+        "name": "scRoles",
+        "componentType": "StateCardComponent",
+        "componentConfig": {
+          "name": "scRoles",
+          "iconText": "camera_front",
+          "iconColor": "darkseagreen",
+          "backgroundColor": "white",
+          "textColor": "darkgray",
+          "mainTextColor": "black",
+          "title": "my roles",
+          "mainText": "{0}",
+          "queryMode": "counter",
+          "query": "/ocgRole"
+        }
+      },
+      {
+        "cols": 2,
+        "rows": 1,
+        "y": 2,
+        "x": 0,
+        "name": "scOUs",
+        "componentType": "StateCardComponent",
+        "componentConfig": {
+          "name": "scOUs",
+          "title": "my OUs",
+          "query": "/ocgOrgUnit",
+          "mainText": "{0}",
+          "iconText": "device_hub"
         }
       },
       {
         "cols": 3,
-        "rows": 2,
+        "rows": 4,
         "y": 0,
         "x": 2,
-        "name": "scc2",
+        "name": "rtUsers",
         "componentType": "ResourceTableComponent",
         "componentConfig": {
-          "name": "scc2",
-          "query": "/Person"
+          "name": "rtUsers",
+          "title": "Total Users",
+          "fontSize": 14,
+          "cellPadding": 10,
+          "pageSize": 10,
+          "pageCountNumber": 5,
+          "pageInfo": true,
+          "pageType": "numeric",
+          "pageButton": true,
+          "sortMode": "single",
+          "allowUnsort": true,
+          "filterMode": "menu",
+          "selectable": false,
+          "selectBoxWidth": 18,
+          "selectMode": "single",
+          "checkboxSelectOnly": false,
+          "resizable": false,
+          "exportToPDF": false,
+          "exportToExcel": false,
+          "exportAllPages": false,
+          "resources": [
+            {
+              "DisplayName": "text"
+            }
+          ],
+          "query": "/Person",
+          "columns": [
+            {
+              "field": "DisplayName",
+              "title": "Display Name",
+              "width": 100,
+              "filterable": false,
+              "filter": "text",
+              "sortable": false,
+              "locked": false
+            }
+          ]
         }
       },
       {
@@ -34,13 +124,27 @@
         "rows": 2,
         "y": 0,
         "x": 5,
-        "name": "scc3",
+        "name": "rcRequests",
         "componentType": "ResourceChartComponent",
         "componentConfig": {
-          "name": "scc3",
+          "name": "rcRequests",
+          "chartType": "pie",
+          "chartTitle": "Request Overview",
+          "seriesColor": [
+            "#3f51b5",
+            "#2196f3",
+            "#43a047",
+            "#ffc107",
+            "#ff5722",
+            "#e91E63"
+          ],
           "enableLegend": true,
-          "enableLabel": false,
+          "legendPosition": "right",
           "enableTooltip": true,
+          "tooltipFormat": "{0}: {1}",
+          "enableLabel": true,
+          "labelFormat": "{1}",
+          "labelColor": "black",
           "seriesConfig": [
             {
               "name": "Requests",
@@ -51,21 +155,114 @@
                   "name": "completed",
                   "method": "counter",
                   "attribute": "",
-                  "query": "/Request[RequestStatus='completed']",
+                  "query": "/Person[starts-with(DisplayName,'j')]",
                   "display": true
                 },
                 {
                   "name": "failed",
                   "method": "counter",
                   "attribute": "",
-                  "query": "/Request[RequestStatus!='completed' and RequestStatus!='pending']",
+                  "query": "/Person[starts-with(DisplayName,'w')]",
                   "display": true
                 },
                 {
-                  "name": "trigger",
-                  "method": "attribute",
-                  "attribute": "ocgTriggerValue",
-                  "query": "/Person[AccountName='mimadmin']",
+                  "name": "pending",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'g')]",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "cols": 3,
+        "rows": 2,
+        "y": 2,
+        "x": 5,
+        "name": "rcPassword",
+        "componentType": "ResourceChartComponent",
+        "componentConfig": {
+          "name": "rcPassword",
+          "chartType": "column",
+          "chartTitle": "Password Reset",
+          "seriesColor": [
+            "#3f51b5",
+            "#2196f3",
+            "#43a047",
+            "#ffc107",
+            "#ff5722",
+            "#e91E63"
+          ],
+          "enableLegend": true,
+          "legendPosition": "bottom",
+          "enableTooltip": true,
+          "tooltipFormat": "{0}: {1}",
+          "enableLabel": true,
+          "labelFormat": "{1}",
+          "labelColor": "black",
+          "seriesConfig": [
+            {
+              "name": "07/06/2019",
+              "categoryField": "category",
+              "valueField": "value",
+              "queryConfig": [
+                {
+                  "name": "registration",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'a')]",
+                  "display": true
+                },
+                {
+                  "name": "reset",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'b')]",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "name": "07/07/2019",
+              "categoryField": "category",
+              "valueField": "value",
+              "queryConfig": [
+                {
+                  "name": "registration",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'c')]",
+                  "display": true
+                },
+                {
+                  "name": "reset",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'d')]",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "name": "07/08/2019",
+              "categoryField": "category",
+              "valueField": "value",
+              "queryConfig": [
+                {
+                  "name": "registration",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'e')]",
+                  "display": true
+                },
+                {
+                  "name": "reset",
+                  "method": "counter",
+                  "attribute": "",
+                  "query": "/Person[starts-with(DisplayName,'f')]",
                   "display": true
                 }
               ]
