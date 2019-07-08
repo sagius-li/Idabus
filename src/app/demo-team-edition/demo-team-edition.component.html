@@ -25,7 +25,96 @@
       </div>
     </kendo-splitter-pane>
     <kendo-splitter-pane>
-      <div fxLayout="row">
+      <div
+        *ngIf="!teamSeleted"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        style="height: 100%"
+      >
+        <div fxFlex="none">
+          <mat-icon style="font-size: 100px; color: darkgray;">hourglass_empty</mat-icon>
+        </div>
+        <div fxFlex="none" style="font-size: 20px; color: darkgray; margin-left: 80px;">
+          No Team Selected
+        </div>
+      </div>
+      <div fxLayout="row" style="height: 700px;" *ngIf="teamSeleted">
+        <div fxFlex="auto" fxLayout="column" style="margin: 10px;">
+          <div
+            fxFlex="none"
+            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;"
+          >
+            Explicit Members
+          </div>
+          <div fxFlex="auto">
+            <app-resource-table
+              [config]="{
+                resources: explicitMembers,
+                columns: [
+                  { field: 'name', title: 'Display Name', width: 40 },
+                  { field: 'email', title: 'E-mail', width: 60 }
+                ]
+              }"
+            ></app-resource-table>
+          </div>
+          <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" style="margin-top: 20px;">
+            <kendo-multiselect
+              #idpAddMember
+              [data]="addMemberData"
+              [textField]="'name'"
+              [valueField]="'email'"
+              [filterable]="true"
+              [(ngModel)]="addMemberValue"
+              (filterChange)="handleSearchFilter($event)"
+              (focus)="onFocus()"
+            >
+              <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                <div
+                  fxLayout="row wrap"
+                  fxLayoutAlign="start center"
+                  style="color: gray; margin: 5px;"
+                >
+                  <div fxFlex="15%">
+                    <mat-icon style="margin-top: 6px;">person</mat-icon>
+                  </div>
+                  <div fxFlex="60%" style="font-size: 16px;">
+                    {{ dataItem.name }}
+                  </div>
+                  <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.email }}</div>
+                </div>
+              </ng-template>
+            </kendo-multiselect>
+            <button
+              fxFlex="none"
+              mat-stroked-button
+              color="primary"
+              style="margin-left: 20px;"
+              [disabled]="addMemberValue.length === 0"
+              (click)="onAddMember()"
+            >
+              add member
+            </button>
+          </div>
+        </div>
+        <div fxFlex="auto" fxLayout="column" style="margin: 10px;">
+          <div
+            fxFlex="none"
+            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;"
+          >
+            Computed Members
+          </div>
+          <div fxFlex="auto">
+            <app-resource-table
+              [config]="{
+                resources: autoMembers,
+                columns: [
+                  { field: 'name', title: 'Display Name', width: 40 },
+                  { field: 'email', title: 'E-mail', width: 60 }
+                ]
+              }"
+            ></app-resource-table>
+          </div>
+        </div>
         <div
           fxFlex="30%"
           class="info-body"

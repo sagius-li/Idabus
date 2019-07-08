@@ -21,23 +21,15 @@ export class DemoTeamCreationComponent implements OnInit {
   teamName: string;
   teamDescription: string;
 
-  idpValue: Array<{ name: string; email: string }> = [
-    { name: 'mimadmin', email: 'mimadmin@contoso.demo' }
-  ];
+  idpValue: Array<{ name: string; email: string }> = [{ name: 'Jie Li', email: 'jl@ocg.de' }];
   idpData: Array<{ name: string; email: string }>;
   idpSource: Array<{ name: string; email: string }> = [
-    { name: 'mimadmin', email: 'mimadmin@contoso.demo' },
-    { name: 'Jie Li', email: 'jl@contoso.demo' },
-    { name: 'Andreas Zemla', email: 'az@contoso.demo' },
-    { name: 'Moritz Becker', email: 'mb@contoso.demo' },
-    { name: 'Ruediger Berndt', email: 'rb@contoso.demo' },
-    { name: 'Michael Vollendorf', email: 'mv@contoso.demo' },
-    { name: 'Philipp Ringsmeier', email: 'pp@contoso.demo' },
-    { name: 'Eva Bauer', email: 'eb@contoso.demo' },
-    { name: 'Eva Beck', email: 'ebe@contoso.demo' },
-    { name: 'Eva Clark', email: 'ec@contoso.demo' },
-    { name: 'Eva Davies', email: 'ed@contoso.demo' },
-    { name: 'Eva Watson', email: 'ew@contoso.demo' }
+    { name: 'Jenny Weber', email: 'jw@ocg.de' },
+    { name: 'Jens Zaretzke', email: 'jz@ocg.de' },
+    { name: 'Lara Becker', email: 'lb@ocg.de' },
+    { name: 'Lara Roth', email: 'lr@ocg.de' },
+    { name: 'Lara Winkler', email: 'lw@ocg.de' },
+    { name: 'Lars Wettstein', email: 'lw@ocg.de' }
   ];
 
   idpSetData: Array<{ name: string; description: string }>;
