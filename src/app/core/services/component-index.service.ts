@@ -17,21 +17,24 @@ export class ComponentIndexService {
    */
   componentIndex: { [id: string]: ComponentDef } = {
     StateCardComponent: {
-      name: 'State Card',
+      name: 'key_stateCard',
       type: 'widget',
-      description: '',
+      icon: 'assessment',
+      description: 'key_stateCardDes',
       instance: StateCardComponent
     },
     ResourceTableComponent: {
-      name: 'Resource Table',
+      name: 'key_resourceTable',
       type: 'widget',
-      description: '',
+      icon: 'table_chart',
+      description: 'key_resourceTableDes',
       instance: ResourceTableComponent
     },
     ResourceChartComponent: {
-      name: 'Tesource Chart',
+      name: 'key_resourceChart',
       type: 'widget',
-      description: '',
+      icon: 'pie_chart',
+      description: 'key_resourceChartDes',
       instance: ResourceChartComponent
     }
   };

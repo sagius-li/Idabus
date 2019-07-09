@@ -7,9 +7,11 @@ import {
   ComponentFactoryResolver
 } from '@angular/core';
 import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
+import { MatDialog } from '@angular/material';
 
 import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
 import { BroadcastEvent } from '../core/models/dataContract.model';
+import { ModalType } from '../core/models/componentContract.model';
 
 import { DynamicContainerDirective } from '../core/directives/dynamic-container.directive';
 
@@ -19,8 +21,7 @@ import { ComponentIndexService } from '../core/services/component-index.service'
 import { UtilsService } from '../core/services/utils.service';
 import { ModalService } from '../core/services/modal.service';
 
-import { StateCardComponent } from '../core/components/state-card/state-card.component';
-import { ModalType } from '../core/models/componentContract.model';
+import { WidgetCreatorComponent } from '../core/components/widget-creator/widget-creator.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private swap: SwapService,
     private com: ComponentIndexService,
     private utils: UtilsService,
-    private modal: ModalService
+    private modal: ModalService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -150,14 +152,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   onGridsterAdd() {
-    this.gdItems.push({
-      x: 0,
-      y: 0,
-      cols: 2,
-      rows: 2,
-      name: 'scc-test',
-      componentType: StateCardComponent,
-      componentConfig: undefined
+    // this.gdItems.push({
+    //   x: 0,
+    //   y: 0,
+    //   cols: 2,
+    //   rows: 2,
+    //   name: 'scc-test',
+    //   componentType: StateCardComponent,
+    //   componentConfig: undefined
+    // });
+
+    const dialogRef = this.dialog.open(WidgetCreatorComponent, {
+      width: '600px'
     });
   }
 

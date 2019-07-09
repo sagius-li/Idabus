@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRippleModule } from '@angular/material/core';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -57,8 +58,9 @@ import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { SearchComponent } from '../components/search/search.component';
 import { AccountComponent } from '../components/account/account.component';
-
 import { ModalComponent } from '../components/modal/modal.component';
+import { WidgetCreatorComponent } from '../components/widget-creator/widget-creator.component';
+
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
 import { ActionCardComponent } from '../components/action-card/action-card.component';
@@ -78,6 +80,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditMenuComponent,
     SearchComponent,
     AccountComponent,
+    WidgetCreatorComponent,
 
     ModalComponent,
     StateCardComponent,
@@ -121,6 +124,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatStepperModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatRippleModule,
 
     GridModule,
     PDFModule,
@@ -133,6 +137,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
   ],
   entryComponents: [
     ModalComponent,
+    WidgetCreatorComponent,
+
     StateCardComponent,
     StateCardConfigComponent,
     ResourceTableComponent,
@@ -184,6 +190,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatStepperModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatRippleModule,
 
     GridModule,
     PDFModule,
@@ -203,6 +210,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditMenuComponent,
     SearchComponent,
     AccountComponent,
+    WidgetCreatorComponent,
 
     ModalComponent,
     StateCardComponent,
