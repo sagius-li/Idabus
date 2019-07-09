@@ -197,7 +197,7 @@
             "#e91E63"
           ],
           "enableLegend": true,
-          "legendPosition": "bottom",
+          "legendPosition": "right",
           "enableTooltip": true,
           "tooltipFormat": "{0}: {1}",
           "enableLabel": true,
@@ -205,7 +205,7 @@
           "labelColor": "black",
           "seriesConfig": [
             {
-              "name": "07/06/2019",
+              "name": "<today()>",
               "categoryField": "category",
               "valueField": "value",
               "queryConfig": [
@@ -226,7 +226,7 @@
               ]
             },
             {
-              "name": "07/07/2019",
+              "name": "<today()-1>",
               "categoryField": "category",
               "valueField": "value",
               "queryConfig": [
@@ -247,7 +247,7 @@
               ]
             },
             {
-              "name": "07/08/2019",
+              "name": "<today()-2>",
               "categoryField": "category",
               "valueField": "value",
               "queryConfig": [

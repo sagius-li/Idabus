@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { ResourceTableComponent } from '../components/resource-table/resource-table.component';
 import { ResourceChartComponent } from '../components/resource-chart/resource-chart.component';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import { ComponentDef } from '../models/componentContract.model';
 
 /**
  * Service for dynamic component creation
@@ -15,10 +15,25 @@ export class ComponentIndexService {
   /**
    * A dictionary of available components, which can be created dynamically
    */
-  componentIndex = {
-    StateCardComponent,
-    ResourceTableComponent,
-    ResourceChartComponent
+  componentIndex: { [id: string]: ComponentDef } = {
+    StateCardComponent: {
+      name: 'State Card',
+      type: 'widget',
+      description: '',
+      instance: StateCardComponent
+    },
+    ResourceTableComponent: {
+      name: 'Resource Table',
+      type: 'widget',
+      description: '',
+      instance: ResourceTableComponent
+    },
+    ResourceChartComponent: {
+      name: 'Tesource Chart',
+      type: 'widget',
+      description: '',
+      instance: ResourceChartComponent
+    }
   };
 
   /** @ignore */
@@ -35,7 +50,7 @@ export class ComponentIndexService {
 
     return JSON.parse(config, (key, value) => {
       if (key === 'componentType') {
-        return this.componentIndex[value];
+        return this.componentIndex[value].instance;
       } else {
         return value;
       }

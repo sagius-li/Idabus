@@ -1,4 +1,16 @@
-import { ComponentConfig } from './dynamicComponent.interface';
+import { ComponentConfig, DynamicComponent } from './dynamicComponent.interface';
+
+// #region component definition
+
+export class ComponentDef {
+  name: string;
+  type: string;
+  icon?: string;
+  description?: string;
+  instance: any;
+}
+
+// #endregion
 
 // #region resource-chart
 
