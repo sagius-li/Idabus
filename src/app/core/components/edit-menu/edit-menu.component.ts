@@ -81,12 +81,14 @@ export class EditMenuComponent implements OnInit {
   }
 
   /** Toggle state change between inactive and active */
-  toggleEditMode() {
+  toggleEditMode(withEvent = true) {
     this.editMode = this.editMode === 'inactive' ? 'active' : 'inactive';
     this.mainIcon = this.editMode === 'inactive' ? 'edit' : 'cancel';
     this.mainIconText = this.editMode === 'inactive' ? 'key_edit' : 'key_cancel';
 
-    this.editMode === 'inactive' ? this.cancel.emit() : this.edit.emit();
+    if (withEvent) {
+      this.editMode === 'inactive' ? this.cancel.emit() : this.edit.emit();
+    }
   }
 
   /** Emit add event */
@@ -102,7 +104,7 @@ export class EditMenuComponent implements OnInit {
   /** Emit save action */
   onSave() {
     if (this.saveAndReturn) {
-      this.toggleEditMode();
+      this.toggleEditMode(false);
     }
     this.save.emit();
   }

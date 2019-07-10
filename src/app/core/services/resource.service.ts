@@ -95,12 +95,28 @@ export class ResourceService {
   set primaryViewSet(value: any) {
     this.primaryUiSet = value;
   }
+
+  private customUiString = `{ "language": "en" }`;
+  get customViewString() {
+    return this.customUiString;
+  }
+  set customViewString(value: string) {
+    this.customUiString = value;
+  }
   private customUiSetting: any = `{ "language": "en" }`;
   get customViewSetting() {
     return this.customUiSetting;
   }
   set customViewSetting(value: any) {
     this.customUiSetting = value;
+  }
+
+  private standardUiString: string;
+  get standardViewString() {
+    return this.standardUiString;
+  }
+  set standardViewString(value: string) {
+    this.standardUiString = value;
   }
   private standardUiSetting: any;
   get standardViewSetting() {
@@ -109,6 +125,14 @@ export class ResourceService {
   set standardViewSetting(value: any) {
     this.standardUiSetting = value;
   }
+
+  private primaryUiString: string;
+  get primaryViewString() {
+    return this.primaryUiString;
+  }
+  set primaryViewString(value: string) {
+    this.primaryUiString = value;
+  }
   private primaryUiSetting: any;
   get primaryViewSetting() {
     return this.primaryUiSetting;
@@ -116,6 +140,7 @@ export class ResourceService {
   set primaryViewSetting(value: any) {
     this.primaryUiSetting = value;
   }
+
   private isAdminUiSet = false;
   get isAdminViewSet() {
     return this.isAdminUiSet;
@@ -403,6 +428,7 @@ export class ResourceService {
                 if (data.totalCount > 0) {
                   this.standardUiSet = new BasicResource(data.results[0]);
                   this.standardUiSetting = data.results[0][this.utils.attConfiguration];
+                  this.standardUiString = data.results[0][this.utils.attConfiguration];
                 }
               })
             );
@@ -427,9 +453,11 @@ export class ResourceService {
                 if (data.totalCount > 0 && data.results[0][this.utils.attConfiguration]) {
                   this.primaryUiSet = new BasicResource(data.results[0]);
                   this.primaryUiSetting = data.results[0][this.utils.attConfiguration];
+                  this.primaryUiString = data.results[0][this.utils.attConfiguration];
                 } else {
                   this.primaryUiSet = this.standardUiSet;
                   this.primaryUiSetting = this.standardUiSetting;
+                  this.primaryUiString = this.standardUiString;
                 }
                 this.checkCurrentViewSet();
                 this.configured = true;
@@ -471,6 +499,7 @@ export class ResourceService {
           this.user = user;
           if (user[this.utils.attConfiguration]) {
             this.customUiSetting = user[this.utils.attConfiguration];
+            this.customUiString = user[this.utils.attConfiguration];
           }
         })
       );
@@ -496,6 +525,7 @@ export class ResourceService {
           this.user = user;
           if (user[this.utils.attConfiguration]) {
             this.customUiSetting = user[this.utils.attConfiguration];
+            this.customUiString = user[this.utils.attConfiguration];
           }
         })
       );

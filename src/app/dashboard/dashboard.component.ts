@@ -20,7 +20,6 @@ import { SwapService } from '../core/services/swap.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 import { UtilsService } from '../core/services/utils.service';
 import { ModalService } from '../core/services/modal.service';
-import { ConfigService } from '../core/services/config.service';
 
 import { WidgetCreatorComponent } from '../core/components/widget-creator/widget-creator.component';
 
@@ -42,6 +41,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   gdItems: Array<GridsterComponentItem>;
 
+  private initDynamicComponent(item: GridsterComponentItem) {
+    const componentFactory = this.cfr.resolveComponentFactory(item.componentType);
+    const container = this.dynamicContainers.find(h => h.containerName === item.name);
+    if (container) {
+      const viewContainerRef = container.viewContainerRef;
+      viewContainerRef.clear();
+      const componentRef = viewContainerRef.createComponent(componentFactory);
+      item.componentInstance = componentRef.instance as DynamicComponent;
+      item.componentInstance.config = item.componentConfig;
+    }
+  }
+
   constructor(
     private cfr: ComponentFactoryResolver,
     private resource: ResourceService,
@@ -49,8 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private com: ComponentIndexService,
     private utils: UtilsService,
     private modal: ModalService,
-    private dialog: MatDialog,
-    private config: ConfigService
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -135,15 +145,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.gdItems.forEach((item: GridsterComponentItem) => {
-        const componentFactory = this.cfr.resolveComponentFactory(item.componentType);
-        const container = this.dynamicContainers.find(h => h.containerName === item.name);
-        if (container) {
-          const viewContainerRef = container.viewContainerRef;
-          viewContainerRef.clear();
-          const componentRef = viewContainerRef.createComponent(componentFactory);
-          item.componentInstance = componentRef.instance as DynamicComponent;
-          item.componentInstance.config = item.componentConfig;
-        }
+        this.initDynamicComponent(item);
       });
     }, 0);
   }
@@ -177,22 +179,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.gdItems.push(gdItem);
 
           setTimeout(() => {
-            const componentFactory = this.cfr.resolveComponentFactory(gdItem.componentType);
-            const container = this.dynamicContainers.find(h => h.containerName === gdItem.name);
-            if (container) {
-              const viewContainerRef = container.viewContainerRef;
-              viewContainerRef.clear();
-              const componentRef = viewContainerRef.createComponent(componentFactory);
-              gdItem.componentInstance = componentRef.instance as DynamicComponent;
-              gdItem.componentInstance.config = gdItem.componentConfig;
-            }
-          }, this.config.getConfig('intervalTiny', 100));
+            this.initDynamicComponent(gdItem);
+          }, 0);
         }
       }
     });
   }
 
   onGridsterCancel() {
+    this.gdItems = this.com.parseComponentConfig(
+      this.utils.DeepCopy(this.resource.primaryViewString)
+    ).dashboard.components as Array<GridsterComponentItem>;
+
+    setTimeout(() => {
+      this.gdItems.forEach((item: GridsterComponentItem) => {
+        this.initDynamicComponent(item);
+      });
+    }, 0);
+
+    this.resource.primaryViewSetting.dashboard.components = this.gdItems;
+
     this.gdOptions.draggable.enabled = false;
     this.gdOptions.resizable.enabled = false;
     this.gdOptions.displayGrid = DisplayGrid.None;
@@ -201,9 +207,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   onGridsterSave() {
     this.resource.primaryViewSetting.dashboard.components = this.gdItems;
-    this.resource.primaryViewSet[this.utils.attConfiguration] = this.com.stringifyComponentConfig(
+    this.resource.primaryViewString = this.com.stringifyComponentConfig(
       this.resource.primaryViewSetting
     );
+    this.resource.primaryViewSet[this.utils.attConfiguration] = this.resource.primaryViewString;
+
+    this.gdOptions.draggable.enabled = false;
+    this.gdOptions.resizable.enabled = false;
+    this.gdOptions.displayGrid = DisplayGrid.None;
+    this.gdOptions.api.optionsChanged();
+
     const process = this.modal.show(ModalType.progress, 'key_savingChanges', '', '300px');
     this.resource.updateResource(this.resource.primaryViewSet, true).subscribe(
       () => {
