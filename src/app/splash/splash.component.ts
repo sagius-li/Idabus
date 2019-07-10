@@ -8,6 +8,7 @@ import { ConfigService } from '../core/services/config.service';
 import { TransService } from '../core/models/translation.model';
 import { ResourceService } from '../core/services/resource.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
+import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-splash',
@@ -23,7 +24,8 @@ export class SplashComponent implements OnInit, OnDestroy {
     private config: ConfigService,
     private translate: TransService,
     private resource: ResourceService,
-    private com: ComponentIndexService
+    private com: ComponentIndexService,
+    private utils: UtilsService
   ) {}
 
   ngOnInit() {

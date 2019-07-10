@@ -18,6 +18,5 @@ export class WidgetCreatorComponent implements OnInit {
     Object.keys(this.com.componentIndex).forEach(key => {
       this.widgets.push(this.com.componentIndex[key]);
     });
-    console.log(this.widgets);
   }
 }

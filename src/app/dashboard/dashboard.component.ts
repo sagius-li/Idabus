@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material';
 
 import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
 import { BroadcastEvent } from '../core/models/dataContract.model';
-import { ModalType } from '../core/models/componentContract.model';
+import { ModalType, ComponentDef } from '../core/models/componentContract.model';
 
 import { DynamicContainerDirective } from '../core/directives/dynamic-container.directive';
 
@@ -20,8 +20,11 @@ import { SwapService } from '../core/services/swap.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 import { UtilsService } from '../core/services/utils.service';
 import { ModalService } from '../core/services/modal.service';
+import { ConfigService } from '../core/services/config.service';
 
 import { WidgetCreatorComponent } from '../core/components/widget-creator/widget-creator.component';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,7 +49,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private com: ComponentIndexService,
     private utils: UtilsService,
     private modal: ModalService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private config: ConfigService
   ) {}
 
   ngOnInit() {
@@ -152,18 +156,39 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   onGridsterAdd() {
-    // this.gdItems.push({
-    //   x: 0,
-    //   y: 0,
-    //   cols: 2,
-    //   rows: 2,
-    //   name: 'scc-test',
-    //   componentType: StateCardComponent,
-    //   componentConfig: undefined
-    // });
-
     const dialogRef = this.dialog.open(WidgetCreatorComponent, {
       width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result !== 'cancel') {
+        const widget = result as ComponentDef;
+        if (widget) {
+          const gdItem: GridsterComponentItem = {
+            x: 0,
+            y: 0,
+            cols: widget.width ? widget.width : 1,
+            rows: widget.height ? widget.height : 1,
+            name: `${widget.id}${moment().format('YYYYMMDDHHmmss')}`,
+            componentType: widget.instance,
+            componentConfig: {}
+          };
+
+          this.gdItems.push(gdItem);
+
+          setTimeout(() => {
+            const componentFactory = this.cfr.resolveComponentFactory(gdItem.componentType);
+            const container = this.dynamicContainers.find(h => h.containerName === gdItem.name);
+            if (container) {
+              const viewContainerRef = container.viewContainerRef;
+              viewContainerRef.clear();
+              const componentRef = viewContainerRef.createComponent(componentFactory);
+              gdItem.componentInstance = componentRef.instance as DynamicComponent;
+              gdItem.componentInstance.config = gdItem.componentConfig;
+            }
+          }, this.config.getConfig('intervalTiny', 100));
+        }
+      }
     });
   }
 

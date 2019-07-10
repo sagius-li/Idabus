@@ -3,9 +3,12 @@ import { ComponentConfig, DynamicComponent } from './dynamicComponent.interface'
 // #region component definition
 
 export class ComponentDef {
+  id: string;
   name: string;
   type: string;
   icon?: string;
+  width?: number;
+  height?: number;
   description?: string;
   instance: any;
 }
