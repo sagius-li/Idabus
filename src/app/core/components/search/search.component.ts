@@ -51,8 +51,12 @@ export class SearchComponent implements OnInit {
   }
 
   handleSearchFilter(value: string) {
+    if (this.canceled) {
+      this.canceled = false;
+    }
     if (value.length >= 3) {
       this.resourceList.loading = true;
+      this.resourceData = [];
       const query = `/Person[starts-with(DisplayName,'${value}')]`;
       this.resource.getResourceByQuery(query, ['DisplayName']).subscribe((data: ResourceSet) => {
         this.resourceData = data.results;
@@ -64,16 +68,14 @@ export class SearchComponent implements OnInit {
   }
 
   searchValueChange(value: Resource) {
-    setTimeout(() => {
-      if (this.canceled) {
+    if (this.canceled) {
+      this.resourceList.reset();
+      this.canceled = false;
+    } else {
+      if (value && value.ObjectID) {
         this.resourceList.reset();
-        this.canceled = false;
-      } else {
-        if (value && value.ObjectID) {
-          this.resourceList.reset();
-          this.selectResource.emit(value);
-        }
+        this.selectResource.emit(value);
       }
-    }, this.config.getConfig('intervalTiny', 100));
+    }
   }
 }
