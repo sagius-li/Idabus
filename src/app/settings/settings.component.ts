@@ -156,8 +156,9 @@ export class SettingsComponent implements OnInit {
     this.resource.updateResource(this.resource.loginUser, true).subscribe(
       () => {
         this.currentLanguage = language;
-        this.translate.use(language);
-        this.swap.broadcast({ name: 'refresh-language', parameter: language });
+        this.translate.use(language).subscribe(() => {
+          this.swap.broadcast({ name: 'refresh-language', parameter: language });
+        });
         this.spinner.stopLoader(this.loaderUserSettings);
       },
       () => {

@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
-import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
-import { Resource } from '../core/models/dataContract.model';
+import { Resource, BroadcastEvent } from '../core/models/dataContract.model';
 
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
+import { SwapService } from '../core/services/swap.service';
 
 @Component({
   selector: 'app-user',
@@ -14,38 +18,66 @@ import { TransService } from '../core/models/translation.model';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  currentUser: Resource;
+  currentResource: Resource;
+
+  obsCurrentResource: Observable<Resource>;
+
+  spinnerName = 'spinnerUserDetail';
+  spinnerType = SPINNER;
+
+  resourceForm: FormGroup = new FormGroup({
+    controls: new FormArray([])
+  });
+  get controls() {
+    return this.resourceForm.get('controls') as FormArray;
+  }
 
   constructor(
     private route: ActivatedRoute,
     private resource: ResourceService,
-    private translate: TransService
+    private translate: TransService,
+    private spinner: NgxUiLoaderService,
+    private swap: SwapService
   ) {}
 
   ngOnInit() {
-    this.route.params
-      .pipe(
-        switchMap(() => {
-          const objectID = this.route.snapshot.paramMap.get('id');
-          return this.resource.getResourceByID(
-            objectID,
-            ['DisplayName', 'FirstName', 'LastName'],
-            'full',
-            'en-US',
-            true
-          );
-        })
-      )
-      .subscribe((result: Resource) => {
-        this.currentUser = result;
-        console.log(result);
-      });
+    this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
+      switch (event.name) {
+        case 'refresh-language':
+          this.spinner.startLoader(this.spinnerName);
+          this.obsCurrentResource.subscribe((result: Resource) => {
+            this.currentResource = result;
+            this.spinner.stopLoader(this.spinnerName);
+          });
+          break;
+        default:
+          break;
+      }
+    });
 
-    // this.route.params.subscribe(() => {
-    //   const objectID = this.route.snapshot.paramMap.get('id');
-    //   this.resource.getResourceByID(objectID, [], 'full', '', true).subscribe(resource => {
+    this.obsCurrentResource = this.route.params.pipe(
+      tap(() => {
+        this.spinner.startLoader(this.spinnerName);
+      }),
+      switchMap(() => {
+        const objectID = this.route.snapshot.paramMap.get('id');
+        return this.resource.getResourceByID(
+          objectID,
+          ['DisplayName', 'FirstName', 'LastName'],
+          'full',
+          this.translate.currentCulture,
+          true
+        );
+      })
+    );
 
-    //   });
-    // });
+    this.obsCurrentResource.subscribe((result: Resource) => {
+      this.currentResource = result;
+
+      const control = new FormControl(this.currentResource.FirstName.value);
+      this.controls.push(control);
+
+      this.spinner.stopLoader(this.spinnerName);
+    });
   }
 }

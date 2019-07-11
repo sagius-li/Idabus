@@ -7,5 +7,24 @@ export class Language {
 }
 
 export class TransService extends TranslateService {
+  get currentCulture() {
+    let retVal = 'en-US';
+
+    switch (this.currentLang.toLowerCase()) {
+      case 'en':
+        retVal = 'en-US';
+        break;
+      case 'de':
+        retVal = 'de';
+        break;
+      case 'cn':
+        retVal = 'zh-Hans';
+        break;
+      default:
+        break;
+    }
+
+    return retVal;
+  }
   public supportedLanguages: Language[];
 }

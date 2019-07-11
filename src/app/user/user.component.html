@@ -1,1 +1,50 @@
-<p>User ID: {{ currentUser | extraValue: 'ObjectID:value' }}</p>
+<div>
+  <div ngxUiLoaderBlurred blur="1" [loaderId]="spinnerName">
+    <!-- <form>
+      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+        <mat-form-field fxFlex="auto">
+          <input
+            matInput
+            [placeholder]="currentResource | extraValue: 'FirstName:displayName'"
+            [value]="currentResource | extraValue: 'FirstName:value'"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex="auto">
+          <input
+            matInput
+            [placeholder]="currentResource | extraValue: 'LastName:displayName'"
+            [value]="currentResource | extraValue: 'LastName:value'"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex="auto">
+          <input
+            matInput
+            [placeholder]="currentResource | extraValue: 'DisplayName:displayName'"
+            [value]="currentResource | extraValue: 'DisplayName:value'"
+          />
+        </mat-form-field>
+      </div>
+    </form> -->
+
+    <form [formGroup]="resourceForm">
+      <div
+        fxLayout="column"
+        fxLayoutAlign="start start"
+        fxLayoutGap="20px"
+        formArrayName="controls"
+      >
+        <mat-form-field fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
+          <input matInput [formControlName]="i" />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <ngx-ui-loader
+    [loaderId]="spinnerName"
+    [fgsType]="spinnerType.rectangleBounce"
+    [fgsSize]="40"
+    [fgsColor]="'white'"
+    [overlayColor]="'rgba(50,50,50,.5)'"
+    [pbColor]="'white'"
+  ></ngx-ui-loader>
+</div>

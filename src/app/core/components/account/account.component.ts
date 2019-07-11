@@ -85,7 +85,9 @@ export class AccountComponent implements OnInit {
 
   onChangeLanguage(language: string) {
     this.currentLanguage = language;
-    this.translate.use(language);
+    this.translate.use(language).subscribe(() => {
+      this.swap.broadcast({ name: 'refresh-language', parameter: language });
+    });
   }
 
   onLogout() {
