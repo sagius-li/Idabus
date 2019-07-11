@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { SettingsComponent } from './settings/settings.component';
+import { UserComponent } from './user/user.component';
 
 import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
 
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent
+      },
+      {
+        path: 'person/:id',
+        component: UserComponent
       },
       {
         path: 'team',

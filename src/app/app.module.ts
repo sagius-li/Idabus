@@ -38,6 +38,7 @@ import { ResourcesComponent } from './resources/resources.component';
 
 import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
 import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,9 @@ import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.
 
     DemoTeamCreationComponent,
 
-    DemoTeamEditionComponent
+    DemoTeamEditionComponent,
+
+    UserComponent
   ],
   imports: [
     BrowserModule,

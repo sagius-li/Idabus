@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BroadcastEvent } from '../core/models/dataContract.model';
+import { BroadcastEvent, Resource } from '../core/models/dataContract.model';
+import { Router } from '@angular/router';
 
 import { SwapService } from '../core/services/swap.service';
 import { ResourceService } from '../core/services/resource.service';
@@ -14,7 +15,11 @@ export class HomeComponent implements OnInit {
   editMode = false;
   adminMode = false;
 
-  constructor(private swap: SwapService, private resource: ResourceService) {}
+  constructor(
+    private router: Router,
+    private swap: SwapService,
+    private resource: ResourceService
+  ) {}
 
   ngOnInit() {
     this.adminMode = this.resource.isAdminViewSet;
@@ -40,5 +45,10 @@ export class HomeComponent implements OnInit {
     this.editMode = false;
     this.swap.editMode = false;
     this.swap.broadcast({ name: 'exit-edit', parameter: null });
+  }
+
+  onResourceSelected(resource: Resource) {
+    const path = `/app/${resource.ObjectType}/${resource.ObjectID}`;
+    this.router.navigate([path.toLowerCase()]);
   }
 }

@@ -1,5 +1,12 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  HostListener,
+  ElementRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { ResourceSet, Resource } from '../../models/dataContract.model';
 
@@ -15,6 +22,9 @@ export class SearchComponent implements OnInit {
   @ViewChild('resourceList') resourceList: any;
   @ViewChild('resourceList', { read: ElementRef }) resourceListRef: ElementRef;
 
+  @Output()
+  selectResource = new EventEmitter<Resource>();
+
   resourceData: Resource[] = [];
   canceled = false;
 
@@ -22,11 +32,7 @@ export class SearchComponent implements OnInit {
     return this.resourceListRef.nativeElement.contains(target);
   }
 
-  constructor(
-    private resource: ResourceService,
-    private router: Router,
-    private config: ConfigService
-  ) {}
+  constructor(private resource: ResourceService, private config: ConfigService) {}
 
   ngOnInit() {}
 
@@ -65,7 +71,7 @@ export class SearchComponent implements OnInit {
       } else {
         if (value && value.ObjectID) {
           this.resourceList.reset();
-          this.router.navigate([`/app/user/${value.ObjectID}`]);
+          this.selectResource.emit(value);
         }
       }
     }, this.config.getConfig('intervalTiny', 100));
