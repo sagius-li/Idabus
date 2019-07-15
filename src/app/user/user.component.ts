@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
-import { Resource, BroadcastEvent } from '../core/models/dataContract.model';
+import { Resource, BroadcastEvent, AttributeResource } from '../core/models/dataContract.model';
 
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
@@ -32,6 +32,25 @@ export class UserComponent implements OnInit {
     return this.resourceForm.get('controls') as FormArray;
   }
 
+  attributeArray: Array<AttributeResource> = [];
+  attributesToLoad = ['DisplayName', 'FirstName', 'LastName'];
+
+  private clearFormArray(formArray: FormArray) {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0);
+    }
+  }
+
+  private prepareAttributes() {
+    this.clearFormArray(this.controls);
+    this.attributeArray.splice(0, this.attributeArray.length);
+
+    this.attributesToLoad.forEach(a => {
+      this.attributeArray.push(this.currentResource[a]);
+      this.controls.push(new FormControl(this.currentResource[a].value));
+    });
+  }
+
   constructor(
     private route: ActivatedRoute,
     private resource: ResourceService,
@@ -47,6 +66,7 @@ export class UserComponent implements OnInit {
           this.spinner.startLoader(this.spinnerName);
           this.obsCurrentResource.subscribe((result: Resource) => {
             this.currentResource = result;
+            this.prepareAttributes();
             this.spinner.stopLoader(this.spinnerName);
           });
           break;
@@ -73,11 +93,14 @@ export class UserComponent implements OnInit {
 
     this.obsCurrentResource.subscribe((result: Resource) => {
       this.currentResource = result;
-
-      const control = new FormControl(this.currentResource.FirstName.value);
-      this.controls.push(control);
+      this.prepareAttributes();
 
       this.spinner.stopLoader(this.spinnerName);
     });
+  }
+
+  onSubmit() {
+    console.log(this.currentResource);
+    console.log(this.resourceForm);
   }
 }

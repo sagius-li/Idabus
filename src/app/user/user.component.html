@@ -26,7 +26,7 @@
       </div>
     </form> -->
 
-    <form [formGroup]="resourceForm">
+    <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
       <div
         fxLayout="column"
         fxLayoutAlign="start start"
@@ -34,8 +34,9 @@
         formArrayName="controls"
       >
         <mat-form-field fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
-          <input matInput [formControlName]="i" />
+          <input matInput [placeholder]="attributeArray[i].displayName" [formControlName]="i" />
         </mat-form-field>
+        <button mat-stroked-button color="primary" type="submit">Submit</button>
       </div>
     </form>
   </div>
