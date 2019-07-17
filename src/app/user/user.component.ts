@@ -100,7 +100,6 @@ export class UserComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.currentResource);
     console.log(this.resourceForm);
   }
 }

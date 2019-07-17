@@ -54,6 +54,8 @@ import { ExamValuePipe } from '../pipes/exam-value.pipe';
 
 import { DynamicContainerDirective } from '../directives/dynamic-container.directive';
 
+import { EditorTextComponent } from '../components/editor-text/editor-text.component';
+
 import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
 import { SearchComponent } from '../components/search/search.component';
@@ -75,6 +77,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExamValuePipe,
 
     DynamicContainerDirective,
+
+    EditorTextComponent,
 
     SigninComponent,
     EditMenuComponent,
@@ -205,6 +209,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExamValuePipe,
 
     DynamicContainerDirective,
+
+    EditorTextComponent,
 
     SigninComponent,
     EditMenuComponent,

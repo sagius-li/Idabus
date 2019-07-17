@@ -33,9 +33,12 @@
         fxLayoutGap="20px"
         formArrayName="controls"
       >
-        <mat-form-field fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
+        <div fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
+          <app-editor-text [attribute]="attributeArray[i]" [formControlName]="i"></app-editor-text>
+        </div>
+        <!-- <mat-form-field fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
           <input matInput [placeholder]="attributeArray[i].displayName" [formControlName]="i" />
-        </mat-form-field>
+        </mat-form-field> -->
         <button mat-stroked-button color="primary" type="submit">Submit</button>
       </div>
     </form>
