@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
   }
 
   attributeArray: Array<AttributeResource> = [];
-  attributesToLoad = ['DisplayName', 'FirstName', 'LastName'];
+  attributesToLoad = ['DisplayName', 'FirstName', 'LastName', 'MiddleName', 'AccountName'];
 
   private clearFormArray(formArray: FormArray) {
     while (formArray.length !== 0) {
@@ -83,7 +83,7 @@ export class UserComponent implements OnInit {
         const objectID = this.route.snapshot.paramMap.get('id');
         return this.resource.getResourceByID(
           objectID,
-          ['DisplayName', 'FirstName', 'LastName'],
+          this.attributesToLoad,
           'full',
           this.translate.currentCulture,
           true
@@ -100,6 +100,7 @@ export class UserComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.attributeArray);
     console.log(this.resourceForm);
   }
 }

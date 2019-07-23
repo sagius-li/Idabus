@@ -1,8 +1,15 @@
-<mat-form-field>
+<mat-form-field *ngIf="showEditor">
   <input
     matInput
-    [placeholder]="attribute.displayName"
+    #editor
+    [placeholder]="displayName | translate"
     [(ngModel)]="controlValue"
     (change)="onChange()"
+    [disabled]="disabled"
+    [attr.maxlength]="localConfig.maxLength"
   />
+  <mat-hint align="start">{{ description | translate }}</mat-hint>
+  <mat-hint align="end" *ngIf="localConfig.maxLength"
+    >{{ editor.value.length }} / {{ localConfig.maxLength }}</mat-hint
+  >
 </mat-form-field>

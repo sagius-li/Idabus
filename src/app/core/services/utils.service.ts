@@ -263,4 +263,28 @@ export class UtilsService {
 
     return undefined;
   }
+
+  public PermissionCanRead(permissionHint: string): boolean {
+    if (!permissionHint) {
+      return true;
+    } else {
+      if (permissionHint.match(/read/i)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  public PermissionCanModify(permissionHint: string): boolean {
+    if (!permissionHint) {
+      return true;
+    } else {
+      if (permissionHint.match(/modify/i)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }

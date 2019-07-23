@@ -34,11 +34,12 @@
         formArrayName="controls"
       >
         <div fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
-          <app-editor-text [attribute]="attributeArray[i]" [formControlName]="i"></app-editor-text>
+          <app-editor-text
+            [attribute]="attributeArray[i]"
+            [formControlName]="i"
+            [config]="{}"
+          ></app-editor-text>
         </div>
-        <!-- <mat-form-field fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
-          <input matInput [placeholder]="attributeArray[i].displayName" [formControlName]="i" />
-        </mat-form-field> -->
         <button mat-stroked-button color="primary" type="submit">Submit</button>
       </div>
     </form>

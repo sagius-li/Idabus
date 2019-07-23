@@ -1,4 +1,4 @@
-import { ComponentConfig, DynamicComponent } from './dynamicComponent.interface';
+import { ComponentConfig } from './dynamicComponent.interface';
 
 // #region component definition
 
