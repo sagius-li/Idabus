@@ -1,14 +1,19 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  FormControl
+} from '@angular/forms';
 
 import { of } from 'rxjs';
 
 import { AttributeResource } from '../../models/dataContract.model';
 import { TextEditorConfig } from '../../models/editorContract.model';
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
-import { validateEditorText } from '../../models/validator.model';
 
 import { UtilsService } from '../../services/utils.service';
+import { createTextEditorValidator } from '../../models/validator.model';
 
 @Component({
   selector: 'app-editor-text',
@@ -22,7 +27,7 @@ import { UtilsService } from '../../services/utils.service';
     },
     {
       provide: NG_VALIDATORS,
-      useValue: validateEditorText,
+      useExisting: forwardRef(() => EditorTextComponent),
       multi: true
     }
   ]
@@ -36,6 +41,8 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
 
   @Input()
   config: TextEditorConfig;
+
+  validationFn: (c: FormControl) => any;
 
   localConfig: TextEditorConfig;
 
@@ -122,6 +129,8 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   // #region DynamicEditor implementation
 
   initComponent() {
+    this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
+
     this.localConfig = new TextEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
 
@@ -130,6 +139,14 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
 
   configure() {
     return of(this.localConfig);
+  }
+
+  // #endregion
+
+  // #region Validator implementation
+
+  validate(c: FormControl) {
+    return this.validationFn(c);
   }
 
   // #endregion

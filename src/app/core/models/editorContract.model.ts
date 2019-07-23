@@ -1,16 +1,26 @@
 import { EditorConfig } from './dynamicEditor.interface';
 
 export class TextEditorConfig implements EditorConfig {
-  name = undefined;
-  editMode = true;
-  isHidden = false;
-  showDisplayName = true;
-  customDisplayName = undefined;
-  showDescription = false;
-  customDescription = undefined;
-  readOnly = false;
-  required = false;
-  hideIfNoAccess = true;
-  validation: string = undefined;
-  maxLength: number = undefined;
+  // tslint:disable-next-line:whitespace
+  name? = undefined;
+  // tslint:disable-next-line:whitespace
+  editMode? = true;
+  // tslint:disable-next-line:whitespace
+  isHidden? = false;
+  // tslint:disable-next-line:whitespace
+  showDisplayName? = true;
+  // tslint:disable-next-line:whitespace
+  customDisplayName? = undefined;
+  // tslint:disable-next-line:whitespace
+  showDescription? = false;
+  // tslint:disable-next-line:whitespace
+  customDescription? = undefined;
+  // tslint:disable-next-line:whitespace
+  readOnly? = false;
+  // tslint:disable-next-line:whitespace
+  required? = false;
+  // tslint:disable-next-line:whitespace
+  hideIfNoAccess? = true;
+  validation?: string = undefined;
+  maxLength?: number = undefined;
 }

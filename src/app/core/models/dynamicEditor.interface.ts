@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
  * Interface for editor configuration
  */
 export interface EditorConfig {
-  name: string;
-  editMode: boolean;
-  isHidden: boolean;
-  readOnly: boolean;
-  required: boolean;
-  showDisplayName: boolean;
-  customDisplayName: string;
-  showDescription: boolean;
-  customDescription: string;
-  hideIfNoAccess: boolean;
+  name?: string;
+  editMode?: boolean;
+  isHidden?: boolean;
+  readOnly?: boolean;
+  required?: boolean;
+  showDisplayName?: boolean;
+  customDisplayName?: string;
+  showDescription?: boolean;
+  customDescription?: string;
+  hideIfNoAccess?: boolean;
 }
 
 /**
