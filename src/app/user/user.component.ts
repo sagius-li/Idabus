@@ -7,6 +7,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { Resource, BroadcastEvent, AttributeResource } from '../core/models/dataContract.model';
+import { validateEditorText } from '../core/models/validator.model';
 
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
@@ -47,7 +48,7 @@ export class UserComponent implements OnInit {
 
     this.attributesToLoad.forEach(a => {
       this.attributeArray.push(this.currentResource[a]);
-      this.controls.push(new FormControl(this.currentResource[a].value));
+      this.controls.push(new FormControl(this.currentResource[a].value, validateEditorText));
     });
   }
 

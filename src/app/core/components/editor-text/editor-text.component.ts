@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 
 import { of } from 'rxjs';
 
 import { AttributeResource } from '../../models/dataContract.model';
 import { TextEditorConfig } from '../../models/editorContract.model';
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
+import { validateEditorText } from '../../models/validator.model';
 
 import { UtilsService } from '../../services/utils.service';
 
@@ -17,6 +18,11 @@ import { UtilsService } from '../../services/utils.service';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => EditorTextComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useValue: validateEditorText,
       multi: true
     }
   ]
