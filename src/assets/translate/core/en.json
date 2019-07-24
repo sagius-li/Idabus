@@ -97,5 +97,6 @@
   "key_toDualColumn": "change to dual column",
   "key_attributeName": "attribute name",
   "key_addComponent": "add component",
-  "key_addWidget": "add widget"
+  "key_addWidget": "add widget",
+  "key_invalidValue": "invalid value"
 }

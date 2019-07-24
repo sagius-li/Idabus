@@ -119,9 +119,12 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     this.propagateTouched = fn;
   }
 
-  onChange() {
-    this.propagateChange(this.controlValue);
+  onFocuse() {
     this.propagateTouched();
+  }
+
+  onKeyUp() {
+    this.propagateChange(this.controlValue);
   }
 
   // #endregion

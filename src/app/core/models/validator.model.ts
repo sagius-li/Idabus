@@ -4,6 +4,10 @@ import { AttributeResource } from './dataContract.model';
 
 export function createTextEditorValidator(attribute: AttributeResource, config: TextEditorConfig) {
   return (c: FormControl) => {
+    if (attribute && attribute.required) {
+      return { requiredError: { message: 'value required' } };
+    }
+
     if (config && config.required && !c.value) {
       return { requiredError: { message: 'value required' } };
     }

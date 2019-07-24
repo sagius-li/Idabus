@@ -49,5 +49,6 @@
   "l10n_wfDes": "Aktivitäten Aufbau",
   "l10n_configDes": "Portal Konfigurationen",
   "l10n_editPage": "Seite editieren",
-  "l10n_exitEdit": "Editieren beenden"
+  "l10n_exitEdit": "Editieren beenden",
+  "key_invalidValue": "ungültiger Wert"
 }

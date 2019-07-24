@@ -1,15 +1,19 @@
 <mat-form-field *ngIf="showEditor">
   <input
     matInput
-    #editor
+    #editor="ngModel"
     [placeholder]="displayName | translate"
     [(ngModel)]="controlValue"
-    (change)="onChange()"
+    (focus)="onFocuse()"
+    (keyup)="onKeyUp()"
     [disabled]="disabled"
     [attr.maxlength]="localConfig.maxLength"
+    [pattern]="localConfig.validation ? localConfig.validation : attribute.stringRegex"
+    [required]="localConfig.required ? localConfig.required : attribute.required"
   />
   <mat-hint align="start">{{ description | translate }}</mat-hint>
   <mat-hint align="end" *ngIf="localConfig.maxLength"
-    >{{ editor.value.length }} / {{ localConfig.maxLength }}</mat-hint
+    >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
   >
+  <mat-error>{{ 'key_invalidValue' | translate }}</mat-error>
 </mat-form-field>
