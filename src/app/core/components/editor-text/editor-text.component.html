@@ -3,17 +3,18 @@
     matInput
     #editor="ngModel"
     [placeholder]="displayName | translate"
+    [matTooltip]="tooltip"
     [(ngModel)]="controlValue"
     (focus)="onFocuse()"
     (keyup)="onKeyUp()"
     [disabled]="disabled"
     [attr.maxlength]="localConfig.maxLength"
-    [pattern]="localConfig.validation ? localConfig.validation : attribute.stringRegex"
-    [required]="localConfig.required ? localConfig.required : attribute.required"
   />
-  <mat-hint align="start">{{ description | translate }}</mat-hint>
-  <mat-hint align="end" *ngIf="localConfig.maxLength"
+  <mat-hint align="start" *ngIf="control.valid">{{ description | translate }}</mat-hint>
+  <mat-hint align="end" *ngIf="localConfig.maxLength && control.valid"
     >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
   >
-  <mat-error>{{ 'key_invalidValue' | translate }}</mat-error>
+  <mat-hint *ngIf="control.invalid && control.touched" class="error-message">{{
+    control.errors['message'] | translate
+  }}</mat-hint>
 </mat-form-field>

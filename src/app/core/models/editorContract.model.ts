@@ -8,6 +8,8 @@ export class TextEditorConfig implements EditorConfig {
   // tslint:disable-next-line:whitespace
   isHidden? = false;
   // tslint:disable-next-line:whitespace
+  showTooltip? = true;
+  // tslint:disable-next-line:whitespace
   showDisplayName? = true;
   // tslint:disable-next-line:whitespace
   customDisplayName? = undefined;

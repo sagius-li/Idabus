@@ -5,11 +5,11 @@ import { AttributeResource } from './dataContract.model';
 export function createTextEditorValidator(attribute: AttributeResource, config: TextEditorConfig) {
   return (c: FormControl) => {
     if (attribute && attribute.required) {
-      return { requiredError: { message: 'value required' } };
+      return { message: 'key_valueRequired' };
     }
 
     if (config && config.required && !c.value) {
-      return { requiredError: { message: 'value required' } };
+      return { message: 'key_valueRequired' };
     }
 
     const value = c.value ? c.value : '';
@@ -17,14 +17,14 @@ export function createTextEditorValidator(attribute: AttributeResource, config: 
     if (attribute && attribute.stringRegex) {
       const regEx = new RegExp(attribute.stringRegex);
       if (!regEx.test(value)) {
-        return { schemaError: { message: 'schema mismatch' } };
+        return { message: 'key_restrictionViolation' };
       }
     }
 
     if (config && config.validation) {
       const regEx = new RegExp(config.validation);
       if (!regEx.test(value)) {
-        return { patternError: { message: 'pattern mismatch' } };
+        return { message: 'key_restrictionViolation' };
       }
     }
 

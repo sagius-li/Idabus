@@ -6,3 +6,7 @@
 :host.ng-invalid.ng-touched /deep/ .mat-form-field-ripple {
   background-color: #f44336;
 }
+
+.error-message {
+  color: #f44336;
+}

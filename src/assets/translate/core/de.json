@@ -97,5 +97,7 @@
   "key_toDualColumn": "zu 2er-Spalten wechseln",
   "key_attributeName": "Attributname",
   "key_addComponent": "Komponent hinzufügen",
-  "key_addWidget": "Widget hinzufügen"
+  "key_addWidget": "Widget hinzufügen",
+  "key_valueRequired": "Wert erforderlich",
+  "key_restrictionViolation": "ungültiger Wert"
 }

@@ -97,5 +97,7 @@
   "key_toDualColumn": "切换成双列",
   "key_attributeName": "属性名",
   "key_addComponent": "添加控件",
-  "key_addWidget": "添加组件"
+  "key_addWidget": "添加组件",
+  "key_valueRequired": "内容不可为空",
+  "key_restrictionViolation": "内容错误"
 }

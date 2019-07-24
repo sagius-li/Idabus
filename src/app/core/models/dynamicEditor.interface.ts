@@ -9,6 +9,7 @@ export interface EditorConfig {
   isHidden?: boolean;
   readOnly?: boolean;
   required?: boolean;
+  showTooltip?: boolean;
   showDisplayName?: boolean;
   customDisplayName?: string;
   showDescription?: boolean;

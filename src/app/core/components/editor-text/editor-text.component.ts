@@ -42,6 +42,9 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   @Input()
   config: TextEditorConfig;
 
+  @Input()
+  control: FormControl;
+
   validationFn: (c: FormControl) => any;
 
   localConfig: TextEditorConfig;
@@ -93,6 +96,14 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
       }
     } else {
       return undefined;
+    }
+  }
+
+  get tooltip() {
+    if (this.localConfig.showTooltip && this.attribute) {
+      return this.attribute.systemName;
+    } else {
+      return null;
     }
   }
 

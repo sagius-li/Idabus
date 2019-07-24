@@ -98,5 +98,6 @@
   "key_attributeName": "attribute name",
   "key_addComponent": "add component",
   "key_addWidget": "add widget",
-  "key_invalidValue": "invalid value"
+  "key_valueRequired": "value required",
+  "key_restrictionViolation": "invalid value"
 }
