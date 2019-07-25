@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { SPINNER } from 'ngx-ui-loader';
 
 import { BroadcastEvent, Resource } from '../core/models/dataContract.model';
-import { Router } from '@angular/router';
 
 import { SwapService } from '../core/services/swap.service';
 import { ResourceService } from '../core/services/resource.service';
@@ -14,6 +16,8 @@ import { ResourceService } from '../core/services/resource.service';
 export class HomeComponent implements OnInit {
   editMode = false;
   adminMode = false;
+
+  spinnerType = SPINNER;
 
   constructor(
     private router: Router,

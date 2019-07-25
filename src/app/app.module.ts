@@ -39,6 +39,8 @@ import { ResourcesComponent } from './resources/resources.component';
 import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
 import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
 import { UserComponent } from './user/user.component';
+import { TabViewComponent } from './tab-view/tab-view.component';
+import { GridsterViewComponent } from './gridster-view/gridster-view.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,11 @@ import { UserComponent } from './user/user.component';
 
     DemoTeamEditionComponent,
 
-    UserComponent
+    UserComponent,
+
+    TabViewComponent,
+
+    GridsterViewComponent
   ],
   imports: [
     BrowserModule,

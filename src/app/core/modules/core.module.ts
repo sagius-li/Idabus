@@ -62,6 +62,7 @@ import { SearchComponent } from '../components/search/search.component';
 import { AccountComponent } from '../components/account/account.component';
 import { ModalComponent } from '../components/modal/modal.component';
 import { WidgetCreatorComponent } from '../components/widget-creator/widget-creator.component';
+import { AttributeViewComponent } from '../components/attribute-view/attribute-view.component';
 
 import { StateCardComponent } from '../components/state-card/state-card.component';
 import { StateCardConfigComponent } from '../components/state-card/state-card-config.component';
@@ -85,6 +86,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SearchComponent,
     AccountComponent,
     WidgetCreatorComponent,
+    AttributeViewComponent,
 
     ModalComponent,
     StateCardComponent,
@@ -217,6 +219,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     SearchComponent,
     AccountComponent,
     WidgetCreatorComponent,
+    AttributeViewComponent,
 
     ModalComponent,
     StateCardComponent,

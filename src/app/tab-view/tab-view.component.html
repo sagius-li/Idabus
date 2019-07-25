@@ -1,0 +1,38 @@
+<div class="info-body" [class.mat-elevation-z1]="true">
+  <div class="info-icon-layer">
+    <mat-icon class="info-icon">perm_identity</mat-icon>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" style="margin-right: 20px;">
+    <a class="info-button" matTooltip="{{ 'key_refresh' | translate }}">
+      <mat-icon style="margin-left: 3px; margin-top: 3px;">refresh</mat-icon>
+    </a>
+    <a
+      class="info-button"
+      [class.disabled-link]="!editMode"
+      matTooltip="{{ 'key_arrange' | translate }}"
+    >
+      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onArrange()">settings</mat-icon>
+    </a>
+    <a
+      class="info-button"
+      [class.disabled-link]="!editMode"
+      matTooltip="{{ 'key_add' | translate }}"
+    >
+      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onAddEditor()"
+        >playlist_add</mat-icon
+      >
+    </a>
+    <a class="info-button" matTooltip="{{ 'key_edit' | translate }}">
+      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onConfig()"
+        >view_column</mat-icon
+      >
+    </a>
+  </div>
+  <mat-tab-group [disableRipple]="true" class="info-tab" animationDuration="0ms">
+    <mat-tab *ngFor="let tabDef of tabDefs" label="{{ tabDef.displayName | translate }}">
+      <div style="margin-top: 20px;">
+        <app-attribute-view [attributeDefs]="tabDef.attributes"></app-attribute-view>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

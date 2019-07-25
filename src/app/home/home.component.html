@@ -41,7 +41,17 @@
       </div>
     </div>
     <div class="main" fxFlex="1 1 auto">
-      <router-outlet></router-outlet>
+      <div ngxUiLoaderBlurred blur="1" loaderId="spinner_home">
+        <router-outlet></router-outlet>
+      </div>
+      <ngx-ui-loader
+        loaderId="spinner_home"
+        [fgsType]="spinnerType.rectangleBounce"
+        [fgsSize]="40"
+        [fgsColor]="'white'"
+        [overlayColor]="'rgba(50,50,50,.5)'"
+        [pbColor]="'white'"
+      ></ngx-ui-loader>
     </div>
     <div class="footer" fxFlex="0 0 30px">
       <div style="font-size: 1px;">

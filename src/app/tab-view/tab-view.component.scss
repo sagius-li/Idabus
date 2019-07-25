@@ -1,0 +1,41 @@
+.info-body {
+  height: 600px;
+  border-radius: 5px;
+  background-color: white;
+  position: relative;
+}
+
+.info-icon-layer {
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  margin-top: -20px;
+  margin-left: 20px;
+  background-color: cadetblue;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(95, 158, 160, 0.4);
+}
+
+.info-icon {
+  font-size: 40px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.info-button {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background-color: cadetblue;
+  border: solid lightgray 1px;
+  color: white;
+  border-radius: 50%;
+  margin-top: -15px;
+  cursor: pointer;
+}
+
+.info-tab {
+  margin: 20px;
+  height: 480px;
+}

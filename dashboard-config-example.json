@@ -271,5 +271,73 @@
         }
       }
     ]
+  },
+  "userDetail": {
+    "type": "tab",
+    "sections": [
+      {
+        "cols": 2,
+        "rows": 2,
+        "y": 0,
+        "x": 0,
+        "name": "userGeneral",
+        "displayName": "key_general",
+        "attributes": [
+          {
+            "attributeName": "FirstName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtFirstName"
+            }
+          },
+          {
+            "attributeName": "LastName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtLastName"
+            }
+          },
+          {
+            "attributeName": "DisplayName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtDisplayName"
+            }
+          },
+          {
+            "attributeName": "AccountName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtAccountName",
+              "showDescription": true
+            }
+          }
+        ]
+      },
+      {
+        "cols": 2,
+        "rows": 2,
+        "y": 0,
+        "x": 1,
+        "name": "userWorkInfo",
+        "displayName": "key_workInfo",
+        "attributes": [
+          {
+            "attributeName": "JobTitle",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtJobTitle"
+            }
+          },
+          {
+            "attributeName": "Department",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtDepartment"
+            }
+          }
+        ]
+      }
+    ]
   }
 }
