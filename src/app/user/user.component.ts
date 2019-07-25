@@ -34,7 +34,7 @@ export class UserComponent implements OnInit {
   }
 
   attributeArray: Array<AttributeResource> = [];
-  attributesToLoad = ['DisplayName', 'FirstName', 'LastName', 'MiddleName', 'AccountName'];
+  attributesToLoad = ['DisplayName', 'FirstName', 'LastName', 'AccountName', 'Description'];
 
   private clearFormArray(formArray: FormArray) {
     while (formArray.length !== 0) {
@@ -106,6 +106,11 @@ export class UserComponent implements OnInit {
   }
 
   onSubmit() {
+    // const control = this.controls.controls[3] as FormControl;
+    // control.setValue('test?');
+    // control.markAsTouched();
+    // control.markAsDirty();
+
     console.log(this.attributeArray);
     console.log(this.resourceForm);
   }
