@@ -1,4 +1,10 @@
 <div>
-  <app-tab-view [tabDefs]="viewSetting.sections" *ngIf="viewSetting.type === 'tab'"></app-tab-view>
-  <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>
+  <div ngxUiLoaderBlurred blur="1" loaderId="spinner_home">
+    <app-tab-view
+      [icon]="viewSetting.icon ? viewSetting.icon : 'payment'"
+      [tabDefs]="viewSetting.sections"
+      *ngIf="viewSetting.type === 'tab'"
+    ></app-tab-view>
+    <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>
+  </div>
 </div>

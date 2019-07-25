@@ -119,10 +119,10 @@ export class AttributeViewComponent implements OnInit {
   }
 
   onSubmit() {
-    const control = this.controls.controls[3] as FormControl;
-    control.setValue('test?');
-    control.markAsTouched();
-    control.markAsDirty();
+    // const control = this.controls.controls[3] as FormControl;
+    // control.setValue('test?');
+    // control.markAsTouched();
+    // control.markAsDirty();
 
     console.log(this.attributeArray);
     console.log(this.resourceForm);

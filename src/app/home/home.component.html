@@ -41,9 +41,7 @@
       </div>
     </div>
     <div class="main" fxFlex="1 1 auto">
-      <div ngxUiLoaderBlurred blur="1" loaderId="spinner_home">
-        <router-outlet></router-outlet>
-      </div>
+      <router-outlet></router-outlet>
       <ngx-ui-loader
         loaderId="spinner_home"
         [fgsType]="spinnerType.rectangleBounce"

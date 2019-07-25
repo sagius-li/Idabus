@@ -274,6 +274,7 @@
   },
   "userDetail": {
     "type": "tab",
+    "icon": "perm_identity",
     "sections": [
       {
         "cols": 2,
