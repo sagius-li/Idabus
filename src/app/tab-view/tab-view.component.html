@@ -30,9 +30,11 @@
   </div>
   <mat-tab-group [disableRipple]="true" class="info-tab" animationDuration="0ms">
     <mat-tab *ngFor="let tabDef of tabDefs" label="{{ tabDef.displayName | translate }}">
-      <div style="margin-top: 20px;">
-        <app-attribute-view [attributeDefs]="tabDef.attributes"></app-attribute-view>
-      </div>
+      <ng-template matTabContent>
+        <div style="margin-top: 20px;">
+          <app-attribute-view [attributeDefs]="tabDef.attributes"></app-attribute-view>
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>
