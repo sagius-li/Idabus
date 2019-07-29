@@ -9,7 +9,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Resource, AttributeResource, BroadcastEvent } from '../../models/dataContract.model';
 import { createTextEditorValidator } from '../../models/validator.model';
 import { TransService } from '../../models/translation.model';
-import { EditorConfig } from '../../models/dynamicEditor.interface';
+import { EditorConfig, DynamicEditor } from '../../models/dynamicEditor.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
@@ -22,6 +22,9 @@ import { SwapService } from '../../services/swap.service';
 export class AttributeViewComponent implements OnInit {
   @Input()
   attributeDefs: Array<any>;
+
+  @Input()
+  configMode = false;
 
   currentResource: Resource;
   obsCurrentResource: Observable<Resource>;
@@ -56,7 +59,7 @@ export class AttributeViewComponent implements OnInit {
       this.controls.push(
         new FormControl(
           this.currentResource[a.attributeName].value,
-          createTextEditorValidator(this.currentResource[a.attributeName], {})
+          createTextEditorValidator(this.currentResource[a.attributeName], a.editorConfig)
         )
       );
     });
@@ -118,11 +121,34 @@ export class AttributeViewComponent implements OnInit {
     });
   }
 
+  onConfig(editor: DynamicEditor) {
+    editor.configure().subscribe();
+  }
+
+  getValue(controlName: string) {
+    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
+    return pos < 0 ? undefined : this.controls.controls[pos].value;
+  }
+
+  setValue(controlName: string, value: any) {
+    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
+    if (pos < 0) {
+      return;
+    }
+    const control = this.controls.controls[pos] as FormControl;
+    control.setValue(value);
+    control.markAsTouched();
+    control.markAsDirty();
+  }
+
   onSubmit() {
     // const control = this.controls.controls[3] as FormControl;
     // control.setValue('test?');
     // control.markAsTouched();
     // control.markAsDirty();
+
+    // console.log(this.getValue('txtFirstName'));
+    // this.setValue('txtAccountName', 'test?');
 
     console.log(this.attributeArray);
     console.log(this.resourceForm);

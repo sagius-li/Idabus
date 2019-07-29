@@ -99,5 +99,17 @@
   "key_addComponent": "添加控件",
   "key_addWidget": "添加组件",
   "key_valueRequired": "内容不可为空",
-  "key_restrictionViolation": "内容错误"
+  "key_restrictionViolation": "内容错误",
+  "key_name": "名称",
+  "key_maxLength": "最大字数",
+  "key_showToolTip": "显示提示",
+  "key_hideIfNoAccess": "若无权限，隐藏控件",
+  "key_readOnly": "写保护",
+  "key_required": "必填内容",
+  "key_showDisplayName": "显示名为可见",
+  "key_customDisplayName": "自定义显示名",
+  "key_showDescription": "描述为可见",
+  "key_customDescription": "自定义描述",
+  "key_valueExpression": "内容表达式",
+  "key_valueValidation": "内容验证"
 }

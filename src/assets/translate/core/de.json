@@ -99,5 +99,17 @@
   "key_addComponent": "Komponent hinzufügen",
   "key_addWidget": "Widget hinzufügen",
   "key_valueRequired": "Wert erforderlich",
-  "key_restrictionViolation": "ungültiger Wert"
+  "key_restrictionViolation": "ungültiger Wert",
+  "key_name": "Name",
+  "key_maxLength": "max. Zeichenlänge",
+  "key_showToolTip": "Tooltip einblenden",
+  "key_hideIfNoAccess": "ausbl. bei Zugriff verweigert",
+  "key_readOnly": "schreibgeschützt",
+  "key_required": "erforderlich",
+  "key_showDisplayName": "Anzeigename einblenden",
+  "key_customDisplayName": "eigner Anzeigename",
+  "key_showDescription": "Beschreibung einblenden",
+  "key_customDescription": "eigne Beschreibung",
+  "key_valueExpression": "Wert-Aufbau",
+  "key_valueValidation": "Wert-Validierung"
 }

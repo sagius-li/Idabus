@@ -1,13 +1,30 @@
 <div>
   <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
-    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px" formArrayName="controls">
+    <div fxLayout="column" fxLayoutGap="20px" formArrayName="controls">
       <div fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
-        <app-editor-text
-          [attribute]="attributeArray[i].attribute"
-          [formControlName]="i"
-          [control]="control"
-          [config]="attributeArray[i].config"
-        ></app-editor-text>
+        <div fxLayout="row" fxLayoutAlign="start center"></div>
+        <div fxFlex="auto">
+          <app-editor-text
+            #editor
+            [attribute]="attributeArray[i].attribute"
+            [formControlName]="i"
+            [control]="control"
+            [config]="attributeArray[i].config"
+          ></app-editor-text>
+        </div>
+        <button
+          *ngIf="!configMode"
+          type="button"
+          mat-icon-button
+          color="primary"
+          fxFlex="none"
+          (click)="onConfig(editor)"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button *ngIf="!configMode" type="button" mat-icon-button color="warn" fxFlex="none">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
       <button mat-stroked-button color="primary" type="submit">Submit</button>
     </div>

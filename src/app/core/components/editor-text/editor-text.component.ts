@@ -6,14 +6,18 @@ import {
   FormControl
 } from '@angular/forms';
 
+import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 
 import { AttributeResource } from '../../models/dataContract.model';
 import { TextEditorConfig } from '../../models/editorContract.model';
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
+import { createTextEditorValidator } from '../../models/validator.model';
 
 import { UtilsService } from '../../services/utils.service';
-import { createTextEditorValidator } from '../../models/validator.model';
+
+import { EditorTextConfigComponent } from './editor-text-config.component';
 
 @Component({
   selector: 'app-editor-text',
@@ -44,6 +48,9 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
 
   @Input()
   control: FormControl;
+
+  @Input()
+  configMode = false;
 
   validationFn: (c: FormControl) => any;
 
@@ -107,7 +114,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     }
   }
 
-  constructor(public utils: UtilsService) {}
+  constructor(public utils: UtilsService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.initComponent();
@@ -152,7 +159,27 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   }
 
   configure() {
-    return of(this.localConfig);
+    const configCopy = this.utils.DeepCopy(this.localConfig);
+
+    const dialogRef = this.dialog.open(EditorTextConfigComponent, {
+      minWidth: '620px',
+      data: {
+        component: this,
+        config: this.localConfig
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      tap(result => {
+        if (!result || (result && result === 'cancel')) {
+          this.localConfig = configCopy;
+        }
+        this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
+      }),
+      switchMap(() => {
+        return of(this.localConfig);
+      })
+    );
   }
 
   // #endregion

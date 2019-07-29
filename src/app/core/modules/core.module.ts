@@ -55,6 +55,7 @@ import { ExamValuePipe } from '../pipes/exam-value.pipe';
 import { DynamicContainerDirective } from '../directives/dynamic-container.directive';
 
 import { EditorTextComponent } from '../components/editor-text/editor-text.component';
+import { EditorTextConfigComponent } from '../components/editor-text/editor-text-config.component';
 
 import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
@@ -80,6 +81,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     DynamicContainerDirective,
 
     EditorTextComponent,
+    EditorTextConfigComponent,
 
     SigninComponent,
     EditMenuComponent,
@@ -150,7 +152,9 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ResourceTableComponent,
     ResourceTableConfigComponent,
     ResourceChartComponent,
-    ResourceChartConfigComponent
+    ResourceChartConfigComponent,
+
+    EditorTextConfigComponent
   ],
   providers: [
     ExtraValuePipe,
@@ -213,6 +217,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     DynamicContainerDirective,
 
     EditorTextComponent,
+    EditorTextConfigComponent,
 
     SigninComponent,
     EditMenuComponent,

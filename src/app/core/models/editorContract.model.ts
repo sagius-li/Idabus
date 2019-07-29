@@ -25,4 +25,5 @@ export class TextEditorConfig implements EditorConfig {
   hideIfNoAccess? = true;
   validation?: string = undefined;
   maxLength?: number = undefined;
+  expression?: string = undefined;
 }

@@ -99,5 +99,17 @@
   "key_addComponent": "add component",
   "key_addWidget": "add widget",
   "key_valueRequired": "value required",
-  "key_restrictionViolation": "invalid value"
+  "key_restrictionViolation": "invalid value",
+  "key_name": "name",
+  "key_maxLength": "max length",
+  "key_showToolTip": "show tooltip",
+  "key_hideIfNoAccess": "hide if no access",
+  "key_readOnly": "read-only",
+  "key_required": "required",
+  "key_showDisplayName": "show display name",
+  "key_customDisplayName": "custom display name",
+  "key_showDescription": "show description",
+  "key_customDescription": "custom description",
+  "key_valueExpression": "value expression",
+  "key_valueValidation": "value validation"
 }

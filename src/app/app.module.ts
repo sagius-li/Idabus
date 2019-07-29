@@ -55,13 +55,10 @@ import { GridsterViewComponent } from './gridster-view/gridster-view.component';
     ResourcesComponent,
 
     DemoTeamCreationComponent,
-
     DemoTeamEditionComponent,
 
     UserComponent,
-
     TabViewComponent,
-
     GridsterViewComponent
   ],
   imports: [
