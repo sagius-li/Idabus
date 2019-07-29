@@ -15,6 +15,7 @@ export interface EditorConfig {
   showDescription?: boolean;
   customDescription?: string;
   hideIfNoAccess?: boolean;
+  expression?: string;
 }
 
 /**

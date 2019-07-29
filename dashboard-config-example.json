@@ -302,7 +302,8 @@
             "attributeName": "DisplayName",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtDisplayName"
+              "name": "txtDisplayName",
+              "expression": "[#txtLastName], [#txtFirstName]"
             }
           },
           {

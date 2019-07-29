@@ -4,6 +4,8 @@ import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-dat
 import * as cryptojs from 'crypto-js';
 import * as moment from 'moment';
 
+import { EditorConfig } from '../models/dynamicEditor.interface';
+
 import { ConfigService } from './config.service';
 
 /**
@@ -286,5 +288,21 @@ export class UtilsService {
         return false;
       }
     }
+  }
+
+  public GetEditorExpressions(controlName: string, configs: Array<EditorConfig>) {
+    const retVal: { [key: string]: Array<string> } = {};
+
+    configs.forEach((config: EditorConfig) => {
+      if (config.expression && config.expression.indexOf(`[#${controlName}]`) >= 0) {
+        if (Object.keys(retVal).indexOf(config.name) >= 0) {
+          retVal[config.name].push(config.expression);
+        } else {
+          retVal[config.name] = [config.expression];
+        }
+      }
+    });
+
+    return retVal;
   }
 }

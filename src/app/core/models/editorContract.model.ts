@@ -23,7 +23,8 @@ export class TextEditorConfig implements EditorConfig {
   required? = false;
   // tslint:disable-next-line:whitespace
   hideIfNoAccess? = true;
+  // tslint:disable-next-line:whitespace
+  expression? = undefined;
   validation?: string = undefined;
   maxLength?: number = undefined;
-  expression?: string = undefined;
 }

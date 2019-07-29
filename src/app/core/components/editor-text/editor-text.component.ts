@@ -16,6 +16,7 @@ import { DynamicEditor } from '../../models/dynamicEditor.interface';
 import { createTextEditorValidator } from '../../models/validator.model';
 
 import { UtilsService } from '../../services/utils.service';
+import { SwapService } from '../../services/swap.service';
 
 import { EditorTextConfigComponent } from './editor-text-config.component';
 
@@ -114,7 +115,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     }
   }
 
-  constructor(public utils: UtilsService, private dialog: MatDialog) {}
+  constructor(public utils: UtilsService, private dialog: MatDialog, private swap: SwapService) {}
 
   ngOnInit() {
     this.initComponent();
@@ -145,6 +146,10 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     this.propagateChange(this.controlValue);
   }
 
+  onChange() {
+    this.swap.changeEditorValue(this.localConfig.name);
+  }
+
   // #endregion
 
   // #region DynamicEditor implementation
@@ -173,8 +178,10 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.localConfig = configCopy;
+        } else {
+          this.config = this.localConfig;
+          this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
         }
-        this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
       }),
       switchMap(() => {
         return of(this.localConfig);

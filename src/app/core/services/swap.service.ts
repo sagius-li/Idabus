@@ -42,8 +42,8 @@ export class SwapService {
   }
 
   /** Emit the event for editor value changed */
-  changeEditorValue(config: any) {
-    this.editorValueChanged.emit(config);
+  changeEditorValue(editorName: string) {
+    this.editorValueChanged.emit(editorName);
   }
 
   /**

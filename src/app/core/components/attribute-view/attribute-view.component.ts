@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { EditorConfig, DynamicEditor } from '../../models/dynamicEditor.interfac
 
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-attribute-view',
@@ -36,7 +37,6 @@ export class AttributeViewComponent implements OnInit {
     return this.resourceForm.get('controls') as FormArray;
   }
 
-  // attributeArray: Array<AttributeResource> = [];
   attributeArray: Array<{ type: string; config: EditorConfig; attribute: AttributeResource }> = [];
   attributesToLoad = [];
 
@@ -63,6 +63,12 @@ export class AttributeViewComponent implements OnInit {
         )
       );
     });
+
+    this.registerChangeHandler();
+  }
+
+  private registerChangeHandler() {
+    // this.getControl('txtDisplayName').valueChanges.subscribe(val => alert(val));
   }
 
   constructor(
@@ -70,7 +76,8 @@ export class AttributeViewComponent implements OnInit {
     private resource: ResourceService,
     private translate: TransService,
     private spinner: NgxUiLoaderService,
-    private swap: SwapService
+    private swap: SwapService,
+    private utils: UtilsService
   ) {}
 
   ngOnInit() {
@@ -81,6 +88,31 @@ export class AttributeViewComponent implements OnInit {
       }
     });
     this.attributesToLoad = attributes;
+
+    this.swap.editorValueChanged.subscribe((controlName: string) => {
+      const configs = this.attributeArray.map(a => a.config);
+      const expressionDic = this.utils.GetEditorExpressions(controlName, configs);
+      if (Object.keys(expressionDic).length > 0) {
+        const regEx: RegExp = /\[#\w+\]/g;
+        Object.keys(expressionDic).forEach(dicKey => {
+          expressionDic[dicKey].forEach(expression => {
+            let match = regEx.exec(expression);
+            let expressionValue = expression;
+            while (match) {
+              const replaceName = match[0].substr(2, match[0].length - 3);
+              expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
+              match = regEx.exec(expression);
+            }
+            if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
+              // tslint:disable-next-line:no-eval
+              this.setValue(dicKey, eval(expressionValue));
+            } else {
+              this.setValue(dicKey, expressionValue);
+            }
+          });
+        });
+      }
+    });
 
     this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
       switch (event.name) {
@@ -128,6 +160,11 @@ export class AttributeViewComponent implements OnInit {
   getValue(controlName: string) {
     const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
     return pos < 0 ? undefined : this.controls.controls[pos].value;
+  }
+
+  getControl(controlName: string): FormControl {
+    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
+    return pos < 0 ? undefined : (this.controls.controls[pos] as FormControl);
   }
 
   setValue(controlName: string, value: any) {
