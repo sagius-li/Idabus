@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -44,8 +44,17 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   @Input()
   controlValue: any;
 
+  editorConfig: TextEditorConfig;
   @Input()
-  config: TextEditorConfig;
+  get config() {
+    return this.editorConfig;
+  }
+  set config(value) {
+    this.editorConfig = value;
+    this.configChange.emit(this.editorConfig);
+  }
+  @Output()
+  configChange = new EventEmitter();
 
   @Input()
   control: FormControl;

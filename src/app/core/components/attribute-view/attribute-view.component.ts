@@ -105,7 +105,7 @@ export class AttributeViewComponent implements OnInit {
             }
             if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
               // tslint:disable-next-line:no-eval
-              this.setValue(dicKey, eval(expressionValue));
+              this.setValue(dicKey, eval(expressionValue.substring(1, expressionValue.length - 1)));
             } else {
               this.setValue(dicKey, expressionValue);
             }
