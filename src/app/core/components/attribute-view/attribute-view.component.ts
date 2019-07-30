@@ -14,6 +14,7 @@ import { EditorConfig, DynamicEditor } from '../../models/dynamicEditor.interfac
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
 import { UtilsService } from '../../services/utils.service';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'app-attribute-view',
@@ -37,7 +38,12 @@ export class AttributeViewComponent implements OnInit {
     return this.resourceForm.get('controls') as FormArray;
   }
 
-  attributeArray: Array<{ type: string; config: EditorConfig; attribute: AttributeResource }> = [];
+  attributeArray: Array<{
+    type: string;
+    config: EditorConfig;
+    attribute: AttributeResource;
+    controller: FormControl;
+  }> = [];
   attributesToLoad = [];
 
   private clearFormArray(formArray: FormArray) {
@@ -51,17 +57,17 @@ export class AttributeViewComponent implements OnInit {
     this.attributeArray.splice(0, this.attributeArray.length);
 
     this.attributeDefs.forEach(a => {
+      const controller = new FormControl(
+        this.currentResource[a.attributeName].value,
+        createTextEditorValidator(this.currentResource[a.attributeName], a.editorConfig)
+      );
       this.attributeArray.push({
         type: a.editorType,
         config: a.editorConfig,
-        attribute: this.currentResource[a.attributeName]
+        attribute: this.currentResource[a.attributeName],
+        controller
       });
-      this.controls.push(
-        new FormControl(
-          this.currentResource[a.attributeName].value,
-          createTextEditorValidator(this.currentResource[a.attributeName], a.editorConfig)
-        )
-      );
+      this.controls.push(controller);
     });
 
     this.registerChangeHandler();
@@ -77,8 +83,20 @@ export class AttributeViewComponent implements OnInit {
     private translate: TransService,
     private spinner: NgxUiLoaderService,
     private swap: SwapService,
-    private utils: UtilsService
-  ) {}
+    private utils: UtilsService,
+    private dragula: DragulaService
+  ) {
+    try {
+      this.dragula.createGroup('ATTRIBUTECOLUMN', {
+        moves: (el, container, handle) => {
+          return (
+            handle.classList.contains('handle') ||
+            (handle.parentNode as Element).classList.contains('handle')
+          );
+        }
+      });
+    } catch {}
+  }
 
   ngOnInit() {
     const attributes = this.attributeDefs.map(a => a.attributeName);
@@ -158,24 +176,27 @@ export class AttributeViewComponent implements OnInit {
   }
 
   getValue(controlName: string) {
-    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
-    return pos < 0 ? undefined : this.controls.controls[pos].value;
+    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+    return attribute ? attribute.controller.value : undefined;
   }
 
   getControl(controlName: string): FormControl {
-    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
-    return pos < 0 ? undefined : (this.controls.controls[pos] as FormControl);
+    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+    return attribute ? attribute.controller : undefined;
   }
 
   setValue(controlName: string, value: any) {
-    const pos = this.attributeArray.findIndex(a => a.config.name === controlName);
-    if (pos < 0) {
+    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+    if (!attribute) {
       return;
     }
-    const control = this.controls.controls[pos] as FormControl;
-    control.setValue(value);
-    control.markAsTouched();
-    control.markAsDirty();
+    attribute.controller.setValue(value);
+    attribute.controller.markAsTouched();
+    attribute.controller.markAsDirty();
+  }
+
+  getControllerIndex(controlName: string) {
+    return this.attributeArray.findIndex(a => a.config.name === controlName);
   }
 
   onSubmit() {

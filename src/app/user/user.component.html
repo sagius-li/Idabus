@@ -1,8 +1,20 @@
 <div>
+  <div *ngIf="showEditMenu" style="position:absolute;right:0;top:90px;z-index:100;">
+    <app-edit-menu
+      [buttonColor]="'slategray'"
+      [direction]="'column'"
+      (edit)="onEdit()"
+      (add)="onAdd()"
+      (cancel)="onCancel()"
+      (save)="onSave()"
+      (setting)="onSetting()"
+    ></app-edit-menu>
+  </div>
   <div ngxUiLoaderBlurred blur="1" loaderId="spinner_home">
     <app-tab-view
       [icon]="viewSetting.icon ? viewSetting.icon : 'payment'"
       [tabDefs]="viewSetting.sections"
+      [configMode]="configMode"
       *ngIf="viewSetting.type === 'tab'"
     ></app-tab-view>
     <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>

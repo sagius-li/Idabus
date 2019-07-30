@@ -2,27 +2,24 @@
   <div class="info-icon-layer">
     <mat-icon class="info-icon">{{ icon }}</mat-icon>
   </div>
-  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px" style="margin-right: 20px;">
-    <a class="info-button" matTooltip="{{ 'key_refresh' | translate }}">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="end center"
+    fxLayoutGap="10px"
+    style="margin-right: 20px; height: 15px;"
+  >
+    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_refresh' | translate }}">
       <mat-icon style="margin-left: 3px; margin-top: 3px;">refresh</mat-icon>
     </a>
-    <a
-      class="info-button"
-      [class.disabled-link]="!editMode"
-      matTooltip="{{ 'key_arrange' | translate }}"
-    >
+    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_arrange' | translate }}">
       <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onArrange()">settings</mat-icon>
     </a>
-    <a
-      class="info-button"
-      [class.disabled-link]="!editMode"
-      matTooltip="{{ 'key_add' | translate }}"
-    >
+    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_add' | translate }}">
       <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onAddEditor()"
         >playlist_add</mat-icon
       >
     </a>
-    <a class="info-button" matTooltip="{{ 'key_edit' | translate }}">
+    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_edit' | translate }}">
       <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onConfig()"
         >view_column</mat-icon
       >
@@ -32,7 +29,10 @@
     <mat-tab *ngFor="let tabDef of tabDefs" label="{{ tabDef.displayName | translate }}">
       <ng-template matTabContent>
         <div style="margin-top: 20px;">
-          <app-attribute-view [attributeDefs]="tabDef.attributes"></app-attribute-view>
+          <app-attribute-view
+            [configMode]="configMode"
+            [attributeDefs]="tabDef.attributes"
+          ></app-attribute-view>
         </div>
       </ng-template>
     </mat-tab>

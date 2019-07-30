@@ -1,30 +1,45 @@
 <div>
   <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
-    <div fxLayout="column" fxLayoutGap="20px" formArrayName="controls">
-      <div fxFlex="auto" *ngFor="let control of controls.controls; let i = index">
-        <div fxLayout="row" fxLayoutAlign="start center"></div>
-        <div fxFlex="auto">
-          <app-editor-text
-            #editor
-            [attribute]="attributeArray[i].attribute"
-            [formControlName]="i"
-            [control]="control"
-            [(config)]="attributeArray[i].config"
-          ></app-editor-text>
+    <div
+      fxLayout="column"
+      fxLayoutGap="20px"
+      formArrayName="controls"
+      dragula="ATTRIBUTECOLUMN"
+      [(dragulaModel)]="attributeArray"
+    >
+      <div fxFlex="auto" *ngFor="let attribute of attributeArray; let i = index">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div fxFlex="auto">
+            <app-editor-text
+              #editor
+              [attribute]="attribute.attribute"
+              [formControlName]="getControllerIndex(attribute.config.name)"
+              [control]="attribute.controller"
+              [(config)]="attribute.config"
+            ></app-editor-text>
+          </div>
+          <div
+            *ngIf="configMode"
+            fxFlex="none"
+            class="handle"
+            style="width: 36px; height: 36px; text-align: center; line-height: 56px; cursor: move; color: lightgray;"
+          >
+            <mat-icon>menu</mat-icon>
+          </div>
+          <button
+            *ngIf="configMode"
+            type="button"
+            mat-icon-button
+            color="primary"
+            fxFlex="none"
+            (click)="onConfig(editor)"
+          >
+            <mat-icon>settings</mat-icon>
+          </button>
+          <button *ngIf="configMode" type="button" mat-icon-button color="warn" fxFlex="none">
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
-        <button
-          *ngIf="!configMode"
-          type="button"
-          mat-icon-button
-          color="primary"
-          fxFlex="none"
-          (click)="onConfig(editor)"
-        >
-          <mat-icon>settings</mat-icon>
-        </button>
-        <button *ngIf="!configMode" type="button" mat-icon-button color="warn" fxFlex="none">
-          <mat-icon>delete</mat-icon>
-        </button>
       </div>
       <button mat-stroked-button color="primary" type="submit">Submit</button>
     </div>

@@ -12,6 +12,9 @@ export class TabViewComponent implements OnInit {
   @Input()
   icon: string;
 
+  @Input()
+  configMode = false;
+
   constructor() {}
 
   ngOnInit() {
