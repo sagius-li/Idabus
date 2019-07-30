@@ -85,11 +85,14 @@
   </div>
   <div fxFlex="none">
     <mat-form-field fxFlex="auto">
-      <input
+      <textarea
         matInput
+        matTextareaAutosize
+        matAutosizeMinRows="1"
+        matAutosizeMaxRows="6"
         [placeholder]="'key_valueExpression' | translate"
         [(ngModel)]="data.config.expression"
-      />
+      ></textarea>
     </mat-form-field>
   </div>
   <div fxFlex="none">

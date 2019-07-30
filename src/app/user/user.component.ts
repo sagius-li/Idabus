@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BroadcastEvent } from '../core/models/dataContract.model';
+import { EditorResult } from '../core/models/dynamicEditor.interface';
 
 import { ResourceService } from '../core/services/resource.service';
 import { SwapService } from '../core/services/swap.service';
@@ -14,6 +15,8 @@ export class UserComponent implements OnInit {
   viewSetting: any;
   showEditMenu = false;
   configMode = false;
+
+  viewResults: { [key: string]: Array<EditorResult> } = {};
 
   constructor(private resource: ResourceService, private swap: SwapService) {}
 
@@ -43,6 +46,7 @@ export class UserComponent implements OnInit {
   onSetting() {}
 
   onSave() {
+    console.log(this.viewResults);
     this.configMode = false;
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
-import { Resource, AttributeResource, BroadcastEvent } from '../../models/dataContract.model';
+import { Resource, BroadcastEvent } from '../../models/dataContract.model';
 import { createTextEditorValidator } from '../../models/validator.model';
 import { TransService } from '../../models/translation.model';
-import { EditorConfig, DynamicEditor } from '../../models/dynamicEditor.interface';
+import { DynamicEditor, EditorResult } from '../../models/dynamicEditor.interface';
 
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
@@ -28,6 +28,18 @@ export class AttributeViewComponent implements OnInit {
   @Input()
   configMode = false;
 
+  attArray: Array<EditorResult> = [];
+  @Input()
+  get attributeArray() {
+    return this.attArray;
+  }
+  set attributeArray(value) {
+    this.attArray = value;
+    this.attributeArrayChange.emit(this.attArray);
+  }
+  @Output()
+  attributeArrayChange = new EventEmitter();
+
   currentResource: Resource;
   obsCurrentResource: Observable<Resource>;
 
@@ -38,12 +50,6 @@ export class AttributeViewComponent implements OnInit {
     return this.resourceForm.get('controls') as FormArray;
   }
 
-  attributeArray: Array<{
-    type: string;
-    config: EditorConfig;
-    attribute: AttributeResource;
-    controller: FormControl;
-  }> = [];
   attributesToLoad = [];
 
   private clearFormArray(formArray: FormArray) {

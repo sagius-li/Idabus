@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { EditorResult } from '../core/models/dynamicEditor.interface';
 
 @Component({
   selector: 'app-tab-view',
@@ -15,6 +17,18 @@ export class TabViewComponent implements OnInit {
   @Input()
   configMode = false;
 
+  results: { [key: string]: Array<EditorResult> } = {};
+  @Input()
+  get editorResults() {
+    return this.results;
+  }
+  set editorResults(value) {
+    this.results = value;
+    this.editorResultsChange.emit(this.results);
+  }
+  @Output()
+  editorResultsChange = new EventEmitter();
+
   constructor() {}
 
   ngOnInit() {
@@ -26,6 +40,10 @@ export class TabViewComponent implements OnInit {
         return -1;
       }
       return 0;
+    });
+
+    this.tabDefs.forEach(t => {
+      this.editorResults[t.name] = [];
     });
   }
 

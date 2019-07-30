@@ -32,6 +32,7 @@
           <app-attribute-view
             [configMode]="configMode"
             [attributeDefs]="tabDef.attributes"
+            [(attributeArray)]="editorResults[tabDef.name]"
           ></app-attribute-view>
         </div>
       </ng-template>

@@ -1,4 +1,8 @@
+import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
+import { AttributeResource } from './dataContract.model';
 
 /**
  * Interface for editor configuration
@@ -28,4 +32,14 @@ export interface DynamicEditor {
   initComponent: () => EditorConfig;
   /** configure editor */
   configure: () => Observable<EditorConfig>;
+}
+
+/**
+ * Interface for editor result, holding all information of editor attribute and form control
+ */
+export interface EditorResult {
+  type: string;
+  config: EditorConfig;
+  attribute: AttributeResource;
+  controller: FormControl;
 }

@@ -15,6 +15,7 @@
       [icon]="viewSetting.icon ? viewSetting.icon : 'payment'"
       [tabDefs]="viewSetting.sections"
       [configMode]="configMode"
+      [editorResults]="viewResults"
       *ngIf="viewSetting.type === 'tab'"
     ></app-tab-view>
     <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>
