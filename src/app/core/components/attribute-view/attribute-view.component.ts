@@ -105,6 +105,8 @@ export class AttributeViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.attributeArray.splice(0, this.attributeArray.length);
+
     const attributes = this.attributeDefs.map(a => a.attributeName);
     this.attributesToLoad.forEach(a => {
       if (attributes.indexOf(a) < 0) {
@@ -112,6 +114,29 @@ export class AttributeViewComponent implements OnInit {
       }
     });
     this.attributesToLoad = attributes;
+
+    this.obsCurrentResource = this.route.params.pipe(
+      tap(() => {
+        this.spinner.startLoader('spinner_home');
+      }),
+      switchMap(() => {
+        const objectID = this.route.snapshot.paramMap.get('id');
+        return this.resource.getResourceByID(
+          objectID,
+          this.attributesToLoad,
+          'full',
+          this.translate.currentCulture,
+          true
+        );
+      })
+    );
+
+    this.obsCurrentResource.subscribe((result: Resource) => {
+      this.currentResource = result;
+      this.prepareAttributes();
+
+      this.spinner.stopLoader('spinner_home');
+    });
 
     this.swap.editorValueChanged.subscribe((controlName: string) => {
       const configs = this.attributeArray.map(a => a.config);
@@ -151,29 +176,6 @@ export class AttributeViewComponent implements OnInit {
         default:
           break;
       }
-    });
-
-    this.obsCurrentResource = this.route.params.pipe(
-      tap(() => {
-        this.spinner.startLoader('spinner_home');
-      }),
-      switchMap(() => {
-        const objectID = this.route.snapshot.paramMap.get('id');
-        return this.resource.getResourceByID(
-          objectID,
-          this.attributesToLoad,
-          'full',
-          this.translate.currentCulture,
-          true
-        );
-      })
-    );
-
-    this.obsCurrentResource.subscribe((result: Resource) => {
-      this.currentResource = result;
-      this.prepareAttributes();
-
-      this.spinner.stopLoader('spinner_home');
     });
   }
 

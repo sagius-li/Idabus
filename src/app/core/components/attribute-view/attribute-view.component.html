@@ -7,7 +7,7 @@
       dragula="ATTRIBUTECOLUMN"
       [(dragulaModel)]="attributeArray"
     >
-      <div fxFlex="auto" *ngFor="let attribute of attributeArray; let i = index">
+      <div fxFlex="auto" *ngFor="let attribute of attributeArray">
         <div fxLayout="row" fxLayoutAlign="start center">
           <div fxFlex="auto">
             <app-editor-text
