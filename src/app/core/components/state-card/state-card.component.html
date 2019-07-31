@@ -2,7 +2,7 @@
   fxLayout="column"
   [style.backgroundColor]="localConfig.backgroundColor"
   class="full-size-relative"
-  style="padding: 20px;"
+  style="padding: 0 20px;"
   ngxUiLoaderBlurred
   blur="1"
   [loaderId]="localConfig.name"
@@ -32,7 +32,7 @@
     mat-button
     [style.color]="localConfig.textColor"
     (click)="onUpdateNow()"
-    style="margin-top: 20px; text-align: left; font-size: 18px; font-weight: 300; padding-left: 2px;"
+    style="margin: 10px; text-align: left; font-size: 18px; font-weight: 300; padding-left: 2px;"
   >
     <mat-icon style="margin-right: 10px;">refresh</mat-icon> {{ 'key_updateNow' | translate }}
   </button>

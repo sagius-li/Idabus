@@ -41,6 +41,7 @@ import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.
 import { UserComponent } from './user/user.component';
 import { TabViewComponent } from './tab-view/tab-view.component';
 import { GridsterViewComponent } from './gridster-view/gridster-view.component';
+import { BrandViewComponent } from './brand-view/brand-view.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { GridsterViewComponent } from './gridster-view/gridster-view.component';
 
     UserComponent,
     TabViewComponent,
-    GridsterViewComponent
+    GridsterViewComponent,
+    BrandViewComponent
   ],
   imports: [
     BrowserModule,

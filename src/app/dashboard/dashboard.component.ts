@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.editMode = this.swap.isEditMode;
 
     this.gdOptions = {
-      gridType: GridType.Fixed,
+      gridType: GridType.ScrollVertical,
       compactType: CompactType.CompactLeftAndUp,
       margin: 10,
       outerMargin: true,
@@ -89,8 +89,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       minItemArea: 1,
       defaultItemCols: 1,
       defaultItemRows: 1,
-      fixedColWidth: 180,
-      fixedRowHeight: 180,
+      fixedColWidth: 150,
+      fixedRowHeight: 150,
       keepFixedHeightInMobile: false,
       keepFixedWidthInMobile: false,
       scrollSensitivity: 10,

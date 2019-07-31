@@ -1,0 +1,70 @@
+<div class="info-body" [class.mat-elevation-z1]="true">
+  <div class="info-avatar-layer">
+    <div class="info-avatar">
+      <img
+        *ngIf="currentResource | examValue: 'Photo:value'"
+        [src]="'data:image/png;base64,' + (currentResource | extraValue: 'Photo:value')"
+        class="info-avatar-image"
+      />
+      <div *ngIf="!(currentResource | examValue: 'Photo:value')" class="info-avatar-initial">
+        {{ initial }}
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <div *ngIf="currentResource | examValue: 'JobTitle:value'" fxFlex="none" class="info-title">
+      {{ currentResource | extraValue: 'JobTitle:value' }}
+    </div>
+    <div *ngIf="currentResource | examValue: 'DisplayName:value'" fxFlex="none" class="info-name">
+      {{ currentResource | extraValue: 'DisplayName:value' }}
+    </div>
+  </div>
+  <div *ngIf="currentResource | examValue: 'EmployeeType:value'" fxLayout="row" class="info-text">
+    <div fxFlex="none">
+      <mat-icon style="margin-right: 10px;">assignment_ind</mat-icon>
+    </div>
+    <div>{{ currentResource | extraValue: 'EmployeeType:value' }}</div>
+  </div>
+  <div *ngIf="currentResource | examValue: 'Address:value'" fxLayout="row" class="info-text">
+    <div fxFlex="none">
+      <mat-icon style="margin-right: 10px;">location_on</mat-icon>
+    </div>
+    <div>{{ currentResource | extraValue: 'Address:value' }}</div>
+  </div>
+  <div fxLayout="column" class="info-footer">
+    <hr style="border: 0; border-top: 1px solid #eee; width: 80%;" />
+    <div
+      fxFlex
+      fxLayout="row"
+      fxLayoutAlign="space-evenly center"
+      fxLayoutGap="10px"
+      fxLayoutAlign.lt-md="center center"
+      fxLayoutGap.lt-md="30px"
+    >
+      <a
+        class="info-button"
+        [class.disabled-link]="!(currentResource | examValue: 'OfficePhone:value')"
+        [attr.href]="
+          currentResource
+            | examValue
+              : ('OfficePhone:value'
+                  ? 'tel:' + (currentResource | extraValue: 'OfficePhone:value')
+                  : null)
+        "
+      >
+        <mat-icon style="margin-left: 3px; margin-top: 3px;">call</mat-icon>
+      </a>
+      <a
+        class="info-button"
+        [class.disabled-link]="!(currentResource | examValue: 'Email:value')"
+        [attr.href]="
+          (currentResource | examValue: 'Email:value')
+            ? 'mailto:' + (currentResource | extraValue: 'Email:value')
+            : null
+        "
+      >
+        <mat-icon style="margin-left: 3px; margin-top: 3px;">mail</mat-icon>
+      </a>
+    </div>
+  </div>
+</div>

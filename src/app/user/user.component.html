@@ -1,4 +1,4 @@
-<div>
+<div style="margin-top: 50px;">
   <div *ngIf="showEditMenu" style="position:absolute;right:0;top:90px;z-index:100;">
     <app-edit-menu
       [buttonColor]="'slategray'"
@@ -11,13 +11,20 @@
     ></app-edit-menu>
   </div>
   <div ngxUiLoaderBlurred blur="1" loaderId="spinner_home">
-    <app-tab-view
-      [icon]="viewSetting.icon ? viewSetting.icon : 'payment'"
-      [(tabDefs)]="viewSetting.sections"
-      [configMode]="configMode"
-      [(editorResults)]="viewResults"
-      *ngIf="viewSetting.type === 'tab'"
-    ></app-tab-view>
-    <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>
+    <div fxLayout="row wrap" fxLayoutGap="10px grid">
+      <div fxFlex="30" fxFlexOrder="2" fxFlex.lt-md="100" fxFlexOrder.lt-md="1">
+        <app-brand-view></app-brand-view>
+      </div>
+      <div fxFlex="70" fxFlexOrder="1" fxFlex.lt-md="100" fxFlexOrder.lt-md="2">
+        <app-tab-view
+          [icon]="viewSetting.icon ? viewSetting.icon : 'payment'"
+          [(tabDefs)]="viewSetting.sections"
+          [configMode]="configMode"
+          [(editorResults)]="viewResults"
+          *ngIf="viewSetting.type === 'tab'"
+        ></app-tab-view>
+        <app-gridster-view *ngIf="viewSetting.type === 'gridster'"></app-gridster-view>
+      </div>
+    </div>
   </div>
 </div>
