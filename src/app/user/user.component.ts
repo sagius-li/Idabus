@@ -46,6 +46,7 @@ export class UserComponent implements OnInit {
   onSetting() {}
 
   onSave() {
+    console.log(this.viewSetting);
     console.log(this.viewResults);
     this.configMode = false;
   }

@@ -20,18 +20,25 @@
       >
     </a>
     <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_edit' | translate }}">
-      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onConfig()"
+      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onChangeColumnNumber()"
         >view_column</mat-icon
       >
     </a>
   </div>
-  <mat-tab-group [disableRipple]="true" class="info-tab" animationDuration="0ms">
+  <mat-tab-group
+    [disableRipple]="true"
+    class="info-tab"
+    animationDuration="0ms"
+    [selectedIndex]="currentTabIndex"
+    (selectedIndexChange)="onTabIndexChange($event)"
+  >
     <mat-tab *ngFor="let tabDef of tabDefs" label="{{ tabDef.displayName | translate }}">
       <ng-template matTabContent>
         <div style="margin-top: 20px;">
           <app-attribute-view
             [configMode]="configMode"
             [attributeDefs]="tabDef.attributes"
+            [columnNumber]="tabDef.columnNumber"
             [(attributeArray)]="editorResults[tabDef.name]"
           ></app-attribute-view>
         </div>

@@ -1,13 +1,17 @@
 <div>
   <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
     <div
-      fxLayout="column"
-      fxLayoutGap="20px"
+      fxLayout="row wrap"
+      fxLayoutGap="20px grid"
       formArrayName="controls"
       dragula="ATTRIBUTECOLUMN"
       [(dragulaModel)]="attributeArray"
     >
-      <div fxFlex="auto" *ngFor="let attribute of attributeArray">
+      <div
+        [fxFlex]="100 / columnNumber"
+        fxFlex.lt-md="100"
+        *ngFor="let attribute of attributeArray"
+      >
         <div fxLayout="row" fxLayoutAlign="start center">
           <div fxFlex="auto">
             <app-editor-text
@@ -36,9 +40,17 @@
           >
             <mat-icon>settings</mat-icon>
           </button>
-          <button *ngIf="configMode" type="button" mat-icon-button color="warn" fxFlex="none">
+          <button
+            *ngIf="configMode"
+            type="button"
+            mat-icon-button
+            color="warn"
+            fxFlex="none"
+            (click)="onDelete(attribute)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
+          <div fxFlex="20px"></div>
         </div>
       </div>
       <button mat-stroked-button color="primary" type="submit">Submit</button>

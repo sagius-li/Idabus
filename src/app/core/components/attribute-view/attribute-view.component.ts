@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  IterableDiffers,
+  DoCheck
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
@@ -21,12 +29,15 @@ import { DragulaService } from 'ng2-dragula';
   templateUrl: './attribute-view.component.html',
   styleUrls: ['./attribute-view.component.scss']
 })
-export class AttributeViewComponent implements OnInit {
+export class AttributeViewComponent implements OnInit, DoCheck {
   @Input()
   attributeDefs: Array<any>;
 
   @Input()
   configMode = false;
+
+  @Input()
+  columnNumber = 1;
 
   attArray: Array<EditorResult> = [];
   @Input()
@@ -51,6 +62,8 @@ export class AttributeViewComponent implements OnInit {
   }
 
   attributesToLoad = [];
+
+  differ: any;
 
   private clearFormArray(formArray: FormArray) {
     while (formArray.length !== 0) {
@@ -90,8 +103,11 @@ export class AttributeViewComponent implements OnInit {
     private spinner: NgxUiLoaderService,
     private swap: SwapService,
     private utils: UtilsService,
-    private dragula: DragulaService
+    private dragula: DragulaService,
+    private differs: IterableDiffers
   ) {
+    this.differ = this.differs.find([]).create(null);
+
     try {
       this.dragula.createGroup('ATTRIBUTECOLUMN', {
         moves: (el, container, handle) => {
@@ -179,8 +195,22 @@ export class AttributeViewComponent implements OnInit {
     });
   }
 
+  ngDoCheck() {
+    const change = this.differ.diff(this.attributeDefs);
+    if (change) {
+      this.ngOnInit();
+    }
+  }
+
   onConfig(editor: DynamicEditor) {
     editor.configure().subscribe();
+  }
+
+  onDelete(attribute: EditorResult) {
+    const pos = this.attributeArray.findIndex(a => a.config.name === attribute.config.name);
+    if (pos >= 0) {
+      this.attributeArray.splice(pos, 1);
+    }
   }
 
   getValue(controlName: string) {
@@ -208,15 +238,9 @@ export class AttributeViewComponent implements OnInit {
   }
 
   onSubmit() {
-    // const control = this.controls.controls[3] as FormControl;
-    // control.setValue('test?');
-    // control.markAsTouched();
-    // control.markAsDirty();
+    // console.log(this.attributeArray);
+    // console.log(this.resourceForm);
 
-    // console.log(this.getValue('txtFirstName'));
-    // this.setValue('txtAccountName', 'test?');
-
-    console.log(this.attributeArray);
-    console.log(this.resourceForm);
+    console.log(this.attributeDefs);
   }
 }

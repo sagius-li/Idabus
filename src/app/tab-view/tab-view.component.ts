@@ -8,8 +8,17 @@ import { EditorResult } from '../core/models/dynamicEditor.interface';
   styleUrls: ['./tab-view.component.scss']
 })
 export class TabViewComponent implements OnInit {
+  tabsDefinition: Array<any>;
   @Input()
-  tabDefs: Array<any>;
+  get tabDefs() {
+    return this.tabsDefinition;
+  }
+  set tabDefs(value) {
+    this.tabsDefinition = value;
+    this.tabDefsChange.emit(this.tabsDefinition);
+  }
+  @Output()
+  tabDefsChange = new EventEmitter();
 
   @Input()
   icon: string;
@@ -29,6 +38,8 @@ export class TabViewComponent implements OnInit {
   @Output()
   editorResultsChange = new EventEmitter();
 
+  currentTabIndex = 0;
+
   constructor() {}
 
   ngOnInit() {
@@ -47,9 +58,38 @@ export class TabViewComponent implements OnInit {
     });
   }
 
+  onTabIndexChange(event: number) {
+    this.currentTabIndex = event;
+  }
+
   onArrange() {}
 
-  onAddEditor() {}
+  onAddEditor() {
+    this.tabDefs[this.currentTabIndex].attributes.push({
+      attributeName: 'MiddleName',
+      editorType: 'text',
+      editorConfig: {
+        name: 'txtMiddleName'
+      }
+    });
+  }
 
-  onConfig() {}
+  onChangeColumnNumber() {
+    switch (this.tabDefs[this.currentTabIndex].columnNumber) {
+      case 1:
+        this.tabDefs[this.currentTabIndex].columnNumber = 2;
+        break;
+      case 2:
+        this.tabDefs[this.currentTabIndex].columnNumber = 3;
+        break;
+      case 3:
+        this.tabDefs[this.currentTabIndex].columnNumber = 4;
+        break;
+      case 4:
+        this.tabDefs[this.currentTabIndex].columnNumber = 1;
+        break;
+      default:
+        break;
+    }
+  }
 }

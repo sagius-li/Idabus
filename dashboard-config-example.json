@@ -283,6 +283,7 @@
         "x": 0,
         "name": "userGeneral",
         "displayName": "key_general",
+        "columnNumber": 2,
         "attributes": [
           {
             "attributeName": "FirstName",
@@ -323,6 +324,7 @@
         "x": 1,
         "name": "userWorkInfo",
         "displayName": "key_workInfo",
+        "columnNumber": 1,
         "attributes": [
           {
             "attributeName": "JobTitle",
