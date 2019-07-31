@@ -111,5 +111,6 @@
   "key_showDescription": "Beschreibung einblenden",
   "key_customDescription": "eigne Beschreibung",
   "key_valueExpression": "Wert-Aufbau",
-  "key_valueValidation": "Wert-Validierung"
+  "key_valueValidation": "Wert-Validierung",
+  "key_componentName": "Komponentname"
 }

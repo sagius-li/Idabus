@@ -111,5 +111,6 @@
   "key_showDescription": "show description",
   "key_customDescription": "custom description",
   "key_valueExpression": "value expression",
-  "key_valueValidation": "value validation"
+  "key_valueValidation": "value validation",
+  "key_componentName": "component name"
 }

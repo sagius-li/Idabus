@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { EditorResult } from '../core/models/dynamicEditor.interface';
+import { EditorCreatorComponent } from '../core/components/editor-creator/editor-creator.component';
 
 @Component({
   selector: 'app-tab-view',
@@ -40,7 +42,7 @@ export class TabViewComponent implements OnInit {
 
   currentTabIndex = 0;
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
     this.tabDefs = this.tabDefs.sort((t1, t2) => {
@@ -65,11 +67,19 @@ export class TabViewComponent implements OnInit {
   onArrange() {}
 
   onAddEditor() {
-    this.tabDefs[this.currentTabIndex].attributes.push({
-      attributeName: 'MiddleName',
-      editorType: 'text',
-      editorConfig: {
-        name: 'txtMiddleName'
+    const dialogRef = this.dialog.open(EditorCreatorComponent, {
+      minWidth: '420px',
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result !== 'cancel') {
+        this.tabDefs[this.currentTabIndex].attributes.push({
+          attributeName: result.attributeName,
+          editorType: result.type,
+          editorConfig: {
+            name: result.name
+          }
+        });
       }
     });
   }
