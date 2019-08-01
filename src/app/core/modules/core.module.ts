@@ -31,6 +31,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRippleModule } from '@angular/material/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -135,6 +136,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatNativeDateModule,
     MatDatepickerModule,
     MatRippleModule,
+    MatButtonToggleModule,
 
     GridModule,
     PDFModule,
@@ -204,6 +206,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatNativeDateModule,
     MatDatepickerModule,
     MatRippleModule,
+    MatButtonToggleModule,
 
     GridModule,
     PDFModule,

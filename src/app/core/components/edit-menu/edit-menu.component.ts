@@ -39,7 +39,7 @@ export class EditMenuComponent implements OnInit {
   @Input()
   saveAndReturn = true;
   @Input()
-  buttonColor = 'transparent';
+  buttonColor: string;
 
   /** Event emitter for action add */
   @Output()

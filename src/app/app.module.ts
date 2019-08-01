@@ -42,6 +42,7 @@ import { UserComponent } from './user/user.component';
 import { TabViewComponent } from './tab-view/tab-view.component';
 import { GridsterViewComponent } from './gridster-view/gridster-view.component';
 import { BrandViewComponent } from './brand-view/brand-view.component';
+import { ViewConfiguratorComponent } from './view-configurator/view-configurator.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { BrandViewComponent } from './brand-view/brand-view.component';
     UserComponent,
     TabViewComponent,
     GridsterViewComponent,
-    BrandViewComponent
+    BrandViewComponent,
+    ViewConfiguratorComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,7 @@ import { BrandViewComponent } from './brand-view/brand-view.component';
     BrowserAnimationsModule,
     CoreModule
   ],
-  entryComponents: [DemoTeamCreationComponent],
+  entryComponents: [DemoTeamCreationComponent, ViewConfiguratorComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

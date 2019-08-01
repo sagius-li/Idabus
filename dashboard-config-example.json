@@ -321,7 +321,7 @@
         "cols": 2,
         "rows": 2,
         "y": 0,
-        "x": 1,
+        "x": 0,
         "name": "userWorkInfo",
         "displayName": "key_workInfo",
         "columnNumber": 1,

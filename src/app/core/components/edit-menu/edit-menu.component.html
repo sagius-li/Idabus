@@ -72,7 +72,7 @@
     [ngClass]="{ 'link-div-row': direction === 'row', 'link-div-column': direction === 'column' }"
     matTooltip="{{ mainIconText | translate }}"
     [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
-    [style.background]="buttonColor"
+    [style.background-color]="buttonColor"
     (click)="toggleEditMode()"
   >
     <mat-icon class="brand-icon">{{ mainIcon }}</mat-icon>

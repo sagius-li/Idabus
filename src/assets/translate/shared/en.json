@@ -49,5 +49,7 @@
   "l10n_wfDes": "orchestrated activities",
   "l10n_configDes": "portal configuration",
   "l10n_editPage": "edit page",
-  "l10n_exitEdit": "exit edition"
+  "l10n_exitEdit": "exit edition",
+  "l10n_viewMode": "view mode",
+  "l10n_addTab": "add tab"
 }

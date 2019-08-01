@@ -8,12 +8,6 @@
     fxLayoutGap="10px"
     style="margin-right: 20px; height: 15px;"
   >
-    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_refresh' | translate }}">
-      <mat-icon style="margin-left: 3px; margin-top: 3px;">refresh</mat-icon>
-    </a>
-    <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_arrange' | translate }}">
-      <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onArrange()">settings</mat-icon>
-    </a>
     <a *ngIf="configMode" class="info-button" matTooltip="{{ 'key_add' | translate }}">
       <mat-icon style="margin-left: 3px; margin-top: 3px;" (click)="onAddEditor()"
         >playlist_add</mat-icon

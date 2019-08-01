@@ -1,0 +1,100 @@
+<h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  {{ 'l10n_config' | translate }}
+</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="none" style="font-size: 18px; margin-right: 20px;">
+      {{ 'l10n_viewMode' | translate }}
+    </div>
+    <mat-button-toggle-group #viewMode fxFlex="none" [value]="data.type">
+      <mat-button-toggle value="tab"> <mat-icon>tab</mat-icon> tab </mat-button-toggle>
+      <mat-button-toggle value="grid" disabled>
+        <mat-icon>grid_on</mat-icon> grid
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <div fxFlex="auto"></div>
+    <mat-form-field fxFlex="none" style="margin-top: 20px;">
+      <input matInput [placeholder]="'l10n_viewIcon' | translate" [(ngModel)]="data.icon" />
+    </mat-form-field>
+  </div>
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 0 0 20px 0;" />
+  <div fxFlex="auto" fxLayout="row">
+    <button
+      mat-stroked-button
+      color="primary"
+      fxFlex="none"
+      style="margin-bottom: 10px;"
+      (click)="onAddTab()"
+    >
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>playlist_add</mat-icon>
+        <div style="margin-left: 10px;">{{ 'l10n_addTab' | translate }}</div>
+      </div>
+    </button>
+  </div>
+  <div fxFlex="auto" dragula="VIEWSECTIONS" [(dragulaModel)]="data.sections">
+    <mat-card
+      *ngFor="let section of data.sections"
+      style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 10px 0 0 0;"
+    >
+      <mat-card-header fxLayout="row" fxLayoutAlign="start center">
+        <div
+          fxFlex="none"
+          class="handle"
+          style="width: 36px; margin-left: -20px; margin-right: 20px; cursor: move; color: lightgray;"
+        >
+          <mat-icon>menu</mat-icon>
+        </div>
+        <div fxFlex="auto">
+          <mat-form-field>
+            <input
+              matInput
+              required
+              [placeholder]="'key_name' | translate"
+              [(ngModel)]="section.name"
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="auto">
+          <mat-form-field>
+            <input
+              matInput
+              required
+              [placeholder]="'key_displayName' | translate"
+              [(ngModel)]="section.displayName"
+            />
+          </mat-form-field>
+        </div>
+        <button
+          mat-icon-button
+          color="warn"
+          [disabled]="data.sections.length === 1"
+          (click)="onRemoveTab(section)"
+        >
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<div
+  mat-dialog-actions
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  style="margin-top: 10px;"
+>
+  <button
+    fxFlex="none"
+    mat-stroked-button
+    color="primary"
+    [mat-dialog-close]="data"
+    [disabled]="sectionsInvalid()"
+  >
+    {{ 'key_submit' | translate }}
+  </button>
+  <div fxFlex="auto"></div>
+  <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">
+    {{ 'key_cancel' | translate }}
+  </button>
+</div>

@@ -2,9 +2,9 @@
   <div *ngIf="showEditMenu" style="position:absolute;right:0;top:90px;z-index:100;">
     <app-edit-menu
       [buttonColor]="'slategray'"
+      [buttons]="['save', 'setting']"
       [direction]="'column'"
       (edit)="onEdit()"
-      (add)="onAdd()"
       (cancel)="onCancel()"
       (save)="onSave()"
       (setting)="onSetting()"

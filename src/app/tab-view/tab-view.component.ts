@@ -45,19 +45,9 @@ export class TabViewComponent implements OnInit {
   constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.tabDefs = this.tabDefs.sort((t1, t2) => {
-      if (t1.x > t2.x) {
-        return 1;
-      }
-      if (t1.x < t2.x) {
-        return -1;
-      }
-      return 0;
-    });
-
-    this.tabDefs.forEach(t => {
-      this.editorResults[t.name] = [];
-    });
+    // this.tabDefs.forEach(t => {
+    //   this.editorResults[t.name] = [];
+    // });
   }
 
   onTabIndexChange(event: number) {
