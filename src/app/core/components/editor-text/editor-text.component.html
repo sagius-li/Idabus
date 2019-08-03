@@ -6,7 +6,7 @@
     [matTooltip]="tooltip"
     [(ngModel)]="controlValue"
     (focus)="onFocuse()"
-    (keyup)="onKeyUp()"
+    (keyup)="onKeyUp($event)"
     (change)="onChange()"
     [disabled]="disabled"
     [attr.maxlength]="localConfig.maxLength"

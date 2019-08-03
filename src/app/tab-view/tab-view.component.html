@@ -20,9 +20,10 @@
     </a>
   </div>
   <mat-tab-group
-    [disableRipple]="true"
+    #mtg
     class="info-tab"
     animationDuration="0ms"
+    [disableRipple]="true"
     [selectedIndex]="currentTabIndex"
     (selectedIndexChange)="onTabIndexChange($event)"
   >
@@ -39,4 +40,17 @@
       </ng-template>
     </mat-tab>
   </mat-tab-group>
+  <div fxLayout="row" fxLayoutAlign="start center" style="margin: 20px 20px 0 20px">
+    <div fxFlex="none">
+      <button mat-stroked-button color="primary" (click)="onSave()">
+        {{ 'key_save' | translate }}
+      </button>
+    </div>
+    <div fxFlex="auto"></div>
+    <div fxFlex="none">
+      <button mat-stroked-button color="basic" (click)="onRefresh()">
+        {{ 'key_refresh' | translate }}
+      </button>
+    </div>
+  </div>
 </div>

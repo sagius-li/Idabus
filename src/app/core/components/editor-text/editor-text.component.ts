@@ -151,7 +151,11 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     this.propagateTouched();
   }
 
-  onKeyUp() {
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Tab' || event.key === 'Enter') {
+      return;
+    }
+
     this.propagateChange(this.controlValue);
   }
 

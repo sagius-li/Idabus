@@ -51,5 +51,6 @@
   "l10n_editPage": "编辑页面",
   "l10n_exitEdit": "退出编辑",
   "l10n_viewMode": "视图模式",
-  "l10n_addTab": "添加标签"
+  "l10n_addTab": "添加标签",
+  "l10n_changesNotSaved": "如果切换到其他标签，未保存的改动将会丢失<br/>你确定这样做吗？"
 }

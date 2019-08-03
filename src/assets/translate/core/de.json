@@ -112,5 +112,6 @@
   "key_customDescription": "eigne Beschreibung",
   "key_valueExpression": "Wert-Aufbau",
   "key_valueValidation": "Wert-Validierung",
-  "key_componentName": "Komponentname"
+  "key_componentName": "Komponentname",
+  "key_confirmation": "Bestätigung"
 }

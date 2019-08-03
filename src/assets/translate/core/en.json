@@ -112,5 +112,6 @@
   "key_customDescription": "custom description",
   "key_valueExpression": "value expression",
   "key_valueValidation": "value validation",
-  "key_componentName": "component name"
+  "key_componentName": "component name",
+  "key_confirmation": "confirmation"
 }

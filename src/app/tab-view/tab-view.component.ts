@@ -1,8 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatDialog, MatTabGroup, MatTab, MatTabHeader } from '@angular/material';
 
 import { EditorResult } from '../core/models/dynamicEditor.interface';
+
+import { ModalService } from '../core/services/modal.service';
+
 import { EditorCreatorComponent } from '../core/components/editor-creator/editor-creator.component';
+import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-tab-view',
@@ -10,6 +14,8 @@ import { EditorCreatorComponent } from '../core/components/editor-creator/editor
   styleUrls: ['./tab-view.component.scss']
 })
 export class TabViewComponent implements OnInit {
+  @ViewChild('mtg') tabGroup: MatTabGroup;
+
   tabsDefinition: Array<any>;
   @Input()
   get tabDefs() {
@@ -42,15 +48,46 @@ export class TabViewComponent implements OnInit {
 
   currentTabIndex = 0;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private modal: ModalService) {}
+
+  private isTabDirty() {
+    const tabName = this.tabDefs[this.currentTabIndex].name;
+    if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
+      return this.editorResults[tabName].findIndex(t => t.controller.dirty === true) >= 0;
+    }
+    return false;
+  }
+
+  private handelTabChange(stopEvent: boolean, argum: any) {
+    return stopEvent && MatTabGroup.prototype._handleClick.apply(this.tabGroup, argum);
+  }
+
+  private interceptTabChange() {
+    if (this.isTabDirty()) {
+      const argum = arguments;
+      const confirm = this.modal.show(
+        ModalType.confirm,
+        'key_confirmation',
+        'l10n_changesNotSaved'
+      );
+      confirm.afterClosed().subscribe(result => {
+        if (result && result === 'yes') {
+          this.handelTabChange(true, argum);
+        } else {
+          this.handelTabChange(false, argum);
+        }
+      });
+    } else {
+      return true && MatTabGroup.prototype._handleClick.apply(this.tabGroup, arguments);
+    }
+  }
 
   ngOnInit() {
-    // this.tabDefs.forEach(t => {
-    //   this.editorResults[t.name] = [];
-    // });
+    this.tabGroup._handleClick = this.interceptTabChange.bind(this);
   }
 
   onTabIndexChange(event: number) {
+    // this.tabGroup.selectedIndex = this.currentTabIndex;
     this.currentTabIndex = event;
   }
 
@@ -92,4 +129,10 @@ export class TabViewComponent implements OnInit {
         break;
     }
   }
+
+  onSave() {
+    console.log(this.editorResults);
+  }
+
+  onRefresh() {}
 }

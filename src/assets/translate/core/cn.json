@@ -112,5 +112,6 @@
   "key_customDescription": "自定义描述",
   "key_valueExpression": "内容表达式",
   "key_valueValidation": "内容验证",
-  "key_componentName": "控件名"
+  "key_componentName": "控件名",
+  "key_confirmation": "请确认"
 }

@@ -236,11 +236,4 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   getControllerIndex(controlName: string) {
     return this.attributeArray.findIndex(a => a.config.name === controlName);
   }
-
-  onSubmit() {
-    // console.log(this.attributeArray);
-    // console.log(this.resourceForm);
-
-    console.log(this.attributeDefs);
-  }
 }

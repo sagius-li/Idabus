@@ -2,6 +2,10 @@
   color: #f44336;
 }
 
+:host.ng-dirty /deep/ .mat-form-field-label::after {
+  content: '*';
+}
+
 :host.ng-invalid.ng-touched /deep/ .mat-form-field-underline,
 :host.ng-invalid.ng-touched /deep/ .mat-form-field-ripple {
   background-color: #f44336;
