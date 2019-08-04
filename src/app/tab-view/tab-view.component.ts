@@ -1,12 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { MatDialog, MatTabGroup, MatTab, MatTabHeader } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatTabGroup } from '@angular/material';
+
+import { switchMap } from 'rxjs/operators';
 
 import { EditorResult } from '../core/models/dynamicEditor.interface';
+import { ModalType } from '../core/models/componentContract.model';
+import { Resource } from '../core/models/dataContract.model';
 
+import { ResourceService } from '../core/services/resource.service';
 import { ModalService } from '../core/services/modal.service';
+import { SwapService } from '../core/services/swap.service';
 
 import { EditorCreatorComponent } from '../core/components/editor-creator/editor-creator.component';
-import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-tab-view',
@@ -48,15 +54,15 @@ export class TabViewComponent implements OnInit {
 
   currentTabIndex = 0;
 
-  constructor(private dialog: MatDialog, private modal: ModalService) {}
+  refreshTrigger = Math.floor(Math.random() * 10000 + 1);
 
-  private isTabDirty() {
-    const tabName = this.tabDefs[this.currentTabIndex].name;
-    if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
-      return this.editorResults[tabName].findIndex(t => t.controller.dirty === true) >= 0;
-    }
-    return false;
-  }
+  constructor(
+    private dialog: MatDialog,
+    private modal: ModalService,
+    private route: ActivatedRoute,
+    private resource: ResourceService,
+    private swap: SwapService
+  ) {}
 
   private handelTabChange(stopEvent: boolean, argum: any) {
     return stopEvent && MatTabGroup.prototype._handleClick.apply(this.tabGroup, argum);
@@ -82,12 +88,27 @@ export class TabViewComponent implements OnInit {
     }
   }
 
+  isTabDirty() {
+    const tabName = this.tabDefs[this.currentTabIndex].name;
+    if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
+      return this.editorResults[tabName].findIndex(t => t.controller.dirty === true) >= 0;
+    }
+    return false;
+  }
+
+  hasError() {
+    const tabName = this.tabDefs[this.currentTabIndex].name;
+    if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
+      return this.editorResults[tabName].findIndex(t => t.controller.valid === false) >= 0;
+    }
+    return false;
+  }
+
   ngOnInit() {
     this.tabGroup._handleClick = this.interceptTabChange.bind(this);
   }
 
   onTabIndexChange(event: number) {
-    // this.tabGroup.selectedIndex = this.currentTabIndex;
     this.currentTabIndex = event;
   }
 
@@ -131,8 +152,46 @@ export class TabViewComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.editorResults);
+    const attributeResult: { [key: string]: any } = {};
+    const tabName = this.tabDefs[this.currentTabIndex].name;
+
+    if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
+      const progress = this.modal.show(ModalType.progress, 'key_savingChanges', '');
+
+      this.editorResults[tabName].forEach(result => {
+        if (result.controller.dirty) {
+          attributeResult[result.attribute.systemName] = result.controller.value;
+        }
+      });
+
+      this.route.params
+        .pipe(
+          switchMap(param => {
+            return this.resource.getResourceByID(param.id, Object.keys(attributeResult));
+          }),
+          switchMap((res: Resource) => {
+            Object.keys(attributeResult).forEach(k => {
+              res[k] = attributeResult[k];
+            });
+            return this.resource.updateResource(res);
+          })
+        )
+        .subscribe(
+          () => {
+            progress.close();
+            this.onRefresh();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    }
   }
 
-  onRefresh() {}
+  onRefresh() {
+    this.swap.broadcast({
+      name: 'refresh-attribute',
+      parameter: this.tabDefs[this.currentTabIndex].name
+    });
+  }
 }

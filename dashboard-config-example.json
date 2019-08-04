@@ -304,7 +304,7 @@
             "editorType": "text",
             "editorConfig": {
               "name": "txtDisplayName",
-              "expression": "[#txtLastName], [#txtFirstName]"
+              "expression": "[#txtFirstName] [#txtLastName]"
             }
           },
           {
@@ -323,7 +323,7 @@
         "y": 0,
         "x": 0,
         "name": "userWorkInfo",
-        "displayName": "key_workInfo",
+        "displayName": "l10n_workInfo",
         "columnNumber": 1,
         "attributes": [
           {

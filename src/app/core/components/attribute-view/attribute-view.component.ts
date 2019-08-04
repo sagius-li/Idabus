@@ -39,6 +39,9 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   @Input()
   columnNumber = 1;
 
+  @Input()
+  tabName: string;
+
   attArray: Array<EditorResult> = [];
   @Input()
   get attributeArray() {
@@ -121,6 +124,18 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
+      switch (event.name) {
+        case 'refresh-attribute':
+          if (event.parameter === this.tabName) {
+            this.ngOnInit();
+          }
+          break;
+        default:
+          break;
+      }
+    });
+
     this.attributeArray.splice(0, this.attributeArray.length);
 
     const attributes = this.attributeDefs.map(a => a.attributeName);
@@ -196,8 +211,9 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    const change = this.differ.diff(this.attributeDefs);
-    if (change) {
+    const changeAttribute = this.differ.diff(this.attributeDefs);
+
+    if (changeAttribute) {
       this.ngOnInit();
     }
   }

@@ -52,5 +52,6 @@
   "l10n_exitEdit": "exit edition",
   "l10n_viewMode": "view mode",
   "l10n_addTab": "add tab",
-  "l10n_changesNotSaved": "changes will be lost after<br/>navigating to other tabs, are you sure?"
+  "l10n_changesNotSaved": "changes will be lost after<br/>navigating to other tabs, are you sure?",
+  "l10n_workInfo": "work info"
 }
