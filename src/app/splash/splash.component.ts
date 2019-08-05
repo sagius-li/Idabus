@@ -3,12 +3,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 
 import { ConfigService } from '../core/services/config.service';
 import { TransService } from '../core/models/translation.model';
 import { ResourceService } from '../core/services/resource.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
-import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-splash',
@@ -17,6 +17,7 @@ import { UtilsService } from '../core/services/utils.service';
 })
 export class SplashComponent implements OnInit, OnDestroy {
   sub: Subscription;
+  msalSub: Subscription;
 
   constructor(
     private router: Router,
@@ -25,12 +26,17 @@ export class SplashComponent implements OnInit, OnDestroy {
     private translate: TransService,
     private resource: ResourceService,
     private com: ComponentIndexService,
-    private utils: UtilsService
+    private msal: MsalService,
+    private msalBroadcast: BroadcastService
   ) {}
 
   ngOnInit() {
     const startPath = this.config.getConfig('startPath', '/app');
     let obs: Observable<Params>;
+
+    this.msalSub = this.msalBroadcast.subscribe('msal:loginSuccess', payload => {
+      console.log(this.msal.getUser());
+    });
 
     if (this.resource.isLoaded) {
       obs = this.resource.isConfigured
@@ -97,5 +103,10 @@ export class SplashComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+
+    this.msalBroadcast.getMSALSubject().next(1);
+    if (this.msalSub) {
+      this.msalSub.unsubscribe();
+    }
   }
 }

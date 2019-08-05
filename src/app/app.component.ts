@@ -7,7 +7,7 @@ import {
   HttpResponse
 } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 
 import { StartupService } from './core/services/startup.service';
 import { SwapService } from './core/services/swap.service';
@@ -19,6 +19,8 @@ import { SwapService } from './core/services/swap.service';
 })
 export class AppComponent implements OnInit {
   title = 'Idabus';
+
+  msalSubscription: Subscription;
 
   constructor(private startup: StartupService, private swap: SwapService) {
     window.onresize = () => {

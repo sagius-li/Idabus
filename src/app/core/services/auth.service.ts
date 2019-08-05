@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { EMPTY } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
+import { MsalService } from '@azure/msal-angular';
 
 import { AuthMode, AuthUser, Resource } from '../models/dataContract.model';
 
@@ -28,10 +29,13 @@ export class AuthService {
     private router: Router,
     private resource: ResourceService,
     private utils: UtilsService,
-    private storage: StorageService
+    private storage: StorageService,
+    private msal: MsalService
   ) {}
 
   public init() {
+    this.msal.clientId = '6c6bd26b-7531-4bad-a2a8-234a54661f03';
+
     if (this.storage.getItem(this.utils.localStorageLoginMode)) {
       this.mode = AuthMode[localStorage.getItem(this.utils.localStorageLoginMode)];
     }
@@ -69,6 +73,8 @@ export class AuthService {
         })
       );
     } else {
+      this.msal.loginRedirect();
+
       return EMPTY;
 
       // this._authMode = AuthMode[mode];
@@ -84,9 +90,14 @@ export class AuthService {
   public logout() {
     this.storage.clear();
     this.resource.clear();
-    this.mode = undefined;
     this.user = undefined;
 
-    this.router.navigate(['/login']);
+    if (this.authMode === AuthMode.azure) {
+      this.mode = undefined;
+      this.msal.logout();
+    } else {
+      this.mode = undefined;
+      this.router.navigate(['/login']);
+    }
   }
 }

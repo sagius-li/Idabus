@@ -21,6 +21,8 @@ import {
 
 import { DragulaModule } from 'ng2-dragula';
 
+import { MsalModule, MsalInterceptor } from '@azure/msal-angular';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent, UploadInterceptor } from './app.component';
 
@@ -71,7 +73,11 @@ import { ViewConfiguratorComponent } from './view-configurator/view-configurator
     DragulaModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
-    CoreModule
+    CoreModule,
+    MsalModule.forRoot({
+      clientID: '6c6bd26b-7531-4bad-a2a8-234a54661f03',
+      redirectUri: 'http://localhost:4200/splash'
+    })
   ],
   entryComponents: [DemoTeamCreationComponent, ViewConfiguratorComponent],
   providers: [
