@@ -154,8 +154,8 @@
       </kendo-grid-pdf>
       <kendo-grid-excel
         *ngIf="localConfig.exportToExcel"
-        fileName="export.xlsx"
-        [fetchData]="allData"
+        fileName="export.csv"
+        [fetchData]="localConfig.exportAllPages ? allData : null"
       >
       </kendo-grid-excel>
     </kendo-grid>

@@ -215,7 +215,7 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
     this.fetchDataDic();
   }
 
-  allData(): Observable<any> {
+  allData = (): Observable<any> => {
     this.gridLoading = true;
     const attributesToLoad = this.localConfig.columns.map(c => c.field);
     if (attributesToLoad.findIndex(item => item.toLowerCase() === 'objectid') < 0) {
@@ -229,7 +229,8 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
         this.gridLoading = false;
       })
     );
-  }
+    // tslint:disable-next-line:semicolon
+  };
 
   onExcelExport(grid: GridComponent) {
     grid.saveAsExcel();
