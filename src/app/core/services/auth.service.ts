@@ -34,14 +34,26 @@ export class AuthService {
   ) {}
 
   public init() {
-    this.msal.clientId = '6c6bd26b-7531-4bad-a2a8-234a54661f03';
-
     if (this.storage.getItem(this.utils.localStorageLoginMode)) {
       this.mode = AuthMode[localStorage.getItem(this.utils.localStorageLoginMode)];
     }
     if (localStorage.getItem(this.utils.localStorageLoginUser)) {
       this.user = JSON.parse(localStorage.getItem(this.utils.localStorageLoginUser));
     }
+  }
+
+  public initMsal(userInfo: any) {
+    this.user = {
+      DisplayName: userInfo.name,
+      ObjectID: userInfo.userIdentifier,
+      AccountName: userInfo.displayableId,
+      AuthenticationMode: AuthMode.azure,
+      AccessToken: '',
+      AccessConnection: ''
+    };
+    this.mode = AuthMode.azure;
+    this.storage.setItem(this.utils.localStorageLoginMode, this.mode);
+    this.storage.setItem(this.utils.localStorageLoginUser, JSON.stringify(this.user));
   }
 
   public login(mode: AuthMode, userName?: string, pwd?: string) {

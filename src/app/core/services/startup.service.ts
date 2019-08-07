@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { tap, switchMap } from 'rxjs/operators';
 
 import { TransService, Language } from '../models/translation.model';
+import { AuthMode } from '../models/dataContract.model';
 
 import { ConfigService } from './config.service';
 import { ResourceService } from './resource.service';
@@ -67,6 +68,9 @@ export class StartupService {
             this.auth.init();
             if (this.auth.authMode && this.auth.authUser) {
               this.resource.setService(this.auth.authUser);
+              if (this.resource.authenticationMode === AuthMode.azure && currentPath === '/login') {
+                currentPath = '/';
+              }
               if (currentPath !== '/') {
                 this.router.navigate(['/splash'], { queryParams: { path: currentPath } });
               } else {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, EMPTY } from 'rxjs';
 import { tap, switchMap, catchError } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -275,73 +275,90 @@ export class ResourceService {
   }
 
   public load(conn?: string) {
-    this.baseUrl = this.config.getConfig('dataServiceUrl', '//localhost:6867/api/');
-    this.loginUserAttributes = this.config.getConfig('loginUserAttributes', ['DisplayName']);
-
     if (conn) {
-      this.connection = conn;
-      this.authNMode = AuthMode.basic;
-      this.connUser = this.getConnectedUser();
+      if (conn === AuthMode.azure.toString()) {
+        this.connection = undefined;
+        this.authNMode = AuthMode.azure;
+      } else {
+        this.connection = conn;
+        this.authNMode = AuthMode.basic;
+        this.connUser = this.getConnectedUser();
+      }
     } else {
       this.connection = undefined;
       this.authNMode = AuthMode.windows;
     }
 
-    const urlGetVersion = this.utils.buildDataServiceUrl(
-      this.baseUrl,
-      'general',
-      'version',
-      this.serviceType
-    );
-    // get version
-    return this.http.get(urlGetVersion).pipe(
-      tap((ver: string) => {
-        this.version = ver;
-      }),
-      // get encryption key
-      switchMap(() => {
-        const urlGetEncryptionKey = this.utils.buildDataServiceUrl(
-          this.baseUrl,
-          'general',
-          'encryptionKey',
-          this.serviceType
-        );
-        return this.http.get(urlGetEncryptionKey).pipe(
-          tap((key: string) => {
-            if (!key) {
-              return throwError(new Error('could not get encryption key'));
-            }
-            this.encryptionKey = this.utils.Decrypt(key, '');
-            this.secret = this.utils.Encrypt(key, this.encryptionKey);
-          })
-        );
-      }),
-      // get language
-      switchMap(() => {
-        const urlGetLanguage = this.utils.buildDataServiceUrl(
-          this.baseUrl,
-          'general',
-          'language',
-          this.serviceType
-        );
-        return this.http.get(urlGetLanguage).pipe(
-          tap((lang: string) => {
-            if (!lang) {
-              return throwError(new Error('could not get browser language'));
-            }
-            this.language = lang;
-          })
-        );
-      }),
-      // acquire token
-      switchMap(() => {
-        return this.acquireToken().pipe(
-          tap(() => {
-            this.loaded = true;
-          })
-        );
-      })
-    );
+    if (this.authNMode === AuthMode.azure) {
+      this.baseUrl = this.config.getConfig('nextGenServiceUrl', '//localhost:6867/api/');
+      this.loginUserAttributes = this.config.getConfig('loginUserAttributes', ['DisplayName']);
+
+      this.version = 'OCG Data Service for Azure 2.0';
+      this.language = 'en';
+
+      this.loaded = true;
+
+      return EMPTY;
+    } else {
+      this.baseUrl = this.config.getConfig('dataServiceUrl', '//localhost:6867/api/');
+      this.loginUserAttributes = this.config.getConfig('loginUserAttributes', ['DisplayName']);
+
+      const urlGetVersion = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'general',
+        'version',
+        this.serviceType
+      );
+      // get version
+      return this.http.get(urlGetVersion).pipe(
+        tap((ver: string) => {
+          this.version = ver;
+        }),
+        // get encryption key
+        switchMap(() => {
+          const urlGetEncryptionKey = this.utils.buildDataServiceUrl(
+            this.baseUrl,
+            'general',
+            'encryptionKey',
+            this.serviceType
+          );
+          return this.http.get(urlGetEncryptionKey).pipe(
+            tap((key: string) => {
+              if (!key) {
+                return throwError(new Error('could not get encryption key'));
+              }
+              this.encryptionKey = this.utils.Decrypt(key, '');
+              this.secret = this.utils.Encrypt(key, this.encryptionKey);
+            })
+          );
+        }),
+        // get language
+        switchMap(() => {
+          const urlGetLanguage = this.utils.buildDataServiceUrl(
+            this.baseUrl,
+            'general',
+            'language',
+            this.serviceType
+          );
+          return this.http.get(urlGetLanguage).pipe(
+            tap((lang: string) => {
+              if (!lang) {
+                return throwError(new Error('could not get browser language'));
+              }
+              this.language = lang;
+            })
+          );
+        }),
+        // acquire token
+        switchMap(() => {
+          return this.acquireToken().pipe(
+            tap(() => {
+              this.loaded = true;
+            })
+          );
+        })
+      );
+    }
   }
 
   /**
@@ -598,6 +615,12 @@ export class ResourceService {
           return throwError(err);
         }
       })
+    );
+  }
+
+  public nextGenTest(): Observable<any> {
+    return this.http.get<any>(
+      'https://dataservice-2019-06-17.azurewebsites.net/api/v2/Schema/user'
     );
   }
 

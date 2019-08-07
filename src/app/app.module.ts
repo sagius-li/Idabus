@@ -76,7 +76,8 @@ import { ViewConfiguratorComponent } from './view-configurator/view-configurator
     CoreModule,
     MsalModule.forRoot({
       clientID: '6c6bd26b-7531-4bad-a2a8-234a54661f03',
-      redirectUri: 'http://localhost:4200/splash'
+      redirectUri: 'http://localhost:4200/',
+      postLogoutRedirectUri: 'http://localhost:4200/login'
     })
   ],
   entryComponents: [DemoTeamCreationComponent, ViewConfiguratorComponent],
