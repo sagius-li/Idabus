@@ -29,6 +29,11 @@ import { AppComponent, UploadInterceptor } from './app.component';
 import { CoreModule } from './core/modules/core.module';
 
 import 'hammerjs';
+
+import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
+import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
+import { DemoNextgenComponent } from './demo-nextgen/demo-nextgen.component';
+
 import { TestComponent } from './test/test.component';
 import { LoginComponent } from './login/login.component';
 import { SplashComponent } from './splash/splash.component';
@@ -38,8 +43,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ResourcesComponent } from './resources/resources.component';
 
-import { DemoTeamCreationComponent } from './demo-team-creation/demo-team-creation.component';
-import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
 import { UserComponent } from './user/user.component';
 import { TabViewComponent } from './tab-view/tab-view.component';
 import { GridsterViewComponent } from './gridster-view/gridster-view.component';
@@ -60,6 +63,7 @@ import { ViewConfiguratorComponent } from './view-configurator/view-configurator
 
     DemoTeamCreationComponent,
     DemoTeamEditionComponent,
+    DemoNextgenComponent,
 
     UserComponent,
     TabViewComponent,

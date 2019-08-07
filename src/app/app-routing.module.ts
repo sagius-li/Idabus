@@ -13,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { UserComponent } from './user/user.component';
 
 import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
+import { DemoNextgenComponent } from './demo-nextgen/demo-nextgen.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'home',
         component: DashboardComponent
+      },
+      {
+        path: 'nextgen',
+        component: DemoNextgenComponent
       },
       {
         path: 'resources',

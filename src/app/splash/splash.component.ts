@@ -8,6 +8,7 @@ import { ConfigService } from '../core/services/config.service';
 import { TransService } from '../core/models/translation.model';
 import { ResourceService } from '../core/services/resource.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
+import { AuthMode } from '../core/models/dataContract.model';
 
 @Component({
   selector: 'app-splash',
@@ -114,7 +115,11 @@ export class SplashComponent implements OnInit {
       if (params.path) {
         this.router.navigate([params.path]);
       } else {
-        this.router.navigate([startPath]);
+        if (this.resource.authenticationMode === AuthMode.azure) {
+          this.router.navigate(['/app/nextgen']);
+        } else {
+          this.router.navigate([startPath]);
+        }
       }
     });
   }

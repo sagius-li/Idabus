@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
-import { throwError, Observable, EMPTY } from 'rxjs';
+import { throwError, Observable, EMPTY, of } from 'rxjs';
 import { tap, switchMap, catchError } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -275,20 +275,6 @@ export class ResourceService {
   }
 
   public load(conn?: string) {
-    if (conn) {
-      if (conn === AuthMode.azure.toString()) {
-        this.connection = undefined;
-        this.authNMode = AuthMode.azure;
-      } else {
-        this.connection = conn;
-        this.authNMode = AuthMode.basic;
-        this.connUser = this.getConnectedUser();
-      }
-    } else {
-      this.connection = undefined;
-      this.authNMode = AuthMode.windows;
-    }
-
     if (this.authNMode === AuthMode.azure) {
       this.baseUrl = this.config.getConfig('nextGenServiceUrl', '//localhost:6867/api/');
       this.loginUserAttributes = this.config.getConfig('loginUserAttributes', ['DisplayName']);
@@ -298,10 +284,19 @@ export class ResourceService {
 
       this.loaded = true;
 
-      return EMPTY;
+      return of({});
     } else {
       this.baseUrl = this.config.getConfig('dataServiceUrl', '//localhost:6867/api/');
       this.loginUserAttributes = this.config.getConfig('loginUserAttributes', ['DisplayName']);
+
+      if (conn) {
+        this.connection = conn;
+        this.authNMode = AuthMode.basic;
+        this.connUser = this.getConnectedUser();
+      } else {
+        this.connection = undefined;
+        this.authNMode = AuthMode.windows;
+      }
 
       const urlGetVersion = this.utils.buildDataServiceUrl(
         this.baseUrl,
@@ -367,121 +362,127 @@ export class ResourceService {
    * and ocgConfigurationXML on Set object
    */
   public getUserConfig(): Observable<ResourceSet> {
-    const urlSearchResource = this.utils.buildDataServiceUrl(
-      this.baseUrl,
-      'admin/resources',
-      'search',
-      this.serviceType
-    );
+    if (this.authNMode === AuthMode.azure) {
+      this.configured = true;
 
-    // get right sets
-    const queryGetRightSets = `/Set[ComputedMember='${this.loginUser.ObjectID}']`;
-    const paramsGetRightSets: HttpParams = new HttpParams({
-      fromObject: {
-        query: queryGetRightSets,
-        attributes: 'DisplayName'
-      }
-    });
-    const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-    return this.http
-      .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetRightSets })
-      .pipe(
-        tap((data: ResourceSet) => {
-          this.rights = data.results.map(item => item.DisplayName);
-        }),
-        // get view sets
-        switchMap(() => {
-          const queryGetViewSets = `/Set[${this.utils.attObjectType}='ui' and ComputedMember='${
-            this.loginUser.ObjectID
-          }']`;
-          const paramsGetViewSets: HttpParams = new HttpParams({
-            fromObject: {
-              query: queryGetViewSets,
-              attributes: 'DisplayName'
-            }
-          });
-          return this.http
-            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetViewSets })
-            .pipe(
-              tap((data: ResourceSet) => {
-                this.uiSets = data.results.map(item => new BasicResource(item));
-              })
-            );
-        }),
-        // get admin view sets
-        switchMap(() => {
-          const queryGetAdminViewSets = `/Set[starts-with(${
-            this.utils.attObjectType
-          },'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
-            this.utils.attAdminViewSets
-          }]`;
-          const paramsGetAdminViewSets: HttpParams = new HttpParams({
-            fromObject: {
-              query: queryGetAdminViewSets,
-              attributes: 'DisplayName'
-            }
-          });
-          return this.http
-            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetAdminViewSets })
-            .pipe(
-              tap((data: ResourceSet) => {
-                this.adminUiSets = data.results.map(item => new BasicResource(item));
-              })
-            );
-        }),
-        // get standard view set
-        switchMap(() => {
-          const queryGetStandardViewSet = `/Set[${this.utils.attObjectType}='uibase']`;
-          const paramsGetStandardViewSet: HttpParams = new HttpParams({
-            fromObject: {
-              query: queryGetStandardViewSet,
-              attributes: `DisplayName, ${this.utils.attConfiguration}`
-            }
-          });
-          return this.http
-            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetStandardViewSet })
-            .pipe(
-              tap((data: ResourceSet) => {
-                if (data.totalCount > 0) {
-                  this.standardUiSet = new BasicResource(data.results[0]);
-                  this.standardUiSetting = data.results[0][this.utils.attConfiguration];
-                  this.standardUiString = data.results[0][this.utils.attConfiguration];
-                }
-              })
-            );
-        }),
-        // get primary view set
-        switchMap(() => {
-          const queryGetPrimaryViewSet = `/Set[${
-            this.utils.attObjectType
-          }='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
-            this.utils.attPrimaryViewSets
-          }]`;
-          const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
-            fromObject: {
-              query: queryGetPrimaryViewSet,
-              attributes: `DisplayName, ${this.utils.attConfiguration}`
-            }
-          });
-          return this.http
-            .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetPrimaryViewSet })
-            .pipe(
-              tap((data: ResourceSet) => {
-                if (data.totalCount > 0 && data.results[0][this.utils.attConfiguration]) {
-                  this.primaryUiSet = new BasicResource(data.results[0]);
-                  this.primaryUiSetting = data.results[0][this.utils.attConfiguration];
-                  this.primaryUiString = data.results[0][this.utils.attConfiguration];
-                } else {
-                  this.primaryUiSet = this.standardUiSet;
-                  this.primaryUiSetting = this.standardUiSetting;
-                  this.primaryUiString = this.standardUiString;
-                }
-                this.checkCurrentViewSet();
-                this.configured = true;
-              })
-            );
-        })
+      return of(null);
+    } else {
+      const urlSearchResource = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'admin/resources',
+        'search',
+        this.serviceType
       );
+
+      // get right sets
+      const queryGetRightSets = `/Set[ComputedMember='${this.loginUser.ObjectID}']`;
+      const paramsGetRightSets: HttpParams = new HttpParams({
+        fromObject: {
+          query: queryGetRightSets,
+          attributes: 'DisplayName'
+        }
+      });
+      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+      return this.http
+        .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetRightSets })
+        .pipe(
+          tap((data: ResourceSet) => {
+            this.rights = data.results.map(item => item.DisplayName);
+          }),
+          // get view sets
+          switchMap(() => {
+            const queryGetViewSets = `/Set[${this.utils.attObjectType}='ui' and ComputedMember='${
+              this.loginUser.ObjectID
+            }']`;
+            const paramsGetViewSets: HttpParams = new HttpParams({
+              fromObject: {
+                query: queryGetViewSets,
+                attributes: 'DisplayName'
+              }
+            });
+            return this.http
+              .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetViewSets })
+              .pipe(
+                tap((data: ResourceSet) => {
+                  this.uiSets = data.results.map(item => new BasicResource(item));
+                })
+              );
+          }),
+          // get admin view sets
+          switchMap(() => {
+            const queryGetAdminViewSets = `/Set[starts-with(${
+              this.utils.attObjectType
+            },'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
+              this.utils.attAdminViewSets
+            }]`;
+            const paramsGetAdminViewSets: HttpParams = new HttpParams({
+              fromObject: {
+                query: queryGetAdminViewSets,
+                attributes: 'DisplayName'
+              }
+            });
+            return this.http
+              .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetAdminViewSets })
+              .pipe(
+                tap((data: ResourceSet) => {
+                  this.adminUiSets = data.results.map(item => new BasicResource(item));
+                })
+              );
+          }),
+          // get standard view set
+          switchMap(() => {
+            const queryGetStandardViewSet = `/Set[${this.utils.attObjectType}='uibase']`;
+            const paramsGetStandardViewSet: HttpParams = new HttpParams({
+              fromObject: {
+                query: queryGetStandardViewSet,
+                attributes: `DisplayName, ${this.utils.attConfiguration}`
+              }
+            });
+            return this.http
+              .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetStandardViewSet })
+              .pipe(
+                tap((data: ResourceSet) => {
+                  if (data.totalCount > 0) {
+                    this.standardUiSet = new BasicResource(data.results[0]);
+                    this.standardUiSetting = data.results[0][this.utils.attConfiguration];
+                    this.standardUiString = data.results[0][this.utils.attConfiguration];
+                  }
+                })
+              );
+          }),
+          // get primary view set
+          switchMap(() => {
+            const queryGetPrimaryViewSet = `/Set[${
+              this.utils.attObjectType
+            }='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
+              this.utils.attPrimaryViewSets
+            }]`;
+            const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
+              fromObject: {
+                query: queryGetPrimaryViewSet,
+                attributes: `DisplayName, ${this.utils.attConfiguration}`
+              }
+            });
+            return this.http
+              .get<ResourceSet>(urlSearchResource, { headers, params: paramsGetPrimaryViewSet })
+              .pipe(
+                tap((data: ResourceSet) => {
+                  if (data.totalCount > 0 && data.results[0][this.utils.attConfiguration]) {
+                    this.primaryUiSet = new BasicResource(data.results[0]);
+                    this.primaryUiSetting = data.results[0][this.utils.attConfiguration];
+                    this.primaryUiString = data.results[0][this.utils.attConfiguration];
+                  } else {
+                    this.primaryUiSet = this.standardUiSet;
+                    this.primaryUiSetting = this.standardUiSetting;
+                    this.primaryUiString = this.standardUiString;
+                  }
+                  this.checkCurrentViewSet();
+                  this.configured = true;
+                })
+              );
+          })
+        );
+    }
   }
 
   /**
@@ -490,62 +491,66 @@ export class ResourceService {
    * @param isAuth if set to true, only minimal attributes will be loaded to authenticate the user
    */
   public getCurrentUser(isAuth = false): Observable<Resource> {
-    if (this.connection) {
-      // using basic authentication
-      const urlGetPortalUser = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin/resources',
-        'basicuser',
-        this.serviceType
-      );
-      if (!this.connectedUser.name) {
-        return throwError(new Error('invalid connection'));
-      }
-      if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
-        this.loginUserAttributes.push(this.utils.attConfiguration);
-      }
-      const params: HttpParams = new HttpParams({
-        fromObject: {
-          accountName: this.connectedUser.name,
-          attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
-        }
-      });
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      return this.http.get(urlGetPortalUser, { headers, params }).pipe(
-        tap((user: Resource) => {
-          this.user = user;
-          if (user[this.utils.attConfiguration]) {
-            this.customUiSetting = user[this.utils.attConfiguration];
-            this.customUiString = user[this.utils.attConfiguration];
-          }
-        })
-      );
+    if (this.authNMode === AuthMode.azure) {
+      return of({});
     } else {
-      // using windows authentication
-      const urlGetPortalUser = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin/resources',
-        'winuser',
-        this.serviceType
-      );
-      if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
-        this.loginUserAttributes.push(this.utils.attConfiguration);
-      }
-      const params: HttpParams = new HttpParams({
-        fromObject: {
-          attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
+      if (this.connection) {
+        // using basic authentication
+        const urlGetPortalUser = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin/resources',
+          'basicuser',
+          this.serviceType
+        );
+        if (!this.connectedUser.name) {
+          return throwError(new Error('invalid connection'));
         }
-      });
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
-        tap((user: Resource) => {
-          this.user = user;
-          if (user[this.utils.attConfiguration]) {
-            this.customUiSetting = user[this.utils.attConfiguration];
-            this.customUiString = user[this.utils.attConfiguration];
+        if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
+          this.loginUserAttributes.push(this.utils.attConfiguration);
+        }
+        const params: HttpParams = new HttpParams({
+          fromObject: {
+            accountName: this.connectedUser.name,
+            attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
           }
-        })
-      );
+        });
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        return this.http.get(urlGetPortalUser, { headers, params }).pipe(
+          tap((user: Resource) => {
+            this.user = user;
+            if (user[this.utils.attConfiguration]) {
+              this.customUiSetting = user[this.utils.attConfiguration];
+              this.customUiString = user[this.utils.attConfiguration];
+            }
+          })
+        );
+      } else {
+        // using windows authentication
+        const urlGetPortalUser = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin/resources',
+          'winuser',
+          this.serviceType
+        );
+        if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
+          this.loginUserAttributes.push(this.utils.attConfiguration);
+        }
+        const params: HttpParams = new HttpParams({
+          fromObject: {
+            attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(',')
+          }
+        });
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        return this.http.get(urlGetPortalUser, { headers, params, withCredentials: true }).pipe(
+          tap((user: Resource) => {
+            this.user = user;
+            if (user[this.utils.attConfiguration]) {
+              this.customUiSetting = user[this.utils.attConfiguration];
+              this.customUiString = user[this.utils.attConfiguration];
+            }
+          })
+        );
+      }
     }
   }
 
@@ -620,7 +625,7 @@ export class ResourceService {
 
   public nextGenTest(): Observable<any> {
     return this.http.get<any>(
-      'https://dataservice-2019-06-17.azurewebsites.net/api/v2/Schema/user'
+      'https://dataservice-2019-06-17.azurewebsites.net/api/v2/Schema/person'
     );
   }
 
