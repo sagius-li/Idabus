@@ -14,11 +14,21 @@ export class ExamValuePipe implements PipeTransform {
       return true;
     }
     // return the last available value if key was found any more
-    if (!value.hasOwnProperty(keys[index].trim())) {
-      return false;
-    } else {
-      return this.examProperty(value[keys[index].trim()], keys, index + 1);
+    const key = keys[index].trim();
+    // if (!value.hasOwnProperty(key) && !value.hasOwnProperty(key.toLowerCase())) {
+    //   return false;
+    // } else {
+    //   return this.examProperty(value[key], keys, index + 1);
+    // }
+
+    if (value.hasOwnProperty(key)) {
+      return this.examProperty(value[key], keys, index + 1);
     }
+    if (value.hasOwnProperty(key.toLowerCase())) {
+      return this.examProperty(value[key.toLowerCase()], keys, index + 1);
+    }
+
+    return false;
   }
 
   transform(value: any, propertyName: string): any {

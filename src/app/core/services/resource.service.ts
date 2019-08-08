@@ -492,7 +492,23 @@ export class ResourceService {
    */
   public getCurrentUser(isAuth = false): Observable<Resource> {
     if (this.authNMode === AuthMode.azure) {
-      return of({});
+      const urlGetCurrentUser = this.utils.buildDataServiceUrl(this.baseUrl, 'resources');
+      if (!this.loginUserAttributes.includes(this.utils.attConfiguration)) {
+        this.loginUserAttributes.push(this.utils.attConfiguration);
+      }
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          attributes: isAuth ? 'DisplayName' : this.loginUserAttributes.join(','),
+          xPathQuery: `/Person[AccountName='${this.token}']`
+        }
+      });
+      return this.http.get(urlGetCurrentUser, { params }).pipe(
+        tap((result: ResourceSet) => {
+          if (result && result.results.length > 0) {
+            this.user = result.results[0];
+          }
+        })
+      );
     } else {
       if (this.connection) {
         // using basic authentication

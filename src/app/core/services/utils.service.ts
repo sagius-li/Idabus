@@ -6,6 +6,9 @@ import * as moment from 'moment';
 
 import { EditorConfig } from '../models/dynamicEditor.interface';
 
+import { ExamValuePipe } from '../pipes/exam-value.pipe';
+import { ExtraValuePipe } from '../pipes/extra-value.pipe';
+
 import { ConfigService } from './config.service';
 
 /**
@@ -32,7 +35,11 @@ export class UtilsService {
   /**
    * @ignore
    */
-  constructor(private config: ConfigService) {
+  constructor(
+    private config: ConfigService,
+    private examValuePipe: ExamValuePipe,
+    private extraValuePipe: ExtraValuePipe
+  ) {
     this.iv = cryptojs.enc.Hex.parse('OCGMobileService');
   }
 
@@ -69,14 +76,16 @@ export class UtilsService {
   public buildDataServiceUrl(
     baseUrl: string,
     controllerName: string,
-    methodName: string,
+    methodName?: string,
     serviceType?: string,
     paths?: string[]
   ) {
     let url = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-    url = serviceType
-      ? `${url}${serviceType}/${controllerName}/${methodName}`
-      : `${url}${controllerName}/${methodName}`;
+    url = serviceType ? `${url}${serviceType}/${controllerName}` : `${url}${controllerName}`;
+
+    if (methodName) {
+      url = `${url}/${methodName}`;
+    }
 
     if (paths && paths.length > 0) {
       paths.forEach(path => {
@@ -304,5 +313,15 @@ export class UtilsService {
     });
 
     return retVal;
+  }
+
+  public ExamValue(value: any, path: string): boolean {
+    return this.examValuePipe.transform(value, path);
+  }
+
+  public ExtraValue(value: any, path: string): any {
+    return this.examValuePipe.transform(value, path)
+      ? this.extraValuePipe.transform(value, path)
+      : undefined;
   }
 }

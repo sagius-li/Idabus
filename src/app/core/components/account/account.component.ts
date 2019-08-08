@@ -6,6 +6,7 @@ import { ResourceService } from '../../services/resource.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { SwapService } from '../../services/swap.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-account',
@@ -36,7 +37,8 @@ export class AccountComponent implements OnInit {
     public resource: ResourceService,
     private translate: TranslateService,
     private auth: AuthService,
-    private swap: SwapService
+    private swap: SwapService,
+    private utils: UtilsService
   ) {}
 
   @HostListener('document:keydown.escape', ['$event'])
@@ -74,8 +76,10 @@ export class AccountComponent implements OnInit {
     this.currentLanguage = this.translate.currentLang;
     this.loginUser = this.resource.loginUser;
     if (this.loginUser) {
-      this.brandLetter = this.loginUser.DisplayName ? this.loginUser.DisplayName.substr(0, 1) : '-';
-      this.attrPhoto = this.loginUser.Photo;
+      this.brandLetter = this.utils.ExamValue(this.loginUser, 'DisplayName')
+        ? this.utils.ExtraValue(this.loginUser, 'DisplayName').substr(0, 1)
+        : '-';
+      this.attrPhoto = this.utils.ExtraValue(this.loginUser, 'Photo');
     }
   }
 

@@ -48,7 +48,7 @@ export class AuthService {
       ObjectID: userInfo.userIdentifier,
       AccountName: userInfo.displayableId,
       AuthenticationMode: AuthMode.azure,
-      AccessToken: '',
+      AccessToken: userInfo.displayableId,
       AccessConnection: ''
     };
     this.mode = AuthMode.azure;

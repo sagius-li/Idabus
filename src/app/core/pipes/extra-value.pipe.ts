@@ -14,11 +14,21 @@ export class ExtraValuePipe implements PipeTransform {
       return value;
     }
     // return the last available value if key was not found any more
-    if (!value.hasOwnProperty(keys[index].trim())) {
-      return value;
-    } else {
-      return this.extraProperty(value[keys[index].trim()], keys, index + 1);
+    const key = keys[index].trim();
+    // if (!value.hasOwnProperty(key) && !value.hasOwnProperty(key.toLowerCase())) {
+    //   return value;
+    // } else {
+    //   return this.extraProperty(value[key], keys, index + 1);
+    // }
+
+    if (value.hasOwnProperty(key)) {
+      return this.extraProperty(value[key], keys, index + 1);
     }
+    if (value.hasOwnProperty(key.toLowerCase())) {
+      return this.extraProperty(value[key.toLowerCase()], keys, index + 1);
+    }
+
+    return value;
   }
 
   transform(value: any, propertyName: string): any {

@@ -13,6 +13,7 @@ export class DemoNextgenComponent implements OnInit {
   ngOnInit() {}
 
   onNextGenServiceTest() {
+    console.log(this.resource.loginUser);
     this.resource.nextGenTest().subscribe(
       result => {
         console.log(result);
