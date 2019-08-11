@@ -4,8 +4,8 @@
     #resourceList
     fxFlex="auto"
     [data]="resourceData"
-    [textField]="'DisplayName'"
-    [valueField]="'ObjectID'"
+    [textField]="attDisplayName"
+    [valueField]="attObjectID"
     [filterable]="true"
     (filterChange)="handleSearchFilter($event)"
     (valueChange)="searchValueChange($event)"
@@ -21,7 +21,7 @@
         <div fxFlex="none">
           <mat-icon style="margin-top: 6px;">person</mat-icon>
         </div>
-        <div fxFlex="auto">{{ dataItem.DisplayName }}</div>
+        <div fxFlex="auto">{{ dataItem | extraValue: 'DisplayName' }}</div>
       </div>
     </ng-template>
   </kendo-combobox>

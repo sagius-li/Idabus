@@ -8,10 +8,10 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { ResourceSet, Resource } from '../../models/dataContract.model';
+import { ResourceSet, Resource, AuthMode } from '../../models/dataContract.model';
 
 import { ResourceService } from '../../services/resource.service';
-import { ConfigService } from '../../services/config.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-search',
@@ -28,13 +28,24 @@ export class SearchComponent implements OnInit {
   resourceData: Resource[] = [];
   canceled = false;
 
+  attDisplayName: string;
+  attObjectID: string;
+
   private contains(target: any): boolean {
     return this.resourceListRef.nativeElement.contains(target);
   }
 
-  constructor(private resource: ResourceService, private config: ConfigService) {}
+  constructor(private resource: ResourceService, private utils: UtilsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.resource.authenticationMode === AuthMode.azure) {
+      this.attDisplayName = 'displayname';
+      this.attObjectID = 'objectid';
+    } else {
+      this.attDisplayName = 'DisplayName';
+      this.attObjectID = 'ObjectID';
+    }
+  }
 
   @HostListener('document:keydown.escape', ['$event'])
   public keydown(event: any): void {
@@ -72,7 +83,7 @@ export class SearchComponent implements OnInit {
       this.resourceList.reset();
       this.canceled = false;
     } else {
-      if (value && value.ObjectID) {
+      if (value && this.utils.ExamValue(value, 'ObjectID')) {
         this.resourceList.reset();
         this.selectResource.emit(value);
       }

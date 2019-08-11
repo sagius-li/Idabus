@@ -7,6 +7,7 @@ import { BroadcastEvent, Resource } from '../core/models/dataContract.model';
 
 import { SwapService } from '../core/services/swap.service';
 import { ResourceService } from '../core/services/resource.service';
+import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private swap: SwapService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private utils: UtilsService
   ) {}
 
   ngOnInit() {
@@ -52,7 +54,10 @@ export class HomeComponent implements OnInit {
   }
 
   onResourceSelected(resource: Resource) {
-    const path = `/app/${resource.ObjectType}/${resource.ObjectID}`;
+    const path = `/app/${this.utils.ExtraValue(resource, 'ObjectType')}/${this.utils.ExtraValue(
+      resource,
+      'ObjectID'
+    )}`;
     this.router.navigate([path.toLowerCase()]);
   }
 }
