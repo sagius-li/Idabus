@@ -582,67 +582,75 @@ export class ResourceService {
       return throwError('id is missing');
     }
 
-    const params: HttpParams = new HttpParams({
-      fromObject: {
-        attributes: attributes.join(','),
-        culture,
-        resolveRef: String(resolveRef),
-        format
-      }
-    });
     let request: Observable<Resource>;
 
-    if (adminMode === true) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin',
-        'resources',
-        this.serviceType,
-        [id]
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.get<Resource>(url, { headers, params });
-    } else if (this.connection) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'basic',
-        'resources',
-        this.serviceType,
-        [id]
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<Resource>(url, { headers, params });
-    } else {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'win',
-        'resources',
-        this.serviceType,
-        [id]
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<Resource>(url, { headers, params, withCredentials: true });
-    }
-
-    return request.pipe(
-      catchError(err => {
-        if (err.status === 409) {
-          return this.acquireToken().pipe(
-            switchMap(() => {
-              return this.getResourceByID(id, attributes, format, culture, resolveRef, adminMode);
-            })
-          );
-        } else {
-          return throwError(err);
+    if (this.authNMode === AuthMode.azure) {
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, `resources/${id}`);
+      const isFull = format === 'full';
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          full: String(isFull)
         }
-      })
-    );
-  }
+      });
+      request = this.http.post<Resource>(url, [], { params });
 
-  public nextGenTest(): Observable<any> {
-    return this.http.get<any>(
-      'https://dataservice-2019-06-17.azurewebsites.net/api/v2/Schema/person'
-    );
+      return request;
+    } else {
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          attributes: attributes.join(','),
+          culture,
+          resolveRef: String(resolveRef),
+          format
+        }
+      });
+
+      if (adminMode === true) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin',
+          'resources',
+          this.serviceType,
+          [id]
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        request = this.http.get<Resource>(url, { headers, params });
+      } else if (this.connection) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'basic',
+          'resources',
+          this.serviceType,
+          [id]
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.get<Resource>(url, { headers, params });
+      } else {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'win',
+          'resources',
+          this.serviceType,
+          [id]
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.get<Resource>(url, { headers, params, withCredentials: true });
+      }
+
+      return request.pipe(
+        catchError(err => {
+          if (err.status === 409) {
+            return this.acquireToken().pipe(
+              switchMap(() => {
+                return this.getResourceByID(id, attributes, format, culture, resolveRef, adminMode);
+              })
+            );
+          } else {
+            return throwError(err);
+          }
+        })
+      );
+    }
   }
 
   public getResourceSchema(typeName: string, culture = 'en-US'): Observable<Resource> {
@@ -650,30 +658,43 @@ export class ResourceService {
       return throwError('type name is missing');
     }
 
-    const params: HttpParams = new HttpParams({
-      fromObject: {
-        culture
-      }
-    });
     let request: Observable<Resource>;
 
-    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'schema', typeName, this.serviceType);
-    const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-    request = this.http.get<Resource>(url, { headers, params });
+    if (this.authNMode === AuthMode.azure) {
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, 'schema', typeName);
+      request = this.http.get<Resource>(url);
 
-    return request.pipe(
-      catchError(err => {
-        if (err.status === 409) {
-          return this.acquireToken().pipe(
-            switchMap(() => {
-              return this.getResourceSchema(typeName, culture);
-            })
-          );
-        } else {
-          return throwError(err);
+      return request;
+    } else {
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          culture
         }
-      })
-    );
+      });
+
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        'schema',
+        typeName,
+        this.serviceType
+      );
+      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+      request = this.http.get<Resource>(url, { headers, params });
+
+      return request.pipe(
+        catchError(err => {
+          if (err.status === 409) {
+            return this.acquireToken().pipe(
+              switchMap(() => {
+                return this.getResourceSchema(typeName, culture);
+              })
+            );
+          } else {
+            return throwError(err);
+          }
+        })
+      );
+    }
   }
 
   public getResourceByQuery(
@@ -689,68 +710,84 @@ export class ResourceService {
       return throwError('query is missing');
     }
 
-    const params: HttpParams = new HttpParams({
-      fromObject: {
-        query,
-        attributes: attributes.join(','),
-        pageSize: String(pageSize),
-        index: String(index),
-        resolveRef: String(resolveRef),
-        orderBy: orderBy.join(',')
-      }
-    });
     let request: Observable<ResourceSet>;
 
-    if (adminMode === true) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin/resources',
-        'search',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.get<ResourceSet>(url, { headers, params });
-    } else if (this.connection) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'basic/resources',
-        'search',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<ResourceSet>(url, { headers, params });
-    } else {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'win/resources',
-        'search',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.get<ResourceSet>(url, { headers, params, withCredentials: true });
-    }
-
-    return request.pipe(
-      catchError(err => {
-        if (err.status === 409) {
-          return this.acquireToken().pipe(
-            switchMap(() => {
-              return this.getResourceByQuery(
-                query,
-                attributes,
-                pageSize,
-                index,
-                resolveRef,
-                orderBy,
-                adminMode
-              );
-            })
-          );
-        } else {
-          return throwError(err);
+    if (this.authNMode === AuthMode.azure) {
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, 'resources');
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          xPathQuery: query,
+          attributes: attributes.join(','),
+          pageSize: String(pageSize),
+          pageIndex: String(index)
         }
-      })
-    );
+      });
+      request = this.http.get<ResourceSet>(url, { params });
+
+      return request;
+    } else {
+      const params: HttpParams = new HttpParams({
+        fromObject: {
+          query,
+          attributes: attributes.join(','),
+          pageSize: String(pageSize),
+          index: String(index),
+          resolveRef: String(resolveRef),
+          orderBy: orderBy.join(',')
+        }
+      });
+
+      if (adminMode === true) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin/resources',
+          'search',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        request = this.http.get<ResourceSet>(url, { headers, params });
+      } else if (this.connection) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'basic/resources',
+          'search',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.get<ResourceSet>(url, { headers, params });
+      } else {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'win/resources',
+          'search',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.get<ResourceSet>(url, { headers, params, withCredentials: true });
+      }
+
+      return request.pipe(
+        catchError(err => {
+          if (err.status === 409) {
+            return this.acquireToken().pipe(
+              switchMap(() => {
+                return this.getResourceByQuery(
+                  query,
+                  attributes,
+                  pageSize,
+                  index,
+                  resolveRef,
+                  orderBy,
+                  adminMode
+                );
+              })
+            );
+          } else {
+            return throwError(err);
+          }
+        })
+      );
+    }
   }
 
   public deleteResource(id: string, adminMode = false) {
