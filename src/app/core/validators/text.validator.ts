@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
-import { TextEditorConfig } from './editorContract.model';
-import { AttributeResource } from './dataContract.model';
+
+import { TextEditorConfig } from '../models/editorContract.model';
+import { AttributeResource } from '../models/dataContract.model';
 
 export function createTextEditorValidator(attribute: AttributeResource, config: TextEditorConfig) {
   return (c: FormControl) => {

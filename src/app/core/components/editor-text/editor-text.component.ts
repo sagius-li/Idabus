@@ -13,7 +13,8 @@ import { tap, switchMap } from 'rxjs/operators';
 import { AttributeResource } from '../../models/dataContract.model';
 import { TextEditorConfig } from '../../models/editorContract.model';
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
-import { createTextEditorValidator } from '../../models/validator.model';
+
+import { createTextEditorValidator } from '../../validators/text.validator';
 
 import { UtilsService } from '../../services/utils.service';
 import { SwapService } from '../../services/swap.service';

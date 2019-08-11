@@ -15,9 +15,10 @@ import { tap, switchMap } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { Resource, BroadcastEvent } from '../../models/dataContract.model';
-import { createTextEditorValidator } from '../../models/validator.model';
 import { TransService } from '../../models/translation.model';
 import { DynamicEditor, EditorResult } from '../../models/dynamicEditor.interface';
+
+import { createTextEditorValidator } from '../../validators/text.validator';
 
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
