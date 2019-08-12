@@ -1,0 +1,23 @@
+:host /deep/ .mat-card-header-text {
+  margin: 0;
+}
+
+.info-icon-layer {
+  height: 30px;
+  width: 30px;
+  background-color: cadetblue;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.info-icon {
+  font-size: 22px;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+.info-text {
+  margin-left: 10px;
+  font-size: 18px;
+}

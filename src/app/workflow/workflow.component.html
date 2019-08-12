@@ -1,32 +1,41 @@
 <div>
-  <ng-template #nestedList let-activities>
-    <mat-card *ngFor="let activity of activities"
-      style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
-      <mat-card-header>{{activity.displayname}}</mat-card-header>
-      <mat-card-content>
-        <div *ngIf="hasSubItems(activity)">
-          <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubItems(activity)}">
-          </ng-container>
-        </div>
-        <div *ngIf="!hasSubItems(activity)">no sub items</div>
-      </mat-card-content>
-    </mat-card>
+  <ng-template #nestedList let-wkactivities>
+    <div *ngFor="let activity of wkactivities" fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="auto">
+        <mat-icon>arrow_downward</mat-icon>
+      </div>
+      <div fxFlex="auto" style="margin-bottom: 20px;">
+        <mat-card style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
+          <mat-card-header>
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <div class="info-icon-layer">
+                <mat-icon class="info-icon" (click)="onToggleDisplay(activity)">{{ getIcon(activity) }}</mat-icon>
+              </div>
+              <div fxFlex="auto" class="info-text">{{activity.displayname}}</div>
+            </div>
+          </mat-card-header>
+          <mat-card-content *ngIf="activity.display">
+            <div *ngIf="hasSubItems(activity)" style="margin-top: 20px;">
+              <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">
+                <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubItems(activity)}">
+                </ng-container>
+              </div>
+            </div>
+            <div *ngIf="!hasSubItems(activity)">no sub items</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
   </ng-template>
-  <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activities}">
-  </ng-container>
-
-  <!-- <ng-template #nestedList let-activities>
-    <mat-card *ngFor="let activity of activities"
-      style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
-      <mat-card-header>{{activity.title}}</mat-card-header>
-      <mat-card-content>
-        <div *ngIf="hasSubSections(activity)">
-          <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubSections(activity)}"></ng-container>
-        </div>
-        <div *ngIf="!hasSubSections(activity)">no sub items</div>
-      </mat-card-content>
-    </mat-card>
-  </ng-template>
-  <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: sections}">
-  </ng-container> -->
+  <div dragula="ACTIVITIES" [(dragulaModel)]="activities">
+    <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activities}">
+    </ng-container>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <div fxFlex="auto">
+      <mat-icon>arrow_downward</mat-icon>
+    </div>
+    <button fxFlex="auto" mat-stroked-button color="primary" (click)="onAddActivity()" style="margin-bottom: 20px;">add
+      activity</button>
+  </div>
 </div>

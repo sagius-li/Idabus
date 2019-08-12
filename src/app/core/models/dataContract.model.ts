@@ -78,5 +78,6 @@ export class Activity {
   displayname?: string;
   description?: string;
   activities?: Array<any>;
-  activity?: any;
+  activity?: Activity;
+  display?: boolean;
 }

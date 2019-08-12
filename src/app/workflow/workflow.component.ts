@@ -19,62 +19,51 @@ export class WorkflowComponent implements OnInit {
       displayname: 'Add information to a team and to the person',
       activities: [
         {
-          activity: {
-            type: 'UpdateResources',
-            id: 'c66a07d1-15e9-468d-a0ab-7b84992253b8',
-            isenabled: true,
-            displayname: 'set team description ',
-            description:
-              'updates the name of the team to contain the number of member and the latest update time',
-            updateresourcesentries: [
-              {
-                // tslint:disable-next-line:max-line-length
-                valueexpression:
-                  'Concatenate("The team now has ", CONVERTTOSTRING(count([//target/members])), " members since " + DateTimeNow())',
-                target: '[//target/description]',
-                allownull: true
-              }
-            ],
-            actortype: 'ServiceAccount',
-            xpathqueries: {}
-          },
-          runonpreviousstatuscondition: ['Success']
+          type: 'UpdateResources',
+          id: 'c66a07d1-15e9-468d-a0ab-7b84992253b8',
+          isenabled: true,
+          displayname: 'set team description ',
+          description:
+            'updates the name of the team to contain the number of member and the latest update time',
+          updateresourcesentries: [
+            {
+              // tslint:disable-next-line:max-line-length
+              valueexpression:
+                'Concatenate("The team now has ", CONVERTTOSTRING(count([//target/members])), " members since " + DateTimeNow())',
+              target: '[//target/description]',
+              allownull: true
+            }
+          ],
+          actortype: 'ServiceAccount',
+          xpathqueries: {}
         },
         {
-          activity: {
-            type: 'UpdateResources',
-            id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
-            isenabled: true,
-            displayname: 'set manager',
-            description: 'adds the member add info to workflowdata',
-            updateresourcesentries: [
-              {
-                valueexpression: '[//delta/members/added]',
-                target: '[//WorkflowData/allAddedMembers]',
-                allownull: true
-              }
-            ],
-            actortype: 'ServiceAccount',
-            actor: null,
-            executioncondition: 'CONTAINS([//Request/RequestParameter], "members/added")',
-            xpathqueries: {},
-            expressions: null
-          },
-          runonpreviousstatuscondition: [
-            'Success',
-            'UnmetExecutionCondition',
-            'Skipped',
-            'Disabled'
-          ]
+          type: 'UpdateResources',
+          id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
+          isenabled: true,
+          displayname: 'set manager',
+          description: 'adds the member add info to workflowdata',
+          updateresourcesentries: [
+            {
+              valueexpression: '[//delta/members/added]',
+              target: '[//WorkflowData/allAddedMembers]',
+              allownull: true
+            }
+          ],
+          actortype: 'ServiceAccount',
+          actor: null,
+          executioncondition: 'CONTAINS([//Request/RequestParameter], "members/added")',
+          xpathqueries: {},
+          expressions: null
         },
         {
-          activity: {
-            type: 'ForEach',
-            id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
-            isenabled: true,
-            displayname: 'foreach added member add team name to description',
-            description: null,
-            activity: {
+          type: 'ForEach',
+          id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
+          isenabled: true,
+          displayname: 'foreach added member add team name to description',
+          description: null,
+          activities: [
+            {
               type: 'UpdateResources',
               id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
               isenabled: true,
@@ -95,49 +84,61 @@ export class WorkflowComponent implements OnInit {
               xpathqueries: null,
               expressions: null
             },
-            currentitemkey: 'currentMember',
-            listkey: 'allAddedMembers',
-            updatewhileiterating: false,
-            continueonerror: true,
-            executioncondition: 'IsPresent(//WorkflowData/allAddedMembers)'
-          },
-          runonpreviousstatuscondition: ['Success']
+            {
+              type: 'UpdateResources',
+              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
+              isenabled: true,
+              displayname: 'test me!',
+              description: 'test me!',
+              updateresourcesentries: [
+                {
+                  // tslint:disable-next-line:max-line-length
+                  valueexpression:
+                    'Concatenate([//WorkflowData/currentMember/description], "[now in team \'", [//target/displayname], "\'], ")',
+                  target: '[//WorkflowData/currentMember/description]',
+                  allownull: true
+                }
+              ],
+              actortype: 'ServiceAccount',
+              actor: null,
+              executioncondition: null,
+              xpathqueries: null,
+              expressions: null
+            }
+          ],
+          currentitemkey: 'currentMember',
+          listkey: 'allAddedMembers',
+          updatewhileiterating: false,
+          continueonerror: true,
+          executioncondition: 'IsPresent(//WorkflowData/allAddedMembers)'
         },
         {
-          activity: {
-            type: 'UpdateResources',
-            id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
-            isenabled: true,
-            displayname: 'set manager',
-            description: 'adds the member removal info to workflowdata',
-            updateresourcesentries: [
-              {
-                valueexpression: '[//delta/members/removed]',
-                target: '[//WorkflowData/allRemovedMembers]',
-                allownull: true
-              }
-            ],
-            actortype: 'ServiceAccount',
-            actor: null,
-            executioncondition: 'CONTAINS([//Request/RequestParameter], "members/removed")',
-            xpathqueries: {},
-            expressions: null
-          },
-          runonpreviousstatuscondition: [
-            'Success',
-            'UnmetExecutionCondition',
-            'Skipped',
-            'Disabled'
-          ]
+          type: 'UpdateResources',
+          id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
+          isenabled: true,
+          displayname: 'set manager',
+          description: 'adds the member removal info to workflowdata',
+          updateresourcesentries: [
+            {
+              valueexpression: '[//delta/members/removed]',
+              target: '[//WorkflowData/allRemovedMembers]',
+              allownull: true
+            }
+          ],
+          actortype: 'ServiceAccount',
+          actor: null,
+          executioncondition: 'CONTAINS([//Request/RequestParameter], "members/removed")',
+          xpathqueries: {},
+          expressions: null
         },
         {
-          activity: {
-            type: 'ForEach',
-            id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
-            isenabled: true,
-            displayname: 'foreach removed member remove team name from description',
-            description: null,
-            activity: {
+          type: 'ForEach',
+          id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
+          isenabled: true,
+          displayname: 'foreach removed member remove team name from description',
+          description: null,
+          activities: [
+            {
               type: 'UpdateResources',
               id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
               isenabled: true,
@@ -158,73 +159,40 @@ export class WorkflowComponent implements OnInit {
               xpathqueries: null,
               expressions: null
             },
-            currentitemkey: 'currentMember',
-            listkey: 'allRemovedMembers',
-            updatewhileiterating: false,
-            continueonerror: true,
-            executioncondition: 'IsPresent(//WorkflowData/allRemovedMembers)'
-          },
-          runonpreviousstatuscondition: ['Success']
+            {
+              type: 'UpdateResources',
+              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
+              isenabled: true,
+              displayname: 'test me again!',
+              description: 'remove team from description of the person',
+              updateresourcesentries: [
+                {
+                  // tslint:disable-next-line:max-line-length
+                  valueExpression:
+                    'REPLACESTRING([//WorkflowData/currentMember/description], "[now in team \'" + [//target/displayname] + "\'], ", "")',
+                  target: '[//WorkflowData/currentMember/description]',
+                  allownull: true
+                }
+              ],
+              actortype: 'ServiceAccount',
+              actor: null,
+              executioncondition: null,
+              xpathqueries: null,
+              expressions: null
+            }
+          ],
+          currentitemkey: 'currentMember',
+          listkey: 'allRemovedMembers',
+          updatewhileiterating: false,
+          continueonerror: true,
+          executioncondition: 'IsPresent(//WorkflowData/allRemovedMembers)'
         }
       ]
     }
   };
 
-  activities = this.workflowDef.workflowdescription.activities.map(a => a.activity);
-
-  sections = [
-    {
-      title: 'Menu 1',
-      id: '1',
-      hide: true,
-      sections: []
-    },
-    {
-      id: '2',
-      title: 'Menu 2',
-      hide: true,
-      sections: [
-        {
-          id: '2.1',
-          title: 'Sub Menu 2.1',
-          hide: true,
-          sections: [
-            {
-              id: '2.1.1',
-              title: 'Sub Sub Menu 2.1.1',
-              hide: true,
-              sections: [
-                {
-                  id: '2.1.1.1',
-                  title: 'Sub Sub Menu 2.1.1.1, Sibling 1',
-                  hide: true,
-                  sections: []
-                },
-                {
-                  id: '2.1.1.2',
-                  title: 'Sub Sub Sub Menu 2.1.1.2, Sibling 2',
-                  hide: true,
-                  sections: []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: '2.2',
-          title: 'Sub Menu 2.2',
-          hide: true,
-          sections: []
-        }
-      ]
-    },
-    {
-      id: '3',
-      title: 'Menu 3',
-      hide: true,
-      sections: []
-    }
-  ];
+  // activities = this.workflowDef.workflowdescription.activities.map(a => a.activity);
+  activities = this.workflowDef.workflowdescription.activities;
 
   constructor() {}
 
@@ -256,11 +224,29 @@ export class WorkflowComponent implements OnInit {
     return [];
   }
 
-  hasSubSections(section): boolean {
-    return section.sections.length > 0;
+  getIcon(item: Activity) {
+    switch (item.type.toLowerCase()) {
+      case 'updateresources':
+        return 'edit';
+      case 'foreach':
+        return 'loop';
+      case 'sequential':
+        return 'import_export';
+      default:
+        return 'no_listed_location';
+    }
   }
 
-  getSubSections(section) {
-    return section.sections;
+  onToggleDisplay(item: Activity) {
+    if (item.display) {
+      item.display = !item.display;
+    } else {
+      item.display = true;
+    }
+  }
+
+  onAddActivity() {
+    console.log(this.activities);
+    console.log(this.workflowDef);
   }
 }
