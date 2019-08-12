@@ -70,3 +70,13 @@ export class ResourceSet {
   public totalCount: number;
   public results: Resource[];
 }
+
+export class Activity {
+  type?: string;
+  id?: string;
+  isenabled?: boolean;
+  displayname?: string;
+  description?: string;
+  activities?: Array<any>;
+  activity?: any;
+}

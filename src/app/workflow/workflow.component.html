@@ -1,0 +1,32 @@
+<div>
+  <ng-template #nestedList let-activities>
+    <mat-card *ngFor="let activity of activities"
+      style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
+      <mat-card-header>{{activity.displayname}}</mat-card-header>
+      <mat-card-content>
+        <div *ngIf="hasSubItems(activity)">
+          <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubItems(activity)}">
+          </ng-container>
+        </div>
+        <div *ngIf="!hasSubItems(activity)">no sub items</div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activities}">
+  </ng-container>
+
+  <!-- <ng-template #nestedList let-activities>
+    <mat-card *ngFor="let activity of activities"
+      style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
+      <mat-card-header>{{activity.title}}</mat-card-header>
+      <mat-card-content>
+        <div *ngIf="hasSubSections(activity)">
+          <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubSections(activity)}"></ng-container>
+        </div>
+        <div *ngIf="!hasSubSections(activity)">no sub items</div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: sections}">
+  </ng-container> -->
+</div>

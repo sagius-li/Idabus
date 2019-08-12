@@ -601,7 +601,7 @@ export class ResourceService {
           full: String(isFull)
         }
       });
-      request = this.http.post<Resource>(url, [], { params });
+      request = this.http.post<Resource>(url, { attributes }, { params });
 
       return request;
     } else {
@@ -728,7 +728,7 @@ export class ResourceService {
           xPathQuery: query,
           attributes: attributes.join(','),
           pageSize: String(pageSize),
-          pageIndex: String(index)
+          skip: String(index)
         }
       });
       request = this.http.get<ResourceSet>(url, { params });

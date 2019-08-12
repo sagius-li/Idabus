@@ -48,6 +48,7 @@ import { TabViewComponent } from './tab-view/tab-view.component';
 import { GridsterViewComponent } from './gridster-view/gridster-view.component';
 import { BrandViewComponent } from './brand-view/brand-view.component';
 import { ViewConfiguratorComponent } from './view-configurator/view-configurator.component';
+import { WorkflowComponent } from './workflow/workflow.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ViewConfiguratorComponent } from './view-configurator/view-configurator
     TabViewComponent,
     GridsterViewComponent,
     BrandViewComponent,
-    ViewConfiguratorComponent
+    ViewConfiguratorComponent,
+    WorkflowComponent
   ],
   imports: [
     BrowserModule,
