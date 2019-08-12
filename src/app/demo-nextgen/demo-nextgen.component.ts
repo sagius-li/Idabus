@@ -27,25 +27,23 @@ export class DemoNextgenComponent implements OnInit {
     // );
 
     /** get resource by query */
-    // this.resource
-    //   .getResourceByQuery('/Person', ['FirstName', 'LastName', 'DisplayName', 'AccountName'], 10, 0)
-    //   .subscribe(
-    //     (result: ResourceSet) => {
-    //       console.log(result);
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
-
-    /** get resource schema */
-    this.resource.getResourceSchema('Person').subscribe(
-      result => {
+    this.resource.getResourceByQuery('/Person', ['FirstName', 'LastName'], 10, 0).subscribe(
+      (result: ResourceSet) => {
         console.log(result);
       },
       error => {
         console.log(error);
       }
     );
+
+    /** get resource schema */
+    // this.resource.getResourceSchema('Set').subscribe(
+    //   result => {
+    //     console.log(result);
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }

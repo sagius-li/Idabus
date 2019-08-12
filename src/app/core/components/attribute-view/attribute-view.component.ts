@@ -80,14 +80,15 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     this.attributeArray.splice(0, this.attributeArray.length);
 
     this.attributeDefs.forEach(a => {
+      const attribute = this.utils.ExtraValue(this.currentResource, a.attributeName);
       const controller = new FormControl(
-        this.currentResource[a.attributeName].value,
-        createTextEditorValidator(this.currentResource[a.attributeName], a.editorConfig)
+        attribute.value,
+        createTextEditorValidator(attribute, a.editorConfig)
       );
       this.attributeArray.push({
         type: a.editorType,
         config: a.editorConfig,
-        attribute: this.currentResource[a.attributeName],
+        attribute,
         controller
       });
       this.controls.push(controller);

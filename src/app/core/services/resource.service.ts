@@ -363,9 +363,18 @@ export class ResourceService {
    */
   public getUserConfig(): Observable<ResourceSet> {
     if (this.authNMode === AuthMode.azure) {
-      this.configured = true;
-
-      return of(null);
+      const configFilePath = `assets/config/ui-config-example.json`;
+      return this.http.get(configFilePath).pipe(
+        tap(config => {
+          const uiSettingString = JSON.stringify(config);
+          this.primaryUiSetting = uiSettingString;
+          this.primaryUiString = uiSettingString;
+          this.configured = true;
+        }),
+        switchMap(() => {
+          return of(null);
+        })
+      );
     } else {
       const urlSearchResource = this.utils.buildDataServiceUrl(
         this.baseUrl,
