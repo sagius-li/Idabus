@@ -1,0 +1,24 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px grid">
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_name'|translate" [(ngModel)]="activity.displayname">
+  </mat-form-field>
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_id'|translate" [(ngModel)]="activity.id" disabled>
+  </mat-form-field>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.isenabled">{{'key_enabled'|translate}}</mat-slide-toggle>
+  <mat-form-field fxFlex="100" class="form-field">
+    <input matInput [placeholder]="'key_description'|translate" [(ngModel)]="activity.description">
+  </mat-form-field>
+  <mat-form-field fxFlex="40" class="form-field">
+    <mat-label>{{'key_actor'}}</mat-label>
+    <mat-select #cmbActor [(ngModel)]="activity.actortype">
+      <mat-option value="ServiceAccount">Service Account</mat-option>
+      <mat-option value="Requestor">Requestor</mat-option>
+      <mat-option value="Expression">Resolve from Expression</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex="60" class="form-field">
+    <input matInput [placeholder]="'key_actorExpression'|translate" [(ngModel)]="activity.actorexpression"
+      [disabled]="cmbActor.value !== 'Expression'">
+  </mat-form-field>
+</div>

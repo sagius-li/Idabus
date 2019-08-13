@@ -1,18 +1,18 @@
 <div>
   <ng-template #nestedList let-wkactivities>
-    <div *ngFor="let activity of wkactivities" fxLayout="column" fxLayoutAlign="center center">
-      <div fxFlex="auto">
+    <div *ngFor="let activity of wkactivities" fxLayout="column" fxLayoutAlign="center stretch">
+      <div fxFlex="auto" fxLayout="column" fxLayoutAlign="center center">
         <mat-icon>arrow_downward</mat-icon>
       </div>
       <div fxFlex="auto" style="margin-bottom: 20px;">
-        <mat-card style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 12px;">
+        <mat-card style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 2px 10px;">
           <mat-card-header>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="start center" style="width: 100%">
               <div class="info-icon-layer">
                 <mat-icon class="info-icon" (click)="onToggleDisplay(activity)">{{ getIcon(activity) }}</mat-icon>
               </div>
               <div fxFlex="auto" class="info-text">{{activity.displayname}}</div>
-              <div fxFlex="50px"></div>
+              <!-- <div fxFlex="1 1 100"></div> -->
               <button fxFlex="none" mat-icon-button color="warn" (click)="onDeleteActivity(activity)">
                 <mat-icon>delete_forever</mat-icon>
               </button>
@@ -21,14 +21,17 @@
               </div>
             </div>
           </mat-card-header>
-          <mat-card-content *ngIf="activity.display">
+          <mat-card-content *ngIf="activity.display" style="padding-bottom: 20px;">
+            <div [ngSwitch]="activity.type.toLowerCase()" style="margin-top: 10px; margin-bottom: 20px;">
+              <app-activity-update *ngSwitchCase="'updateresources'" [(activity)]="activity"></app-activity-update>
+              <div *ngSwitchDefault>no sub item</div>
+            </div>
             <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">
               <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">
                 <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activity.activities}">
                 </ng-container>
               </div>
             </div>
-            <div *ngIf="!hasSubActivities(activity)">no sub items</div>
           </mat-card-content>
         </mat-card>
       </div>
@@ -42,7 +45,7 @@
     <div fxFlex="auto">
       <mat-icon>arrow_downward</mat-icon>
     </div>
-    <button fxFlex="auto" mat-stroked-button color="primary" (click)="onAddActivity()" style="margin-bottom: 20px;">add
-      activity</button>
+    <button fxFlex="auto" mat-stroked-button color="primary" (click)="onAddActivity()"
+      style="margin-bottom: 20px;">{{'l10n_addActivity'|translate}}</button>
   </div>
 </div>

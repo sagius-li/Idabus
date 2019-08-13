@@ -54,5 +54,6 @@
   "l10n_addTab": "add tab",
   "l10n_changesNotSaved": "changes will be lost after<br/>navigating to other tabs, are you sure?",
   "l10n_workInfo": "work info",
-  "l10n_deleteWorkflowActivity": "are you sure to delete the workflow activity?"
+  "l10n_deleteWorkflowActivity": "are you sure to delete the workflow activity?",
+  "l10n_addActivity": "add activity"
 }

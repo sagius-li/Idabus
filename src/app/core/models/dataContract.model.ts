@@ -81,4 +81,6 @@ export class Activity {
   activity?: Activity;
   display?: boolean;
   runonpreviousstatuscondition?: Array<string>;
+  actortype?: string;
+  actorexpression?: string;
 }
