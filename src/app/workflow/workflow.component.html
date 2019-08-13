@@ -12,16 +12,23 @@
                 <mat-icon class="info-icon" (click)="onToggleDisplay(activity)">{{ getIcon(activity) }}</mat-icon>
               </div>
               <div fxFlex="auto" class="info-text">{{activity.displayname}}</div>
+              <div fxFlex="50px"></div>
+              <button fxFlex="none" mat-icon-button color="warn" (click)="onDeleteActivity(activity)">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+              <div fxFlex="none" class="handle" style="cursor: move; color: lightgray; line-height: 0;">
+                <mat-icon>menu</mat-icon>
+              </div>
             </div>
           </mat-card-header>
           <mat-card-content *ngIf="activity.display">
-            <div *ngIf="hasSubItems(activity)" style="margin-top: 20px;">
+            <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">
               <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">
-                <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: getSubItems(activity)}">
+                <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activity.activities}">
                 </ng-container>
               </div>
             </div>
-            <div *ngIf="!hasSubItems(activity)">no sub items</div>
+            <div *ngIf="!hasSubActivities(activity)">no sub items</div>
           </mat-card-content>
         </mat-card>
       </div>

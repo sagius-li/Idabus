@@ -53,5 +53,6 @@
   "l10n_viewMode": "View-Modus",
   "l10n_addTab": "Tab hinzufügen",
   "l10n_changesNotSaved": "Wenn Sie jetzt zu anderen Tabs wechseln,<br/>die Änderungen werden verloren gehen. Sind Sie sicher?",
-  "l10n_workInfo": "Arbeit Info"
+  "l10n_workInfo": "Arbeit Info",
+  "l10n_deleteWorkflowActivity": "Sind Sie sicher,<br/>dieses Workflow-Aktivität zu löschen?"
 }

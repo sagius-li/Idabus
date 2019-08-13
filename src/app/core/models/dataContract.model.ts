@@ -80,4 +80,5 @@ export class Activity {
   activities?: Array<any>;
   activity?: Activity;
   display?: boolean;
+  runonpreviousstatuscondition?: Array<string>;
 }

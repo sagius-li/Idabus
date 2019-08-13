@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DragulaService } from 'ng2-dragula';
+
 import { Activity } from '../core/models/dataContract.model';
+
+import { ModalService } from '../core/services/modal.service';
+import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-workflow',
@@ -35,7 +40,8 @@ export class WorkflowComponent implements OnInit {
             }
           ],
           actortype: 'ServiceAccount',
-          xpathqueries: {}
+          xpathqueries: {},
+          runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'UpdateResources',
@@ -54,7 +60,8 @@ export class WorkflowComponent implements OnInit {
           actor: null,
           executioncondition: 'CONTAINS([//Request/RequestParameter], "members/added")',
           xpathqueries: {},
-          expressions: null
+          expressions: null,
+          runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'ForEach',
@@ -65,7 +72,7 @@ export class WorkflowComponent implements OnInit {
           activities: [
             {
               type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
+              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea64',
               isenabled: true,
               displayname: 'set description',
               description: 'add team to description of the person',
@@ -86,10 +93,10 @@ export class WorkflowComponent implements OnInit {
             },
             {
               type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
+              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea66',
               isenabled: true,
-              displayname: 'test me!',
-              description: 'test me!',
+              displayname: 'test one',
+              description: 'test one',
               updateresourcesentries: [
                 {
                   // tslint:disable-next-line:max-line-length
@@ -103,18 +110,20 @@ export class WorkflowComponent implements OnInit {
               actor: null,
               executioncondition: null,
               xpathqueries: null,
-              expressions: null
+              expressions: null,
+              runonpreviousstatuscondition: ['Success']
             }
           ],
           currentitemkey: 'currentMember',
           listkey: 'allAddedMembers',
           updatewhileiterating: false,
           continueonerror: true,
-          executioncondition: 'IsPresent(//WorkflowData/allAddedMembers)'
+          executioncondition: 'IsPresent(//WorkflowData/allAddedMembers)',
+          runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'UpdateResources',
-          id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
+          id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625630',
           isenabled: true,
           displayname: 'set manager',
           description: 'adds the member removal info to workflowdata',
@@ -129,7 +138,8 @@ export class WorkflowComponent implements OnInit {
           actor: null,
           executioncondition: 'CONTAINS([//Request/RequestParameter], "members/removed")',
           xpathqueries: {},
-          expressions: null
+          expressions: null,
+          runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'ForEach',
@@ -161,10 +171,10 @@ export class WorkflowComponent implements OnInit {
             },
             {
               type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
+              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea67',
               isenabled: true,
-              displayname: 'test me again!',
-              description: 'remove team from description of the person',
+              displayname: 'test two',
+              description: 'test two',
               updateresourcesentries: [
                 {
                   // tslint:disable-next-line:max-line-length
@@ -178,50 +188,57 @@ export class WorkflowComponent implements OnInit {
               actor: null,
               executioncondition: null,
               xpathqueries: null,
-              expressions: null
+              expressions: null,
+              runonpreviousstatuscondition: ['Success']
             }
           ],
           currentitemkey: 'currentMember',
           listkey: 'allRemovedMembers',
           updatewhileiterating: false,
           continueonerror: true,
-          executioncondition: 'IsPresent(//WorkflowData/allRemovedMembers)'
+          executioncondition: 'IsPresent(//WorkflowData/allRemovedMembers)',
+          runonpreviousstatuscondition: ['Success']
         }
       ]
     }
   };
 
-  // activities = this.workflowDef.workflowdescription.activities.map(a => a.activity);
   activities = this.workflowDef.workflowdescription.activities;
 
-  constructor() {}
+  activityToDelete: { pos: number; activities: Array<Activity> };
 
-  ngOnInit() {}
-
-  hasSubItems(item: Activity): boolean {
-    if (!item) {
-      return false;
+  private findItem(id: string, activities: Array<Activity>) {
+    const pos = activities.findIndex(a => a.id === id);
+    if (pos >= 0) {
+      this.activityToDelete = { pos, activities };
+    } else {
+      activities.forEach((a: Activity) => {
+        if (a.activities && a.activities.length > 0) {
+          this.findItem(id, a.activities);
+        }
+      });
     }
-    if (item.activities && item.activities.length > 0) {
-      return true;
-    }
-    if (item.activity) {
-      return true;
-    }
-    return false;
   }
 
-  getSubItems(item: Activity) {
-    if (!item) {
-      return [];
-    }
-    if (item.activities && item.activities.length > 0) {
-      return item.activities;
-    }
-    if (item.activity) {
-      return [item.activity];
-    }
-    return [];
+  constructor(private dragula: DragulaService, private modal: ModalService) {
+    try {
+      this.dragula.createGroup('ACTIVITIES', {
+        moves: (el, container, handle) => {
+          return (
+            handle.classList.contains('handle') ||
+            (handle.parentNode as Element).classList.contains('handle')
+          );
+        }
+      });
+    } catch {}
+  }
+
+  ngOnInit() {
+    this.activityToDelete = undefined;
+  }
+
+  hasSubActivities(item: Activity): boolean {
+    return item && item.activities && item.activities.length > 0;
   }
 
   getIcon(item: Activity) {
@@ -248,5 +265,21 @@ export class WorkflowComponent implements OnInit {
   onAddActivity() {
     console.log(this.activities);
     console.log(this.workflowDef);
+  }
+
+  onDeleteActivity(item: Activity) {
+    const confirm = this.modal.show(
+      ModalType.confirm,
+      'key_confirmation',
+      'l10n_deleteWorkflowActivity'
+    );
+    confirm.afterClosed().subscribe(result => {
+      if (result && result === 'yes') {
+        this.findItem(item.id, this.activities);
+        if (this.activityToDelete) {
+          this.activityToDelete.activities.splice(this.activityToDelete.pos, 1);
+        }
+      }
+    });
   }
 }
