@@ -21,4 +21,39 @@
     <input matInput [placeholder]="'key_actorExpression'|translate" [(ngModel)]="activity.actorexpression"
       [disabled]="cmbActor.value !== 'Expression'">
   </mat-form-field>
+  <div fxFlex="100" class="item-area">
+    <button mat-stroked-button color="primary" class="item-button">
+      <mat-icon>add</mat-icon>
+      {{'key_addQuery'|translate}}
+    </button>
+    <div style="height: 30px;">
+    </div>
+    <div *ngFor="let query of activity.xpathqueries" fxLayout="row wrap" fxLayoutAlign="start center"
+      fxLayoutGap="20px grid" class="item-entry">
+      <mat-form-field fxFlex="20" class="form-field">
+        <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="query.key">
+      </mat-form-field>
+      <mat-form-field fxFlex="80" class="form-field">
+        <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="query.xpath">
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxFlex="100" class="item-area" style="margin-top: 40px;">
+    <button mat-stroked-button color="primary" class="item-button">
+      <mat-icon>add</mat-icon>
+      {{'key_addUpdate'|translate}}
+    </button>
+    <div *ngIf="activity.updateresourcesentries && activity.updateresourcesentries.length > 0" style="height: 30px;">
+    </div>
+    <div *ngFor="let update of activity.updateresourcesentries" fxLayout="row wrap" fxLayoutAlign="start center"
+      fxLayoutGap="20px grid" class="item-entry">
+      <mat-form-field fxFlex="auto" class="form-field">
+        <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="update.valueexpression">
+      </mat-form-field>
+      <mat-form-field fxFlex="auto" class="form-field">
+        <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="update.target">
+      </mat-form-field>
+      <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{'key_allowNull'|translate}}</mat-slide-toggle>
+    </div>
+  </div>
 </div>

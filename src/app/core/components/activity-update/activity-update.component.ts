@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Activity } from '../../models/dataContract.model';
+import { Activity, UpdateActivity } from '../../models/dataContract.model';
 
 @Component({
   selector: 'app-activity-update',
@@ -8,7 +8,7 @@ import { Activity } from '../../models/dataContract.model';
   styleUrls: ['./activity-update.component.scss']
 })
 export class ActivityUpdateComponent implements OnInit {
-  attActivity: Activity;
+  attActivity: UpdateActivity;
   @Input()
   get activity() {
     return this.attActivity;

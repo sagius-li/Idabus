@@ -37,10 +37,16 @@ export class WorkflowComponent implements OnInit {
                 'Concatenate("The team now has ", CONVERTTOSTRING(count([//target/members])), " members since " + DateTimeNow())',
               target: '[//target/description]',
               allownull: true
+            },
+            {
+              // tslint:disable-next-line:max-line-length
+              valueexpression: 'DateTimeNow()',
+              target: '[//target/createdtime]',
+              allownull: false
             }
           ],
           actortype: 'ServiceAccount',
-          xpathqueries: {},
+          xpathqueries: [],
           runonpreviousstatuscondition: ['Success']
         },
         {
@@ -59,7 +65,7 @@ export class WorkflowComponent implements OnInit {
           actortype: 'ServiceAccount',
           actor: null,
           executioncondition: 'CONTAINS([//Request/RequestParameter], "members/added")',
-          xpathqueries: {},
+          xpathqueries: [],
           expressions: null,
           runonpreviousstatuscondition: ['Success']
         },
@@ -88,7 +94,7 @@ export class WorkflowComponent implements OnInit {
               actortype: 'ServiceAccount',
               actor: null,
               executioncondition: null,
-              xpathqueries: null,
+              xpathqueries: [],
               expressions: null
             },
             {
@@ -109,7 +115,7 @@ export class WorkflowComponent implements OnInit {
               actortype: 'ServiceAccount',
               actor: null,
               executioncondition: null,
-              xpathqueries: null,
+              xpathqueries: [],
               expressions: null,
               runonpreviousstatuscondition: ['Success']
             }
@@ -137,7 +143,7 @@ export class WorkflowComponent implements OnInit {
           actortype: 'ServiceAccount',
           actor: null,
           executioncondition: 'CONTAINS([//Request/RequestParameter], "members/removed")',
-          xpathqueries: {},
+          xpathqueries: [],
           expressions: null,
           runonpreviousstatuscondition: ['Success']
         },
@@ -166,7 +172,7 @@ export class WorkflowComponent implements OnInit {
               actortype: 'ServiceAccount',
               actor: null,
               executioncondition: null,
-              xpathqueries: null,
+              xpathqueries: [],
               expressions: null
             },
             {
@@ -187,7 +193,7 @@ export class WorkflowComponent implements OnInit {
               actortype: 'ServiceAccount',
               actor: null,
               executioncondition: null,
-              xpathqueries: null,
+              xpathqueries: [],
               expressions: null,
               runonpreviousstatuscondition: ['Success']
             }

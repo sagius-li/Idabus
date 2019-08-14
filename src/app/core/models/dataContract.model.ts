@@ -84,3 +84,8 @@ export class Activity {
   actortype?: string;
   actorexpression?: string;
 }
+
+export class UpdateActivity extends Activity {
+  xpathqueries?: Array<{ key: string; xpath: string }>;
+  updateresourcesentries?: Array<{ target: string; valueexpression: string; allownull: boolean }>;
+}
