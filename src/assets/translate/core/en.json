@@ -127,5 +127,6 @@
   "key_serviceAccount": "service account",
   "key_requestor": "requestor",
   "key_resolveFromExpression": "resolve from expression",
-  "key_resourceID": "resource id"
+  "key_resourceID": "resource id",
+  "key_selectAll": "select all"
 }

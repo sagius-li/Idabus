@@ -127,5 +127,6 @@
   "key_serviceAccount": "系统账号",
   "key_requestor": "执行者账号",
   "key_resolveFromExpression": "使用表达式",
-  "key_resourceID": "资源辨识号"
+  "key_resourceID": "资源辨识号",
+  "key_selectAll": "选择所有"
 }

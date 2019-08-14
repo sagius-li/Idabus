@@ -166,7 +166,8 @@
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
             <div fxFlex="180px" class="type-headline"></div>
             <div fxFlex="auto" fxLayout="row wrap">
-              <mat-checkbox fxFlex="20" [(ngModel)]="selectAllTypes">{{'key_selectAll'|translate}}</mat-checkbox>
+              <mat-checkbox fxFlex="20" [(ngModel)]="selectAllTypes" (change)="onSelectAllTypes()">
+                {{'key_selectAll'|translate}}</mat-checkbox>
             </div>
           </div>
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">

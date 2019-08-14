@@ -127,5 +127,6 @@
   "key_serviceAccount": "Dienstkonto",
   "key_requestor": "Antragssteller",
   "key_resolveFromExpression": "XPath auflösen",
-  "key_resourceID": "Ressource ID"
+  "key_resourceID": "Ressource ID",
+  "key_selectAll": "Alles auswählen"
 }

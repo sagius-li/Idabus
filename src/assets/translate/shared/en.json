@@ -55,5 +55,11 @@
   "l10n_changesNotSaved": "changes will be lost after<br/>navigating to other tabs, are you sure?",
   "l10n_workInfo": "work info",
   "l10n_deleteWorkflowActivity": "are you sure to delete the workflow activity?",
-  "l10n_addActivity": "add activity"
+  "l10n_addActivity": "add activity",
+  "l10n_importExport": "import / export",
+  "l10n_import": "import",
+  "l10n_importDescription": "import resources from a json file, can only be used for nextGen solution",
+  "l10n_export": "export",
+  "l10n_exportDescription": "export selected resources to a json file",
+  "l10n_assignment": "assignments"
 }

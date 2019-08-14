@@ -47,24 +47,24 @@ export class SettingsComponent implements OnInit {
   selectAllTypes = false;
 
   exportResourceTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'Person', query: `/Person`, selected: false },
-    { name: 'Groups', query: `/Group`, selected: false },
-    { name: 'Organizational Units', query: `/ocgOrgUnit`, selected: false },
-    { name: 'Roles', query: `/ocgRole`, selected: false },
-    { name: 'Permissions', query: `/ocgPermission`, selected: false },
-    { name: 'Assignments', query: `/ocgAssignment`, selected: false }
+    { name: 'l10n_user', query: `/Person`, selected: false },
+    { name: 'l10n_group', query: `/Group`, selected: false },
+    { name: 'l10n_ou', query: `/ocgOrgUnit`, selected: false },
+    { name: 'l10n_role', query: `/ocgRole`, selected: false },
+    { name: 'l10n_permission', query: `/ocgPermission`, selected: false },
+    { name: 'l10n_assignment', query: `/ocgAssignment`, selected: false }
   ];
   exportConfigTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'Policy Rules', query: `/ManagementPolicyRule`, selected: false },
-    { name: 'Sets', query: `/Set`, selected: false },
-    { name: 'Workflows', query: `/WorkflowDefinition`, selected: false },
-    { name: 'Configuration', query: `/ocgConfiguration`, selected: false },
-    { name: 'Email Templates', query: `/EmailTemplate`, selected: false }
+    { name: 'l10n_mpr', query: `/ManagementPolicyRule`, selected: false },
+    { name: 'l10n_set', query: `/Set`, selected: false },
+    { name: 'l10n_wf', query: `/WorkflowDefinition`, selected: false },
+    { name: 'l10n_config', query: `/ocgConfiguration`, selected: false },
+    { name: 'l10n_emailTemp', query: `/EmailTemplate`, selected: false }
   ];
   exportSchemaTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'Types', query: `/ObjectTypeDescription`, selected: false },
-    { name: 'Attributes', query: `/AttributeTypeDescription`, selected: false },
-    { name: 'Bindings', query: `/BindingDescription`, selected: false }
+    { name: 'l10n_type', query: `/ObjectTypeDescription`, selected: false },
+    { name: 'l10n_attribute', query: `/AttributeTypeDescription`, selected: false },
+    { name: 'l10n_binding', query: `/BindingDescription`, selected: false }
   ];
 
   constructor(
@@ -254,5 +254,35 @@ export class SettingsComponent implements OnInit {
           this.spinner.stopLoader(this.loaderUiGroups);
         }
       );
+  }
+
+  onSelectAllTypes() {
+    if (this.selectAllTypes) {
+      this.exportResourceTypes.map(r => {
+        r.selected = true;
+        return r;
+      });
+      this.exportConfigTypes.map(r => {
+        r.selected = true;
+        return r;
+      });
+      this.exportSchemaTypes.map(r => {
+        r.selected = true;
+        return r;
+      });
+    } else {
+      this.exportResourceTypes.map(r => {
+        r.selected = false;
+        return r;
+      });
+      this.exportConfigTypes.map(r => {
+        r.selected = false;
+        return r;
+      });
+      this.exportSchemaTypes.map(r => {
+        r.selected = false;
+        return r;
+      });
+    }
   }
 }

@@ -55,5 +55,11 @@
   "l10n_changesNotSaved": "如果切换到其他标签，未保存的改动将会丢失<br/>你确定这样做吗？",
   "l10n_workInfo": "工作信息",
   "l10n_deleteWorkflowActivity": "你确定要删除这项工作流元件吗?",
-  "l10n_addActivity": "添加工作流"
+  "l10n_addActivity": "添加工作流",
+  "l10n_importExport": "导入 / 导出",
+  "l10n_import": "导入",
+  "l10n_importDescription": "从一个Json文件导入资源，只可用于nextGen方案",
+  "l10n_export": "导出",
+  "l10n_exportDescription": "导出选定的资源到一个Json文件",
+  "l10n_assignment": "指配"
 }

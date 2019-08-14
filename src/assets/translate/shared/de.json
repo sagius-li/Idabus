@@ -55,5 +55,11 @@
   "l10n_changesNotSaved": "Wenn Sie jetzt zu anderen Tabs wechseln,<br/>die Änderungen werden verloren gehen. Sind Sie sicher?",
   "l10n_workInfo": "Arbeit Info",
   "l10n_deleteWorkflowActivity": "Sind Sie sicher,<br/>dieses Workflow-Aktivität zu löschen?",
-  "l10n_addActivity": "Aktivität hinzufügen"
+  "l10n_addActivity": "Aktivität hinzufügen",
+  "l10n_importExport": "Importieren / Exportieren",
+  "l10n_import": "Importieren",
+  "l10n_importDescription": "Ressourcen von einer Json-Datei importieren, kann nur für nextGen benutzt werden",
+  "l10n_export": "Exportieren",
+  "l10n_exportDescription": "Ausgewählte Ressourcen in einer Json-Datei exportieren",
+  "l10n_assignment": "Zuweisungen"
 }
