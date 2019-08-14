@@ -4,7 +4,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { SelectEvent, FileInfo } from '@progress/kendo-angular-upload';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
-import { Resource, BasicResource } from '../core/models/dataContract.model';
+import { Resource, BasicResource, AuthMode } from '../core/models/dataContract.model';
 
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
@@ -42,6 +42,30 @@ export class SettingsComponent implements OnInit {
   spinnerType = SPINNER;
   loaderUserSettings = 'loader_userSettings';
   loaderUiGroups = 'loader_uiGroups';
+
+  authenticationMode: AuthMode;
+  selectAllTypes = false;
+
+  exportResourceTypes: Array<{ name: string; query: string; selected: boolean }> = [
+    { name: 'Person', query: `/Person`, selected: false },
+    { name: 'Groups', query: `/Group`, selected: false },
+    { name: 'Organizational Units', query: `/ocgOrgUnit`, selected: false },
+    { name: 'Roles', query: `/ocgRole`, selected: false },
+    { name: 'Permissions', query: `/ocgPermission`, selected: false },
+    { name: 'Assignments', query: `/ocgAssignment`, selected: false }
+  ];
+  exportConfigTypes: Array<{ name: string; query: string; selected: boolean }> = [
+    { name: 'Policy Rules', query: `/ManagementPolicyRule`, selected: false },
+    { name: 'Sets', query: `/Set`, selected: false },
+    { name: 'Workflows', query: `/WorkflowDefinition`, selected: false },
+    { name: 'Configuration', query: `/ocgConfiguration`, selected: false },
+    { name: 'Email Templates', query: `/EmailTemplate`, selected: false }
+  ];
+  exportSchemaTypes: Array<{ name: string; query: string; selected: boolean }> = [
+    { name: 'Types', query: `/ObjectTypeDescription`, selected: false },
+    { name: 'Attributes', query: `/AttributeTypeDescription`, selected: false },
+    { name: 'Bindings', query: `/BindingDescription`, selected: false }
+  ];
 
   constructor(
     private resource: ResourceService,
@@ -84,6 +108,8 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authenticationMode = this.resource.authenticationMode;
+
     this.customViewSetting = this.resource.customViewSetting;
     this.primaryViewSetting = this.resource.primaryViewSetting;
 
@@ -93,8 +119,10 @@ export class SettingsComponent implements OnInit {
 
     this.loginUser = this.resource.loginUser;
     if (this.loginUser) {
-      this.brandLetter = this.loginUser.DisplayName ? this.loginUser.DisplayName.substr(0, 1) : '-';
-      this.attrPhoto = this.loginUser.Photo;
+      this.brandLetter = this.utils.ExamValue(this.loginUser, 'DisplayName')
+        ? this.utils.ExtraValue(this.loginUser, 'DisplayName').substr(0, 1)
+        : '-';
+      this.attrPhoto = this.utils.ExtraValue(this.loginUser, 'Photo');
     }
 
     this.initUiGroups();

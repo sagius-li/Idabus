@@ -7,11 +7,7 @@
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
             <div fxFlex="85px" class="profile-avatar">
-              <img
-                *ngIf="attrPhoto"
-                [src]="'data:image/png;base64,' + attrPhoto"
-                class="profile-avatar-image"
-              />
+              <img *ngIf="attrPhoto" [src]="'data:image/png;base64,' + attrPhoto" class="profile-avatar-image" />
               <div *ngIf="!attrPhoto" class="profile-avatar-initial">
                 {{ brandLetter | uppercase }}
               </div>
@@ -25,15 +21,9 @@
               </div>
             </div>
             <div fxFlex="auto" style="margin-left: 50px;">
-              <kendo-upload
-                [saveUrl]="'uploadSaveUrl'"
-                [multiple]="false"
-                [showFileList]="false"
-                (select)="onPhotoSelected($event)"
-              >
-                <kendo-upload-messages
-                  select="{{ 'l10n_changePhoto' | translate }}"
-                ></kendo-upload-messages>
+              <kendo-upload [saveUrl]="'uploadSaveUrl'" [multiple]="false" [showFileList]="false"
+                (select)="onPhotoSelected($event)">
+                <kendo-upload-messages select="{{ 'l10n_changePhoto' | translate }}"></kendo-upload-messages>
               </kendo-upload>
             </div>
             <div fxFlex="auto" style="margin-left: 20px;">
@@ -50,25 +40,15 @@
             <div fxFlex="auto" style="margin-left: 20px;">
               <div fxLayout="row" fxLayoutGap="30px;">
                 <div class="outer-country" [ngClass]="currentLanguage === 'en' ? 'active' : ''">
-                  <img
-                    src="../../../../assets/img/united-states.png"
-                    class="inner-country"
-                    (click)="onLanguageChanged('en')"
-                  />
+                  <img src="../../../../assets/img/united-states.png" class="inner-country"
+                    (click)="onLanguageChanged('en')" />
                 </div>
                 <div class="outer-country" [ngClass]="currentLanguage === 'de' ? 'active' : ''">
-                  <img
-                    src="../../../../assets/img/germany.png"
-                    class="inner-country"
-                    (click)="onLanguageChanged('de')"
-                  />
+                  <img src="../../../../assets/img/germany.png" class="inner-country"
+                    (click)="onLanguageChanged('de')" />
                 </div>
                 <div class="outer-country" [ngClass]="currentLanguage === 'cn' ? 'active' : ''">
-                  <img
-                    src="../../../../assets/img/china.png"
-                    class="inner-country"
-                    (click)="onLanguageChanged('cn')"
-                  />
+                  <img src="../../../../assets/img/china.png" class="inner-country" (click)="onLanguageChanged('cn')" />
                 </div>
               </div>
             </div>
@@ -108,18 +88,13 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <ngx-ui-loader
-      [loaderId]="loaderUserSettings"
-      [fgsType]="spinnerType.rectangleBounce"
-      [fgsSize]="40"
-      [fgsColor]="'white'"
-      [overlayColor]="'rgba(50,50,50,.5)'"
-      [pbColor]="'white'"
-    ></ngx-ui-loader>
+    <ngx-ui-loader [loaderId]="loaderUserSettings" [fgsType]="spinnerType.rectangleBounce" [fgsSize]="40"
+      [fgsColor]="'white'" [overlayColor]="'rgba(50,50,50,.5)'" [pbColor]="'white'"></ngx-ui-loader>
   </div>
   <!-- ui groups -->
-  <div fxFlex="auto" class="setting-header">{{ 'l10n_uiGroups' | translate }}</div>
-  <div fxFlex="auto" class="setting-card">
+  <div *ngIf="authenticationMode !== 'azure'" fxFlex="auto" class="setting-header">{{ 'l10n_uiGroups' | translate }}
+  </div>
+  <div *ngIf="authenticationMode !== 'azure'" fxFlex="auto" class="setting-card">
     <mat-card>
       <mat-card-content ngxUiLoaderBlurred blur="1" [loaderId]="loaderUserSettings">
         <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
@@ -140,28 +115,18 @@
             <div fxFlex="auto" style="width: 200px;">
               <mat-form-field>
                 <mat-label>{{ 'l10n_selectUiGroup' | translate }}</mat-label>
-                <mat-select
-                  [(value)]="selectedViewSetID"
-                  (selectionChange)="onUiGroupSelectionChanged()"
-                  style="font-size: 16px;"
-                >
+                <mat-select [(value)]="selectedViewSetID" (selectionChange)="onUiGroupSelectionChanged()"
+                  style="font-size: 16px;">
                   <mat-option>--</mat-option>
-                  <mat-option
-                    *ngFor="let group of availableViewSets"
-                    [value]="group.ObjectID"
-                    [disabled]="group.ObjectID === primaryViewSet.ObjectID"
-                  >
+                  <mat-option *ngFor="let group of availableViewSets" [value]="group.ObjectID"
+                    [disabled]="group.ObjectID === primaryViewSet.ObjectID">
                     {{ group.DisplayName }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div
-              fxFlex="auto"
-              *ngIf="selectedViewSetID"
-              [ngStyle]="{ color: colorCurrentRightSet }"
-              style="margin-left: 20px;"
-            >
+            <div fxFlex="auto" *ngIf="selectedViewSetID" [ngStyle]="{ color: colorCurrentRightSet }"
+              style="margin-left: 20px;">
               {{ textCurrentRightSet | translate }}
             </div>
           </div>
@@ -169,25 +134,64 @@
             <mat-divider></mat-divider>
           </div>
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center">
-            <button
-              mat-stroked-button
-              [disabled]="!selectedViewSetID"
-              (click)="onApplyUiGroup()"
-              color="primary"
-            >
+            <button mat-stroked-button [disabled]="!selectedViewSetID" (click)="onApplyUiGroup()" color="primary">
               {{ 'key_apply' | translate }}
             </button>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
-    <ngx-ui-loader
-      [loaderId]="loaderUiGroups"
-      [fgsType]="spinnerType.rectangleBounce"
-      [fgsSize]="40"
-      [fgsColor]="'white'"
-      [overlayColor]="'rgba(50,50,50,.5)'"
-      [pbColor]="'white'"
-    ></ngx-ui-loader>
+    <ngx-ui-loader [loaderId]="loaderUiGroups" [fgsType]="spinnerType.rectangleBounce" [fgsSize]="40"
+      [fgsColor]="'white'" [overlayColor]="'rgba(50,50,50,.5)'" [pbColor]="'white'"></ngx-ui-loader>
+  </div>
+  <!-- import / export -->
+  <div fxFlex="auto" class="setting-header">{{ 'l10n_importExport' | translate }}
+  </div>
+  <div fxFlex="auto" class="setting-card">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px" style="margin-bottom: 20px;">
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <button fxFlex="180px" mat-stroked-button color="basic"
+              [disabled]="authenticationMode !== 'azure'">{{'l10n_import' | translate}}</button>
+            <div fxFlex="auto">{{'l10n_importDescription' | translate}}</div>
+          </div>
+          <div fxFlex="auto">
+            <mat-divider></mat-divider>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <button fxFlex="180px" mat-stroked-button color="primary">{{'l10n_export' | translate}}</button>
+            <div fxFlex="auto">{{'l10n_exportDescription' | translate}}</div>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div fxFlex="180px" class="type-headline"></div>
+            <div fxFlex="auto" fxLayout="row wrap">
+              <mat-checkbox fxFlex="20" [(ngModel)]="selectAllTypes">{{'key_selectAll'|translate}}</mat-checkbox>
+            </div>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div fxFlex="180px" class="type-headline">{{ 'l10n_managedResources' | translate }}</div>
+            <div fxFlex="auto" fxLayout="row wrap">
+              <mat-checkbox *ngFor="let type of exportResourceTypes" fxFlex="20" [(ngModel)]="type.selected">
+                {{type.name | translate}}</mat-checkbox>
+            </div>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div fxFlex="180px" class="type-headline">{{ 'l10n_configurationResources' | translate }}</div>
+            <div fxFlex="auto" fxLayout="row wrap">
+              <mat-checkbox *ngFor="let type of exportConfigTypes" fxFlex="20" [(ngModel)]="type.selected">
+                {{type.name | translate}}</mat-checkbox>
+            </div>
+          </div>
+          <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <div fxFlex="180px" class="type-headline">{{ 'l10n_schemaResources' | translate }}</div>
+            <div fxFlex="auto" fxLayout="row wrap">
+              <mat-checkbox *ngFor="let type of exportSchemaTypes" fxFlex="20" [(ngModel)]="type.selected">
+                {{type.name | translate}}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

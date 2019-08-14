@@ -12,48 +12,67 @@
   <mat-form-field fxFlex="40" class="form-field">
     <mat-label>{{'key_actor'}}</mat-label>
     <mat-select #cmbActor [(ngModel)]="activity.actortype">
-      <mat-option value="ServiceAccount">Service Account</mat-option>
-      <mat-option value="Requestor">Requestor</mat-option>
-      <mat-option value="Expression">Resolve from Expression</mat-option>
+      <mat-option value="ServiceAccount">{{'key_serviceAccount'|translate}}</mat-option>
+      <mat-option value="Requestor">{{'key_requestor'|translate}}</mat-option>
+      <mat-option value="ResolveFromExpression">{{'key_resolveFromExpression'|translate}}</mat-option>
+      <mat-option value="Resource ID">{{'key_resourceID'|translate}}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex="60" class="form-field">
     <input matInput [placeholder]="'key_actorExpression'|translate" [(ngModel)]="activity.actorexpression"
-      [disabled]="cmbActor.value !== 'Expression'">
+      [disabled]="cmbActor.value !== 'ResolveFromExpression'">
   </mat-form-field>
   <div fxFlex="100" class="item-area">
-    <button mat-stroked-button color="primary" class="item-button">
-      <mat-icon>add</mat-icon>
+    <button mat-stroked-button color="primary" class="item-button" (click)="onAddQuery(activity)">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
       {{'key_addQuery'|translate}}
     </button>
     <div style="height: 30px;">
     </div>
-    <div *ngFor="let query of activity.xpathqueries" fxLayout="row wrap" fxLayoutAlign="start center"
-      fxLayoutGap="20px grid" class="item-entry">
-      <mat-form-field fxFlex="20" class="form-field">
-        <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="query.key">
-      </mat-form-field>
-      <mat-form-field fxFlex="80" class="form-field">
-        <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="query.xpath">
-      </mat-form-field>
+    <div dragula="QUERIES" [(dragulaModel)]="activity.xpathqueries">
+      <div *ngFor="let query of activity.xpathqueries; let i = index" fxLayout="row" fxLayoutAlign="start center"
+        fxLayoutGap="20px grid" class="item-entry">
+        <div fxFlex="none" class="queryhandle" style="cursor: move; color: lightgray; line-height: 0;">
+          <mat-icon style="padding-top: 20px;">menu</mat-icon>
+        </div>
+        <mat-form-field fxFlex="20" class="form-field">
+          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="query.key">
+        </mat-form-field>
+        <mat-form-field fxFlex="80" class="form-field">
+          <input matInput [placeholder]="'key_xpath'|translate" [(ngModel)]="query.xpath">
+        </mat-form-field>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
+          (click)="onDeleteQuery(activity.xpathqueries, i)">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
   <div fxFlex="100" class="item-area" style="margin-top: 40px;">
-    <button mat-stroked-button color="primary" class="item-button">
-      <mat-icon>add</mat-icon>
+    <button mat-stroked-button color="primary" class="item-button" (click)="onAddUpdate(activity)">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
       {{'key_addUpdate'|translate}}
     </button>
     <div *ngIf="activity.updateresourcesentries && activity.updateresourcesentries.length > 0" style="height: 30px;">
     </div>
-    <div *ngFor="let update of activity.updateresourcesentries" fxLayout="row wrap" fxLayoutAlign="start center"
-      fxLayoutGap="20px grid" class="item-entry">
-      <mat-form-field fxFlex="auto" class="form-field">
-        <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="update.valueexpression">
-      </mat-form-field>
-      <mat-form-field fxFlex="auto" class="form-field">
-        <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="update.target">
-      </mat-form-field>
-      <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{'key_allowNull'|translate}}</mat-slide-toggle>
+    <div dragula="UPDATES" [(dragulaModel)]="activity.updateresourcesentries">
+      <div *ngFor="let update of activity.updateresourcesentries; let i = index" fxLayout="row wrap"
+        fxLayoutAlign="start center" fxLayoutGap="20px grid" class="item-entry">
+        <div fxFlex="none" class="updatehandle" style="cursor: move; color: lightgray; line-height: 0;">
+          <mat-icon style="padding-top: 20px;">menu</mat-icon>
+        </div>
+        <mat-form-field fxFlex="auto" class="form-field">
+          <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="update.valueexpression">
+        </mat-form-field>
+        <mat-form-field fxFlex="auto" class="form-field">
+          <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="update.target">
+        </mat-form-field>
+        <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{'key_allowNull'|translate}}</mat-slide-toggle>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;"
+            (click)="onDeleteUpdate(activity.updateresourcesentries, i)">clear</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </div>

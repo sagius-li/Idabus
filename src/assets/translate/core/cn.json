@@ -113,5 +113,19 @@
   "key_valueExpression": "内容表达式",
   "key_valueValidation": "内容验证",
   "key_componentName": "控件名",
-  "key_confirmation": "请确认"
+  "key_confirmation": "请确认",
+  "key_id": "识别号",
+  "key_actor": "执行者",
+  "key_actorExpression": "执行者表达式",
+  "key_addQuery": "添加查询",
+  "key_key": "关键字",
+  "key_xpath": "查询表达式",
+  "key_addUpdate": "添加更新",
+  "key_target": "目标",
+  "key_allowNull": "允许空值",
+  "key_enabled": "开启",
+  "key_serviceAccount": "系统账号",
+  "key_requestor": "执行者账号",
+  "key_resolveFromExpression": "使用表达式",
+  "key_resourceID": "资源辨识号"
 }

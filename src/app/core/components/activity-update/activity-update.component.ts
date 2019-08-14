@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Activity, UpdateActivity } from '../../models/dataContract.model';
+import { UpdateActivity } from '../../models/dataContract.model';
+
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'app-activity-update',
@@ -20,7 +22,45 @@ export class ActivityUpdateComponent implements OnInit {
   @Output()
   activityChange = new EventEmitter();
 
-  constructor() {}
+  constructor(private dragula: DragulaService) {
+    try {
+      this.dragula.createGroup('QUERIES', {
+        moves: (el, container, handle) => {
+          return (
+            handle.classList.contains('queryhandle') ||
+            (handle.parentNode as Element).classList.contains('queryhandle')
+          );
+        }
+      });
+      this.dragula.createGroup('UPDATES', {
+        moves: (el, container, handle) => {
+          return (
+            handle.classList.contains('updatehandle') ||
+            (handle.parentNode as Element).classList.contains('updatehandle')
+          );
+        }
+      });
+    } catch {}
+  }
 
   ngOnInit() {}
+
+  onAddQuery(item: UpdateActivity) {
+    item.xpathqueries.push({ key: '', xpath: '' });
+  }
+
+  onDeleteQuery(queries: [{ key: string; xpath: string }], index: number) {
+    queries.splice(index, 1);
+  }
+
+  onAddUpdate(item: UpdateActivity) {
+    item.updateresourcesentries.push({ target: '', valueexpression: '', allownull: false });
+  }
+
+  onDeleteUpdate(
+    updates: [{ target: string; valueexpression: string; allownull: boolean }],
+    index: number
+  ) {
+    updates.splice(index, 1);
+  }
 }

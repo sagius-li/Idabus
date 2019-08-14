@@ -113,5 +113,19 @@
   "key_valueExpression": "value expression",
   "key_valueValidation": "value validation",
   "key_componentName": "component name",
-  "key_confirmation": "confirmation"
+  "key_confirmation": "confirmation",
+  "key_id": "id",
+  "key_actor": "actor",
+  "key_actorExpression": "actor expression",
+  "key_addQuery": "add queries",
+  "key_key": "key",
+  "key_xpath": "xpath",
+  "key_addUpdate": "add updates",
+  "key_target": "target",
+  "key_allowNull": "allow null",
+  "key_enabled": "enabled",
+  "key_serviceAccount": "service account",
+  "key_requestor": "requestor",
+  "key_resolveFromExpression": "resolve from expression",
+  "key_resourceID": "resource id"
 }

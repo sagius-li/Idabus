@@ -113,5 +113,19 @@
   "key_valueExpression": "Wert-Aufbau",
   "key_valueValidation": "Wert-Validierung",
   "key_componentName": "Komponentname",
-  "key_confirmation": "Bestätigung"
+  "key_confirmation": "Bestätigung",
+  "key_id": "ID",
+  "key_actor": "Aktor",
+  "key_actorExpression": "Aktor Wert",
+  "key_addQuery": "Abfrage hinzufügen",
+  "key_key": "Schlüssel",
+  "key_xpath": "XPath",
+  "key_addUpdate": "Update hinzufügen",
+  "key_target": "Ziel Attribut",
+  "key_allowNull": "Null erlaubt",
+  "key_enabled": "aktiv",
+  "key_serviceAccount": "Dienstkonto",
+  "key_requestor": "Antragssteller",
+  "key_resolveFromExpression": "XPath auflösen",
+  "key_resourceID": "Ressource ID"
 }
