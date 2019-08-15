@@ -61,5 +61,6 @@
   "l10n_importDescription": "从一个Json文件导入资源，只可用于nextGen方案",
   "l10n_export": "导出",
   "l10n_exportDescription": "导出选定的资源到一个Json文件",
-  "l10n_assignment": "指配"
+  "l10n_assignment": "指配",
+  "l10n_exportingData": "数据导出中"
 }

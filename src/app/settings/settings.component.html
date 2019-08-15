@@ -160,7 +160,8 @@
             <mat-divider></mat-divider>
           </div>
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <button fxFlex="180px" mat-stroked-button color="primary">{{'l10n_export' | translate}}</button>
+            <button fxFlex="180px" mat-stroked-button color="primary"
+              (click)="onExportResources()">{{'l10n_export' | translate}}</button>
             <div fxFlex="auto">{{'l10n_exportDescription' | translate}}</div>
           </div>
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">

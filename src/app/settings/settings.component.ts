@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { switchMap, tap } from 'rxjs/operators';
 import { SelectEvent, FileInfo } from '@progress/kendo-angular-upload';
+import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
 import { Resource, BasicResource, AuthMode } from '../core/models/dataContract.model';
@@ -11,6 +12,8 @@ import { TransService } from '../core/models/translation.model';
 import { SwapService } from '../core/services/swap.service';
 import { UtilsService } from '../core/services/utils.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
+import { ModalService } from '../core/services/modal.service';
+import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-settings',
@@ -73,7 +76,8 @@ export class SettingsComponent implements OnInit {
     private swap: SwapService,
     private utils: UtilsService,
     private com: ComponentIndexService,
-    private spinner: NgxUiLoaderService
+    private spinner: NgxUiLoaderService,
+    private modal: ModalService
   ) {}
 
   private initSetting(setting: any, value: any) {
@@ -284,5 +288,21 @@ export class SettingsComponent implements OnInit {
         return r;
       });
     }
+  }
+
+  onExportResources() {
+    const progress = this.modal.show(ModalType.progress, 'l10n_exportingData', '', '300px');
+    this.resource.getResourceByQuery('/Person').subscribe(
+      result => {
+        if (result.results && result.results.length > 0) {
+          const dataURI = 'data:text/plain;base64,' + encodeBase64(JSON.stringify(result.results));
+          saveAs(dataURI, 'export.json');
+        }
+        progress.close();
+      },
+      () => {
+        progress.close();
+      }
+    );
   }
 }

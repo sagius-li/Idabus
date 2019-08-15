@@ -61,5 +61,6 @@
   "l10n_importDescription": "import resources from a json file, can only be used for nextGen solution",
   "l10n_export": "export",
   "l10n_exportDescription": "export selected resources to a json file",
-  "l10n_assignment": "assignments"
+  "l10n_assignment": "assignments",
+  "l10n_exportingData": "exporting data"
 }

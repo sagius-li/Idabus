@@ -156,7 +156,7 @@ export class TabViewComponent implements OnInit {
     const tabName = this.tabDefs[this.currentTabIndex].name;
 
     if (this.editorResults[tabName] && this.editorResults[tabName].length > 0) {
-      const progress = this.modal.show(ModalType.progress, 'key_savingChanges', '');
+      const progress = this.modal.show(ModalType.progress, 'key_savingChanges', '', '300px');
 
       this.editorResults[tabName].forEach(result => {
         if (result.controller.dirty) {

@@ -199,7 +199,7 @@ export class ResourcesComponent implements OnInit {
         .afterClosed()
         .subscribe(result => {
           if (result === 'ok') {
-            const progress = this.modal.show(ModalType.progress, 'Saving changes', '');
+            const progress = this.modal.show(ModalType.progress, 'Saving changes', '', '300px');
             setTimeout(() => {
               progress.close();
             }, 2000);
