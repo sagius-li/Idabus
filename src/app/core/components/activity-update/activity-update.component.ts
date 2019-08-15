@@ -46,10 +46,10 @@ export class ActivityUpdateComponent implements OnInit {
   ngOnInit() {}
 
   onAddQuery(item: UpdateActivity) {
-    item.xpathqueries.push({ key: '', xpath: '' });
+    item.xpathqueries.push({ key: '', value: '' });
   }
 
-  onDeleteQuery(queries: [{ key: string; xpath: string }], index: number) {
+  onDeleteQuery(queries: [{ key: string; value: string }], index: number) {
     queries.splice(index, 1);
   }
 

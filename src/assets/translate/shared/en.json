@@ -62,5 +62,7 @@
   "l10n_export": "export",
   "l10n_exportDescription": "export selected resources to a json file",
   "l10n_assignment": "assignments",
-  "l10n_exportingData": "exporting data"
+  "l10n_exportingData": "exporting data",
+  "l10n_importingData": "importing data",
+  "l10n_fileTypeNotAllowed": "file type not allowed"
 }

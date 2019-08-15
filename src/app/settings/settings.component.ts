@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
+import { forkJoin } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { SelectEvent, FileInfo } from '@progress/kendo-angular-upload';
+import { SelectEvent, FileInfo, FileRestrictions } from '@progress/kendo-angular-upload';
 import { saveAs, encodeBase64 } from '@progress/kendo-file-saver';
 import { NgxUiLoaderService, SPINNER } from 'ngx-ui-loader';
 
-import { Resource, BasicResource, AuthMode } from '../core/models/dataContract.model';
+import { ModalType } from '../core/models/componentContract.model';
+import { Resource, BasicResource, AuthMode, ResourceSet } from '../core/models/dataContract.model';
 
 import { ResourceService } from '../core/services/resource.service';
 import { TransService } from '../core/models/translation.model';
@@ -13,7 +15,6 @@ import { SwapService } from '../core/services/swap.service';
 import { UtilsService } from '../core/services/utils.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 import { ModalService } from '../core/services/modal.service';
-import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-settings',
@@ -24,6 +25,13 @@ export class SettingsComponent implements OnInit {
   loginUser: Resource;
   brandLetter = '';
   attrPhoto: string;
+
+  photoRestrictions: FileRestrictions = {
+    allowedExtensions: ['.jpg', '.png']
+  };
+  importRestrictions: FileRestrictions = {
+    allowedExtensions: ['.json']
+  };
 
   primaryViewSet: BasicResource;
   availableViewSets: BasicResource[];
@@ -133,6 +141,11 @@ export class SettingsComponent implements OnInit {
   }
 
   onPhotoSelected(ev: SelectEvent) {
+    if (ev.files[0].extension !== '.jpg' && ev.files[0].extension !== '.png') {
+      this.modal.show(ModalType.error, 'key_error', 'l10n_fileTypeNotAllowed');
+      return;
+    }
+
     ev.files.forEach((file: FileInfo) => {
       if (file.rawFile) {
         const reader = new FileReader();
@@ -292,17 +305,82 @@ export class SettingsComponent implements OnInit {
 
   onExportResources() {
     const progress = this.modal.show(ModalType.progress, 'l10n_exportingData', '', '300px');
-    this.resource.getResourceByQuery('/Person').subscribe(
-      result => {
-        if (result.results && result.results.length > 0) {
-          const dataURI = 'data:text/plain;base64,' + encodeBase64(JSON.stringify(result.results));
-          saveAs(dataURI, 'export.json');
-        }
-        progress.close();
-      },
-      () => {
-        progress.close();
+
+    const observableBatch = [];
+    this.exportResourceTypes.forEach(e => {
+      if (e.selected) {
+        observableBatch.push(this.resource.getResourceByQuery(e.query));
       }
-    );
+    });
+    this.exportConfigTypes.forEach(e => {
+      if (e.selected) {
+        observableBatch.push(this.resource.getResourceByQuery(e.query));
+      }
+    });
+    this.exportSchemaTypes.forEach(e => {
+      if (e.selected) {
+        observableBatch.push(this.resource.getResourceByQuery(e.query));
+      }
+    });
+
+    if (observableBatch.length > 0) {
+      forkJoin(observableBatch).subscribe(
+        result => {
+          let exportData: Array<Resource> = [];
+          if (result && result.length > 0) {
+            result.forEach((r: ResourceSet) => {
+              exportData = exportData.concat(r.results);
+            });
+          }
+          // const blob = new Blob([JSON.stringify(exportData)], {
+          //   type: 'application/json;charset=utf-8'
+          // });
+          const dataUri = 'data:text/plain;base64,' + encodeBase64(JSON.stringify(exportData));
+          saveAs(dataUri, 'export.json');
+          progress.close();
+        },
+        error => {
+          progress.close();
+          this.modal.show(ModalType.error, 'key_error', error);
+        }
+      );
+    }
+  }
+
+  onImportResources(ev: SelectEvent) {
+    if (ev.files[0].extension !== '.json') {
+      this.modal.show(ModalType.error, 'key_error', 'l10n_fileTypeNotAllowed');
+      return;
+    }
+
+    const progress = this.modal.show(ModalType.progress, 'l10n_importingData', '', '300px');
+
+    ev.files.forEach((file: FileInfo) => {
+      if (file.rawFile) {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          const result = reader.result.toString();
+          console.log(result);
+          console.log(JSON.parse(result));
+
+          progress.close();
+        };
+
+        reader.readAsText(file.rawFile);
+      }
+    });
+  }
+
+  hasExports() {
+    const counterResourceTypes = this.exportResourceTypes.findIndex(e => e.selected === true);
+    const counterConfigTypes = this.exportConfigTypes.findIndex(e => e.selected === true);
+    const counterSchemaTypes = this.exportSchemaTypes.findIndex(e => e.selected === true);
+
+    if (counterResourceTypes >= 0 || counterConfigTypes >= 0 || counterSchemaTypes >= 0) {
+      return true;
+    }
+
+    return false;
   }
 }

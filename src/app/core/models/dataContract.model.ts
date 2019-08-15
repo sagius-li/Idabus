@@ -86,6 +86,6 @@ export class Activity {
 }
 
 export class UpdateActivity extends Activity {
-  xpathqueries?: Array<{ key: string; xpath: string }>;
+  xpathqueries?: Array<{ key: string; value: string }>;
   updateresourcesentries?: Array<{ target: string; valueexpression: string; allownull: boolean }>;
 }

@@ -152,15 +152,20 @@
       <mat-card-content>
         <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="20px" style="margin-bottom: 20px;">
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <button fxFlex="180px" mat-stroked-button color="basic"
-              [disabled]="authenticationMode !== 'azure'">{{'l10n_import' | translate}}</button>
+            <kendo-upload fxFlex="180px" [saveUrl]="'uploadSaveUrl'" [disabled]="authenticationMode !== 'azure'"
+              [restrictions]="importRestrictions" [multiple]="false" [showFileList]="false"
+              (select)="onImportResources($event)">
+              <kendo-upload-messages select="{{ 'l10n_import' | translate }}"></kendo-upload-messages>
+            </kendo-upload>
+            <!-- <button fxFlex="180px" mat-stroked-button color="basic"
+              [disabled]="authenticationMode !== 'azure'">{{'l10n_import' | translate}}</button> -->
             <div fxFlex="auto">{{'l10n_importDescription' | translate}}</div>
           </div>
           <div fxFlex="auto">
             <mat-divider></mat-divider>
           </div>
           <div fxFlex="auto" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <button fxFlex="180px" mat-stroked-button color="primary"
+            <button fxFlex="180px" mat-stroked-button color="primary" [disabled]="!hasExports()"
               (click)="onExportResources()">{{'l10n_export' | translate}}</button>
             <div fxFlex="auto">{{'l10n_exportDescription' | translate}}</div>
           </div>
