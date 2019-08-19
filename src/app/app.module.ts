@@ -49,6 +49,7 @@ import { GridsterViewComponent } from './gridster-view/gridster-view.component';
 import { BrandViewComponent } from './brand-view/brand-view.component';
 import { ViewConfiguratorComponent } from './view-configurator/view-configurator.component';
 import { WorkflowComponent } from './workflow/workflow.component';
+import { ActivityForeachComponent } from './core/components/activity-foreach/activity-foreach.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { WorkflowComponent } from './workflow/workflow.component';
     GridsterViewComponent,
     BrandViewComponent,
     ViewConfiguratorComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    ActivityForeachComponent
   ],
   imports: [
     BrowserModule,

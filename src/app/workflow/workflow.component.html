@@ -23,7 +23,8 @@
           <mat-card-content *ngIf="activity.display" style="padding-bottom: 20px;">
             <div [ngSwitch]="activity.type.toLowerCase()" style="margin-top: 10px; margin-bottom: 20px;">
               <app-activity-update *ngSwitchCase="'updateresources'" [(activity)]="activity"></app-activity-update>
-              <div *ngSwitchDefault>no sub item</div>
+              <app-activity-foreach *ngSwitchCase="'foreach'" [(activity)]="activity"></app-activity-foreach>
+              <div *ngSwitchDefault>unknown activity type</div>
             </div>
             <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">
               <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">

@@ -77,15 +77,22 @@ export class Activity {
   isenabled?: boolean;
   displayname?: string;
   description?: string;
-  activities?: Array<any>;
-  activity?: Activity;
+  activities?: Array<Activity>;
   display?: boolean;
   runonpreviousstatuscondition?: Array<string>;
   actortype?: string;
   actorexpression?: string;
+  executioncondition?: string;
 }
 
 export class UpdateActivity extends Activity {
   xpathqueries?: Array<{ key: string; value: string }>;
   updateresourcesentries?: Array<{ target: string; valueexpression: string; allownull: boolean }>;
+}
+
+export class ForeachActivity extends Activity {
+  currentitemkey?: string;
+  listkey?: string;
+  updatewhileiterating?: boolean;
+  continueonerror?: boolean;
 }

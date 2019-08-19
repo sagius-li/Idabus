@@ -128,5 +128,10 @@
   "key_requestor": "执行者账号",
   "key_resolveFromExpression": "使用表达式",
   "key_resourceID": "资源辨识号",
-  "key_selectAll": "选择所有"
+  "key_selectAll": "选择所有",
+  "key_executionCondition": "运行条件",
+  "key_listKey": "循环数列名",
+  "key_currentItemKey": "循环当前对象名",
+  "key_updateWhileIterating": "循环时更新",
+  "key_continueOnError": "错误时继续"
 }

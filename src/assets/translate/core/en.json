@@ -128,5 +128,10 @@
   "key_requestor": "requestor",
   "key_resolveFromExpression": "resolve from expression",
   "key_resourceID": "resource id",
-  "key_selectAll": "select all"
+  "key_selectAll": "select all",
+  "key_executionCondition": "execution condition",
+  "key_listKey": "list key",
+  "key_currentItemKey": "current item key",
+  "key_updateWhileIterating": "update while iterating",
+  "key_continueOnError": "continue on error"
 }

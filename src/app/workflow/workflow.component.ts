@@ -47,6 +47,7 @@ export class WorkflowComponent implements OnInit {
           ],
           actortype: 'ServiceAccount',
           xpathqueries: [],
+          executioncondition: 'IsPresent("//WorkflowData/allRemovedMembers")',
           runonpreviousstatuscondition: ['Success']
         },
         {

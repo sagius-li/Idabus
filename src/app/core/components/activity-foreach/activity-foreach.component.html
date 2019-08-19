@@ -1,0 +1,22 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px grid">
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_name'|translate" [(ngModel)]="activity.displayname">
+  </mat-form-field>
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_executionCondition'|translate" [(ngModel)]="activity.executioncondition">
+  </mat-form-field>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.isenabled">{{'key_enabled'|translate}}</mat-slide-toggle>
+  <mat-form-field fxFlex="100" class="form-field">
+    <input matInput [placeholder]="'key_description'|translate" [(ngModel)]="activity.description">
+  </mat-form-field>
+  <mat-form-field fxFlex="30" class="form-field">
+    <input matInput [placeholder]="'key_listKey'|translate" [(ngModel)]="activity.listkey">
+  </mat-form-field>
+  <mat-form-field fxFlex="30" class="form-field">
+    <input matInput [placeholder]="'key_currentItemKey'|translate" [(ngModel)]="activity.currentitemkey">
+  </mat-form-field>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.updatewhileiterating">{{'key_updateWhileIterating'|translate}}
+  </mat-slide-toggle>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.continueonerror">{{'key_continueOnError'|translate}}
+  </mat-slide-toggle>
+</div>

@@ -128,5 +128,10 @@
   "key_requestor": "Antragssteller",
   "key_resolveFromExpression": "XPath auflösen",
   "key_resourceID": "Ressource ID",
-  "key_selectAll": "Alles auswählen"
+  "key_selectAll": "Alles auswählen",
+  "key_executionCondition": "Ausführungsbedingung",
+  "key_listKey": "Liste Name",
+  "key_currentItemKey": "Iteration Objekt Name",
+  "key_updateWhileIterating": "Aktualisieren bei Iterieren",
+  "key_continueOnError": "Bei Feler nicht abbrechen"
 }
