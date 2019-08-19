@@ -1,0 +1,47 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px grid">
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_name'|translate" [(ngModel)]="activity.displayname">
+  </mat-form-field>
+  <mat-form-field fxFlex="40" class="form-field">
+    <input matInput [placeholder]="'key_executionCondition'|translate" [(ngModel)]="activity.executioncondition">
+  </mat-form-field>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.isenabled">{{'key_enabled'|translate}}</mat-slide-toggle>
+  <mat-form-field fxFlex="100" class="form-field">
+    <input matInput [placeholder]="'key_description'|translate" [(ngModel)]="activity.description">
+  </mat-form-field>
+  <mat-form-field fxFlex="20" class="form-field">
+    <mat-label>{{'key_method'}}</mat-label>
+    <mat-select #cmbActor [(ngModel)]="activity.method">
+      <mat-option value="GET">GET</mat-option>
+      <mat-option value="PUT">PUT</mat-option>
+      <mat-option value="PATCH">PATCH</mat-option>
+      <mat-option value="POST">POST</mat-option>
+      <mat-option value="DELETE">DELETE</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex="80" class="form-field">
+    <input matInput [placeholder]="'key_url'|translate" [(ngModel)]="activity.urlexpression">
+  </mat-form-field>
+  <div fxFlex="100" class="item-area">
+    <button mat-stroked-button color="primary" class="item-button">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
+      {{'key_addHeader'|translate}}
+    </button>
+    <div style="height: 30px;">
+    </div>
+    <div>
+      <div *ngFor="let expression of activity.headerexpressions | keyvalue" fxLayout="row" fxLayoutAlign="start center"
+        fxLayoutGap="20px grid" class="item-entry">
+        <mat-form-field fxFlex="20" class="form-field">
+          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="expression.key">
+        </mat-form-field>
+        <mat-form-field fxFlex="80" class="form-field">
+          <input matInput [placeholder]="'key_value'|translate" [(ngModel)]="expression.value">
+        </mat-form-field>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

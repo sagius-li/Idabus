@@ -15,13 +15,13 @@ import { ModalType } from '../core/models/componentContract.model';
 export class WorkflowComponent implements OnInit {
   workflowDef = {
     objecttype: 'workflow',
-    objectid: 'ccccc111-1a63-4a56-ab4c-fe3002c93406',
-    displayname: 'Handle changed team members',
+    objectid: 'ccccc555-1a63-4a56-ab4c-fe3002c93406',
+    displayname: 'Handle new creation of team',
     workflowdescription: {
       type: 'Sequential',
-      id: '7c9ece6f-917d-4195-873b-eb4464d67ff3',
+      id: '7a842b1a-917d-4195-873b-eb4464d67ff3',
       isenabled: true,
-      displayname: 'Add information to a team and to the person',
+      displayname: 'Create team and add information to the person',
       activities: [
         {
           type: 'UpdateResources',
@@ -37,157 +37,83 @@ export class WorkflowComponent implements OnInit {
                 'Concatenate("The team now has ", CONVERTTOSTRING(count([//target/members])), " members since " + DateTimeNow())',
               target: '[//target/description]',
               allownull: true
-            },
-            {
-              // tslint:disable-next-line:max-line-length
-              valueexpression: 'DateTimeNow()',
-              target: '[//target/createdtime]',
-              allownull: false
             }
           ],
           actortype: 'ServiceAccount',
           xpathqueries: [],
-          executioncondition: 'IsPresent("//WorkflowData/allRemovedMembers")',
           runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'UpdateResources',
           id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625629',
           isenabled: true,
-          displayname: 'set manager',
-          description: 'adds the member add info to workflowdata',
+          displayname: 'set workflowdata',
+          description: 'adds the member info to workflowdata',
           updateresourcesentries: [
             {
-              valueexpression: '[//delta/members/added]',
+              valueexpression: '[//target/members]',
               target: '[//WorkflowData/allAddedMembers]',
               allownull: true
             }
           ],
           actortype: 'ServiceAccount',
           actor: null,
-          executioncondition: 'CONTAINS([//Request/RequestParameter], "members/added")',
+          executioncondition: null,
           xpathqueries: [],
           expressions: null,
+          runonpreviousstatuscondition: [
+            'Success',
+            'UnmetExecutionCondition',
+            'Skipped',
+            'Disabled'
+          ]
+        },
+        {
+          type: 'RestApiCall',
+          id: '1163f4bb-abf1-44a5-a9b7-482abf4d5219',
+          isenabled: true,
+          displayname: 'create team in Azure',
+          description: 'api call workflow for creating group and team object in Azure',
+          method: 'POST',
+          headerexpressions: {},
+          urlexpression:
+            // tslint:disable-next-line:max-line-length
+            'https://prod-38.westeurope.logic.azure.com:443/workflows/41910c32942d4237a7b2ecb80eed0a65/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PaaJ2J2rcM0Up1gTMmVbc2JuD754c_N0GBUKoRYpcVc',
+          queryexpressions: {},
+          bodyexpression: {
+            displayname: '{teamName}',
+            owners: '{owners}'
+          },
+          xpathqueries: [],
+          expressions: {
+            owners: '[//target/owners]',
+            teamname: '[//target/displayname]'
+          },
           runonpreviousstatuscondition: ['Success']
         },
         {
           type: 'ForEach',
           id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
           isenabled: true,
-          displayname: 'foreach added member add team name to description',
+          displayname: 'foreach member add team name to description',
           description: null,
-          activities: [
-            {
-              type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea64',
-              isenabled: true,
-              displayname: 'set description',
-              description: 'add team to description of the person',
-              updateresourcesentries: [
-                {
-                  // tslint:disable-next-line:max-line-length
-                  valueexpression:
-                    'Concatenate([//WorkflowData/currentMember/description], "[now in team \'", [//target/displayname], "\'], ")',
-                  target: '[//WorkflowData/currentMember/description]',
-                  allownull: true
-                }
-              ],
-              actortype: 'ServiceAccount',
-              actor: null,
-              executioncondition: null,
-              xpathqueries: [],
-              expressions: null
-            },
-            {
-              type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea66',
-              isenabled: true,
-              displayname: 'test one',
-              description: 'test one',
-              updateresourcesentries: [
-                {
-                  // tslint:disable-next-line:max-line-length
-                  valueexpression:
-                    'Concatenate([//WorkflowData/currentMember/description], "[now in team \'", [//target/displayname], "\'], ")',
-                  target: '[//WorkflowData/currentMember/description]',
-                  allownull: true
-                }
-              ],
-              actortype: 'ServiceAccount',
-              actor: null,
-              executioncondition: null,
-              xpathqueries: [],
-              expressions: null,
-              runonpreviousstatuscondition: ['Success']
-            }
-          ],
-          currentitemkey: 'currentMember',
+          currentitemkey: 'currentUser',
           listkey: 'allAddedMembers',
           updatewhileiterating: false,
           continueonerror: true,
-          executioncondition: 'IsPresent(//WorkflowData/allAddedMembers)',
-          runonpreviousstatuscondition: ['Success']
-        },
-        {
-          type: 'UpdateResources',
-          id: 'c3545b1c-5ff0-4e5b-ad18-925fbc625630',
-          isenabled: true,
-          displayname: 'set manager',
-          description: 'adds the member removal info to workflowdata',
-          updateresourcesentries: [
-            {
-              valueexpression: '[//delta/members/removed]',
-              target: '[//WorkflowData/allRemovedMembers]',
-              allownull: true
-            }
-          ],
-          actortype: 'ServiceAccount',
-          actor: null,
-          executioncondition: 'CONTAINS([//Request/RequestParameter], "members/removed")',
-          xpathqueries: [],
-          expressions: null,
-          runonpreviousstatuscondition: ['Success']
-        },
-        {
-          type: 'ForEach',
-          id: 'c1b1fc1e-9cc4-4c83-b30f-6bece0ed0246',
-          isenabled: true,
-          displayname: 'foreach removed member remove team name from description',
-          description: null,
+          executioncondition: null,
+          runonpreviousstatuscondition: ['Success'],
           activities: [
             {
               type: 'UpdateResources',
               id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea65',
               isenabled: true,
-              displayname: 'update description of person',
-              description: 'remove team from description of the person',
+              displayname: 'add team to user prop',
+              description: 'add this team to teams prop of the person',
               updateresourcesentries: [
                 {
-                  // tslint:disable-next-line:max-line-length
-                  valueExpression:
-                    'REPLACESTRING([//WorkflowData/currentMember/description], "[now in team \'" + [//target/displayname] + "\'], ", "")',
-                  target: '[//WorkflowData/currentMember/description]',
-                  allownull: true
-                }
-              ],
-              actortype: 'ServiceAccount',
-              actor: null,
-              executioncondition: null,
-              xpathqueries: [],
-              expressions: null
-            },
-            {
-              type: 'UpdateResources',
-              id: 'ccc07af7-c8ee-4c29-a52f-b169ad35ea67',
-              isenabled: true,
-              displayname: 'test two',
-              description: 'test two',
-              updateresourcesentries: [
-                {
-                  // tslint:disable-next-line:max-line-length
-                  valueExpression:
-                    'REPLACESTRING([//WorkflowData/currentMember/description], "[now in team \'" + [//target/displayname] + "\'], ", "")',
-                  target: '[//WorkflowData/currentMember/description]',
+                  valueexpression: 'InsertValues([//target/objectid])',
+                  target: '[//WorkflowData/currentUser/teams]',
                   allownull: true
                 }
               ],
@@ -197,17 +123,41 @@ export class WorkflowComponent implements OnInit {
               xpathqueries: [],
               expressions: null,
               runonpreviousstatuscondition: ['Success']
+            },
+            {
+              type: 'RestApiCall',
+              id: '1187febb-abf1-44a5-a9b7-482abf4d5219',
+              isenabled: true,
+              displayname: 'set user teams',
+              description: 'api call workflow for updating teams of a user',
+              method: 'POST',
+              headerexpressions: {},
+              urlexpression:
+                // tslint:disable-next-line:max-line-length
+                'https://prod-24.westeurope.logic.azure.com:443/workflows/4c079d2ea45c453f949b372e9ab09762/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=somc5f5lyX0ShNlCuR-SYAvelab_YtwZiLWlvJGZ8z8',
+              queryexpressions: {},
+              bodyexpression: {
+                allteams: '{allTeamNames}',
+                userreference: '{userReference}',
+                teamname: '{teamName}',
+                isadd: true
+              },
+              xpathqueries: [],
+              expressions: {
+                // tslint:disable-next-line:max-line-length
+                allteamnames:
+                  'ConcatenateMultivaluedString(FormatMultivaluedList("{0}", [//WorkflowData/currentUser/teams/displayname]), ";")',
+                userreference: '[//WorkflowData/currentUser/azureid]',
+                teamname: '[//target/displayname]'
+              },
+              runonpreviousstatuscondition: ['Success']
             }
-          ],
-          currentitemkey: 'currentMember',
-          listkey: 'allRemovedMembers',
-          updatewhileiterating: false,
-          continueonerror: true,
-          executioncondition: 'IsPresent(//WorkflowData/allRemovedMembers)',
-          runonpreviousstatuscondition: ['Success']
+          ]
         }
       ]
-    }
+    },
+    createdtime: '2019-08-14T09:56:36.9112915Z',
+    lastupdatetime: '2019-08-15T09:35:36.7602121Z'
   };
 
   activities = this.workflowDef.workflowdescription.activities;
@@ -256,6 +206,8 @@ export class WorkflowComponent implements OnInit {
         return 'loop';
       case 'sequential':
         return 'import_export';
+      case 'restapicall':
+        return 'settings_applications';
       default:
         return 'no_listed_location';
     }

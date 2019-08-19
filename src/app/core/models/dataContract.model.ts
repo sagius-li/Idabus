@@ -96,3 +96,12 @@ export class ForeachActivity extends Activity {
   updatewhileiterating?: boolean;
   continueonerror?: boolean;
 }
+
+export class CallRestActivity extends Activity {
+  method?: string;
+  urlexpression?: string;
+  headerexpressions?: { [key: string]: string };
+  queryexpressions?: { [key: string]: string };
+  bodyexpression?: { [key: string]: string };
+  expressions?: { [key: string]: string };
+}

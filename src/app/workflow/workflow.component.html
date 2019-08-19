@@ -24,6 +24,7 @@
             <div [ngSwitch]="activity.type.toLowerCase()" style="margin-top: 10px; margin-bottom: 20px;">
               <app-activity-update *ngSwitchCase="'updateresources'" [(activity)]="activity"></app-activity-update>
               <app-activity-foreach *ngSwitchCase="'foreach'" [(activity)]="activity"></app-activity-foreach>
+              <app-activity-call-rest *ngSwitchCase="'restapicall'" [(activity)]="activity"></app-activity-call-rest>
               <div *ngSwitchDefault>unknown activity type</div>
             </div>
             <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">

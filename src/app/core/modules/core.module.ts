@@ -61,6 +61,8 @@ import { EditorTextComponent } from '../components/editor-text/editor-text.compo
 import { EditorTextConfigComponent } from '../components/editor-text/editor-text-config.component';
 
 import { ActivityUpdateComponent } from '../components/activity-update/activity-update.component';
+import { ActivityForeachComponent } from '../components/activity-foreach/activity-foreach.component';
+import { ActivityCallRestComponent } from '../components/activity-call-rest/activity-call-rest.component';
 
 import { SigninComponent } from '../components/signin/signin.component';
 import { EditMenuComponent } from '../components/edit-menu/edit-menu.component';
@@ -90,6 +92,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorTextConfigComponent,
 
     ActivityUpdateComponent,
+    ActivityForeachComponent,
+    ActivityCallRestComponent,
 
     SigninComponent,
     EditMenuComponent,
@@ -234,6 +238,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorTextConfigComponent,
 
     ActivityUpdateComponent,
+    ActivityForeachComponent,
+    ActivityCallRestComponent,
 
     SigninComponent,
     EditMenuComponent,
