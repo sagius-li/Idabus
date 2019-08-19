@@ -75,20 +75,26 @@ export class WorkflowComponent implements OnInit {
           displayname: 'create team in Azure',
           description: 'api call workflow for creating group and team object in Azure',
           method: 'POST',
-          headerexpressions: {},
+          headerexpressions: [],
           urlexpression:
             // tslint:disable-next-line:max-line-length
             'https://prod-38.westeurope.logic.azure.com:443/workflows/41910c32942d4237a7b2ecb80eed0a65/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PaaJ2J2rcM0Up1gTMmVbc2JuD754c_N0GBUKoRYpcVc',
-          queryexpressions: {},
+          queryexpressions: [],
           bodyexpression: {
             displayname: '{teamName}',
             owners: '{owners}'
           },
           xpathqueries: [],
-          expressions: {
-            owners: '[//target/owners]',
-            teamname: '[//target/displayname]'
-          },
+          expressions: [
+            {
+              key: 'owners',
+              value: '[//target/owners]'
+            },
+            {
+              key: 'teamname',
+              value: '[//target/displayname]'
+            }
+          ],
           runonpreviousstatuscondition: ['Success']
         },
         {
@@ -131,11 +137,11 @@ export class WorkflowComponent implements OnInit {
               displayname: 'set user teams',
               description: 'api call workflow for updating teams of a user',
               method: 'POST',
-              headerexpressions: {},
+              headerexpressions: [],
               urlexpression:
                 // tslint:disable-next-line:max-line-length
                 'https://prod-24.westeurope.logic.azure.com:443/workflows/4c079d2ea45c453f949b372e9ab09762/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=somc5f5lyX0ShNlCuR-SYAvelab_YtwZiLWlvJGZ8z8',
-              queryexpressions: {},
+              queryexpressions: [],
               bodyexpression: {
                 allteams: '{allTeamNames}',
                 userreference: '{userReference}',
@@ -143,13 +149,21 @@ export class WorkflowComponent implements OnInit {
                 isadd: true
               },
               xpathqueries: [],
-              expressions: {
-                // tslint:disable-next-line:max-line-length
-                allteamnames:
-                  'ConcatenateMultivaluedString(FormatMultivaluedList("{0}", [//WorkflowData/currentUser/teams/displayname]), ";")',
-                userreference: '[//WorkflowData/currentUser/azureid]',
-                teamname: '[//target/displayname]'
-              },
+              expressions: [
+                {
+                  key: 'allteamnames',
+                  value:
+                    'ConcatenateMultivaluedString(FormatMultivaluedList("{0}", [//WorkflowData/currentUser/teams/displayname]), ";")'
+                },
+                {
+                  key: 'userreference',
+                  value: '[//WorkflowData/currentUser/azureid]'
+                },
+                {
+                  key: 'teamname',
+                  value: '[//target/displayname]'
+                }
+              ],
               runonpreviousstatuscondition: ['Success']
             }
           ]

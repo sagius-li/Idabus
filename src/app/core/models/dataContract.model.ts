@@ -100,8 +100,8 @@ export class ForeachActivity extends Activity {
 export class CallRestActivity extends Activity {
   method?: string;
   urlexpression?: string;
-  headerexpressions?: { [key: string]: string };
-  queryexpressions?: { [key: string]: string };
+  headerexpressions?: Array<{ key: string; value: string }>;
+  queryexpressions?: Array<{ key: string; value: string }>;
   bodyexpression?: { [key: string]: string };
-  expressions?: { [key: string]: string };
+  expressions?: Array<{ key: string; value: string }>;
 }

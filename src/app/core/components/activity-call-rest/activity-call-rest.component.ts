@@ -24,15 +24,24 @@ export class ActivityCallRestComponent implements OnInit {
 
   ngOnInit() {}
 
-  getHeaderKeys() {
-    return Object.keys(this.activity.headerexpressions);
+  onAddHeader(item: CallRestActivity) {
+    item.headerexpressions.push({ key: '', value: '' });
+  }
+  onDeleteHeader(items: [{ key: string; value: string }], index: number) {
+    items.splice(index, 1);
   }
 
-  getQueryKeys() {
-    return Object.keys(this.activity.queryexpressions);
+  onAddQuery(item: CallRestActivity) {
+    item.queryexpressions.push({ key: '', value: '' });
+  }
+  onDeleteQuery(items: [{ key: string; value: string }], index: number) {
+    items.splice(index, 1);
   }
 
-  getBodyKeys() {
-    return Object.keys(this.activity.bodyexpression);
+  onAddExpression(item: CallRestActivity) {
+    item.expressions.push({ key: '', value: '' });
+  }
+  onDeleteExpression(items: [{ key: string; value: string }], index: number) {
+    items.splice(index, 1);
   }
 }

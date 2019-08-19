@@ -7,37 +7,24 @@
       <ng-template matStepLabel>General</ng-template>
       <div fxLayout="column" style="width: 100%;">
         <mat-form-field fxFlex="auto" style="margin-top: 10px;">
-          <input
-            matInput
-            placeholder="Give your team a name"
-            [(ngModel)]="teamName"
-            cdkFocusInitial
-            required
-            style="font-size: 20px;"
-          />
+          <input matInput placeholder="Give your team a name" [(ngModel)]="teamName" cdkFocusInitial required
+            style="font-size: 20px;" />
         </mat-form-field>
         <div fxFlex="auto" style="font-size: 12px; font-weight: 400; color: #3f51b5">
           Team Owners
         </div>
-        <kendo-multiselect
-          #idpOwner
-          [data]="idpData"
-          [(ngModel)]="idpValue"
-          [textField]="'name'"
-          [valueField]="'email'"
-          [filterable]="true"
-          (filterChange)="handleSearchFilter($event)"
-          (focus)="onFocus()"
-        >
+        <kendo-multiselect #idpOwner [data]="idpData" [(ngModel)]="idpValue" [textField]="'displayname'"
+          [valueField]="'accountname'" [filterable]="true" (filterChange)="handleSearchFilter($event)"
+          (focus)="onFocus()">
           <ng-template kendoMultiSelectItemTemplate let-dataItem>
             <div fxLayout="row wrap" fxLayoutAlign="start center" style="color: gray; margin: 5px;">
-              <div fxFlex="15%">
+              <div fxFlex="none">
                 <mat-icon style="margin-top: 6px;">person</mat-icon>
               </div>
-              <div fxFlex="60%" style="font-size: 16px;">
-                {{ dataItem.name }}
+              <div fxFlex="60" style="font-size: 16px;">
+                {{ dataItem.displayname }}
               </div>
-              <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.email }}</div>
+              <div fxFlex="100" style="margin-top: -10px; font-size: 12px;">{{ dataItem.accountname }}</div>
             </div>
           </ng-template>
         </kendo-multiselect>
@@ -53,22 +40,10 @@
           <mat-slide-toggle #chkSet>Members based on Set</mat-slide-toggle>
         </div>
         <div fxFlex="55%">
-          <kendo-multiselect
-            #idpSet
-            [disabled]="!chkSet.checked"
-            [data]="idpSetData"
-            [textField]="'name'"
-            [valueField]="'name'"
-            [filterable]="true"
-            (filterChange)="handleSearchFilter($event)"
-            (focus)="onFocus()"
-          >
+          <kendo-multiselect #idpSet [disabled]="!chkSet.checked" [data]="idpSetData" [textField]="'name'"
+            [valueField]="'name'" [filterable]="true" (filterChange)="handleSearchFilter($event)" (focus)="onFocus()">
             <ng-template kendoMultiSelectItemTemplate let-dataItem>
-              <div
-                fxLayout="row wrap"
-                fxLayoutAlign="start center"
-                style="color: gray; margin: 5px;"
-              >
+              <div fxLayout="row wrap" fxLayoutAlign="start center" style="color: gray; margin: 5px;">
                 <div fxFlex="15%">
                   <mat-icon style="margin-top: 6px;">list</mat-icon>
                 </div>
@@ -80,35 +55,21 @@
             </ng-template>
           </kendo-multiselect>
         </div>
-        <div
-          fxFlex="100%"
-          style="font-size: 12px; font-weight: 400; color: #3f51b5; margin-top: 20px;"
-        >
+        <div fxFlex="100%" style="font-size: 12px; font-weight: 400; color: #3f51b5; margin-top: 20px;">
           Explicit Members
         </div>
         <div fxFlex="100%">
-          <kendo-multiselect
-            #idpMember
-            [data]="idpData"
-            [textField]="'name'"
-            [valueField]="'email'"
-            [filterable]="true"
-            (filterChange)="handleSearchFilter($event)"
-            (focus)="onFocus()"
-          >
+          <kendo-multiselect #idpMember [data]="idpData" [textField]="'name'" [valueField]="'email'" [filterable]="true"
+            (filterChange)="handleSearchFilter($event)" (focus)="onFocus()">
             <ng-template kendoMultiSelectItemTemplate let-dataItem>
-              <div
-                fxLayout="row wrap"
-                fxLayoutAlign="start center"
-                style="color: gray; margin: 5px;"
-              >
-                <div fxFlex="15%">
+              <div fxLayout="row wrap" fxLayoutAlign="start center" style="color: gray; margin: 5px;">
+                <div fxFlex="none">
                   <mat-icon style="margin-top: 6px;">person</mat-icon>
                 </div>
-                <div fxFlex="60%" style="font-size: 16px;">
-                  {{ dataItem.name }}
+                <div fxFlex="60" style="font-size: 16px;">
+                  {{ dataItem.displayname }}
                 </div>
-                <div fxFlex="100%" style="margin-top: -10px;">{{ dataItem.email }}</div>
+                <div fxFlex="100" style="margin-top: -10px; font-size: 12px;">{{ dataItem.accountname }}</div>
               </div>
             </ng-template>
           </kendo-multiselect>
@@ -126,31 +87,16 @@
   </mat-horizontal-stepper>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="start center" style="margin-top: -10px;">
-  <button
-    fxFlex="none"
-    mat-stroked-button
-    (click)="onPrevious(stepper)"
-    style="margin-right: 5px;"
-    [disabled]="stepper.selectedIndex === 0"
-  >
+  <button fxFlex="none" mat-stroked-button (click)="onPrevious(stepper)" style="margin-right: 5px;"
+    [disabled]="stepper.selectedIndex === 0">
     Previous
   </button>
-  <button
-    fxFlex="none"
-    mat-stroked-button
-    (click)="onNext(stepper)"
-    style="margin-right: 20px;"
-    [disabled]="stepper.selectedIndex === 1 || !teamName"
-  >
+  <button fxFlex="none" mat-stroked-button (click)="onNext(stepper)" style="margin-right: 20px;"
+    [disabled]="stepper.selectedIndex === 1 || !teamName">
     Next
   </button>
-  <button
-    fxFlex="none"
-    mat-stroked-button
-    color="primary"
-    mat-dialog-close="ok"
-    [disabled]="stepper.selectedIndex !== 1"
-  >
+  <button fxFlex="none" mat-stroked-button color="primary" mat-dialog-close="ok"
+    [disabled]="stepper.selectedIndex !== 1">
     Finish
   </button>
   <div fxFlex="auto"></div>

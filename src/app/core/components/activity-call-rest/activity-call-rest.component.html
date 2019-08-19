@@ -23,14 +23,83 @@
     <input matInput [placeholder]="'key_url'|translate" [(ngModel)]="activity.urlexpression">
   </mat-form-field>
   <div fxFlex="100" class="item-area">
-    <button mat-stroked-button color="primary" class="item-button">
+    <button mat-stroked-button color="primary" class="item-button" (click)="onAddHeader(activity)">
       <mat-icon style="margin-top: -4px;">add</mat-icon>
       {{'key_addHeader'|translate}}
     </button>
     <div style="height: 30px;">
     </div>
     <div>
-      <div *ngFor="let expression of activity.headerexpressions | keyvalue" fxLayout="row" fxLayoutAlign="start center"
+      <div *ngFor="let expression of activity.headerexpressions; let i = index" fxLayout="row"
+        fxLayoutAlign="start center" fxLayoutGap="20px grid" class="item-entry">
+        <mat-form-field fxFlex="20" class="form-field">
+          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="expression.key">
+        </mat-form-field>
+        <mat-form-field fxFlex="80" class="form-field">
+          <input matInput [placeholder]="'key_value'|translate" [(ngModel)]="expression.value">
+        </mat-form-field>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
+          (click)="onDeleteHeader(activity.headerexpressions, i)">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="100" class="item-area" style="margin-top: 40px;">
+    <button mat-stroked-button color="primary" class="item-button" (click)="onAddQuery(activity)">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
+      {{'key_addQuery'|translate}}
+    </button>
+    <div style="height: 30px;">
+    </div>
+    <div>
+      <div *ngFor="let expression of activity.queryexpressions; let i = index" fxLayout="row"
+        fxLayoutAlign="start center" fxLayoutGap="20px grid" class="item-entry">
+        <mat-form-field fxFlex="20" class="form-field">
+          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="expression.key">
+        </mat-form-field>
+        <mat-form-field fxFlex="80" class="form-field">
+          <input matInput [placeholder]="'key_value'|translate" [(ngModel)]="expression.value">
+        </mat-form-field>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
+          (click)="onDeleteQuery(activity.queryexpressions, i)">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="100" class="item-area" style="margin-top: 40px;">
+    <button mat-stroked-button color="primary" class="item-button" (click)="onAddExpression(activity)">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
+      {{'key_addExpression'|translate}}
+    </button>
+    <div style="height: 30px;">
+    </div>
+    <div>
+      <div *ngFor="let expression of activity.expressions; let i = index" fxLayout="row" fxLayoutAlign="start center"
+        fxLayoutGap="20px grid" class="item-entry">
+        <mat-form-field fxFlex="20" class="form-field">
+          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="expression.key">
+        </mat-form-field>
+        <mat-form-field fxFlex="80" class="form-field">
+          <input matInput [placeholder]="'key_value'|translate" [(ngModel)]="expression.value">
+        </mat-form-field>
+        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
+          (click)="onDeleteExpression(activity.expressions, i)">
+          <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="100" class="item-area" style="margin-top: 40px;">
+    <button mat-stroked-button color="primary" class="item-button">
+      <mat-icon style="margin-top: -4px;">add</mat-icon>
+      {{'key_addBody'|translate}}
+    </button>
+    <div style="height: 30px;">
+    </div>
+    <div>
+      <div *ngFor="let expression of activity.bodyexpression | keyvalue" fxLayout="row" fxLayoutAlign="start center"
         fxLayoutGap="20px grid" class="item-entry">
         <mat-form-field fxFlex="20" class="form-field">
           <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="expression.key">
