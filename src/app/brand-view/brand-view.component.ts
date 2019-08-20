@@ -79,7 +79,7 @@ export class BrandViewComponent implements OnInit {
           this.attributesToLoad,
           'full',
           this.translate.currentCulture,
-          true
+          'true'
         );
       })
     );

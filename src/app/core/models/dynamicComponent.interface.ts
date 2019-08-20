@@ -19,7 +19,7 @@ export interface DynamicComponent {
   /** Initialize component */
   initComponent: () => ComponentConfig;
   /** Update data source */
-  updateDataSource: () => void;
+  updateDataSource: (applyConfig?: boolean) => void;
   /** resize component */
   resize: (size: number[]) => void;
   /** configure component */

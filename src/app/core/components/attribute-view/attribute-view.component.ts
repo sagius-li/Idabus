@@ -159,7 +159,7 @@ export class AttributeViewComponent implements OnInit, DoCheck {
           this.attributesToLoad,
           'full',
           this.translate.currentCulture,
-          true
+          'true'
         );
       })
     );

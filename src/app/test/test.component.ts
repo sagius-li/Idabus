@@ -252,7 +252,7 @@ export class TestComponent implements OnInit, AfterViewInit {
         ['DisplayName', 'AccountName', 'Manager'],
         'full',
         'de',
-        true
+        'true'
       )
       .subscribe(resource => {
         console.log(resource);

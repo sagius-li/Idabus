@@ -195,7 +195,7 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
     );
   }
 
-  updateDataSource() {
+  updateDataSource(applyConfig = false) {
     this.gridState = { take: this.localConfig.pageSize, skip: 0 };
 
     this.gridSelect = this.localConfig.selectable
@@ -206,6 +206,10 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
       : false;
 
     this.selection = [];
+
+    if (applyConfig) {
+      this.utils.CopyInto(this.config, this.localConfig, true, true);
+    }
 
     this.fetchDataDic();
   }

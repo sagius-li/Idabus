@@ -584,7 +584,7 @@ export class ResourceService {
     attributes: string[] = [],
     format = 'simple',
     culture = 'en-US',
-    resolveRef = false,
+    resolveRef = 'false',
     adminMode = false
   ): Observable<Resource> {
     if (!id) {
@@ -601,7 +601,20 @@ export class ResourceService {
           full: String(isFull)
         }
       });
-      request = this.http.post<Resource>(url, { attributes }, { params });
+      const body = {
+        attributes,
+        resolveReferences: []
+      };
+      if (resolveRef && resolveRef.toLowerCase() !== 'false') {
+        resolveRef.split(',').forEach(r => {
+          const attRef = {
+            reference: r,
+            attributes: ['DisplayName', 'ObjectID', 'ObjectType']
+          };
+          body.resolveReferences.push(attRef);
+        });
+      }
+      request = this.http.post<Resource>(url, body, { params });
 
       return request;
     } else {
@@ -609,7 +622,7 @@ export class ResourceService {
         fromObject: {
           attributes: attributes.join(','),
           culture,
-          resolveRef: String(resolveRef),
+          resolveRef,
           format
         }
       });

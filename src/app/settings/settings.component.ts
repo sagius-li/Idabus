@@ -247,7 +247,7 @@ export class SettingsComponent implements OnInit {
               [this.utils.attConfiguration],
               'simple',
               '',
-              false,
+              'false',
               true
             )
             .pipe(
