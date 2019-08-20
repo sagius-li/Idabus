@@ -133,5 +133,11 @@
   "key_listKey": "Liste Name",
   "key_currentItemKey": "Iteration Objekt Name",
   "key_updateWhileIterating": "Aktualisieren bei Iterieren",
-  "key_continueOnError": "Bei Feler nicht abbrechen"
+  "key_continueOnError": "Bei Feler nicht abbrechen",
+  "key_method": "Methode",
+  "key_url": "Url",
+  "key_addHeader": "Header hinzufügen",
+  "key_addExpression": "Expression hinzufügen",
+  "key_addBody": "Body hinzufügen",
+  "key_value": "Wert"
 }

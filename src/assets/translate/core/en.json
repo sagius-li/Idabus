@@ -133,5 +133,11 @@
   "key_listKey": "list key",
   "key_currentItemKey": "current item key",
   "key_updateWhileIterating": "update while iterating",
-  "key_continueOnError": "continue on error"
+  "key_continueOnError": "continue on error",
+  "key_method": "method",
+  "key_url": "url",
+  "key_addHeader": "add header",
+  "key_addExpression": "add expression",
+  "key_addBody": "add body",
+  "key_value": "value"
 }

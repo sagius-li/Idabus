@@ -133,5 +133,11 @@
   "key_listKey": "循环数列名",
   "key_currentItemKey": "循环当前对象名",
   "key_updateWhileIterating": "循环时更新",
-  "key_continueOnError": "错误时继续"
+  "key_continueOnError": "错误时继续",
+  "key_method": "接口方法",
+  "key_url": "地址",
+  "key_addHeader": "添加头信息",
+  "key_addExpression": "添加表达式",
+  "key_addBody": "添加正文信息",
+  "key_value": "值"
 }

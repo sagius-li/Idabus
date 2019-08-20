@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material';
 
 import { ModalService } from '../core/services/modal.service';
+import { ResourceService } from '../core/services/resource.service';
 
 import { ActionCardConfig, ModalType } from '../core/models/componentContract.model';
 import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resources',
@@ -178,7 +179,12 @@ export class ResourcesComponent implements OnInit {
     }
   ];
 
-  constructor(private dialog: MatDialog, private modal: ModalService, private router: Router) {}
+  constructor(
+    private dialog: MatDialog,
+    private modal: ModalService,
+    private router: Router,
+    private resource: ResourceService
+  ) {}
 
   ngOnInit() {}
 
@@ -198,11 +204,22 @@ export class ResourcesComponent implements OnInit {
         })
         .afterClosed()
         .subscribe(result => {
-          if (result === 'ok') {
+          if (result && result !== 'cancel') {
             const progress = this.modal.show(ModalType.progress, 'Saving changes', '', '300px');
-            setTimeout(() => {
-              progress.close();
-            }, 2000);
+
+            result.owners = result.owners.map(o => o.objectid);
+            result.members = result.members.map(m => m.objectid);
+            result.set = result.set ? result.set.objectid : null;
+
+            this.resource.createResource(result).subscribe(
+              id => {
+                progress.close();
+              },
+              error => {
+                progress.close();
+                this.modal.show(ModalType.error, 'Error', error.message, '300px');
+              }
+            );
           }
         });
     }

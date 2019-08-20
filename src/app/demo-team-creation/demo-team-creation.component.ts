@@ -20,12 +20,6 @@ export class DemoTeamCreationComponent implements OnInit {
   fgGeneral: FormGroup;
   fgAdvanced: FormGroup;
 
-  teamName: string;
-  teamDescription: string;
-
-  idpValue: Array<{ displayname: string; accountname: string }> = [
-    { displayname: 'Jie Li', accountname: 'jl@ocg.de' }
-  ];
   idpData: Array<any>;
 
   idpSetData: Array<{ name: string; description: string }>;
@@ -34,6 +28,15 @@ export class DemoTeamCreationComponent implements OnInit {
     { name: 'Development', description: 'Department for developing IT solutions' },
     { name: 'Design', description: 'Department for UX design' }
   ];
+
+  resourceToCreate = {
+    objecttype: 'team',
+    displayname: '',
+    members: [],
+    owners: [this.resource.loginUser],
+    set: '',
+    description: ''
+  };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {},
@@ -80,6 +83,7 @@ export class DemoTeamCreationComponent implements OnInit {
   }
 
   onFocus() {
+    this.idpData = [];
     this.idpOwner.toggle(false);
     this.idpSet.toggle(false);
     this.idpMember.toggle(false);

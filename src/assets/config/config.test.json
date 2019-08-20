@@ -1,23 +1,37 @@
 {
   "dataServiceUrl": "http://localhost:6768/api/",
-  "nextGenServiceUrl": "https://dataservice-2019-06-17.azurewebsites.net/api/v2/",
+  "nextGenServiceUrl": "https://newdataserviceapp.azurewebsites.net/api/v2/",
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
   "startPath": "/app",
-  "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle"],
+  "loginUserAttributes": [
+    "DisplayName",
+    "AccountName",
+    "Photo",
+    "JobTitle"
+  ],
   "supportedLanguages": [
     {
-      "code": ["en-US", "en"],
+      "code": [
+        "en-US",
+        "en"
+      ],
       "label": "English",
       "route": "en"
     },
     {
-      "code": ["de-DE", "de"],
+      "code": [
+        "de-DE",
+        "de"
+      ],
       "label": "Deutsch",
       "route": "de"
     },
     {
-      "code": ["zh-CN", "cn"],
+      "code": [
+        "zh-CN",
+        "cn"
+      ],
       "label": "中文",
       "route": "cn"
     }

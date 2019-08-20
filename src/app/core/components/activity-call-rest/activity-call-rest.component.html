@@ -10,7 +10,7 @@
     <input matInput [placeholder]="'key_description'|translate" [(ngModel)]="activity.description">
   </mat-form-field>
   <mat-form-field fxFlex="20" class="form-field">
-    <mat-label>{{'key_method'}}</mat-label>
+    <mat-label>{{'key_method' | translate}}</mat-label>
     <mat-select #cmbActor [(ngModel)]="activity.method">
       <mat-option value="GET">GET</mat-option>
       <mat-option value="PUT">PUT</mat-option>
