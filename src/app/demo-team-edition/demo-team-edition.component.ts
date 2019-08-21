@@ -3,10 +3,10 @@ import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/
 import { forkJoin } from 'rxjs';
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
-import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
-
-import { ResourceService } from '../core/services/resource.service';
 import { DynamicComponent } from '../core/models/dynamicComponent.interface';
+
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ResourceService } from '../core/services/resource.service';
 
 @Component({
   selector: 'app-demo-team-edition',
@@ -49,29 +49,22 @@ export class DemoTeamEditionComponent implements OnInit {
 
   addMemberValue: Array<any> = [];
   addMemberData: Array<any>;
-  // addMemberSource: Array<{ name: string; email: string }> = [
-  //   { name: 'Jie Li', email: 'jl@ocg.de' },
-  //   { name: 'Andreas Zemla', email: 'az@ocg.de' },
-  //   { name: 'Andrea Murray', email: 'am@ocg.deo' },
-  //   { name: 'Philipp Ringsmeier', email: 'pp@ocg.de' },
-  //   { name: 'Paul Busch', email: 'pb@ocg.de' },
-  //   { name: 'Paul Collins', email: 'pc@ocg.de' },
-  //   { name: 'Paul Ograbisz', email: 'po@ocg.de' },
-  //   { name: 'Paula Pohl', email: 'pp@ocg.de' },
-  //   { name: 'Paula Rams', email: 'pr@ocg.de' }
-  // ];
 
-  constructor(private resource: ResourceService) {}
+  constructor(private resource: ResourceService, private spinner: NgxUiLoaderService) {}
 
   ngOnInit() {
+    this.spinner.startLoader('spinner_home');
     this.resource.getResourceByQuery('/Team', ['DisplayName', 'Description']).subscribe(result => {
       if (result.totalCount > 0) {
         this.teams = result.results;
       }
+      this.spinner.stopLoader('spinner_home');
     });
   }
 
   onTeamClicked(team: any) {
+    this.spinner.startLoader('spinner_home');
+
     this.teams.map(t => (t.selected = false));
     team.selected = true;
 
@@ -105,6 +98,7 @@ export class DemoTeamEditionComponent implements OnInit {
           this.gridExplicitMember.first.updateDataSource(true);
         }
       }
+      this.spinner.stopLoader('spinner_home');
     });
   }
 
@@ -134,9 +128,25 @@ export class DemoTeamEditionComponent implements OnInit {
   }
 
   onAddMember() {
+    this.spinner.startLoader('spinner_home');
+
     this.addMemberValue.forEach(m => {
       this.explicitMembers.push(m);
     });
     this.addMemberValue = [];
+
+    const resourceToUpdate = {
+      objectid: this.selectedTeam.objectid,
+      members: this.explicitMembers.map(m => m.objectid)
+    };
+
+    this.resource.updateResource(resourceToUpdate).subscribe(
+      result => {
+        this.spinner.stopLoader('spinner_home');
+      },
+      error => {
+        this.spinner.stopLoader('spinner_home');
+      }
+    );
   }
 }

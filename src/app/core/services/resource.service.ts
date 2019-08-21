@@ -929,50 +929,58 @@ export class ResourceService {
     if (!resource) {
       return throwError('resource is missing');
     }
+
     let request: Observable<string>;
 
-    if (adminMode === true) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin',
-        'resources',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.patch<string>(url, resource, { headers });
-    } else if (this.connection) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'basic',
-        'resources',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.patch<string>(url, resource, { headers });
+    if (this.authNMode === AuthMode.azure) {
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, `resources/${resource.objectid}`);
+      delete resource.objectid;
+      request = this.http.patch(url, resource, { responseType: 'text' });
+      return request;
     } else {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'win',
-        'resources',
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.patch<string>(url, resource, { headers, withCredentials: true });
-    }
+      if (adminMode === true) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin',
+          'resources',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        request = this.http.patch<string>(url, resource, { headers });
+      } else if (this.connection) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'basic',
+          'resources',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.patch<string>(url, resource, { headers });
+      } else {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'win',
+          'resources',
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.patch<string>(url, resource, { headers, withCredentials: true });
+      }
 
-    return request.pipe(
-      catchError(err => {
-        if (err.status === 409) {
-          return this.acquireToken().pipe(
-            switchMap(() => {
-              return this.updateResource(resource, adminMode);
-            })
-          );
-        } else {
-          return throwError(err);
-        }
-      })
-    );
+      return request.pipe(
+        catchError(err => {
+          if (err.status === 409) {
+            return this.acquireToken().pipe(
+              switchMap(() => {
+                return this.updateResource(resource, adminMode);
+              })
+            );
+          } else {
+            return throwError(err);
+          }
+        })
+      );
+    }
   }
 
   public getResourceCount(query: string, adminMode = false): Observable<number> {
