@@ -5,14 +5,14 @@
         <mat-card *ngFor="let team of teams" fxFlex="260px" [style.background]="team.selected ? 'lightgray' : 'white'"
           style="margin: 10px; max-width: 260px; padding: 5px 16px; cursor: pointer;">
           <mat-card-content>
-            <div fxLayout="row wrap" (click)="onTeamClicked(team)">
-              <div fxFlex="20%" style="font-size: 20px; color: slateblue;">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" (click)="onTeamClicked(team)">
+              <div fxFlex="20" style="font-size: 20px; color: slateblue;">
                 <fa-icon [icon]="['fas', 'users']"></fa-icon>
               </div>
-              <div fxFlex="80%" style="font-size: 16px; line-height: 38px; font-weight: 400;">
+              <div fxFlex="80" style="font-size: 16px; line-height: 20px; font-weight: 400;">
                 {{ team.displayname }}
               </div>
-              <div fxFlex="100%" style="font-size: 13px; color: darkslategray; margin-top: -8px;">
+              <div fxFlex="100" style="font-size: 13px; color: darkslategray; margin-top: -8px;">
                 {{ team.description }}
               </div>
             </div>
@@ -78,13 +78,13 @@
         <div fxFlex="35" class="info-body" [class.mat-elevation-z1]="true" style="margin: 65px 10px 10px 10px;">
           <div class="info-avatar-layer">
             <div class="info-avatar">
-              <div *ngIf="infoBrandData && infoBrandData.initial" class="info-avatar-initial">
+              <div *ngIf="initial" class="info-avatar-initial">
                 {{ initial | uppercase }}
               </div>
             </div>
           </div>
           <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
-            <div *ngIf="infoBrandData && infoBrandData.title" fxFlex="none" class="info-title">
+            <div fxFlex="none" class="info-title">
               {{ 'Team Project' | uppercase }}
             </div>
             <div *ngIf="selectedTeam && selectedTeam.displayname" fxFlex="none" class="info-name">

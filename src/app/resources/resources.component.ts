@@ -189,8 +189,15 @@ export class ResourcesComponent implements OnInit {
   ngOnInit() {}
 
   onPrimaryAction(actionName: string) {
-    if (actionName === 'teams-view') {
-      this.router.navigate(['app/team']);
+    switch (actionName) {
+      case 'teams-view':
+        this.router.navigate(['app/team']);
+        break;
+      case 'wf-view':
+        this.router.navigate(['app/workflow']);
+        break;
+      default:
+        break;
     }
   }
 

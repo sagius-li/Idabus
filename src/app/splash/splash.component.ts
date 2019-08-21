@@ -32,60 +32,6 @@ export class SplashComponent implements OnInit {
     const startPath = this.config.getConfig('startPath', '/app');
     let obs: Observable<Params>;
 
-    // if (this.resource.isLoaded) {
-    //   obs = this.resource.isConfigured
-    //     ? this.resource.getCurrentUser().pipe(
-    //         switchMap(() => {
-    //           return this.route.queryParams;
-    //         })
-    //       )
-    //     : this.resource.getCurrentUser().pipe(
-    //         tap(() => {
-    //           this.resource.customViewSetting = this.com.parseComponentConfig(
-    //             this.resource.customViewSetting
-    //           );
-    //           this.translate.use(this.resource.customViewSetting.language);
-    //         }),
-    //         switchMap(() => {
-    //           return this.resource.getUserConfig().pipe(
-    //             tap(() => {
-    //               this.resource.primaryViewSetting = this.com.parseComponentConfig(
-    //                 this.resource.primaryViewSetting
-    //               );
-    //             })
-    //           );
-    //         }),
-    //         switchMap(() => {
-    //           return this.route.queryParams;
-    //         })
-    //       );
-    // } else {
-    //   obs = this.resource.load(this.resource.accessConnection).pipe(
-    //     switchMap(() => {
-    //       return this.resource.getCurrentUser().pipe(
-    //         tap(() => {
-    //           this.resource.customViewSetting = this.com.parseComponentConfig(
-    //             this.resource.customViewSetting
-    //           );
-    //           this.translate.use(this.resource.customViewSetting.language);
-    //         })
-    //       );
-    //     }),
-    //     switchMap(() => {
-    //       return this.resource.getUserConfig().pipe(
-    //         tap(() => {
-    //           this.resource.primaryViewSetting = this.com.parseComponentConfig(
-    //             this.resource.primaryViewSetting
-    //           );
-    //         })
-    //       );
-    //     }),
-    //     switchMap(() => {
-    //       return this.route.queryParams;
-    //     })
-    //   );
-    // }
-
     obs = this.resource.load(this.resource.accessConnection).pipe(
       switchMap(() => {
         return this.resource.getCurrentUser().pipe(
@@ -115,11 +61,12 @@ export class SplashComponent implements OnInit {
       if (params.path) {
         this.router.navigate([params.path]);
       } else {
-        if (this.resource.authenticationMode === AuthMode.azure) {
-          this.router.navigate(['/app/nextgen']);
-        } else {
-          this.router.navigate([startPath]);
-        }
+        this.router.navigate([startPath]);
+        // if (this.resource.authenticationMode === AuthMode.azure) {
+        //   this.router.navigate(['/app/nextgen']);
+        // } else {
+        //   this.router.navigate([startPath]);
+        // }
       }
     });
   }

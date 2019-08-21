@@ -39,7 +39,7 @@
           <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="query.key">
         </mat-form-field>
         <mat-form-field fxFlex="80" class="form-field">
-          <input matInput [placeholder]="'key_xpath'|translate" [(ngModel)]="query.value">
+          <input matInput [placeholder]="'key_xpath'|translate" [matTooltip]="query.value" [(ngModel)]="query.value">
         </mat-form-field>
         <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
           (click)="onDeleteQuery(activity.xpathqueries, i)">
@@ -62,10 +62,12 @@
           <mat-icon style="padding-top: 20px;">menu</mat-icon>
         </div>
         <mat-form-field fxFlex="auto" class="form-field">
-          <input matInput [placeholder]="'key_valueExpression'|translate" [(ngModel)]="update.valueexpression">
+          <input matInput [placeholder]="'key_valueExpression'|translate" [matTooltip]="update.valueexpression"
+            [(ngModel)]="update.valueexpression">
         </mat-form-field>
         <mat-form-field fxFlex="auto" class="form-field">
-          <input matInput [placeholder]="'key_target'|translate" [(ngModel)]="update.target">
+          <input matInput [placeholder]="'key_target'|translate" [matTooltip]="update.target"
+            [(ngModel)]="update.target">
         </mat-form-field>
         <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{'key_allowNull'|translate}}</mat-slide-toggle>
         <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;">

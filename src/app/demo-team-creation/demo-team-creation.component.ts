@@ -32,7 +32,7 @@ export class DemoTeamCreationComponent implements OnInit {
   resourceToCreate = {
     objecttype: 'team',
     displayname: '',
-    members: [],
+    members: [this.resource.loginUser],
     owners: [this.resource.loginUser],
     set: '',
     description: ''

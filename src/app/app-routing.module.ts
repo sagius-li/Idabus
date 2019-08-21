@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ResourcesComponent } from './resources/resources.component';
 import { SettingsComponent } from './settings/settings.component';
 import { UserComponent } from './user/user.component';
+import { WorkflowComponent } from './workflow/workflow.component';
 
 import { DemoTeamEditionComponent } from './demo-team-edition/demo-team-edition.component';
 import { DemoNextgenComponent } from './demo-nextgen/demo-nextgen.component';
@@ -65,6 +66,10 @@ const routes: Routes = [
       {
         path: 'team',
         component: DemoTeamEditionComponent
+      },
+      {
+        path: 'workflow',
+        component: WorkflowComponent
       }
     ]
   }

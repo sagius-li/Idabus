@@ -1,52 +1,136 @@
-<div>
-  <ng-template #nestedList let-wkactivities>
-    <div *ngFor="let activity of wkactivities" fxLayout="column" fxLayoutAlign="center stretch">
-      <div fxFlex="auto" fxLayout="column" fxLayoutAlign="center center">
-        <mat-icon>arrow_downward</mat-icon>
-      </div>
-      <div fxFlex="auto" style="margin-bottom: 20px;">
-        <mat-card style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 2px 10px;">
-          <mat-card-header>
-            <div fxLayout="row" fxLayoutAlign="start center" style="width: 100%">
-              <div class="info-icon-layer">
-                <mat-icon class="info-icon" (click)="onToggleDisplay(activity)">{{ getIcon(activity) }}</mat-icon>
+<div style="height: 100%;">
+  <kendo-splitter style="height: 99%; background-color: #eeeeee; border-width: 0;">
+    <kendo-splitter-pane [collapsible]="true" min="300px" size="300px">
+      <div fxLayout="row wrap">
+        <mat-card *ngFor="let workflow of workflows" fxFlex="260px"
+          [style.background]="workflow.selected ? 'lightgray' : 'white'"
+          style="margin: 10px; max-width: 260px; padding: 5px 16px; cursor: pointer;">
+          <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutAlign="start center" (click)="onWorkflowClick(workflow)">
+              <div fxFlex="20" style="font-size: 20px; color: slateblue;">
+                <mat-icon style="font-size: 30px;">call_split</mat-icon>
               </div>
-              <div fxFlex="auto" class="info-text">{{activity.displayname}}</div>
-              <button fxFlex="none" mat-icon-button color="warn" (click)="onDeleteActivity(activity)">
-                <mat-icon>delete_forever</mat-icon>
-              </button>
-              <div fxFlex="none" class="handle" style="cursor: move; color: lightgray; line-height: 0;">
-                <mat-icon>menu</mat-icon>
+              <div fxFlex="80" style="font-size: 16px; line-height: 20px; font-weight: 400;">
+                {{ workflow.displayname }}
               </div>
-            </div>
-          </mat-card-header>
-          <mat-card-content *ngIf="activity.display" style="padding-bottom: 20px;">
-            <div [ngSwitch]="activity.type.toLowerCase()" style="margin-top: 10px; margin-bottom: 20px;">
-              <app-activity-update *ngSwitchCase="'updateresources'" [(activity)]="activity"></app-activity-update>
-              <app-activity-foreach *ngSwitchCase="'foreach'" [(activity)]="activity"></app-activity-foreach>
-              <app-activity-call-rest *ngSwitchCase="'restapicall'" [(activity)]="activity"></app-activity-call-rest>
-              <div *ngSwitchDefault>unknown activity type</div>
-            </div>
-            <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">
-              <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">
-                <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activity.activities}">
-                </ng-container>
+              <div fxFlex="100" style="font-size: 13px; color: darkslategray; margin-top: -8px;">
+                {{ workflow.description }}
               </div>
             </div>
           </mat-card-content>
         </mat-card>
       </div>
-    </div>
-  </ng-template>
-  <div dragula="ACTIVITIES" [(dragulaModel)]="activities">
-    <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activities}">
-    </ng-container>
-  </div>
-  <div fxLayout="column" fxLayoutAlign="center center">
-    <div fxFlex="auto">
-      <mat-icon>arrow_downward</mat-icon>
-    </div>
-    <button fxFlex="auto" mat-stroked-button color="primary" (click)="onAddActivity()"
-      style="margin-bottom: 20px;">{{'l10n_addActivity'|translate}}</button>
-  </div>
+    </kendo-splitter-pane>
+    <kendo-splitter-pane>
+      <div *ngIf="!selectedWorkflow" fxLayout="column" fxLayoutAlign="center center" style="height: 100%">
+        <div fxFlex="none">
+          <mat-icon style="font-size: 100px; color: darkgray;">hourglass_empty</mat-icon>
+        </div>
+        <div fxFlex="none" style="font-size: 20px; color: darkgray; margin-left: 80px;">
+          No Resource Selected
+        </div>
+      </div>
+      <div fxLayout="row" *ngIf="selectedWorkflow" style="margin-left: 20px;">
+        <div fxFlex="70" style="margin-top: 30px; margin-right: 20px;">
+          <ng-template #nestedList let-wkactivities>
+            <div *ngFor="let activity of wkactivities" fxLayout="column" fxLayoutAlign="center stretch">
+              <div fxFlex="auto" fxLayout="column" fxLayoutAlign="center center">
+                <mat-icon>arrow_downward</mat-icon>
+              </div>
+              <div fxFlex="auto" style="margin-bottom: 20px;">
+                <mat-card
+                  style="border-left: solid darkseagreen 5px; margin-top: 10px; margin-right: 5px; padding: 2px 10px;">
+                  <mat-card-header>
+                    <div fxLayout="row" fxLayoutAlign="start center" style="width: 100%">
+                      <div class="info-icon-layer">
+                        <mat-icon class="info-icon" (click)="onToggleDisplay(activity)">{{ getIcon(activity) }}
+                        </mat-icon>
+                      </div>
+                      <div fxFlex="auto" style="margin-left: 10px; font-size: 18px;">{{activity.displayname}}</div>
+                      <button fxFlex="none" mat-icon-button color="warn" (click)="onDeleteActivity(activity)">
+                        <mat-icon>delete_forever</mat-icon>
+                      </button>
+                      <div fxFlex="none" class="handle" style="cursor: move; color: lightgray; line-height: 0;">
+                        <mat-icon>menu</mat-icon>
+                      </div>
+                    </div>
+                  </mat-card-header>
+                  <mat-card-content *ngIf="activity.display" style="padding-bottom: 20px;">
+                    <div [ngSwitch]="activity.type.toLowerCase()" style="margin-top: 10px; margin-bottom: 20px;">
+                      <app-activity-update *ngSwitchCase="'updateresources'" [(activity)]="activity">
+                      </app-activity-update>
+                      <app-activity-foreach *ngSwitchCase="'foreach'" [(activity)]="activity"></app-activity-foreach>
+                      <app-activity-call-rest *ngSwitchCase="'restapicall'" [(activity)]="activity">
+                      </app-activity-call-rest>
+                      <div *ngSwitchDefault>unknown activity type</div>
+                    </div>
+                    <div *ngIf="hasSubActivities(activity)" style="margin-top: 20px;">
+                      <div dragula="ACTIVITIES" [(dragulaModel)]="activity.activities">
+                        <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activity.activities}">
+                        </ng-container>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </ng-template>
+          <div dragula="ACTIVITIES" [(dragulaModel)]="activities">
+            <ng-container *ngTemplateOutlet="nestedList; context:{$implicit: activities}">
+            </ng-container>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <div fxFlex="auto">
+              <mat-icon>arrow_downward</mat-icon>
+            </div>
+            <button fxFlex="auto" mat-stroked-button color="primary" (click)="onAddActivity()"
+              style="margin-bottom: 20px;">{{'l10n_addActivity'|translate}}</button>
+          </div>
+        </div>
+        <div fxFlex="30" class="info-body" [class.mat-elevation-z1]="true"
+          style="margin: 65px 10px 10px 10px; height: 500px;">
+          <div class="info-avatar-layer">
+            <div class="info-avatar">
+              <div class="info-avatar-initial">
+                {{ initial | uppercase }}
+              </div>
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+            <div fxFlex="none" class="info-title">
+              {{ 'Workflow' | uppercase }}
+            </div>
+            <div *ngIf="selectedWorkflow && selectedWorkflow.displayname" fxFlex="none" class="info-name">
+              {{ selectedWorkflow.displayname }}
+            </div>
+          </div>
+          <div *ngIf="selectedWorkflow && selectedWorkflow.description" fxLayout="row" class="info-text"
+            style="margin-right: 20px;">
+            <div fxFlex="none">
+              <mat-icon style="margin-right: 10px; margin-top: 2px;">format_quote</mat-icon>
+            </div>
+            <div>{{ selectedWorkflow.description }}</div>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <mat-slide-toggle [(ngModel)]="selectedWorkflow.workflowdescription.isenabled">enabled</mat-slide-toggle>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <mat-form-field fxFlex="auto">
+              <input matInput placeholder="type" [(ngModel)]="selectedWorkflow.workflowdescription.type" disabled>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <mat-form-field fxFlex="auto">
+              <input matInput placeholder="name" [(ngModel)]="selectedWorkflow.displayname">
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" class="info-text" style="margin-right: 20px;">
+            <mat-form-field fxFlex="auto">
+              <input matInput placeholder="description" [(ngModel)]="selectedWorkflow.description">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </kendo-splitter-pane>
+  </kendo-splitter>
 </div>

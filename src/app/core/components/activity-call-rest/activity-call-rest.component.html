@@ -20,7 +20,8 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex="80" class="form-field">
-    <input matInput [placeholder]="'key_url'|translate" [(ngModel)]="activity.urlexpression">
+    <input matInput [placeholder]="'key_url'|translate" [matTooltip]="activity.urlexpression"
+      [(ngModel)]="activity.urlexpression">
   </mat-form-field>
   <div fxFlex="100" class="item-area">
     <button mat-stroked-button color="primary" class="item-button" (click)="onAddHeader(activity)">

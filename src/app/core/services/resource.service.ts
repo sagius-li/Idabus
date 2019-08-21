@@ -363,7 +363,7 @@ export class ResourceService {
    */
   public getUserConfig(): Observable<ResourceSet> {
     if (this.authNMode === AuthMode.azure) {
-      const configFilePath = `assets/config/ui-config-example.json`;
+      const configFilePath = `assets/config/ui-config-example-nextGen.json`;
       return this.http.get(configFilePath).pipe(
         tap(config => {
           const uiSettingString = JSON.stringify(config);
@@ -577,6 +577,16 @@ export class ResourceService {
         );
       }
     }
+  }
+
+  public getNextGenWorkflowByID(id: string): Observable<Resource> {
+    if (!id) {
+      return throwError('id is missing');
+    }
+
+    const url = this.utils.buildDataServiceUrl(this.baseUrl, `ui/workflow/${id}`);
+
+    return this.http.get<Resource>(url);
   }
 
   public getResourceByID(

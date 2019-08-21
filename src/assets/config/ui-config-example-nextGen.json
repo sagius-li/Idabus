@@ -1,0 +1,146 @@
+{
+  "name": "admin view",
+  "dashboard": {
+    "components": [
+      {
+        "cols": 2,
+        "rows": 1,
+        "y": 0,
+        "x": 0,
+        "name": "rtUsers",
+        "componentType": "ResourceTableComponent",
+        "componentConfig": {
+          "name": "rtUsers",
+          "title": "Total Users",
+          "fontSize": 14,
+          "cellPadding": 10,
+          "pageSize": 10,
+          "pageCountNumber": 5,
+          "pageInfo": true,
+          "pageType": "numeric",
+          "pageButton": true,
+          "sortMode": "single",
+          "allowUnsort": true,
+          "filterMode": "menu",
+          "selectable": false,
+          "selectBoxWidth": 18,
+          "selectMode": "single",
+          "checkboxSelectOnly": false,
+          "resizable": false,
+          "exportToPDF": false,
+          "exportToExcel": true,
+          "exportAllPages": true,
+          "resources": [
+            {
+              "DisplayName": "text"
+            }
+          ],
+          "query": "/Person",
+          "columns": [
+            {
+              "field": "DisplayName",
+              "title": "Display Name",
+              "width": 100,
+              "filterable": false,
+              "filter": "text",
+              "sortable": false,
+              "locked": false
+            },
+            {
+              "field": "FirstName",
+              "title": "First Name",
+              "width": 100,
+              "filterable": false,
+              "filter": "text",
+              "sortable": false,
+              "locked": false,
+              "display": true
+            },
+            {
+              "field": "LastName",
+              "title": "Last Name",
+              "width": 100,
+              "filterable": false,
+              "filter": "text",
+              "sortable": false,
+              "locked": false,
+              "display": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "userDetail": {
+    "type": "tab",
+    "icon": "perm_identity",
+    "sections": [
+      {
+        "cols": 2,
+        "rows": 2,
+        "y": 0,
+        "x": 0,
+        "name": "userGeneral",
+        "displayName": "key_general",
+        "columnNumber": 2,
+        "attributes": [
+          {
+            "attributeName": "FirstName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtFirstName"
+            }
+          },
+          {
+            "attributeName": "LastName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtLastName"
+            }
+          },
+          {
+            "attributeName": "DisplayName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtDisplayName",
+              "expression": "[#txtFirstName] [#txtLastName]"
+            }
+          },
+          {
+            "attributeName": "AccountName",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtAccountName",
+              "showDescription": true
+            }
+          }
+        ]
+      },
+      {
+        "cols": 2,
+        "rows": 2,
+        "y": 0,
+        "x": 0,
+        "name": "userWorkInfo",
+        "displayName": "l10n_workInfo",
+        "columnNumber": 1,
+        "attributes": [
+          {
+            "attributeName": "JobTitle",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtJobTitle"
+            }
+          },
+          {
+            "attributeName": "Department",
+            "editorType": "text",
+            "editorConfig": {
+              "name": "txtDepartment"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

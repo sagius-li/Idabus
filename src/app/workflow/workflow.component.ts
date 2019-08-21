@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DragulaService } from 'ng2-dragula';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { Activity } from '../core/models/dataContract.model';
 
 import { ModalService } from '../core/services/modal.service';
 import { ModalType } from '../core/models/componentContract.model';
+import { ResourceService } from '../core/services/resource.service';
 
 @Component({
   selector: 'app-workflow',
@@ -174,6 +176,10 @@ export class WorkflowComponent implements OnInit {
     lastupdatetime: '2019-08-15T09:35:36.7602121Z'
   };
 
+  workflows: Array<any> = [];
+  selectedWorkflow: any;
+  initial = '-';
+
   activities = this.workflowDef.workflowdescription.activities;
 
   activityToDelete: { pos: number; activities: Array<Activity> };
@@ -191,7 +197,12 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  constructor(private dragula: DragulaService, private modal: ModalService) {
+  constructor(
+    private dragula: DragulaService,
+    private modal: ModalService,
+    private spinner: NgxUiLoaderService,
+    private resource: ResourceService
+  ) {
     try {
       this.dragula.createGroup('ACTIVITIES', {
         moves: (el, container, handle) => {
@@ -205,7 +216,18 @@ export class WorkflowComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.spinner.startLoader('spinner_home');
+
     this.activityToDelete = undefined;
+
+    this.resource
+      .getResourceByQuery('/Workflow', ['DisplayName', 'Description'])
+      .subscribe(result => {
+        if (result.totalCount > 0) {
+          this.workflows = result.results;
+        }
+        this.spinner.stopLoader('spinner_home');
+      });
   }
 
   hasSubActivities(item: Activity): boolean {
@@ -253,6 +275,22 @@ export class WorkflowComponent implements OnInit {
           this.activityToDelete.activities.splice(this.activityToDelete.pos, 1);
         }
       }
+    });
+  }
+
+  onWorkflowClick(workflow: any) {
+    this.spinner.startLoader('spinner_home');
+
+    this.workflows.map(t => (t.selected = false));
+    workflow.selected = true;
+
+    this.resource.getNextGenWorkflowByID(workflow.objectid).subscribe(result => {
+      if (result) {
+        this.selectedWorkflow = result;
+        this.initial = this.selectedWorkflow.displayname.substr(0, 2);
+        this.activities = this.selectedWorkflow.workflowdescription.activities;
+      }
+      this.spinner.stopLoader('spinner_home');
     });
   }
 }
