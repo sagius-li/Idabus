@@ -139,5 +139,11 @@
   "key_addHeader": "添加头信息",
   "key_addExpression": "添加表达式",
   "key_addBody": "添加正文信息",
-  "key_value": "值"
+  "key_value": "值",
+  "key_warning": "提醒",
+  "key_activityCreateResourceDes": "创建一个资源并修改它的数据",
+  "key_activityDeleteResourceDes": "删除一个或多个资源",
+  "key_activityForEachDes": "遍历一个集合并对每个成员执行工作流",
+  "key_activityRestApiCallDes": "从工作流调用Web服务",
+  "key_activityUpdateResourceDes": "更新一个或多个资源的数据"
 }

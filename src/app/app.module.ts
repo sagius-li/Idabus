@@ -81,7 +81,7 @@ import { WorkflowComponent } from './workflow/workflow.component';
     BrowserAnimationsModule,
     CoreModule,
     MsalModule.forRoot({
-      clientID: '6c6bd26b-7531-4bad-a2a8-234a54661f03',
+      clientID: '92070295-c71b-4583-9b88-830ce378933e',
       redirectUri: 'http://localhost:4200/',
       postLogoutRedirectUri: 'http://localhost:4200/login'
     })

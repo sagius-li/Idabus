@@ -139,5 +139,11 @@
   "key_addHeader": "add header",
   "key_addExpression": "add expression",
   "key_addBody": "add body",
-  "key_value": "value"
+  "key_value": "value",
+  "key_warning": "warning",
+  "key_activityCreateResourceDes": "Create a new resource and assign attribute values",
+  "key_activityDeleteResourceDes": "Delete one or more resources",
+  "key_activityForEachDes": "Traverse items in a collection and run one or more activities for each item",
+  "key_activityRestApiCallDes": "Call a RESTful service method from workflow",
+  "key_activityUpdateResourceDes": "Update multiple attributes on one or more resources"
 }

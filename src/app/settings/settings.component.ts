@@ -68,7 +68,11 @@ export class SettingsComponent implements OnInit {
   exportConfigTypes: Array<{ name: string; query: string; selected: boolean }> = [
     { name: 'l10n_mpr', query: `/ManagementPolicyRule`, selected: false },
     { name: 'l10n_set', query: `/Set`, selected: false },
-    { name: 'l10n_wf', query: `/WorkflowDefinition`, selected: false },
+    {
+      name: 'l10n_wf',
+      query: `/WorkflowDefinition[starts-with(DisplayName,'azure')]`,
+      selected: false
+    },
     { name: 'l10n_config', query: `/ocgConfiguration`, selected: false },
     { name: 'l10n_emailTemp', query: `/EmailTemplate`, selected: false }
   ];
@@ -347,6 +351,23 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  onImportResourcesNative(ev) {
+    const fileList: FileList = ev.target.files;
+    if (fileList.length > 0) {
+      const file = fileList[0];
+      this.resource
+        .importResourceFromFile(file, 'WorkflowDefinition', 'Creator', '', true)
+        .subscribe(
+          data => {
+            console.log(data);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
   onImportResources(ev: SelectEvent) {
     if (ev.files[0].extension !== '.json') {
       this.modal.show(ModalType.error, 'key_error', 'l10n_fileTypeNotAllowed');
@@ -357,17 +378,24 @@ export class SettingsComponent implements OnInit {
 
     ev.files.forEach((file: FileInfo) => {
       if (file.rawFile) {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          const result = reader.result.toString();
-          console.log(result);
-          console.log(JSON.parse(result));
-
-          progress.close();
-        };
-
-        reader.readAsText(file.rawFile);
+        this.resource
+          .importResourceFromFile(file.rawFile, 'WorkflowDefinition', 'Creator', '', false)
+          .subscribe(
+            data => {
+              progress.close();
+              if (data) {
+                if (data.errors && data.errors.length > 0) {
+                  this.modal.show(ModalType.error, 'key_error', data.errors[0]);
+                } else if (data.warnings && data.warnings.length > 0) {
+                  this.modal.show(ModalType.info, 'key_warning', data.warnings[0]);
+                }
+              }
+            },
+            error => {
+              progress.close();
+              this.modal.show(ModalType.error, 'key_error', error.message);
+            }
+          );
       }
     });
   }

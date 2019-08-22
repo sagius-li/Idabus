@@ -589,6 +589,32 @@ export class ResourceService {
     return this.http.get<Resource>(url);
   }
 
+  public importResourceFromFile(
+    file: File,
+    objectTypes: string,
+    attributeBlacklist: string,
+    objectReferencesToInclude: string,
+    simulationMode: boolean
+  ) {
+    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'import/non-schema');
+    const headers: HttpHeaders = new HttpHeaders();
+    const params: HttpParams = new HttpParams({
+      fromObject: {
+        objectTypes,
+        overwriteMode: 'SkipExistingResources',
+        nonExistingReferenceMode: 'RemoveNonExistingReference',
+        attributeBlacklist,
+        objectReferencesToInclude,
+        returnImportedResources: 'false',
+        simulationMode: String(simulationMode)
+      }
+    });
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.http.post<any>(url, formData, { params, headers });
+  }
+
   public getResourceByID(
     id: string,
     attributes: string[] = [],

@@ -139,5 +139,11 @@
   "key_addHeader": "Header hinzufügen",
   "key_addExpression": "Expression hinzufügen",
   "key_addBody": "Body hinzufügen",
-  "key_value": "Wert"
+  "key_value": "Wert",
+  "key_warning": "Warnung",
+  "key_activityCreateResourceDes": "Neue Ressource anlegen und Attribut-Werte zuweisen",
+  "key_activityDeleteResourceDes": "Eine oder mehere Ressourcen löschen",
+  "key_activityForEachDes": "Führt ein oder mehere Aktivitäten für jedes Objekt in eine Kollektion aus",
+  "key_activityRestApiCallDes": "Führt eine RESTful Dienst Methode von Workflow aus",
+  "key_activityUpdateResourceDes": "Attribute Werte von einem oder meheren Ressourcen anpassen"
 }

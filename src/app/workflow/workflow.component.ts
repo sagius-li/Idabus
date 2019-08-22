@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { v4 as uuid } from 'uuid';
 
 import { Activity } from '../core/models/dataContract.model';
 
@@ -273,6 +274,7 @@ export class WorkflowComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result !== 'cancel') {
         const def = this.utils.DeepCopy(result);
+        def.def.id = uuid();
         this.activities.push(def.def);
       }
     });

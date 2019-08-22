@@ -1,6 +1,6 @@
 {
   "dataServiceUrl": "http://localhost:6768/api/",
-  "nextGenServiceUrl": "https://newdataserviceapp.azurewebsites.net/api/v2/",
+  "nextGenServiceUrl": "https://ocgdataservice.azurewebsites.net/api/v2/",
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
   "startPath": "/app",
