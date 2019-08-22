@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MatDialog } from '@angular/material';
 import { DragulaService } from 'ng2-dragula';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
@@ -8,6 +9,8 @@ import { Activity } from '../core/models/dataContract.model';
 import { ModalService } from '../core/services/modal.service';
 import { ModalType } from '../core/models/componentContract.model';
 import { ResourceService } from '../core/services/resource.service';
+import { ActivityCreatorComponent } from '../core/components/activity-creator/activity-creator.component';
+import { UtilsService } from '../core/services/utils.service';
 
 @Component({
   selector: 'app-workflow',
@@ -201,7 +204,9 @@ export class WorkflowComponent implements OnInit {
     private dragula: DragulaService,
     private modal: ModalService,
     private spinner: NgxUiLoaderService,
-    private resource: ResourceService
+    private resource: ResourceService,
+    private dialog: MatDialog,
+    private utils: UtilsService
   ) {
     try {
       this.dragula.createGroup('ACTIVITIES', {
@@ -260,6 +265,17 @@ export class WorkflowComponent implements OnInit {
   onAddActivity() {
     console.log(this.activities);
     console.log(this.workflowDef);
+
+    const dialogRef = this.dialog.open(ActivityCreatorComponent, {
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result !== 'cancel') {
+        const def = this.utils.DeepCopy(result);
+        this.activities.push(def.def);
+      }
+    });
   }
 
   onDeleteActivity(item: Activity) {

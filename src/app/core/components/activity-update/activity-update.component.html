@@ -53,7 +53,7 @@
       <mat-icon style="margin-top: -4px;">add</mat-icon>
       {{'key_addUpdate'|translate}}
     </button>
-    <div *ngIf="activity.updateresourcesentries && activity.updateresourcesentries.length > 0" style="height: 30px;">
+    <div style="height: 30px;">
     </div>
     <div dragula="UPDATES" [(dragulaModel)]="activity.updateresourcesentries">
       <div *ngFor="let update of activity.updateresourcesentries; let i = index" fxLayout="row wrap"

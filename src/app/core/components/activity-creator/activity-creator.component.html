@@ -1,0 +1,41 @@
+<h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="auto">
+      {{ 'key_addActivity' | translate }}
+    </div>
+    <div fxFlex="none">
+      <button mat-icon-button mat-dialog-close="cancel">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+  </div>
+</h3>
+<div mat-dialog-content>
+  <mat-card *ngFor="let activity of activities" style="margin-top: 20px;">
+    <mat-card-content class="full-height">
+      <div fxLayout="row">
+        <div fxFlex="none" style="width: 60px;">
+          <mat-icon style="font-size: 50px; color: #767981">{{ activity.icon }}</mat-icon>
+        </div>
+        <div fxFlex="auto" fxLayout="column" style="width: 100%">
+          <div fxFlex="none" style="font-size: 18px;">
+            {{ activity.name | translate }}
+          </div>
+          <div fxFlex="auto" style="font-size: 12px; line-height: 16px; margin-top: 5px;">
+            {{ activity.description | translate }}
+          </div>
+        </div>
+        <div fxFlex="none" style="margin-top: -15px; margin-bottom: 5px;">
+          <div style="margin: 10px; border-left: solid 1px lightgray; height: 100%;"></div>
+        </div>
+        <div fxFlex="none" fxLayout="column" fxLayoutAlign="center center" style="width: 60px;">
+          <div fxFlex="none">
+            <button mat-icon-button [mat-dialog-close]="activity">
+              <mat-icon style="font-size: 40px; margin-left: -15px; color: #767981;">add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
