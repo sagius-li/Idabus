@@ -147,5 +147,7 @@
   "key_activityRestApiCallDes": "从工作流调用Web服务",
   "key_activityUpdateResourceDes": "更新一个或多个资源的数据",
   "key_finished": "完成",
-  "key_addActivity": "新建工作流"
+  "key_addActivity": "新建工作流",
+  "key_chooseSystems": "系统选择",
+  "key_goBack": "后退"
 }

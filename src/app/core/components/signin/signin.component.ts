@@ -23,6 +23,13 @@ import { environment } from '../../../../environments/environment';
   animations: [
     trigger('flyIn', [
       state(
+        'init',
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        })
+      ),
+      state(
         'in',
         style({
           opacity: 1,
@@ -33,10 +40,10 @@ import { environment } from '../../../../environments/environment';
         'out',
         style({
           opacity: 0,
-          transform: 'translateY(-100%)'
+          transform: 'translateY(100%)'
         })
       ),
-      transition('out => in', animate(200))
+      transition('* => *', animate(200))
     ]),
     trigger('classicLogin', [
       state(
@@ -66,9 +73,34 @@ export class SigninComponent implements OnInit {
   @ViewChild('txtUserName')
   txtUserName: ElementRef;
 
-  version = environment.version;
+  iconCloud = 'cloud';
+  systems: Array<{ name: string; description: string; icon: string; config: string }> = [
+    {
+      name: 'Contoso Dev',
+      description: 'Contoso development system',
+      icon: 'business',
+      config: 'dev'
+    },
+    {
+      name: 'Contoso Pro',
+      description: 'Contoso production system',
+      icon: 'business',
+      config: 'prod'
+    },
+    {
+      name: 'OCG Demo Space',
+      description: 'OCG test and demo tanent on ocgdemospace.onmicrosoft.com',
+      icon: this.iconCloud,
+      config: 'ocgdemospace'
+    }
+  ];
 
-  flyIn = 'out';
+  version = environment.version;
+  selectedSystem: { name: string; description: string; icon: string; config: string };
+
+  animChooseSystem = 'init';
+  animSignin = 'init';
+
   classicLogin = 'collapsed';
   loginForm = 'hide';
 
@@ -85,8 +117,29 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.flyIn = 'in';
+      this.animChooseSystem = 'in';
     }, 500);
+  }
+
+  onGotoSystem(system: { name: string; description: string; icon: string; config: string }) {
+    this.selectedSystem = system;
+    this.version = `${this.selectedSystem.config} ${environment.version}`;
+
+    if (system.icon === this.iconCloud) {
+      this.onAzureLogin();
+    } else {
+      this.animChooseSystem = 'out';
+      setTimeout(() => {
+        this.animSignin = 'in';
+      }, 300);
+    }
+  }
+
+  onGoBack() {
+    this.animSignin = 'init';
+    setTimeout(() => {
+      this.animChooseSystem = 'in';
+    }, 300);
   }
 
   onClassicLogin() {

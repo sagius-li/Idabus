@@ -147,5 +147,7 @@
   "key_activityRestApiCallDes": "Führt eine RESTful Dienst Methode von Workflow aus",
   "key_activityUpdateResourceDes": "Attribute Werte von einem oder meheren Ressourcen anpassen",
   "key_finished": "Fertig",
-  "key_addActivity": "Activität hinzufügen"
+  "key_addActivity": "Activität hinzufügen",
+  "key_chooseSystems": "Systemauswahl",
+  "key_goBack": "Zurück"
 }
