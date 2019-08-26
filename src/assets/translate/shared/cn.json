@@ -64,5 +64,8 @@
   "l10n_assignment": "指配",
   "l10n_exportingData": "数据导出中",
   "l10n_importingData": "数据导入中",
-  "l10n_fileTypeNotAllowed": "文件类型不兼容"
+  "l10n_fileTypeNotAllowed": "文件类型不兼容",
+  "l10n_importSucceeded": "导入成功",
+  "l10n_objectsImported": "资源已导入",
+  "l10n_viewIcon": "视图图标"
 }

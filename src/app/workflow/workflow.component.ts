@@ -305,7 +305,9 @@ export class WorkflowComponent implements OnInit {
     this.resource.getNextGenWorkflowByID(workflow.objectid).subscribe(result => {
       if (result) {
         this.selectedWorkflow = result;
-        this.initial = this.selectedWorkflow.displayname.substr(0, 2);
+        if (this.selectedWorkflow.displayname) {
+          this.initial = this.selectedWorkflow.displayname.substr(0, 2);
+        }
         this.activities = this.selectedWorkflow.workflowdescription.activities;
       }
       this.spinner.stopLoader('spinner_home');

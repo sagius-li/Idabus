@@ -969,9 +969,19 @@ export class ResourceService {
     let request: Observable<string>;
 
     if (this.authNMode === AuthMode.azure) {
-      const url = this.utils.buildDataServiceUrl(this.baseUrl, `resources/${resource.objectid}`);
+      const resourceToUpdate = this.utils.DeepCopy(resource);
+      if (Object.keys(resourceToUpdate).indexOf('objectid') < 0) {
+        return throwError('objectid is missing');
+      }
+      if (Object.keys(resourceToUpdate).indexOf('objecttype') >= 0) {
+        delete resource.objecttype;
+      }
       delete resource.objectid;
-      request = this.http.patch(url, resource, { responseType: 'text' });
+      const url = this.utils.buildDataServiceUrl(
+        this.baseUrl,
+        `resources/${resourceToUpdate.objectid}`
+      );
+      request = this.http.patch(url, resourceToUpdate, { responseType: 'text' });
       return request;
     } else {
       if (adminMode === true) {

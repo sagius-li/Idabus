@@ -6,6 +6,19 @@
   background-color: transparent;
 }
 
+:host /deep/ .k-resize-handle {
+  width: 6px;
+  height: 60px;
+}
+
+:host /deep/ .k-collapse-next {
+  font-size: 16px;
+}
+
+:host /deep/ .k-collapse-prev {
+  font-size: 16px;
+}
+
 .info-icon-layer {
   height: 30px;
   width: 30px;

@@ -145,5 +145,7 @@
   "key_activityDeleteResourceDes": "Delete one or more resources",
   "key_activityForEachDes": "Traverse items in a collection and run one or more activities for each item",
   "key_activityRestApiCallDes": "Call a RESTful service method from workflow",
-  "key_activityUpdateResourceDes": "Update multiple attributes on one or more resources"
+  "key_activityUpdateResourceDes": "Update multiple attributes on one or more resources",
+  "key_finished": "finished",
+  "key_addActivity": "add activity"
 }

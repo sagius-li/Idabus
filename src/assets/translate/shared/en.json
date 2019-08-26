@@ -64,5 +64,8 @@
   "l10n_assignment": "assignments",
   "l10n_exportingData": "exporting data",
   "l10n_importingData": "importing data",
-  "l10n_fileTypeNotAllowed": "file type not allowed"
+  "l10n_fileTypeNotAllowed": "file type not allowed",
+  "l10n_importSucceeded": "import succeeded",
+  "l10n_objectsImported": "object(s) imported",
+  "l10n_viewIcon": "view icon"
 }

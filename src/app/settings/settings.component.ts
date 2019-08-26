@@ -57,29 +57,50 @@ export class SettingsComponent implements OnInit {
   authenticationMode: AuthMode;
   selectAllTypes = false;
 
-  exportResourceTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'l10n_user', query: `/Person`, selected: false },
-    { name: 'l10n_group', query: `/Group`, selected: false },
-    { name: 'l10n_ou', query: `/ocgOrgUnit`, selected: false },
-    { name: 'l10n_role', query: `/ocgRole`, selected: false },
-    { name: 'l10n_permission', query: `/ocgPermission`, selected: false },
-    { name: 'l10n_assignment', query: `/ocgAssignment`, selected: false }
+  exportResourceTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
+    { name: 'l10n_user', type: 'Person', query: `/Person`, selected: false },
+    { name: 'l10n_group', type: 'Group', query: `/Group`, selected: false },
+    { name: 'l10n_ou', type: 'ocgOrgUnit', query: `/ocgOrgUnit`, selected: false },
+    { name: 'l10n_role', type: 'ocgRole', query: `/ocgRole`, selected: false },
+    { name: 'l10n_permission', type: 'ocgPermission', query: `/ocgPermission`, selected: false },
+    { name: 'l10n_assignment', type: 'ocgAssignment', query: `/ocgAssignment`, selected: false }
   ];
-  exportConfigTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'l10n_mpr', query: `/ManagementPolicyRule`, selected: false },
-    { name: 'l10n_set', query: `/Set`, selected: false },
+  exportConfigTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
+    {
+      name: 'l10n_mpr',
+      type: 'ManagementPolicyRule',
+      query: `/ManagementPolicyRule`,
+      selected: false
+    },
+    { name: 'l10n_set', type: 'Set', query: `/Set`, selected: false },
     {
       name: 'l10n_wf',
+      type: 'WorkflowDefinition',
       query: `/WorkflowDefinition[starts-with(DisplayName,'azure')]`,
       selected: false
     },
-    { name: 'l10n_config', query: `/ocgConfiguration`, selected: false },
-    { name: 'l10n_emailTemp', query: `/EmailTemplate`, selected: false }
+    { name: 'l10n_config', type: 'ocgConfiguration', query: `/ocgConfiguration`, selected: false },
+    { name: 'l10n_emailTemp', type: 'EmailTemplate', query: `/EmailTemplate`, selected: false }
   ];
-  exportSchemaTypes: Array<{ name: string; query: string; selected: boolean }> = [
-    { name: 'l10n_type', query: `/ObjectTypeDescription`, selected: false },
-    { name: 'l10n_attribute', query: `/AttributeTypeDescription`, selected: false },
-    { name: 'l10n_binding', query: `/BindingDescription`, selected: false }
+  exportSchemaTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
+    {
+      name: 'l10n_type',
+      type: 'ObjectTypeDescription',
+      query: `/ObjectTypeDescription`,
+      selected: false
+    },
+    {
+      name: 'l10n_attribute',
+      type: 'AttributeTypeDescription',
+      query: `/AttributeTypeDescription`,
+      selected: false
+    },
+    {
+      name: 'l10n_binding',
+      type: 'BindingDescription',
+      query: `/BindingDescription`,
+      selected: false
+    }
   ];
 
   constructor(
@@ -355,16 +376,20 @@ export class SettingsComponent implements OnInit {
     const fileList: FileList = ev.target.files;
     if (fileList.length > 0) {
       const file = fileList[0];
-      this.resource
-        .importResourceFromFile(file, 'WorkflowDefinition', 'Creator', '', true)
-        .subscribe(
-          data => {
-            console.log(data);
-          },
-          error => {
-            console.log(error);
-          }
-        );
+
+      const exportConfigTypes = this.exportConfigTypes.map(e => e.type).join(',');
+      const exportResourceTypes = this.exportResourceTypes.map(e => e.type).join(',');
+      const exportSchemaTypes = this.exportSchemaTypes.map(e => e.type).join(',');
+      const exportTypes = `${exportConfigTypes},${exportResourceTypes},${exportSchemaTypes}`;
+
+      this.resource.importResourceFromFile(file, exportTypes, 'Creator', '', true).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
   }
 
@@ -378,24 +403,64 @@ export class SettingsComponent implements OnInit {
 
     ev.files.forEach((file: FileInfo) => {
       if (file.rawFile) {
-        this.resource
-          .importResourceFromFile(file.rawFile, 'WorkflowDefinition', 'Creator', '', false)
-          .subscribe(
-            data => {
-              progress.close();
-              if (data) {
-                if (data.errors && data.errors.length > 0) {
-                  this.modal.show(ModalType.error, 'key_error', data.errors[0]);
-                } else if (data.warnings && data.warnings.length > 0) {
-                  this.modal.show(ModalType.info, 'key_warning', data.warnings[0]);
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          const exportConfigTypes = this.exportConfigTypes.map(e => e.type).join(',');
+          const exportResourceTypes = this.exportResourceTypes.map(e => e.type).join(',');
+          const exportSchemaTypes = this.exportSchemaTypes.map(e => e.type).join(',');
+          const exportTypes = `${exportConfigTypes},${exportResourceTypes}`;
+
+          this.resource
+            .importResourceFromFile(file.rawFile, exportTypes, 'Creator', '', false)
+            .subscribe(
+              data => {
+                if (data) {
+                  if (data.errors && data.errors.length > 0) {
+                    this.modal.show(ModalType.error, 'key_error', data.errors[0]);
+                  } else if (data.warnings && data.warnings.length > 0) {
+                    this.modal.show(ModalType.info, 'key_warning', data.warnings[0]);
+                  } else {
+                    const importResult = JSON.parse(reader.result.toString());
+                    let importSummary = this.translate.instant('l10n_importSucceeded') + '<br/>';
+                    this.exportResourceTypes.forEach(e => {
+                      const typeFound = importResult.filter((f: any) => f.ObjectType === e.type);
+                      if (typeFound && typeFound.length > 0) {
+                        importSummary = `${importSummary}<br/>${this.translate.instant(e.name)}: ${
+                          typeFound.length
+                        } ${this.translate.instant('l10n_objectsImported')}`;
+                      }
+                    });
+                    this.exportConfigTypes.forEach(e => {
+                      const typeFound = importResult.filter((f: any) => f.ObjectType === e.type);
+                      if (typeFound && typeFound.length > 0) {
+                        importSummary = `${importSummary}<br/>${this.translate.instant(e.name)}: ${
+                          typeFound.length
+                        } ${this.translate.instant('l10n_objectsImported')}`;
+                      }
+                    });
+                    this.exportSchemaTypes.forEach(e => {
+                      const typeFound = importResult.filter((f: any) => f.ObjectType === e.type);
+                      if (typeFound && typeFound.length > 0) {
+                        importSummary = `${importSummary}<br/>${this.translate.instant(e.name)}: ${
+                          typeFound.length
+                        } ${this.translate.instant('l10n_objectsImported')}`;
+                      }
+                    });
+                    importSummary += '<br/><br/>';
+                    this.modal.show(ModalType.info, 'key_finished', importSummary, '400px');
+                  }
                 }
+                progress.close();
+              },
+              error => {
+                progress.close();
+                this.modal.show(ModalType.error, 'key_error', error.message);
               }
-            },
-            error => {
-              progress.close();
-              this.modal.show(ModalType.error, 'key_error', error.message);
-            }
-          );
+            );
+        };
+
+        reader.readAsText(file.rawFile);
       }
     });
   }

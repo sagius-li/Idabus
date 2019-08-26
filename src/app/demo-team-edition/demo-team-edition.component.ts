@@ -90,7 +90,9 @@ export class DemoTeamEditionComponent implements OnInit {
         this.selectedTeam = result[0];
         this.explicitMembers = result[1].results;
 
-        this.initial = this.selectedTeam.displayname.substr(0, 2);
+        if (this.selectedTeam.displayname) {
+          this.initial = this.selectedTeam.displayname.substr(0, 2);
+        }
 
         this.explicitMemberConfig.resources = [];
         this.explicitMemberConfig.resources = this.explicitMembers;

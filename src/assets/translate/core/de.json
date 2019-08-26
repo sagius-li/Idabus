@@ -145,5 +145,7 @@
   "key_activityDeleteResourceDes": "Eine oder mehere Ressourcen löschen",
   "key_activityForEachDes": "Führt ein oder mehere Aktivitäten für jedes Objekt in eine Kollektion aus",
   "key_activityRestApiCallDes": "Führt eine RESTful Dienst Methode von Workflow aus",
-  "key_activityUpdateResourceDes": "Attribute Werte von einem oder meheren Ressourcen anpassen"
+  "key_activityUpdateResourceDes": "Attribute Werte von einem oder meheren Ressourcen anpassen",
+  "key_finished": "Fertig",
+  "key_addActivity": "Activität hinzufügen"
 }

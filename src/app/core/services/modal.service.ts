@@ -31,7 +31,7 @@ export class ModalService {
       disableClose: true,
       data: {
         type,
-        title: this.translate.instant(title),
+        title: title ? this.translate.instant(title) : '',
         content: content ? this.translate.instant(content) : undefined
       }
     });

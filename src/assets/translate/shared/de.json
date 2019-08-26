@@ -64,5 +64,8 @@
   "l10n_assignment": "Zuweisungen",
   "l10n_exportingData": "Daten werden exportiert",
   "l10n_importingData": "Daten werden importiert",
-  "l10n_fileTypeNotAllowed": "Datei-Typ nicht erlaubt"
+  "l10n_fileTypeNotAllowed": "Datei-Typ nicht erlaubt",
+  "l10n_importSucceeded": "Import erfolgreich ausgeführt",
+  "l10n_objectsImported": "Objekt(e) importiert",
+  "l10n_viewIcon": "Sichtsymbol"
 }
