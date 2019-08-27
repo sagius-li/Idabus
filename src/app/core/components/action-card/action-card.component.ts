@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { BroadcastEvent } from '../../models/dataContract.model';
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
 import { ActionCardConfig } from '../../models/componentContract.model';
 
@@ -16,10 +17,10 @@ export class ActionCardComponent implements OnInit, DynamicComponent {
   config: ActionCardConfig;
 
   @Output()
-  primaryAction: EventEmitter<string> = new EventEmitter();
+  primaryAction = new EventEmitter<BroadcastEvent>();
 
   @Output()
-  secondaryAction: EventEmitter<string> = new EventEmitter();
+  secondaryAction = new EventEmitter<BroadcastEvent>();
 
   localConfig: ActionCardConfig;
 
@@ -82,10 +83,16 @@ export class ActionCardComponent implements OnInit, DynamicComponent {
   updateDataSource() {}
 
   onPrimaryAction() {
-    this.primaryAction.emit(this.localConfig.primaryAction);
+    this.primaryAction.emit({
+      name: 'ActionCardComponent',
+      parameter: this.localConfig.primaryAction
+    });
   }
 
   onSecondaryAction() {
-    this.secondaryAction.emit(this.localConfig.secondaryAction);
+    this.secondaryAction.emit({
+      name: 'ActionCardComponent',
+      parameter: this.localConfig.secondaryAction
+    });
   }
 }

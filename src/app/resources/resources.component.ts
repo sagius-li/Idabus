@@ -8,6 +8,7 @@ import { ResourceService } from '../core/services/resource.service';
 
 import { ActionCardConfig, ModalType } from '../core/models/componentContract.model';
 import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
+import { BroadcastEvent } from '../core/models/dataContract.model';
 
 @Component({
   selector: 'app-resources',
@@ -188,8 +189,8 @@ export class ResourcesComponent implements OnInit {
 
   ngOnInit() {}
 
-  onPrimaryAction(actionName: string) {
-    switch (actionName) {
+  onPrimaryAction(actionName: BroadcastEvent) {
+    switch (actionName.parameter) {
       case 'teams-view':
         this.router.navigate(['app/team']);
         break;
@@ -201,8 +202,8 @@ export class ResourcesComponent implements OnInit {
     }
   }
 
-  onSecondaryAction(actionName: string) {
-    if (actionName === 'teams-creation') {
+  onSecondaryAction(actionName: BroadcastEvent) {
+    if (actionName.parameter === 'teams-creation') {
       this.dialog
         .open(DemoTeamCreationComponent, {
           minWidth: '580px',

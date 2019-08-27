@@ -3,24 +3,24 @@
   <div *ngFor="let action of managedResources" fxFlex="none">
     <app-action-card
       [config]="action"
-      (primaryAction)="onPrimaryAction(action.primaryAction)"
-      (secondaryAction)="onSecondaryAction(action.secondaryAction)"
+      (primaryAction)="onPrimaryAction({ name: '', parameter: action.primaryAction })"
+      (secondaryAction)="onSecondaryAction({ name: '', parameter: action.secondaryAction })"
     ></app-action-card>
   </div>
   <div fxFlex="100%" class="setting-header">{{ 'l10n_configurationResources' | translate }}</div>
   <div *ngFor="let action of configurationResources" fxFlex="none">
     <app-action-card
       [config]="action"
-      (primaryAction)="onPrimaryAction(action.primaryAction)"
-      (secondaryAction)="onSecondaryAction(action.secondaryAction)"
+      (primaryAction)="onPrimaryAction({ name: '', parameter: action.primaryAction })"
+      (secondaryAction)="onSecondaryAction({ name: '', parameter: action.secondaryAction })"
     ></app-action-card>
   </div>
   <div fxFlex="100%" class="setting-header">{{ 'l10n_schemaResources' | translate }}</div>
   <div *ngFor="let action of schemaResources" fxFlex="none">
     <app-action-card
       [config]="action"
-      (primaryAction)="onPrimaryAction(action.primaryAction)"
-      (secondaryAction)="onSecondaryAction(action.secondaryAction)"
+      (primaryAction)="onPrimaryAction({ name: '', parameter: action.primaryAction })"
+      (secondaryAction)="onSecondaryAction({ name: '', parameter: action.secondaryAction })"
     ></app-action-card>
   </div>
 </div>
