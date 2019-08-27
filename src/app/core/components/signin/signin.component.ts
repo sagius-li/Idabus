@@ -11,7 +11,7 @@ import {
   query
 } from '@angular/animations';
 
-import { AuthMode } from '../../models/dataContract.model';
+import { AuthMode, System } from '../../models/dataContract.model';
 
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../../environments/environment';
@@ -26,7 +26,7 @@ import { environment } from '../../../../environments/environment';
         'init',
         style({
           opacity: 0,
-          transform: 'translateY(-100%)'
+          transform: 'translateY(-200%)'
         })
       ),
       state(
@@ -40,7 +40,7 @@ import { environment } from '../../../../environments/environment';
         'out',
         style({
           opacity: 0,
-          transform: 'translateY(100%)'
+          transform: 'translateY(200%)'
         })
       ),
       transition('* => *', animate(200))
@@ -74,29 +74,10 @@ export class SigninComponent implements OnInit {
   txtUserName: ElementRef;
 
   iconCloud = 'cloud';
-  systems: Array<{ name: string; description: string; icon: string; config: string }> = [
-    {
-      name: 'Contoso Dev',
-      description: 'Contoso development system',
-      icon: 'business',
-      config: 'dev'
-    },
-    {
-      name: 'Contoso Pro',
-      description: 'Contoso production system',
-      icon: 'business',
-      config: 'prod'
-    },
-    {
-      name: 'OCG Demo Space',
-      description: 'OCG test and demo tanent on ocgdemospace.onmicrosoft.com',
-      icon: this.iconCloud,
-      config: 'ocgdemospace'
-    }
-  ];
+  systems: Array<System> = environment.systems;
 
   version = environment.version;
-  selectedSystem: { name: string; description: string; icon: string; config: string };
+  selectedSystem: System;
 
   animChooseSystem = 'init';
   animSignin = 'init';
@@ -121,7 +102,7 @@ export class SigninComponent implements OnInit {
     }, 500);
   }
 
-  onGotoSystem(system: { name: string; description: string; icon: string; config: string }) {
+  onGotoSystem(system: System) {
     this.selectedSystem = system;
     this.version = `${this.selectedSystem.config} ${environment.version}`;
 

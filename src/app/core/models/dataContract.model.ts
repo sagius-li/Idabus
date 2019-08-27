@@ -16,6 +16,19 @@ export class BroadcastEvent {
   parameter: any;
 }
 
+export enum SystemType {
+  onPrem = 'onPrem',
+  cloud = 'cloud'
+}
+
+export class System {
+  name: string;
+  type: SystemType;
+  description: string;
+  icon: string;
+  config: string;
+}
+
 export class AuthUser {
   DisplayName?: string;
   ObjectID?: string;
