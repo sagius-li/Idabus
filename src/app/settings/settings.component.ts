@@ -15,6 +15,7 @@ import { SwapService } from '../core/services/swap.service';
 import { UtilsService } from '../core/services/utils.service';
 import { ComponentIndexService } from '../core/services/component-index.service';
 import { ModalService } from '../core/services/modal.service';
+import { ConfigService } from '../core/services/config.service';
 
 @Component({
   selector: 'app-settings',
@@ -57,51 +58,9 @@ export class SettingsComponent implements OnInit {
   authenticationMode: AuthMode;
   selectAllTypes = false;
 
-  exportResourceTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
-    { name: 'l10n_user', type: 'Person', query: `/Person`, selected: false },
-    { name: 'l10n_group', type: 'Group', query: `/Group`, selected: false },
-    { name: 'l10n_ou', type: 'ocgOrgUnit', query: `/ocgOrgUnit`, selected: false },
-    { name: 'l10n_role', type: 'ocgRole', query: `/ocgRole`, selected: false },
-    { name: 'l10n_permission', type: 'ocgPermission', query: `/ocgPermission`, selected: false },
-    { name: 'l10n_assignment', type: 'ocgAssignment', query: `/ocgAssignment`, selected: false }
-  ];
-  exportConfigTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
-    {
-      name: 'l10n_mpr',
-      type: 'ManagementPolicyRule',
-      query: `/ManagementPolicyRule`,
-      selected: false
-    },
-    { name: 'l10n_set', type: 'Set', query: `/Set`, selected: false },
-    {
-      name: 'l10n_wf',
-      type: 'WorkflowDefinition',
-      query: `/WorkflowDefinition[starts-with(DisplayName,'azure')]`,
-      selected: false
-    },
-    { name: 'l10n_config', type: 'ocgConfiguration', query: `/ocgConfiguration`, selected: false },
-    { name: 'l10n_emailTemp', type: 'EmailTemplate', query: `/EmailTemplate`, selected: false }
-  ];
-  exportSchemaTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [
-    {
-      name: 'l10n_type',
-      type: 'ObjectTypeDescription',
-      query: `/ObjectTypeDescription`,
-      selected: false
-    },
-    {
-      name: 'l10n_attribute',
-      type: 'AttributeTypeDescription',
-      query: `/AttributeTypeDescription`,
-      selected: false
-    },
-    {
-      name: 'l10n_binding',
-      type: 'BindingDescription',
-      query: `/BindingDescription`,
-      selected: false
-    }
-  ];
+  exportResourceTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [];
+  exportConfigTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [];
+  exportSchemaTypes: Array<{ name: string; type: string; query: string; selected: boolean }> = [];
 
   constructor(
     private resource: ResourceService,
@@ -110,7 +69,8 @@ export class SettingsComponent implements OnInit {
     private utils: UtilsService,
     private com: ComponentIndexService,
     private spinner: NgxUiLoaderService,
-    private modal: ModalService
+    private modal: ModalService,
+    private config: ConfigService
   ) {}
 
   private initSetting(setting: any, value: any) {
@@ -160,6 +120,13 @@ export class SettingsComponent implements OnInit {
         ? this.utils.ExtraValue(this.loginUser, 'DisplayName').substr(0, 1)
         : '-';
       this.attrPhoto = this.utils.ExtraValue(this.loginUser, 'Photo');
+    }
+
+    const exportSettings = this.config.getConfig('exportSettings', undefined);
+    if (exportSettings) {
+      this.exportResourceTypes = exportSettings.resource ? exportSettings.resource : [];
+      this.exportConfigTypes = exportSettings.config ? exportSettings.config : [];
+      this.exportSchemaTypes = exportSettings.schema ? exportSettings.schema : [];
     }
 
     this.initUiGroups();

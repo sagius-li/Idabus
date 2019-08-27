@@ -90,5 +90,97 @@
   "intervalSmall": 300,
   "intervalMiddle": 500,
   "intervalLarge": 1000,
-  "intervalUltra": 2000
+  "intervalUltra": 2000,
+  "exportSettings": {
+    "resource": [
+      {
+        "name": "l10n_user",
+        "type": "Person",
+        "query": "/Person",
+        "selected": false
+      },
+      {
+        "name": "l10n_group",
+        "type": "Group",
+        "query": "/Group",
+        "selected": false
+      },
+      {
+        "name": "l10n_ou",
+        "type": "ocgOrgUnit",
+        "query": "/ocgOrgUnit",
+        "selected": false
+      },
+      {
+        "name": "l10n_role",
+        "type": "ocgRole",
+        "query": "/ocgRole",
+        "selected": false
+      },
+      {
+        "name": "l10n_permission",
+        "type": "ocgPermission",
+        "query": "/ocgPermission",
+        "selected": false
+      },
+      {
+        "name": "l10n_assignment",
+        "type": "ocgAssignment",
+        "query": "/ocgAssignment",
+        "selected": false
+      }
+    ],
+    "config": [
+      {
+        "name": "l10n_mpr",
+        "type": "ManagementPolicyRule",
+        "query": "/ManagementPolicyRule[ocgObjectScope='summit']",
+        "selected": false
+      },
+      {
+        "name": "l10n_set",
+        "type": "Set",
+        "query": "/Set[ocgObjectScope='summit']",
+        "selected": false
+      },
+      {
+        "name": "l10n_wf",
+        "type": "WorkflowDefinition",
+        "query": "/WorkflowDefinition[ocgObjectScope='summit']",
+        "selected": false
+      },
+      {
+        "name": "l10n_config",
+        "type": "ocgConfiguration",
+        "query": "/ocgConfiguration",
+        "selected": false
+      },
+      {
+        "name": "l10n_emailTemp",
+        "type": "EmailTemplate",
+        "query": "/EmailTemplate",
+        "selected": false
+      }
+    ],
+    "schema": [
+      {
+        "name": "l10n_type",
+        "type": "ObjectTypeDescription",
+        "query": "/ObjectTypeDescription",
+        "selected": false
+      },
+      {
+        "name": "l10n_attribute",
+        "type": "AttributeTypeDescription",
+        "query": "/AttributeTypeDescription",
+        "selected": false
+      },
+      {
+        "name": "l10n_binding",
+        "type": "BindingDescription",
+        "query": "/BindingDescription",
+        "selected": false
+      }
+    ]
+  }
 }
