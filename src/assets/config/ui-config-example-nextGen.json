@@ -7,10 +7,10 @@
         "rows": 1,
         "y": 0,
         "x": 0,
-        "name": "rtUsers",
+        "name": "nextGenUsers",
         "componentType": "ResourceTableComponent",
         "componentConfig": {
-          "name": "rtUsers",
+          "name": "nextGenUsers",
           "title": "Total Users",
           "fontSize": 14,
           "cellPadding": 10,

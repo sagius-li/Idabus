@@ -595,9 +595,9 @@ export class ResourceService {
     }
 
     const resourceToUpdate = this.utils.DeepCopy(resource);
-    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'ui/workflow');
+    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'ui/workflow', resource.objectid);
 
-    return this.http.post(url, resourceToUpdate);
+    return this.http.patch(url, resourceToUpdate);
   }
 
   public importResourceFromFile(

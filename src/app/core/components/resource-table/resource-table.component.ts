@@ -241,7 +241,15 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   }
 
   getSelectionAttribute(context: RowArgs): string {
-    return context.dataItem.ObjectID;
+    if (context.dataItem) {
+      if (Object.keys(context.dataItem).indexOf('ObjectID') >= 0) {
+        return context.dataItem.ObjectID;
+      } else if (Object.keys(context.dataItem).indexOf('objectid') >= 0) {
+        return context.dataItem.objectid;
+      }
+    }
+
+    return undefined;
   }
 
   onCellClick(event: CellClickEvent) {
