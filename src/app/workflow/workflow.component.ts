@@ -156,6 +156,9 @@ export class WorkflowComponent implements OnInit {
 
     this.selectedWorkflow.workflowdescription.activities = this.activities;
 
+    console.log(this.selectedWorkflow);
+    console.log(JSON.stringify(this.selectedWorkflow));
+
     this.resource.updateNextGenWorkflow(this.selectedWorkflow).subscribe(
       () => {
         progress.close();

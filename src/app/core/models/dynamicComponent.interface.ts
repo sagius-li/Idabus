@@ -1,6 +1,9 @@
-import { Observable } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 
+import { Observable } from 'rxjs';
 import { GridsterItem } from 'angular-gridster2';
+
+import { BroadcastEvent } from './dataContract.model';
 
 /**
  * Interface for component configuration
@@ -24,6 +27,10 @@ export interface DynamicComponent {
   resize: (size: number[]) => void;
   /** configure component */
   configure: () => Observable<ComponentConfig>;
+  /** primary event */
+  primaryAction?: EventEmitter<BroadcastEvent>;
+  /** secondary event */
+  secondaryAction?: EventEmitter<BroadcastEvent>;
 }
 
 /**

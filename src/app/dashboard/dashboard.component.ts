@@ -6,8 +6,10 @@ import {
   AfterViewInit,
   ComponentFactoryResolver
 } from '@angular/core';
-import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
+import { Router } from '@angular/router';
+
 import { MatDialog } from '@angular/material';
+import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 
 import { GridsterComponentItem, DynamicComponent } from '../core/models/dynamicComponent.interface';
 import { BroadcastEvent } from '../core/models/dataContract.model';
@@ -50,6 +52,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       const componentRef = viewContainerRef.createComponent(componentFactory);
       item.componentInstance = componentRef.instance as DynamicComponent;
       item.componentInstance.config = item.componentConfig;
+      if (item.componentInstance.primaryAction) {
+        item.componentInstance.primaryAction.subscribe(this.handelDynamicEvent.bind(this));
+      }
+    }
+  }
+
+  private handelDynamicEvent(event: BroadcastEvent) {
+    switch (event.name) {
+      case 'ResourceTableComponent':
+        const path = `/app/${this.utils.ExtraValue(
+          event.parameter,
+          'ObjectType'
+        )}/${this.utils.ExtraValue(event.parameter, 'ObjectID')}`;
+        this.router.navigate([path.toLowerCase()]);
+        break;
+      default:
+        break;
     }
   }
 
@@ -60,7 +79,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private com: ComponentIndexService,
     private utils: UtilsService,
     private modal: ModalService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit() {

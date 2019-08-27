@@ -15,7 +15,7 @@ import {
 
 import { DynamicComponent } from '../../models/dynamicComponent.interface';
 import { ResourceTableConfig } from '../../models/componentContract.model';
-import { ResourceSet, Resource } from '../../models/dataContract.model';
+import { ResourceSet, Resource, BroadcastEvent } from '../../models/dataContract.model';
 
 import { ResourceService } from '../../services/resource.service';
 import { UtilsService } from '../../services/utils.service';
@@ -32,7 +32,7 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   config: ResourceTableConfig;
 
   @Output()
-  doubleClick = new EventEmitter();
+  primaryAction = new EventEmitter<BroadcastEvent>();
 
   localConfig: ResourceTableConfig;
 
@@ -249,6 +249,6 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
   }
 
   onDoubleClick() {
-    this.doubleClick.emit(this.clickedRowItem);
+    this.primaryAction.emit({ name: 'ResourceTableComponent', parameter: this.clickedRowItem });
   }
 }
