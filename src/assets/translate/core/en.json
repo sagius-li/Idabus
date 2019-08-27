@@ -149,5 +149,6 @@
   "key_finished": "finished",
   "key_addActivity": "add activity",
   "key_chooseSystems": "choose systems",
-  "key_goBack": "go back"
+  "key_goBack": "go back",
+  "key_deleteResource": "are you sure to delete the resource?"
 }

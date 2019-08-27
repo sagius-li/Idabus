@@ -149,5 +149,6 @@
   "key_finished": "完成",
   "key_addActivity": "新建工作流",
   "key_chooseSystems": "系统选择",
-  "key_goBack": "后退"
+  "key_goBack": "后退",
+  "key_deleteResource": "确定要删除此资源吗?"
 }

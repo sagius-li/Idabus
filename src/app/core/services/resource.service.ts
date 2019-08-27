@@ -589,6 +589,17 @@ export class ResourceService {
     return this.http.get<Resource>(url);
   }
 
+  public updateNextGenWorkflow(resource: Resource) {
+    if (!resource) {
+      return throwError('resource is missing');
+    }
+
+    const resourceToUpdate = this.utils.DeepCopy(resource);
+    const url = this.utils.buildDataServiceUrl(this.baseUrl, 'ui/workflow');
+
+    return this.http.post(url, resourceToUpdate);
+  }
+
   public importResourceFromFile(
     file: File,
     objectTypes: string,
@@ -852,50 +863,56 @@ export class ResourceService {
     if (!id) {
       return throwError('id is missing');
     }
+
     let request: Observable<void>;
 
-    if (adminMode === true) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'admin/resources',
-        id,
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
-      request = this.http.delete<void>(url, { headers });
-    } else if (this.connection) {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'basic/resources',
-        id,
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.delete<void>(url, { headers });
+    if (this.authNMode === AuthMode.azure) {
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, 'resources', id);
+      return this.http.delete<void>(url);
     } else {
-      const url = this.utils.buildDataServiceUrl(
-        this.baseUrl,
-        'win/resources',
-        id,
-        this.serviceType
-      );
-      const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
-      request = this.http.delete<void>(url, { headers, withCredentials: true });
-    }
+      if (adminMode === true) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'admin/resources',
+          id,
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('secret', this.secret);
+        request = this.http.delete<void>(url, { headers });
+      } else if (this.connection) {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'basic/resources',
+          id,
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.delete<void>(url, { headers });
+      } else {
+        const url = this.utils.buildDataServiceUrl(
+          this.baseUrl,
+          'win/resources',
+          id,
+          this.serviceType
+        );
+        const headers: HttpHeaders = new HttpHeaders().append('token', this.token);
+        request = this.http.delete<void>(url, { headers, withCredentials: true });
+      }
 
-    return request.pipe(
-      catchError(err => {
-        if (err.status === 409) {
-          return this.acquireToken().pipe(
-            switchMap(() => {
-              return this.deleteResource(id, adminMode);
-            })
-          );
-        } else {
-          return throwError(err);
-        }
-      })
-    );
+      return request.pipe(
+        catchError(err => {
+          if (err.status === 409) {
+            return this.acquireToken().pipe(
+              switchMap(() => {
+                return this.deleteResource(id, adminMode);
+              })
+            );
+          } else {
+            return throwError(err);
+          }
+        })
+      );
+    }
   }
 
   public createResource(resource: Resource, adminMode = false) {

@@ -132,7 +132,7 @@
       <div
         class="info-body"
         [class.mat-elevation-z1]="true"
-        style="margin: 65px 10px 10px 20px; height: 600px;"
+        style="margin: 65px 10px 10px 20px; height: 650px;"
       >
         <div class="info-avatar-layer">
           <div class="info-avatar">
@@ -193,6 +193,15 @@
           <mat-form-field fxFlex="auto">
             <input matInput placeholder="id" [(ngModel)]="selectedWorkflow.objectid" disabled />
           </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" style="margin: 20px;">
+          <button fxFlex="none" mat-stroked-button color="primary" (click)="onSaveWorkflow()">
+            {{ 'key_save' | translate }}
+          </button>
+          <div fxFlex="auto"></div>
+          <button fxFlex="none" mat-stroked-button color="warn" (click)="onDeleteWorkflow()">
+            {{ 'key_delete' | translate }}
+          </button>
         </div>
       </div>
     </kendo-splitter-pane>

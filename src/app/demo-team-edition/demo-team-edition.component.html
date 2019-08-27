@@ -2,8 +2,12 @@
   <kendo-splitter style="height: 99%; background-color: #eeeeee; border-width: 0;">
     <kendo-splitter-pane [collapsible]="true" min="300px" size="300px">
       <div fxLayout="row wrap">
-        <mat-card *ngFor="let team of teams" fxFlex="260px" [style.background]="team.selected ? 'lightgray' : 'white'"
-          style="margin: 10px; max-width: 260px; padding: 5px 16px; cursor: pointer;">
+        <mat-card
+          *ngFor="let team of teams"
+          fxFlex="260px"
+          [style.background]="team.selected ? 'lightgray' : 'white'"
+          style="margin: 10px; max-width: 260px; padding: 5px 16px; cursor: pointer;"
+        >
           <mat-card-content>
             <div fxLayout="row wrap" fxLayoutAlign="start center" (click)="onTeamClicked(team)">
               <div fxFlex="20" style="font-size: 20px; color: slateblue;">
@@ -21,7 +25,12 @@
       </div>
     </kendo-splitter-pane>
     <kendo-splitter-pane>
-      <div *ngIf="!selectedTeam" fxLayout="column" fxLayoutAlign="center center" style="height: 100%">
+      <div
+        *ngIf="!selectedTeam"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        style="height: 100%"
+      >
         <div fxFlex="none">
           <mat-icon style="font-size: 100px; color: darkgray;">hourglass_empty</mat-icon>
         </div>
@@ -31,19 +40,35 @@
       </div>
       <div fxLayout="row" style="height: 700px;" *ngIf="selectedTeam">
         <div fxFlex="65" fxLayout="column" style="margin: 10px;">
-          <div fxFlex="none"
-            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;">
+          <div
+            fxFlex="none"
+            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;"
+          >
             Explicit Members
           </div>
           <div fxFlex="auto">
-            <app-resource-table #gridExplicitMember [config]="explicitMemberConfig"></app-resource-table>
+            <app-resource-table
+              #gridExplicitMember
+              [config]="explicitMemberConfig"
+            ></app-resource-table>
           </div>
           <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" style="margin-top: 20px;">
-            <kendo-multiselect #idpAddMember [data]="addMemberData" [textField]="'displayname'"
-              [valueField]="'accountname'" [filterable]="true" [(ngModel)]="addMemberValue"
-              (filterChange)="handleSearchFilter($event)" (focus)="onFocus()">
+            <kendo-multiselect
+              #idpAddMember
+              [data]="addMemberData"
+              [textField]="'displayname'"
+              [valueField]="'accountname'"
+              [filterable]="true"
+              [(ngModel)]="addMemberValue"
+              (filterChange)="handleSearchFilter($event)"
+              (focus)="onFocus()"
+            >
               <ng-template kendoMultiSelectItemTemplate let-dataItem>
-                <div fxLayout="row wrap" fxLayoutAlign="start center" style="color: gray; margin: 5px;">
+                <div
+                  fxLayout="row wrap"
+                  fxLayoutAlign="start center"
+                  style="color: gray; margin: 5px;"
+                >
                   <div fxFlex="none">
                     <mat-icon style="margin-top: 6px;">person</mat-icon>
                   </div>
@@ -54,28 +79,43 @@
                 </div>
               </ng-template>
             </kendo-multiselect>
-            <button fxFlex="none" mat-stroked-button color="primary" style="margin-left: 20px;"
-              [disabled]="addMemberValue.length === 0" (click)="onAddMember()">
+            <button
+              fxFlex="none"
+              mat-stroked-button
+              color="primary"
+              style="margin-left: 20px;"
+              [disabled]="addMemberValue.length === 0"
+              (click)="onAddMember()"
+            >
               add member
             </button>
           </div>
         </div>
         <div fxFlex="auto" *ngIf="false" fxLayout="column" style="margin: 10px;">
-          <div fxFlex="none"
-            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;">
+          <div
+            fxFlex="none"
+            style="font-size: 19px; color: darkgray; font-weight: 400; margin-bottom: 8px; padding-top: 10px;"
+          >
             Computed Members
           </div>
           <div fxFlex="auto">
-            <app-resource-table [config]="{
+            <app-resource-table
+              [config]="{
                 resources: autoMembers,
                 columns: [
                   { field: 'name', title: 'Display Name', width: 40 },
                   { field: 'email', title: 'E-mail', width: 60 }
                 ]
-              }"></app-resource-table>
+              }"
+            ></app-resource-table>
           </div>
         </div>
-        <div fxFlex="35" class="info-body" [class.mat-elevation-z1]="true" style="margin: 65px 10px 10px 10px;">
+        <div
+          fxFlex="35"
+          class="info-body"
+          [class.mat-elevation-z1]="true"
+          style="margin: 65px 10px 10px 10px;"
+        >
           <div class="info-avatar-layer">
             <div class="info-avatar">
               <div *ngIf="initial" class="info-avatar-initial">
@@ -101,8 +141,14 @@
             <div fxFlex="none">
               <mat-icon style="margin-right: 10px; margin-top: 4px;">assignment_ind</mat-icon>
             </div>
-            <kendo-multiselect [data]="[{ name: 'mimadmin' }]" [disabled]="true" [(ngModel)]="selectedTeam.owners"
-              [textField]="'displayname'" [valueField]="'displayname'" [filterable]="true">
+            <kendo-multiselect
+              [data]="[{ name: 'mimadmin' }]"
+              [disabled]="true"
+              [(ngModel)]="selectedTeam.owners"
+              [textField]="'displayname'"
+              [valueField]="'displayname'"
+              [filterable]="true"
+            >
             </kendo-multiselect>
           </div>
           <div fxLayout="row" class="info-text" style="margin-right: 20px;">
@@ -114,6 +160,15 @@
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center" style="margin: 180px 20px 20px 20px;">
+            <button fxFlex="none" mat-stroked-button color="primary" (click)="onSaveTeam()">
+              {{ 'key_save' | translate }}
+            </button>
+            <div fxFlex="auto"></div>
+            <button fxFlex="none" mat-stroked-button color="warn" (click)="onDeleteTeam()">
+              {{ 'key_delete' | translate }}
+            </button>
           </div>
         </div>
       </div>

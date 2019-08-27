@@ -149,5 +149,6 @@
   "key_finished": "Fertig",
   "key_addActivity": "Activität hinzufügen",
   "key_chooseSystems": "Systemauswahl",
-  "key_goBack": "Zurück"
+  "key_goBack": "Zurück",
+  "key_deleteResource": "Sind Sie sicher, diese Ressource zu löschen?"
 }

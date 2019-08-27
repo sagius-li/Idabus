@@ -1,3 +1,20 @@
+:host /deep/ .k-splitbar {
+  background-color: transparent;
+}
+
+:host /deep/ .k-resize-handle {
+  width: 6px;
+  height: 60px;
+}
+
+:host /deep/ .k-collapse-next {
+  font-size: 16px;
+}
+
+:host /deep/ .k-collapse-prev {
+  font-size: 16px;
+}
+
 .info-body {
   border-radius: 5px;
   background-color: white;

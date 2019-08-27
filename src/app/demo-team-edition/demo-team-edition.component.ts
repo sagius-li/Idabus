@@ -7,6 +7,8 @@ import { DynamicComponent } from '../core/models/dynamicComponent.interface';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ResourceService } from '../core/services/resource.service';
+import { ModalService } from '../core/services/modal.service';
+import { ModalType } from '../core/models/componentContract.model';
 
 @Component({
   selector: 'app-demo-team-edition',
@@ -50,10 +52,17 @@ export class DemoTeamEditionComponent implements OnInit {
   addMemberValue: Array<any> = [];
   addMemberData: Array<any>;
 
-  constructor(private resource: ResourceService, private spinner: NgxUiLoaderService) {}
+  constructor(
+    private resource: ResourceService,
+    private spinner: NgxUiLoaderService,
+    private modal: ModalService
+  ) {}
 
   ngOnInit() {
     this.spinner.startLoader('spinner_home');
+
+    this.selectedTeam = undefined;
+
     this.resource.getResourceByQuery('/Team', ['DisplayName', 'Description']).subscribe(result => {
       if (result.totalCount > 0) {
         this.teams = result.results;
@@ -150,5 +159,27 @@ export class DemoTeamEditionComponent implements OnInit {
         this.spinner.stopLoader('spinner_home');
       }
     );
+  }
+
+  onSaveTeam() {}
+
+  onDeleteTeam() {
+    const progress = this.modal.show(ModalType.progress, 'key_savingChanges', '', '300px');
+
+    const confirm = this.modal.show(ModalType.confirm, 'key_confirmation', 'key_deleteResource');
+    confirm.afterClosed().subscribe(result => {
+      if (result && result === 'yes') {
+        this.resource.deleteResource(this.selectedTeam.objectid).subscribe(
+          () => {
+            progress.close();
+            this.ngOnInit();
+          },
+          (error: any) => {
+            progress.close();
+            this.modal.show(ModalType.error, 'key_error', error);
+          }
+        );
+      }
+    });
   }
 }
