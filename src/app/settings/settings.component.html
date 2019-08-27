@@ -40,15 +40,15 @@
             <div fxFlex="auto" style="margin-left: 20px;">
               <div fxLayout="row" fxLayoutGap="30px;">
                 <div class="outer-country" [ngClass]="currentLanguage === 'en' ? 'active' : ''">
-                  <img src="../../../../assets/img/united-states.png" class="inner-country"
+                  <img src="assets/img/united-states.png" class="inner-country"
                     (click)="onLanguageChanged('en')" />
                 </div>
                 <div class="outer-country" [ngClass]="currentLanguage === 'de' ? 'active' : ''">
-                  <img src="../../../../assets/img/germany.png" class="inner-country"
+                  <img src="assets/img/germany.png" class="inner-country"
                     (click)="onLanguageChanged('de')" />
                 </div>
                 <div class="outer-country" [ngClass]="currentLanguage === 'cn' ? 'active' : ''">
-                  <img src="../../../../assets/img/china.png" class="inner-country" (click)="onLanguageChanged('cn')" />
+                  <img src="assets/img/china.png" class="inner-country" (click)="onLanguageChanged('cn')" />
                 </div>
               </div>
             </div>

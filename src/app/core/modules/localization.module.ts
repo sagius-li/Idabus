@@ -7,8 +7,8 @@ import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new MultiTranslateHttpLoader(httpClient, [
-    { prefix: '/assets/translate/core/', suffix: '.json' },
-    { prefix: './assets/translate/shared/', suffix: '.json' }
+    { prefix: 'assets/translate/core/', suffix: '.json' },
+    { prefix: 'assets/translate/shared/', suffix: '.json' }
   ]);
 }
 

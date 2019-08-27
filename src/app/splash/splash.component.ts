@@ -59,14 +59,18 @@ export class SplashComponent implements OnInit {
 
     this.sub = obs.subscribe(params => {
       if (params.path) {
-        this.router.navigate([params.path]);
+        const routePrefix = this.config.getConfig('routePrefix', '');
+        if (routePrefix) {
+          let path = params.path.toLowerCase().replace(routePrefix, '');
+          if (!path) {
+            path = startPath;
+          }
+          this.router.navigate([path]);
+        } else {
+          this.router.navigate([params.path]);
+        }
       } else {
         this.router.navigate([startPath]);
-        // if (this.resource.authenticationMode === AuthMode.azure) {
-        //   this.router.navigate(['/app/nextgen']);
-        // } else {
-        //   this.router.navigate([startPath]);
-        // }
       }
     });
   }
