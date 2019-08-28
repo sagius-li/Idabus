@@ -74,6 +74,7 @@
     [matTooltipPosition]="direction === 'row' ? 'below' : 'before'"
     [style.background-color]="buttonColor"
     (click)="toggleEditMode()"
+    style="z-index: 100"
   >
     <mat-icon class="brand-icon">{{ mainIcon }}</mat-icon>
   </button>

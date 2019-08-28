@@ -9,7 +9,7 @@
     [class.mat-elevation-z8]="true"
     fxLayout="row wrap"
     fxLayoutAlign="center center"
-    style="height: 80px; margin-left: 80px; margin-right: 80px;"
+    style="height: 80px; margin-left: 60px; margin-right: 60px;"
   >
     <div fxFlex="1 1 100" class="login-brand" style="margin-top: 0px;">
       {{ 'key_chooseSystems' | translate }}
@@ -24,10 +24,10 @@
           </div>
           <div fxFlex="auto" fxLayout="column" style="width: 100%">
             <div fxFlex="none" style="font-size: 18px;">
-              {{ system.name }}
+              {{ system.name | translate }}
             </div>
             <div fxFlex="auto" style="font-size: 12px; line-height: 16px; margin-top: 5px;">
-              {{ system.description }}
+              {{ system.description | translate }}
             </div>
           </div>
           <div fxFlex="none" style="margin-top: -15px; margin-bottom: 5px;">

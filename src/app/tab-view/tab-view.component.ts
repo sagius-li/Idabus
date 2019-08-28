@@ -141,9 +141,9 @@ export class TabViewComponent implements OnInit {
         this.tabDefs[this.currentTabIndex].columnNumber = 3;
         break;
       case 3:
-        this.tabDefs[this.currentTabIndex].columnNumber = 4;
-        break;
-      case 4:
+        //   this.tabDefs[this.currentTabIndex].columnNumber = 4;
+        //   break;
+        // case 4:
         this.tabDefs[this.currentTabIndex].columnNumber = 1;
         break;
       default:

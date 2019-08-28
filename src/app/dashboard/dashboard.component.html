@@ -1,4 +1,4 @@
-<div style="height: 100%;">
+<div fxLayout="column" fxLayoutAlign="start center" style="height: 100vh; display: block;">
   <div *ngIf="editMode" style="position:absolute;right:0;top:90px;z-index:100;">
     <app-edit-menu
       [buttonColor]="'slategray'"
@@ -12,7 +12,9 @@
   </div>
   <gridster [options]="gdOptions" class="gridster">
     <gridster-item [item]="item" *ngFor="let item of gdItems">
-      <div style="position: absolute; right: 5px; top: 5px; z-index: 10;">
+      <div
+        style="position: absolute; right: 5px; top: 5px; z-index: 10; height: 40px; width: 40px;"
+      >
         <button
           mat-mini-fab
           *ngIf="gdOptions.draggable.enabled === true"
@@ -22,7 +24,9 @@
           <mat-icon>delete</mat-icon>
         </button>
       </div>
-      <div style="position: absolute; right: 65px; top: 5px; z-index: 10;">
+      <div
+        style="position: absolute; right: 65px; top: 5px; z-index: 10; height: 40px; widows: 40px;"
+      >
         <button
           mat-mini-fab
           *ngIf="gdOptions.draggable.enabled === true"

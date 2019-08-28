@@ -8,21 +8,21 @@ export const environment = {
     {
       name: 'Contoso Dev',
       type: SystemType.onPrem,
-      description: 'Contoso development system',
+      description: 'l10n_contosoDevDes',
       icon: 'business',
       config: 'dev'
     },
     {
       name: 'Contoso Pro',
       type: SystemType.onPrem,
-      description: 'Contoso production system',
+      description: 'l10n_contosoProDes',
       icon: 'business',
       config: 'prod'
     },
     {
       name: 'OCG Demo Space',
       type: SystemType.cloud,
-      description: 'OCG test and demo tanent on ocgdemospace.onmicrosoft.com',
+      description: 'l10n_ocgDemoSpaceDes',
       icon: 'cloud',
       config: 'ocgdemospace'
     }

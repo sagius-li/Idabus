@@ -67,5 +67,8 @@
   "l10n_fileTypeNotAllowed": "文件类型不兼容",
   "l10n_importSucceeded": "导入成功",
   "l10n_objectsImported": "资源已导入",
-  "l10n_viewIcon": "视图图标"
+  "l10n_viewIcon": "视图图标",
+  "l10n_contosoDevDes": "Contoso 开发环境 (MIM 局域网)",
+  "l10n_contosoProDes": "Contoso 生产环境 (MIM 局域网)",
+  "l10n_ocgDemoSpaceDes": "OCG IDABUS 演示环境 (仅用于云服务)"
 }
