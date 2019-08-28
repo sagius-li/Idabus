@@ -62,7 +62,7 @@ export class SplashComponent implements OnInit {
         const routePrefix = this.config.getConfig('routePrefix', '');
         if (routePrefix) {
           let path = params.path.toLowerCase().replace(routePrefix, '');
-          if (!path) {
+          if (!path || path === 'login') {
             path = startPath;
           }
           this.router.navigate([path]);
