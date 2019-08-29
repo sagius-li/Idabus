@@ -37,4 +37,15 @@ export class ConfigService {
       return fallback ? fallback : undefined;
     }
   }
+
+  public getCulture(route: string, settingName = 'supportedLanguages') {
+    const supportedLanguages: Array<any> = this.getConfig(settingName, []);
+
+    const language = supportedLanguages.find(l => l.route === route);
+    if (language && language.culture) {
+      return language.culture;
+    }
+
+    return 'en-US';
+  }
 }

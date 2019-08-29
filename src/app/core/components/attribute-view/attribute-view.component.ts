@@ -13,6 +13,7 @@ import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { DragulaService } from 'ng2-dragula';
 
 import { Resource, BroadcastEvent } from '../../models/dataContract.model';
 import { TransService } from '../../models/translation.model';
@@ -23,7 +24,7 @@ import { createTextEditorValidator } from '../../validators/text.validator';
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
 import { UtilsService } from '../../services/utils.service';
-import { DragulaService } from 'ng2-dragula';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-attribute-view',
@@ -109,7 +110,8 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     private swap: SwapService,
     private utils: UtilsService,
     private dragula: DragulaService,
-    private differs: IterableDiffers
+    private differs: IterableDiffers,
+    private config: ConfigService
   ) {
     this.differ = this.differs.find([]).create(null);
 
@@ -158,7 +160,7 @@ export class AttributeViewComponent implements OnInit, DoCheck {
           objectID,
           this.attributesToLoad,
           'full',
-          this.translate.currentCulture,
+          this.config.getCulture(this.translate.currentCulture),
           'true'
         );
       })

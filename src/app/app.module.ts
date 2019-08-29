@@ -82,8 +82,8 @@ import { WorkflowComponent } from './workflow/workflow.component';
     CoreModule,
     MsalModule.forRoot({
       clientID: '92070295-c71b-4583-9b88-830ce378933e',
-      redirectUri: 'https://idabus-ocgdemospace.msappproxy.net/portal',
-      postLogoutRedirectUri: 'https://idabus-ocgdemospace.msappproxy.net/portal/login'
+      redirectUri: 'http://localhost:4200',
+      postLogoutRedirectUri: 'http://localhost:4200/login'
     })
   ],
   entryComponents: [DemoTeamCreationComponent, ViewConfiguratorComponent],

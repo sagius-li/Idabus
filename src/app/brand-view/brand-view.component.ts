@@ -10,6 +10,7 @@ import { TransService } from '../core/models/translation.model';
 import { ResourceService } from '../core/services/resource.service';
 
 import { ExtraValuePipe } from '../core/pipes/extra-value.pipe';
+import { ConfigService } from '../core/services/config.service';
 
 @Component({
   selector: 'app-brand-view',
@@ -64,7 +65,8 @@ export class BrandViewComponent implements OnInit {
     private resource: ResourceService,
     private route: ActivatedRoute,
     private translate: TransService,
-    private extraValuePipe: ExtraValuePipe
+    private extraValuePipe: ExtraValuePipe,
+    private config: ConfigService
   ) {}
 
   ngOnInit() {
@@ -78,7 +80,7 @@ export class BrandViewComponent implements OnInit {
           objectID,
           this.attributesToLoad,
           'full',
-          this.translate.currentCulture,
+          this.config.getCulture(this.translate.currentCulture),
           'true'
         );
       })

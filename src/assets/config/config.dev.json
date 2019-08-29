@@ -18,7 +18,8 @@
         "en"
       ],
       "label": "English",
-      "route": "en"
+      "route": "en",
+      "culture": "en-US"
     },
     {
       "code": [
@@ -26,7 +27,8 @@
         "de"
       ],
       "label": "Deutsch",
-      "route": "de"
+      "route": "de",
+      "culture": "de"
     },
     {
       "code": [
@@ -34,7 +36,8 @@
         "cn"
       ],
       "label": "中文",
-      "route": "cn"
+      "route": "cn",
+      "culture": "zh-Hans"
     }
   ],
   "sidebarItems": [
