@@ -1,48 +1,82 @@
 <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px grid">
   <mat-form-field fxFlex="40" class="form-field">
-    <input matInput [placeholder]="'key_name'|translate" [(ngModel)]="activity.displayname">
+    <input matInput [placeholder]="'key_name' | translate" [(ngModel)]="activity.displayname" />
   </mat-form-field>
   <mat-form-field fxFlex="40" class="form-field">
-    <input matInput [placeholder]="'key_executionCondition'|translate" [(ngModel)]="activity.executioncondition">
+    <input
+      matInput
+      [placeholder]="'key_executionCondition' | translate"
+      [(ngModel)]="activity.executioncondition"
+    />
   </mat-form-field>
-  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.isenabled">{{'key_enabled'|translate}}</mat-slide-toggle>
+  <mat-slide-toggle fxFlex="20" [(ngModel)]="activity.isenabled">{{
+    'key_enabled' | translate
+  }}</mat-slide-toggle>
   <mat-form-field fxFlex="100" class="form-field">
-    <input matInput [placeholder]="'key_description'|translate" [(ngModel)]="activity.description">
+    <input
+      matInput
+      [placeholder]="'key_description' | translate"
+      [(ngModel)]="activity.description"
+    />
   </mat-form-field>
   <mat-form-field fxFlex="40" class="form-field">
-    <mat-label>{{'key_actor'}}</mat-label>
+    <mat-label>{{ 'key_actor' | translate }}</mat-label>
     <mat-select #cmbActor [(ngModel)]="activity.actortype">
-      <mat-option value="ServiceAccount">{{'key_serviceAccount'|translate}}</mat-option>
-      <mat-option value="Requestor">{{'key_requestor'|translate}}</mat-option>
-      <mat-option value="ResolveFromExpression">{{'key_resolveFromExpression'|translate}}</mat-option>
-      <mat-option value="Resource ID">{{'key_resourceID'|translate}}</mat-option>
+      <mat-option value="ServiceAccount">{{ 'key_serviceAccount' | translate }}</mat-option>
+      <mat-option value="Requestor">{{ 'key_requestor' | translate }}</mat-option>
+      <mat-option value="ResolveFromExpression">{{
+        'key_resolveFromExpression' | translate
+      }}</mat-option>
+      <mat-option value="Resource ID">{{ 'key_resourceID' | translate }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex="60" class="form-field">
-    <input matInput [placeholder]="'key_actorExpression'|translate" [(ngModel)]="activity.actorexpression"
-      [disabled]="cmbActor.value !== 'ResolveFromExpression'">
+    <input
+      matInput
+      [placeholder]="'key_actorExpression' | translate"
+      [(ngModel)]="activity.actorexpression"
+      [disabled]="cmbActor.value !== 'ResolveFromExpression'"
+    />
   </mat-form-field>
   <div fxFlex="100" class="item-area">
     <button mat-stroked-button color="primary" class="item-button" (click)="onAddQuery(activity)">
       <mat-icon style="margin-top: -4px;">add</mat-icon>
-      {{'key_addQuery'|translate}}
+      {{ 'key_addQuery' | translate }}
     </button>
-    <div style="height: 30px;">
-    </div>
+    <div style="height: 30px;"></div>
     <div dragula="QUERIES" [(dragulaModel)]="activity.xpathqueries">
-      <div *ngFor="let query of activity.xpathqueries; let i = index" fxLayout="row" fxLayoutAlign="start center"
-        fxLayoutGap="20px grid" class="item-entry">
-        <div fxFlex="none" class="queryhandle" style="cursor: move; color: lightgray; line-height: 0;">
+      <div
+        *ngFor="let query of activity.xpathqueries; let i = index"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        fxLayoutGap="20px grid"
+        class="item-entry"
+      >
+        <div
+          fxFlex="none"
+          class="queryhandle"
+          style="cursor: move; color: lightgray; line-height: 0;"
+        >
           <mat-icon style="padding-top: 20px;">menu</mat-icon>
         </div>
         <mat-form-field fxFlex="20" class="form-field">
-          <input matInput [placeholder]="'key_key'|translate" [(ngModel)]="query.key">
+          <input matInput [placeholder]="'key_key' | translate" [(ngModel)]="query.key" />
         </mat-form-field>
         <mat-form-field fxFlex="80" class="form-field">
-          <input matInput [placeholder]="'key_xpath'|translate" [matTooltip]="query.value" [(ngModel)]="query.value">
+          <input
+            matInput
+            [placeholder]="'key_xpath' | translate"
+            [matTooltip]="query.value"
+            [(ngModel)]="query.value"
+          />
         </mat-form-field>
-        <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;"
-          (click)="onDeleteQuery(activity.xpathqueries, i)">
+        <button
+          fxFlex="none"
+          mat-icon-button
+          color="warn"
+          style="margin-right: 10px;"
+          (click)="onDeleteQuery(activity.xpathqueries, i)"
+        >
           <mat-icon style="margin-left: 8px; margin-top: -4px;">clear</mat-icon>
         </button>
       </div>
@@ -51,28 +85,49 @@
   <div fxFlex="100" class="item-area" style="margin-top: 40px;">
     <button mat-stroked-button color="primary" class="item-button" (click)="onAddUpdate(activity)">
       <mat-icon style="margin-top: -4px;">add</mat-icon>
-      {{'key_addUpdate'|translate}}
+      {{ 'key_addUpdate' | translate }}
     </button>
-    <div style="height: 30px;">
-    </div>
+    <div style="height: 30px;"></div>
     <div dragula="UPDATES" [(dragulaModel)]="activity.updateresourcesentries">
-      <div *ngFor="let update of activity.updateresourcesentries; let i = index" fxLayout="row wrap"
-        fxLayoutAlign="start center" fxLayoutGap="20px grid" class="item-entry">
-        <div fxFlex="none" class="updatehandle" style="cursor: move; color: lightgray; line-height: 0;">
+      <div
+        *ngFor="let update of activity.updateresourcesentries; let i = index"
+        fxLayout="row wrap"
+        fxLayoutAlign="start center"
+        fxLayoutGap="20px grid"
+        class="item-entry"
+      >
+        <div
+          fxFlex="none"
+          class="updatehandle"
+          style="cursor: move; color: lightgray; line-height: 0;"
+        >
           <mat-icon style="padding-top: 20px;">menu</mat-icon>
         </div>
         <mat-form-field fxFlex="auto" class="form-field">
-          <input matInput [placeholder]="'key_valueExpression'|translate" [matTooltip]="update.valueexpression"
-            [(ngModel)]="update.valueexpression">
+          <input
+            matInput
+            [placeholder]="'key_valueExpression' | translate"
+            [matTooltip]="update.valueexpression"
+            [(ngModel)]="update.valueexpression"
+          />
         </mat-form-field>
         <mat-form-field fxFlex="auto" class="form-field">
-          <input matInput [placeholder]="'key_target'|translate" [matTooltip]="update.target"
-            [(ngModel)]="update.target">
+          <input
+            matInput
+            [placeholder]="'key_target' | translate"
+            [matTooltip]="update.target"
+            [(ngModel)]="update.target"
+          />
         </mat-form-field>
-        <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{'key_allowNull'|translate}}</mat-slide-toggle>
+        <mat-slide-toggle fxFlex="none" [(ngModel)]="update.allownull">{{
+          'key_allowNull' | translate
+        }}</mat-slide-toggle>
         <button fxFlex="none" mat-icon-button color="warn" style="margin-right: 10px;">
-          <mat-icon style="margin-left: 8px; margin-top: -4px;"
-            (click)="onDeleteUpdate(activity.updateresourcesentries, i)">clear</mat-icon>
+          <mat-icon
+            style="margin-left: 8px; margin-top: -4px;"
+            (click)="onDeleteUpdate(activity.updateresourcesentries, i)"
+            >clear</mat-icon
+          >
         </button>
       </div>
     </div>

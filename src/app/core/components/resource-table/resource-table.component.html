@@ -36,6 +36,14 @@
       >
         <div fxLayout="row" fxLayoutAlign="end center">
           <div fxFlex="1 1 auto" class="table-title">{{ localConfig.title | translate }}</div>
+          <div fxFlex="none" *ngIf="localConfig.exportToPDF || localConfig.exportToExcel">
+            <mat-slide-toggle
+              [(ngModel)]="localConfig.exportAllPages"
+              style="font-size: 10px; font-weight: 400; padding-top: 8px; margin-right: 10px;"
+            >
+              {{ 'key_exportAllPages' | translate }}</mat-slide-toggle
+            >
+          </div>
           <button
             fxFlex="0 0 auto"
             class="export-button"

@@ -1306,12 +1306,12 @@ export class ResourceService {
 
     // resolve [//loginUser]
     result = result.replace(
-      new RegExp(`\\[\\/\\/loginUser\\]`, 'g'),
+      new RegExp(`\\[\\/\\/loginuser\\]`, 'gi'),
       this.loginUser ? this.loginUser.ObjectID : ''
     );
 
     // resolve <today()>
-    const re = new RegExp(`\\<today\\(\\)[+-]?\\d*\\>`, 'g');
+    const re = new RegExp(`\\<today\\(\\)[+-]?\\d*\\>`, 'gi');
     let m: any;
     do {
       m = re.exec(result);
