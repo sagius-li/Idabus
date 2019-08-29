@@ -22,6 +22,25 @@
             </div>
           </mat-card-content>
         </mat-card>
+        <button
+          *ngIf="false"
+          fxFlex="260px"
+          mat-stroked-button
+          style="margin: 10px; padding: 10px;"
+          (click)="onAddNewTeam()"
+        >
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon fxFlex="20" style="margin-left: -8px; color: slateblue;"
+              >add_to_queue</mat-icon
+            >
+            <div
+              fxFlex="80"
+              style="text-align: left; margin-left: 10px; font-size: 16px; font-weight: 400;"
+            >
+              {{ 'Add new team' }}
+            </div>
+          </div>
+        </button>
       </div>
     </kendo-splitter-pane>
     <kendo-splitter-pane>

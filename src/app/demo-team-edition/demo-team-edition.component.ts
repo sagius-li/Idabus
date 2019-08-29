@@ -1,14 +1,17 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 
 import { forkJoin } from 'rxjs';
+import { MatDialog } from '@angular/material';
 import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { DynamicComponent } from '../core/models/dynamicComponent.interface';
+import { ModalType } from '../core/models/componentContract.model';
 
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ResourceService } from '../core/services/resource.service';
 import { ModalService } from '../core/services/modal.service';
-import { ModalType } from '../core/models/componentContract.model';
+
+import { DemoTeamCreationComponent } from '../demo-team-creation/demo-team-creation.component';
 
 @Component({
   selector: 'app-demo-team-edition',
@@ -55,7 +58,8 @@ export class DemoTeamEditionComponent implements OnInit {
   constructor(
     private resource: ResourceService,
     private spinner: NgxUiLoaderService,
-    private modal: ModalService
+    private modal: ModalService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -181,5 +185,36 @@ export class DemoTeamEditionComponent implements OnInit {
         );
       }
     });
+  }
+
+  onAddNewTeam() {
+    this.dialog
+      .open(DemoTeamCreationComponent, {
+        minWidth: '580px',
+        maxWidth: '580px',
+        data: {}
+      })
+      .afterClosed()
+      .subscribe(result => {
+        if (result && result !== 'cancel') {
+          const progress = this.modal.show(ModalType.progress, 'Saving changes', '', '300px');
+
+          result.owners = result.owners.map(o => o.objectid);
+          result.members = result.members.map(m => m.objectid);
+          result.set = result.set ? result.set.objectid : null;
+
+          this.resource.createResource(result).subscribe(
+            id => {
+              progress.close();
+              this.ngOnInit();
+            },
+            error => {
+              progress.close();
+              this.modal.show(ModalType.error, 'Error', error.message, '300px');
+              this.ngOnInit();
+            }
+          );
+        }
+      });
   }
 }
