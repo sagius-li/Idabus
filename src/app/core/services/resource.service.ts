@@ -400,9 +400,7 @@ export class ResourceService {
           }),
           // get view sets
           switchMap(() => {
-            const queryGetViewSets = `/Set[${this.utils.attObjectType}='ui' and ComputedMember='${
-              this.loginUser.ObjectID
-            }']`;
+            const queryGetViewSets = `/Set[${this.utils.attObjectType}='ui' and ComputedMember='${this.loginUser.ObjectID}']`;
             const paramsGetViewSets: HttpParams = new HttpParams({
               fromObject: {
                 query: queryGetViewSets,
@@ -419,11 +417,7 @@ export class ResourceService {
           }),
           // get admin view sets
           switchMap(() => {
-            const queryGetAdminViewSets = `/Set[starts-with(${
-              this.utils.attObjectType
-            },'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
-              this.utils.attAdminViewSets
-            }]`;
+            const queryGetAdminViewSets = `/Set[starts-with(${this.utils.attObjectType},'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${this.utils.attAdminViewSets}]`;
             const paramsGetAdminViewSets: HttpParams = new HttpParams({
               fromObject: {
                 query: queryGetAdminViewSets,
@@ -461,11 +455,7 @@ export class ResourceService {
           }),
           // get primary view set
           switchMap(() => {
-            const queryGetPrimaryViewSet = `/Set[${
-              this.utils.attObjectType
-            }='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${
-              this.utils.attPrimaryViewSets
-            }]`;
+            const queryGetPrimaryViewSet = `/Set[${this.utils.attObjectType}='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${this.utils.attPrimaryViewSets}]`;
             const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
               fromObject: {
                 query: queryGetPrimaryViewSet,
@@ -782,18 +772,42 @@ export class ResourceService {
     let request: Observable<ResourceSet>;
 
     if (this.authNMode === AuthMode.azure) {
-      const url = this.utils.buildDataServiceUrl(this.baseUrl, 'resources');
-      const params: HttpParams = new HttpParams({
+      const url = this.utils.buildDataServiceUrl(this.baseUrl, 'resources/search');
+      const params = new HttpParams({
         fromObject: {
-          xPathQuery: query,
-          attributes: attributes.join(','),
-          pageSize: String(pageSize),
-          skip: String(index)
+          xPathQuery: query
         }
       });
-      request = this.http.get<ResourceSet>(url, { params });
+      const sort = orderBy.map(item => {
+        const elements = item.split(':');
+        if (elements.length === 2) {
+          return {
+            attribute: elements[0],
+            order: elements[1]
+          };
+        }
+      });
+      const body = {
+        attributes,
+        pageSize,
+        skip: index,
+        orderBy: sort
+      };
 
-      return request;
+      return this.http.post<ResourceSet>(url, body, { params });
+
+      // const url = this.utils.buildDataServiceUrl(this.baseUrl, 'resources');
+      // const params: HttpParams = new HttpParams({
+      //   fromObject: {
+      //     xPathQuery: query,
+      //     attributes: attributes.join(','),
+      //     pageSize: String(pageSize),
+      //     skip: String(index)
+      //   }
+      // });
+      // request = this.http.get<ResourceSet>(url, { params });
+
+      // return request;
     } else {
       const params: HttpParams = new HttpParams({
         fromObject: {
