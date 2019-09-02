@@ -125,7 +125,7 @@
   "key_allowNull": "Null-Wert erlaubt",
   "key_enabled": "aktiv",
   "key_serviceAccount": "Dienstkonto",
-  "key_requestor": "Auftraggeber (requestor)",
+  "key_requestor": "Anforderer",
   "key_resolveFromExpression": "XPath auflösen",
   "key_resourceID": "Ressourcen-ID",
   "key_selectAll": "Alles auswählen",
