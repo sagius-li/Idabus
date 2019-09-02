@@ -10,6 +10,7 @@ import { GridsterModule } from 'angular-gridster2';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { DragulaModule } from 'ng2-dragula';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
+import { ParticlesModule } from 'angular-particle';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
@@ -126,6 +127,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ColorPickerModule,
     DragulaModule,
     NgxUiLoaderModule,
+    ParticlesModule,
 
     DragDropModule,
     MatInputModule,
@@ -198,6 +200,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     GridsterModule,
     ColorPickerModule,
     NgxUiLoaderModule,
+    ParticlesModule,
 
     DragDropModule,
     MatInputModule,
