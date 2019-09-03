@@ -225,14 +225,16 @@ export class ResourceTableComponent implements OnInit, DynamicComponent {
     if (attributesToLoad.findIndex(item => item.toLowerCase() === 'objectid') < 0) {
       attributesToLoad.unshift('ObjectID');
     }
-    return this.resource.getResourceByQuery(this.localConfig.query, attributesToLoad).pipe(
-      map(result => {
-        return { data: result.results, total: result.totalCount };
-      }),
-      tap(() => {
-        this.gridLoading = false;
-      })
-    );
+    return this.resource
+      .getResourceByQuery(this.resource.lookup(this.localConfig.query), attributesToLoad)
+      .pipe(
+        map(result => {
+          return { data: result.results, total: result.totalCount };
+        }),
+        tap(() => {
+          this.gridLoading = false;
+        })
+      );
     // tslint:disable-next-line:semicolon
   };
 
