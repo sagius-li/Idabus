@@ -15,6 +15,7 @@ export class EditorTextConfigComponent implements OnInit {
     public data: {
       component: DynamicEditor;
       config: TextEditorConfig;
+      attributeName: string;
     }
   ) {}
 

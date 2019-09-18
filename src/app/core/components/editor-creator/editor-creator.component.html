@@ -8,12 +8,7 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex="auto">
-    <input
-      matInput
-      required
-      [placeholder]="'key_componentName' | translate"
-      [(ngModel)]="config.name"
-    />
+    <input matInput [placeholder]="'key_componentName' | translate" [(ngModel)]="config.name" />
   </mat-form-field>
   <mat-form-field fxFlex="auto">
     <input
@@ -36,7 +31,7 @@
     mat-stroked-button
     color="primary"
     [mat-dialog-close]="config"
-    [disabled]="!config.type || !config.name || !config.attributeName"
+    [disabled]="!config.type || !config.attributeName"
   >
     {{ 'key_submit' | translate }}
   </button>

@@ -417,6 +417,7 @@ export class ResourceService {
           }),
           // get admin view sets
           switchMap(() => {
+            // tslint:disable-next-line:max-line-length
             const queryGetAdminViewSets = `/Set[starts-with(${this.utils.attObjectType},'ui') and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${this.utils.attAdminViewSets}]`;
             const paramsGetAdminViewSets: HttpParams = new HttpParams({
               fromObject: {
@@ -455,6 +456,7 @@ export class ResourceService {
           }),
           // get primary view set
           switchMap(() => {
+            // tslint:disable-next-line:max-line-length
             const queryGetPrimaryViewSet = `/Set[${this.utils.attObjectType}='ui' and ObjectID=/Person[ObjectID='${this.loginUser.ObjectID}']/${this.utils.attPrimaryViewSets}]`;
             const paramsGetPrimaryViewSet: HttpParams = new HttpParams({
               fromObject: {

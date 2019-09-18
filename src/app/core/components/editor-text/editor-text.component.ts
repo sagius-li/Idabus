@@ -184,7 +184,8 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
       minWidth: '620px',
       data: {
         component: this,
-        config: this.localConfig
+        config: this.localConfig,
+        attributeName: this.attribute.systemName
       }
     });
 
