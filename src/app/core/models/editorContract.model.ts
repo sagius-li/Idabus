@@ -22,6 +22,8 @@ export class TextEditorConfig implements EditorConfig {
   // tslint:disable-next-line:whitespace
   required? = false;
   // tslint:disable-next-line:whitespace
+  requiredFromSchema? = false;
+  // tslint:disable-next-line:whitespace
   hideIfNoAccess? = true;
   // tslint:disable-next-line:whitespace
   expression? = undefined;

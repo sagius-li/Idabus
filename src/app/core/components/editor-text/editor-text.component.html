@@ -19,3 +19,13 @@
     control.errors['message'] | translate
   }}</mat-hint>
 </mat-form-field>
+
+<mat-form-field fxFlex="auto" *ngIf="!showEditor" style="width: 100%;">
+  <input
+    matInput
+    [placeholder]="displayName | translate"
+    disabled
+    [value]="'key_notAvailable' | translate"
+  />
+  <mat-hint align="start" *ngIf="control.valid">{{ description | translate }}</mat-hint>
+</mat-form-field>

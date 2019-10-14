@@ -14,7 +14,7 @@
         matInput
         disabled
         [placeholder]="'key_attributeName' | translate"
-        [(ngModel)]="data.attributeName"
+        [(ngModel)]="data.attribute.systemName"
       />
     </mat-form-field>
     <mat-form-field fxFlex="1 1 40">
@@ -59,7 +59,11 @@
     <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.readOnly">
       {{ 'key_readOnly' | translate }}</mat-slide-toggle
     >
-    <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.required">
+    <mat-slide-toggle
+      fxFlex="1 1 50"
+      [(ngModel)]="data.config.required"
+      [disabled]="data.config.requiredFromSchema"
+    >
       {{ 'key_required' | translate }}</mat-slide-toggle
     >
   </div>
@@ -115,6 +119,14 @@
         [(ngModel)]="data.config.validation"
       />
     </mat-form-field>
+    <button
+      mat-stroked-button
+      style="height: 36px; margin-top: 10px; margin-left: 10px;"
+      [disabled]="!data.attribute.stringRegex"
+      (click)="setDefaultValidation()"
+    >
+      {{ 'key_setDefault' | translate }}
+    </button>
   </div>
 </div>
 <div

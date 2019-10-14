@@ -150,5 +150,7 @@
   "key_addActivity": "Aktivität hinzufügen",
   "key_chooseSystems": "Systemauswahl",
   "key_goBack": "Zurück",
-  "key_deleteResource": "Möchten Sie diese Ressource wirklich löschen?"
+  "key_deleteResource": "Möchten Sie diese Ressource wirklich löschen?",
+  "key_setDefault": "Standard setzen",
+  "key_notAvailable": "Nicht verfügbar"
 }

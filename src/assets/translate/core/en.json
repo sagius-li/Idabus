@@ -150,5 +150,7 @@
   "key_addActivity": "Add activity",
   "key_chooseSystems": "Choose a connection",
   "key_goBack": "Go back",
-  "key_deleteResource": "Delete the resource?"
+  "key_deleteResource": "Delete the resource?",
+  "key_setDefault": "Set default",
+  "key_notAvailable": "Not available"
 }

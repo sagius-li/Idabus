@@ -171,6 +171,11 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   initComponent() {
     this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
 
+    if (this.attribute.required) {
+      this.config.required = true;
+      this.config.requiredFromSchema = true;
+    }
+
     this.localConfig = new TextEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
 
@@ -185,7 +190,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
       data: {
         component: this,
         config: this.localConfig,
-        attributeName: this.attribute.systemName
+        attribute: this.attribute
       }
     });
 
