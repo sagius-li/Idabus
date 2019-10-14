@@ -999,6 +999,10 @@ export class ResourceService {
       return throwError('resource is missing');
     }
 
+    if (resource.DisplayName === null) {
+      delete resource.DisplayName;
+    }
+
     let request: Observable<string>;
 
     if (this.authNMode === AuthMode.azure) {
