@@ -4,18 +4,19 @@
     #editor="ngModel"
     [placeholder]="displayName | translate"
     [matTooltip]="tooltip"
-    [(ngModel)]="controlValue"
+    [(ngModel)]="value"
     (focus)="onFocuse()"
-    (keyup)="onKeyUp($event)"
     (change)="onChange()"
     [disabled]="disabled"
     [attr.maxlength]="localConfig.maxLength"
   />
-  <mat-hint align="start" *ngIf="control.valid">{{ description | translate }}</mat-hint>
-  <mat-hint align="end" *ngIf="localConfig.maxLength && control.valid"
+  <mat-hint align="start" *ngIf="!control || (control && control.valid)">{{
+    description | translate
+  }}</mat-hint>
+  <mat-hint align="end" *ngIf="localConfig.maxLength && (!control || (control && control.valid))"
     >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
   >
-  <mat-hint *ngIf="control.invalid && control.touched" class="error-message">{{
+  <mat-hint *ngIf="control && control.invalid && control.touched" class="error-message">{{
     control.errors['message'] | translate
   }}</mat-hint>
 </mat-form-field>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -6,39 +6,32 @@ import {
   FormControl
 } from '@angular/forms';
 
-import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
-
-import { AttributeResource } from '../../models/dataContract.model';
-import { TextEditorConfig } from '../../models/editorContract.model';
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
-
-import { createTextEditorValidator } from '../../validators/text.validator';
+import { AttributeResource } from '../../models/dataContract.model';
+import { BooleanEditorConfig } from '../../models/editorContract.model';
 
 import { UtilsService } from '../../services/utils.service';
 import { SwapService } from '../../services/swap.service';
-
-import { EditorTextConfigComponent } from './editor-text-config.component';
+import { createBooleanEditorValidator } from '../../validators/boolean.validator';
 
 @Component({
-  selector: 'app-editor-text',
-  templateUrl: './editor-text.component.html',
-  styleUrls: ['./editor-text.component.scss'],
+  selector: 'app-editor-boolean',
+  templateUrl: './editor-boolean.component.html',
+  styleUrls: ['./editor-boolean.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EditorTextComponent),
+      useExisting: forwardRef(() => EditorBooleanComponent),
       multi: true
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => EditorTextComponent),
+      useExisting: forwardRef(() => EditorBooleanComponent),
       multi: true
     }
   ]
 })
-export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueAccessor {
+export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlValueAccessor {
   @Input()
   attribute: AttributeResource;
 
@@ -52,7 +45,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     this.propagateChange(this.controlValue);
   }
 
-  editorConfig: TextEditorConfig;
+  editorConfig: BooleanEditorConfig;
   @Input()
   get config() {
     return this.editorConfig;
@@ -72,7 +65,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
 
   validationFn: (c: FormControl) => any;
 
-  localConfig: TextEditorConfig;
+  localConfig: BooleanEditorConfig;
 
   get showEditor() {
     if (this.localConfig.isHidden) {
@@ -132,7 +125,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     }
   }
 
-  constructor(public utils: UtilsService, private dialog: MatDialog, private swap: SwapService) {}
+  constructor(public utils: UtilsService, private swap: SwapService) {}
 
   ngOnInit() {
     this.initComponent();
@@ -141,44 +134,21 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   // #region DynamicEditor implementation
 
   initComponent() {
-    this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
+    this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
 
     if (this.attribute.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
 
-    this.localConfig = new TextEditorConfig();
+    this.localConfig = new BooleanEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
 
     return this.localConfig;
   }
 
   configure() {
-    const configCopy = this.utils.DeepCopy(this.localConfig);
-
-    const dialogRef = this.dialog.open(EditorTextConfigComponent, {
-      minWidth: '620px',
-      data: {
-        component: this,
-        config: this.localConfig,
-        attribute: this.attribute
-      }
-    });
-
-    return dialogRef.afterClosed().pipe(
-      tap(result => {
-        if (!result || (result && result === 'cancel')) {
-          this.localConfig = configCopy;
-        } else {
-          this.config = this.localConfig;
-          this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
-        }
-      }),
-      switchMap(() => {
-        return of(this.localConfig);
-      })
-    );
+    return null;
   }
 
   // #endregion

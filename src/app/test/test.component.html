@@ -125,4 +125,21 @@
       </gridster>
     </div>
   </mat-tab>
+  <!-- attribute editors -->
+  <mat-tab label="Editors">
+    <div fxLayout="column" fxLayoutGap="10px" style="margin: 20px;">
+      <div>
+        <app-editor-text
+          [attribute]="editorResource ? (editorResource | extraValue: 'AccountName') : {}"
+          [config]="{ showDescription: true }"
+        ></app-editor-text>
+      </div>
+      <div>
+        <app-editor-boolean
+          [attribute]="editorResource ? (editorResource | extraValue: 'Register') : {}"
+          [config]="{ showDescription: true }"
+        ></app-editor-boolean>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>

@@ -60,6 +60,8 @@ import { DynamicContainerDirective } from '../directives/dynamic-container.direc
 import { EditorCreatorComponent } from '../components/editor-creator/editor-creator.component';
 import { EditorTextComponent } from '../components/editor-text/editor-text.component';
 import { EditorTextConfigComponent } from '../components/editor-text/editor-text-config.component';
+import { EditorBooleanComponent } from '../components/editor-boolean/editor-boolean.component';
+import { EditorBooleanConfigComponent } from '../components/editor-boolean/editor-boolean-config.component';
 
 import { ActivityUpdateComponent } from '../components/activity-update/activity-update.component';
 import { ActivityForeachComponent } from '../components/activity-foreach/activity-foreach.component';
@@ -92,6 +94,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorCreatorComponent,
     EditorTextComponent,
     EditorTextConfigComponent,
+    EditorBooleanComponent,
+    EditorBooleanConfigComponent,
 
     ActivityUpdateComponent,
     ActivityForeachComponent,
@@ -174,7 +178,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ResourceChartConfigComponent,
 
     EditorCreatorComponent,
-    EditorTextConfigComponent
+    EditorTextConfigComponent,
+    EditorBooleanConfigComponent
   ],
   providers: [
     ExtraValuePipe,
@@ -242,6 +247,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorCreatorComponent,
     EditorTextComponent,
     EditorTextConfigComponent,
+    EditorBooleanComponent,
+    EditorBooleanConfigComponent,
 
     ActivityUpdateComponent,
     ActivityForeachComponent,

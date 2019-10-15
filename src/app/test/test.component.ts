@@ -20,7 +20,7 @@ import { DynamicContainerDirective } from '../core/directives/dynamic-container.
 
 import { TransService, Language } from '../core/models/translation.model';
 
-import { Resource } from '../core/models/dataContract.model';
+import { Resource, AttributeResource } from '../core/models/dataContract.model';
 
 import { ConfigService } from '../core/services/config.service';
 import { ResourceService } from '../core/services/resource.service';
@@ -190,6 +190,36 @@ export class TestComponent implements OnInit, AfterViewInit {
   ];
   // #endregion
 
+  // #region attribute editors
+
+  editorResource: Resource;
+
+  attrFirstName: AttributeResource = {
+    dataType: 'String',
+    description: 'Users first name',
+    displayName: 'First Name',
+    multivalued: false,
+    permissionHint: 'Add, Create, Modify, Delete, Read, Remove',
+    required: false,
+    systemName: 'FirstName',
+    value: 'Eva',
+    values: ['Eva']
+  };
+
+  attrRegister: AttributeResource = {
+    dataType: 'Boolean',
+    description: 'PWD register',
+    displayName: 'Register',
+    multivalued: false,
+    permissionHint: 'Add, Create, Modify, Delete, Read, Remove',
+    required: false,
+    systemName: 'Register',
+    value: null,
+    values: [null]
+  };
+
+  // #endregion
+
   constructor(
     private config: ConfigService,
     private translate: TransService,
@@ -249,12 +279,13 @@ export class TestComponent implements OnInit, AfterViewInit {
     this.resource
       .getResourceByID(
         '106a2d89-1c16-423d-9104-f1fbdac5fbb7',
-        ['DisplayName', 'AccountName', 'Manager'],
+        ['DisplayName', 'AccountName', 'Manager', 'Register', 'FirstName'],
         'full',
         'de',
         'true'
       )
       .subscribe(resource => {
+        this.editorResource = resource;
         console.log(resource);
       });
 

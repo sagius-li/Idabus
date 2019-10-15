@@ -1,0 +1,17 @@
+<div fxLayout="column" style="width: 100%;">
+  <mat-checkbox
+    [matTooltip]="tooltip"
+    [(ngModel)]="value"
+    (focus)="onFocuse()"
+    (change)="onChange()"
+    [disabled]="disabled"
+    [labelPosition]="localConfig.textAlign"
+    [indeterminate]="value === undefined || value === null"
+    style="font-weight: 400;"
+  >
+    {{ displayName | translate }}
+  </mat-checkbox>
+</div>
+<div style="font-size: 12px; font-weight: 400; color: rgba(0,0,0,.54);">
+  {{ description | translate }}
+</div>

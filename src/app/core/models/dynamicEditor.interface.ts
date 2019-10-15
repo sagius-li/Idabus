@@ -13,6 +13,7 @@ export interface EditorConfig {
   isHidden?: boolean;
   readOnly?: boolean;
   required?: boolean;
+  requiredFromSchema?: boolean;
   showTooltip?: boolean;
   showDisplayName?: boolean;
   customDisplayName?: string;
