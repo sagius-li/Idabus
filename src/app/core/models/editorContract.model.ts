@@ -1,38 +1,23 @@
 import { EditorConfig } from './dynamicEditor.interface';
 
-export class TextEditorConfig implements EditorConfig {
-  name = undefined;
-  editMode = true;
-  isHidden = false;
-  showTooltip = true;
-  showDisplayName = true;
-  customDisplayName = undefined;
-  showDescription = false;
-  customDescription = undefined;
-  readOnly = false;
-  required = false;
-  requiredFromSchema = false;
-  hideIfNoAccess = true;
-  expression = undefined;
+export class TextEditorConfig extends EditorConfig {
+  validation?: string;
+  maxLength?: number;
 
-  validation?: string = undefined;
-  maxLength?: number = undefined;
+  constructor() {
+    super();
+
+    this.validation = undefined;
+    this.maxLength = undefined;
+  }
 }
 
-export class BooleanEditorConfig implements EditorConfig {
-  name = undefined;
-  editMode = true;
-  isHidden = false;
-  showTooltip = true;
-  showDisplayName = true;
-  customDisplayName = undefined;
-  showDescription = false;
-  customDescription = undefined;
-  readOnly = false;
-  required = false;
-  requiredFromSchema = false;
-  hideIfNoAccess = true;
-  expression = undefined;
+export class BooleanEditorConfig extends EditorConfig {
+  textAlign?: string;
 
-  textAlign = 'after';
+  constructor() {
+    super();
+
+    this.textAlign = 'after';
+  }
 }

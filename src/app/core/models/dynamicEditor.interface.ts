@@ -7,7 +7,7 @@ import { AttributeResource } from './dataContract.model';
 /**
  * Interface for editor configuration
  */
-export interface EditorConfig {
+export class EditorConfig {
   name?: string;
   editMode?: boolean;
   isHidden?: boolean;
@@ -21,6 +21,22 @@ export interface EditorConfig {
   customDescription?: string;
   hideIfNoAccess?: boolean;
   expression?: string;
+
+  constructor() {
+    this.name = undefined;
+    this.editMode = true;
+    this.isHidden = false;
+    this.showTooltip = true;
+    this.showDisplayName = true;
+    this.customDisplayName = undefined;
+    this.showDescription = false;
+    this.customDescription = undefined;
+    this.readOnly = false;
+    this.required = false;
+    this.requiredFromSchema = false;
+    this.hideIfNoAccess = true;
+    this.expression = undefined;
+  }
 }
 
 /**
