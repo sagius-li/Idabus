@@ -84,6 +84,7 @@
   "key_columnWidth": "Spaltebreite",
   "key_move": "Versetzen",
   "key_editorTextConfig": "Texteditor konfigurieren",
+  "key_editorBooleanConfig": "Checkbox Konfigurieren",
   "key_instanceName": "Instanzname",
   "key_showSystemName": "Systemname zeigen",
   "key_dataBinding": "Datenbindung",
@@ -152,5 +153,10 @@
   "key_goBack": "Zurück",
   "key_deleteResource": "Möchten Sie diese Ressource wirklich löschen?",
   "key_setDefault": "Standard setzen",
-  "key_notAvailable": "Nicht verfügbar"
+  "key_notAvailable": "Nicht verfügbar",
+  "key_labelPosition": "Beschriftungsposition",
+  "key_before": "Vorne",
+  "key_after": "Hinter",
+  "key_checkbox": "Checkbox",
+  "key_slider": "Schieber"
 }

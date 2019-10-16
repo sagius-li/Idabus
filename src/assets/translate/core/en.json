@@ -83,7 +83,8 @@
   "key_locked": "Locked",
   "key_columnWidth": "Column width",
   "key_move": "Move",
-  "key_editorTextConfig": "Text editor config",
+  "key_editorTextConfig": "Text box config",
+  "key_editorBooleanConfig": "Check box config",
   "key_instanceName": "Instance name",
   "key_showSystemName": "Show system name",
   "key_dataBinding": "Data-binding",
@@ -152,5 +153,10 @@
   "key_goBack": "Go back",
   "key_deleteResource": "Delete the resource?",
   "key_setDefault": "Set default",
-  "key_notAvailable": "Not available"
+  "key_notAvailable": "Not available",
+  "key_labelPosition": "Label position",
+  "key_before": "Before",
+  "key_after": "After",
+  "key_checkbox": "Checkbox",
+  "key_slider": "Slider"
 }

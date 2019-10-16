@@ -29,7 +29,7 @@ export class EditorConfig {
     this.showTooltip = true;
     this.showDisplayName = true;
     this.customDisplayName = undefined;
-    this.showDescription = false;
+    this.showDescription = true;
     this.customDescription = undefined;
     this.readOnly = false;
     this.required = false;
@@ -43,6 +43,8 @@ export class EditorConfig {
  * Interface for editor, which can be created dynamically
  */
 export interface DynamicEditor {
+  /** Editor attribute */
+  attribute: AttributeResource;
   /** Editor configuration */
   config: EditorConfig;
   /** Initialize editor */

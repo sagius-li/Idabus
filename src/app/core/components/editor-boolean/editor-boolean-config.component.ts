@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
+
+import { DynamicEditor } from '../../models/dynamicEditor.interface';
+
+import { BooleanEditorConfig } from '../../models/editorContract.model';
+import { AttributeResource } from '../../models/dataContract.model';
 
 @Component({
   selector: 'app-editor-boolean-config',
@@ -6,10 +12,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./editor-boolean-config.component.scss']
 })
 export class EditorBooleanConfigComponent implements OnInit {
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      component: DynamicEditor;
+      config: BooleanEditorConfig;
+      attribute: AttributeResource;
+    }
+  ) {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

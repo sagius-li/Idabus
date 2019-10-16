@@ -70,5 +70,6 @@
   "l10n_viewIcon": "View icon",
   "l10n_contosoDevDes": "Contoso development system (MIM on-prem)",
   "l10n_contosoProDes": "Contoso production system (MIM on-prem)",
-  "l10n_ocgDemoSpaceDes": "OCG IDABUS Demo Azure tenant (cloud-only)"
+  "l10n_ocgDemoSpaceDes": "OCG IDABUS Demo Azure tenant (cloud-only)",
+  "l10n_attributeAlreadyExists": "Attribute already exists"
 }

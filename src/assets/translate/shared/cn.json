@@ -70,5 +70,6 @@
   "l10n_viewIcon": "视图图标",
   "l10n_contosoDevDes": "Contoso 开发环境 (MIM 局域网)",
   "l10n_contosoProDes": "Contoso 生产环境 (MIM 局域网)",
-  "l10n_ocgDemoSpaceDes": "OCG IDABUS 演示环境 (仅用于云服务)"
+  "l10n_ocgDemoSpaceDes": "OCG IDABUS 演示环境 (仅用于云服务)",
+  "l10n_attributeAlreadyExists": "属性已经存在"
 }

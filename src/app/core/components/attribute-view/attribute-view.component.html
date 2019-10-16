@@ -11,9 +11,11 @@
         [fxFlex]="100 / columnNumber"
         fxFlex.lt-md="100"
         *ngFor="let attribute of attributeArray"
+        [ngSwitch]="attribute.type"
+        #editor
       >
         <div fxLayout="row" fxLayoutAlign="start center">
-          <div fxFlex="auto">
+          <div fxFlex="auto" *ngSwitchCase="'text'">
             <app-editor-text
               #editor
               [attribute]="attribute.attribute"
@@ -21,6 +23,15 @@
               [control]="attribute.controller"
               [(config)]="attribute.config"
             ></app-editor-text>
+          </div>
+          <div fxFlex="auto" *ngSwitchCase="'boolean'">
+            <app-editor-boolean
+              #editor
+              [attribute]="attribute.attribute"
+              [formControlName]="getControllerIndex(attribute.config.name)"
+              [control]="attribute.controller"
+              [(config)]="attribute.config"
+            ></app-editor-boolean>
           </div>
           <div
             *ngIf="configMode"
@@ -36,7 +47,7 @@
             mat-icon-button
             color="primary"
             fxFlex="none"
-            (click)="onConfig(editor)"
+            (click)="onConfig(attribute.attribute.systemName)"
           >
             <mat-icon>settings</mat-icon>
           </button>

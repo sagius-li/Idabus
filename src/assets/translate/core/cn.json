@@ -84,6 +84,7 @@
   "key_columnWidth": "列宽",
   "key_move": "移动",
   "key_editorTextConfig": "文字编辑框设定",
+  "key_editorBooleanConfig": "复选框设定",
   "key_instanceName": "实例名称",
   "key_showSystemName": "显示系统名称",
   "key_dataBinding": "数据绑定",
@@ -152,5 +153,10 @@
   "key_goBack": "后退",
   "key_deleteResource": "确定要删除此资源吗?",
   "key_setDefault": "使用默认值",
-  "key_notAvailable": "不可用"
+  "key_notAvailable": "不可用",
+  "key_labelPosition": "标签位置",
+  "key_before": "在前",
+  "key_after": "在后",
+  "key_checkbox": "复选框",
+  "key_slider": "划选框"
 }

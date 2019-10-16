@@ -1,3 +1,136 @@
-<p>
-  editor-boolean-config works!
-</p>
+<h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  {{ 'key_editorBooleanConfig' | translate }}
+</h3>
+<div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
+  <div
+    fxFlex="none"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+    class="first-dialog-item"
+  >
+    <mat-form-field fxFlex="1 1 50">
+      <input
+        matInput
+        disabled
+        [placeholder]="'key_attributeName' | translate"
+        [(ngModel)]="data.attribute.systemName"
+      />
+    </mat-form-field>
+    <mat-form-field fxFlex="1 1 50">
+      <input
+        matInput
+        [placeholder]="'key_componentName' | translate"
+        [(ngModel)]="data.config.name"
+      />
+    </mat-form-field>
+  </div>
+  <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <mat-form-field fxFlex="1 1 50">
+      <mat-select
+        [placeholder]="'key_labelPosition' | translate"
+        [(ngModel)]="data.config.textAlign"
+      >
+        <mat-option value="before">{{ 'key_before' | translate }}</mat-option>
+        <mat-option value="after">{{ 'key_after' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex="1 1 50">
+      <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="data.config.controlType">
+        <mat-option value="checkbox">{{ 'key_checkbox' | translate }}</mat-option>
+        <mat-option value="slider">{{ 'key_slider' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div
+    fxFlex="none"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+    style="margin-top: 20px;"
+  >
+    <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.showTooltip">
+      {{ 'key_showToolTip' | translate }}</mat-slide-toggle
+    >
+    <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.hideIfNoAccess">
+      {{ 'key_hideIfNoAccess' | translate }}</mat-slide-toggle
+    >
+  </div>
+  <div
+    fxFlex="none"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+    style="margin-top: 30px;"
+  >
+    <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.readOnly">
+      {{ 'key_readOnly' | translate }}</mat-slide-toggle
+    >
+    <mat-slide-toggle
+      fxFlex="1 1 50"
+      [(ngModel)]="data.config.required"
+      [disabled]="data.config.requiredFromSchema"
+    >
+      {{ 'key_required' | translate }}</mat-slide-toggle
+    >
+  </div>
+  <div
+    fxFlex="none"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+    style="margin-top: 20px;"
+  >
+    <mat-slide-toggle #bolShowDisplayName fxFlex="1 1 50" [(ngModel)]="data.config.showDisplayName">
+      {{ 'key_showDisplayName' | translate }}</mat-slide-toggle
+    >
+    <mat-form-field fxFlex="1 1 50">
+      <input
+        matInput
+        [placeholder]="'key_customDisplayName' | translate"
+        [(ngModel)]="data.config.customDisplayName"
+        [disabled]="!bolShowDisplayName.checked"
+      />
+    </mat-form-field>
+  </div>
+  <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <mat-slide-toggle #bolShowDescription fxFlex="1 1 50" [(ngModel)]="data.config.showDescription">
+      {{ 'key_showDescription' | translate }}</mat-slide-toggle
+    >
+    <mat-form-field fxFlex="1 1 50">
+      <input
+        matInput
+        [placeholder]="'key_customDescription' | translate"
+        [(ngModel)]="data.config.customDescription"
+        [disabled]="!bolShowDescription.checked"
+      />
+    </mat-form-field>
+  </div>
+  <div fxFlex="none">
+    <mat-form-field fxFlex="auto">
+      <textarea
+        matInput
+        matTextareaAutosize
+        matAutosizeMinRows="1"
+        matAutosizeMaxRows="6"
+        [placeholder]="'key_valueExpression' | translate"
+        [(ngModel)]="data.config.expression"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</div>
+<div
+  mat-dialog-actions
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  style="margin-top: 10px;"
+>
+  <button fxFlex="none" mat-stroked-button color="primary" [mat-dialog-close]="data.config">
+    {{ 'key_submit' | translate }}
+  </button>
+  <div fxFlex="auto"></div>
+  <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">
+    {{ 'key_cancel' | translate }}
+  </button>
+</div>

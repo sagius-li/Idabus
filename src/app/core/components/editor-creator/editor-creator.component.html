@@ -4,7 +4,7 @@
 <div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
   <mat-form-field fxFlex="auto">
     <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="config.type" cdkFocusInitial>
-      <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+      <mat-option *ngFor="let type of types" [value]="type.value">{{ type.text }}</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field fxFlex="auto">

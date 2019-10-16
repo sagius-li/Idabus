@@ -13,7 +13,7 @@ export class EditorCreatorComponent implements OnInit {
     type: 'text'
   };
 
-  types = ['text'];
+  types = [{ text: 'Text box', value: 'text' }, { text: 'Check box', value: 'boolean' }];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

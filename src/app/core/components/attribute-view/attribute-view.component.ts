@@ -5,7 +5,11 @@ import {
   Output,
   EventEmitter,
   IterableDiffers,
-  DoCheck
+  DoCheck,
+  ElementRef,
+  ViewChild,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -32,6 +36,8 @@ import { ConfigService } from '../../services/config.service';
   styleUrls: ['./attribute-view.component.scss']
 })
 export class AttributeViewComponent implements OnInit, DoCheck {
+  @ViewChildren('editor') editors: QueryList<DynamicEditor>;
+
   @Input()
   attributeDefs: Array<any>;
 
@@ -222,14 +228,24 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     }
   }
 
-  onConfig(editor: DynamicEditor) {
-    editor.configure().subscribe();
+  onConfig(attributeName: string) {
+    const editor = this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    if (editor) {
+      editor.configure().subscribe();
+    }
   }
 
   onDelete(attribute: EditorResult) {
-    const pos = this.attributeArray.findIndex(a => a.config.name === attribute.config.name);
+    let pos = this.attributeArray.findIndex(
+      a => a.attribute.systemName === attribute.attribute.systemName
+    );
     if (pos >= 0) {
       this.attributeArray.splice(pos, 1);
+    }
+
+    pos = this.attributeDefs.findIndex(d => d.attributeName === attribute.attribute.systemName);
+    if (pos >= 0) {
+      this.attributeDefs.splice(pos, 1);
     }
   }
 

@@ -121,13 +121,21 @@ export class TabViewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result !== 'cancel') {
-        this.tabDefs[this.currentTabIndex].attributes.push({
-          attributeName: result.attributeName,
-          editorType: result.type,
-          editorConfig: {
-            name: result.name
-          }
-        });
+        if (
+          this.tabDefs[this.currentTabIndex].attributes.findIndex(
+            (a: any) => a.attributeName === result.attributeName
+          ) >= 0
+        ) {
+          this.modal.show(ModalType.error, 'key_error', 'l10n_attributeAlreadyExists');
+        } else {
+          this.tabDefs[this.currentTabIndex].attributes.push({
+            attributeName: result.attributeName,
+            editorType: result.type,
+            editorConfig: {
+              name: result.name
+            }
+          });
+        }
       }
     });
   }

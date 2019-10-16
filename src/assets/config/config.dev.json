@@ -4,7 +4,7 @@
   "routePrefix": "",
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
-  "startPath": "/test",
+  "startPath": "/app",
   "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle"],
   "supportedLanguages": [
     {

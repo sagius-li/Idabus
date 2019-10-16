@@ -6,13 +6,20 @@ import {
   FormControl
 } from '@angular/forms';
 
+import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
+
 import { DynamicEditor } from '../../models/dynamicEditor.interface';
 import { AttributeResource } from '../../models/dataContract.model';
 import { BooleanEditorConfig } from '../../models/editorContract.model';
 
+import { createBooleanEditorValidator } from '../../validators/boolean.validator';
+
 import { UtilsService } from '../../services/utils.service';
 import { SwapService } from '../../services/swap.service';
-import { createBooleanEditorValidator } from '../../validators/boolean.validator';
+
+import { EditorBooleanConfigComponent } from './editor-boolean-config.component';
 
 @Component({
   selector: 'app-editor-boolean',
@@ -125,7 +132,7 @@ export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlVal
     }
   }
 
-  constructor(public utils: UtilsService, private swap: SwapService) {}
+  constructor(public utils: UtilsService, private swap: SwapService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.initComponent();
@@ -148,7 +155,30 @@ export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlVal
   }
 
   configure() {
-    return null;
+    const configCopy = this.utils.DeepCopy(this.localConfig);
+
+    const dialogRef = this.dialog.open(EditorBooleanConfigComponent, {
+      minWidth: '620px',
+      data: {
+        component: this,
+        config: this.localConfig,
+        attribute: this.attribute
+      }
+    });
+
+    return dialogRef.afterClosed().pipe(
+      tap(result => {
+        if (!result || (result && result === 'cancel')) {
+          this.localConfig = configCopy;
+        } else {
+          this.config = this.localConfig;
+          this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
+        }
+      }),
+      switchMap(() => {
+        return of(this.localConfig);
+      })
+    );
   }
 
   // #endregion

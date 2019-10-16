@@ -10,9 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
+import { DynamicEditor } from '../../models/dynamicEditor.interface';
 import { AttributeResource } from '../../models/dataContract.model';
 import { TextEditorConfig } from '../../models/editorContract.model';
-import { DynamicEditor } from '../../models/dynamicEditor.interface';
 
 import { createTextEditorValidator } from '../../validators/text.validator';
 
