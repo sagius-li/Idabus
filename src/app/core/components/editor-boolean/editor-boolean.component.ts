@@ -205,7 +205,9 @@ export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlVal
   }
 
   onChange() {
-    this.swap.changeEditorValue(this.localConfig.name);
+    if (this.localConfig.name) {
+      this.swap.changeEditorValue(this.localConfig.name);
+    }
   }
 
   // #endregion

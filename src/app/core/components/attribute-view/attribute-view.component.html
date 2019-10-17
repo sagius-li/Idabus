@@ -19,7 +19,7 @@
             <app-editor-text
               #editor
               [attribute]="attribute.attribute"
-              [formControlName]="getControllerIndex(attribute.config.name)"
+              [formControlName]="getControllerIndex(attribute.attribute.systemName)"
               [control]="attribute.controller"
               [(config)]="attribute.config"
             ></app-editor-text>
@@ -28,7 +28,7 @@
             <app-editor-boolean
               #editor
               [attribute]="attribute.attribute"
-              [formControlName]="getControllerIndex(attribute.config.name)"
+              [formControlName]="getControllerIndex(attribute.attribute.systemName)"
               [control]="attribute.controller"
               [(config)]="attribute.config"
             ></app-editor-boolean>

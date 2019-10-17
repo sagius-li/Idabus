@@ -269,7 +269,7 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     attribute.controller.markAsDirty();
   }
 
-  getControllerIndex(controlName: string) {
-    return this.attributeArray.findIndex(a => a.config.name === controlName);
+  getControllerIndex(attributeName: string) {
+    return this.attributeArray.findIndex(a => a.attribute.systemName === attributeName);
   }
 }

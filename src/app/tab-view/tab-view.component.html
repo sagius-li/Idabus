@@ -29,7 +29,7 @@
   >
     <mat-tab *ngFor="let tabDef of tabDefs" label="{{ tabDef.displayName | translate }}">
       <ng-template matTabContent>
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px; margin-left: 15px;">
           <app-attribute-view
             [configMode]="configMode"
             [attributeDefs]="tabDef.attributes"

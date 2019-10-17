@@ -1,6 +1,7 @@
 <div fxLayout="column" style="width: 100%;">
   <div style="height: 20px;"></div>
   <mat-checkbox
+    *ngIf="localConfig.controlType === 'checkbox'"
     [matTooltip]="tooltip"
     [(ngModel)]="value"
     (focus)="onFocuse()"
@@ -12,6 +13,16 @@
   >
     {{ displayName | translate }}
   </mat-checkbox>
+  <mat-slide-toggle
+    *ngIf="localConfig.controlType === 'slider'"
+    [matTooltip]="tooltip"
+    [(ngModel)]="value"
+    (focus)="onFocuse()"
+    [disabled]="disabled"
+    [labelPosition]="localConfig.textAlign"
+    style="font-weight: 400;"
+    >{{ displayName | translate }}</mat-slide-toggle
+  >
 </div>
 <div style="font-size: 12px; font-weight: 400; color: rgba(0,0,0,.54); height: 18px;">
   {{ description | translate }}
