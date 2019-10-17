@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ElementRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -10,8 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
-import { DynamicEditor } from '../../models/dynamicEditor.interface';
-import { AttributeResource } from '../../models/dataContract.model';
+import { AttributeEditor } from '../../models/dynamicEditor.interface';
 import { TextEditorConfig } from '../../models/editorContract.model';
 
 import { createTextEditorValidator } from '../../validators/text.validator';
@@ -38,109 +37,39 @@ import { EditorTextConfigComponent } from './editor-text-config.component';
     }
   ]
 })
-export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueAccessor {
-  @Input()
-  attribute: AttributeResource;
-
-  @Input()
-  controlValue: any;
-  get value() {
-    return this.controlValue ? this.controlValue : this.attribute.value;
-  }
-  set value(value) {
-    this.controlValue = value;
-    this.propagateChange(this.controlValue);
-  }
-
-  editorConfig: TextEditorConfig;
-  @Input()
-  get config() {
-    return this.editorConfig;
-  }
-  set config(value) {
-    this.editorConfig = value;
-    this.configChange.emit(this.editorConfig);
-  }
-  @Output()
-  configChange = new EventEmitter();
-
+export class EditorTextComponent extends AttributeEditor implements OnInit, ControlValueAccessor {
   @Input()
   control: FormControl;
 
-  @Input()
-  configMode = false;
+  localConfig = new TextEditorConfig();
 
-  validationFn: (c: FormControl) => any;
-
-  localConfig: TextEditorConfig;
-
-  get showEditor() {
-    if (this.localConfig.isHidden) {
-      return true;
-    }
-
-    if (
-      this.localConfig.hideIfNoAccess &&
-      !this.utils.PermissionCanRead(this.attribute.permissionHint)
-    ) {
-      return false;
-    }
-
-    return true;
+  constructor(
+    public utils: UtilsService,
+    private dialog: MatDialog,
+    private swap: SwapService,
+    private host: ElementRef
+  ) {
+    super();
   }
-
-  get disabled() {
-    if (
-      this.localConfig.readOnly ||
-      !this.utils.PermissionCanModify(this.attribute.permissionHint)
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  get displayName() {
-    if (this.localConfig.showDisplayName) {
-      if (this.localConfig.customDisplayName) {
-        return this.localConfig.customDisplayName;
-      } else {
-        return this.attribute.displayName;
-      }
-    } else {
-      return undefined;
-    }
-  }
-
-  get description() {
-    if (this.localConfig.showDescription) {
-      if (this.localConfig.customDescription) {
-        return this.localConfig.customDescription;
-      } else {
-        return this.attribute.description;
-      }
-    } else {
-      return undefined;
-    }
-  }
-
-  get tooltip() {
-    if (this.localConfig.showTooltip && this.attribute) {
-      return this.attribute.systemName;
-    } else {
-      return null;
-    }
-  }
-
-  constructor(public utils: UtilsService, private dialog: MatDialog, private swap: SwapService) {}
 
   ngOnInit() {
     this.initComponent();
   }
 
-  // #region DynamicEditor implementation
+  // #region AttributeEditor implementation
 
   initComponent() {
+    try {
+      // check 2 times, because the first time the default value (hideIfNoAccess = true) will be returned
+      if (!this.showEditor()) {
+        setTimeout(() => {
+          if (!this.showEditor()) {
+            this.host.nativeElement.parentElement.remove();
+          }
+        });
+      }
+    } catch {}
+
     this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
 
     if (this.attribute.required) {
@@ -183,22 +112,7 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
 
   // #endregion
 
-  // #region ControlValueAccessor implementation
-
-  propagateChange = (_: any) => {};
-  propagateTouched = () => {};
-
-  writeValue(value: any) {
-    this.controlValue = value;
-  }
-
-  registerOnChange(fn: (_: any) => void) {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: () => void) {
-    this.propagateTouched = fn;
-  }
+  // #region Event handler
 
   onFocuse() {
     this.propagateTouched();
@@ -208,14 +122,6 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
     if (this.localConfig.name) {
       this.swap.changeEditorValue(this.localConfig.name);
     }
-  }
-
-  // #endregion
-
-  // #region Validator implementation
-
-  validate(c: FormControl) {
-    return this.validationFn(c);
   }
 
   // #endregion

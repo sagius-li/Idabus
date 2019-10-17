@@ -158,5 +158,7 @@
   "key_before": "Before",
   "key_after": "After",
   "key_checkbox": "Checkbox",
-  "key_slider": "Slider"
+  "key_slider": "Slider",
+  "key_noReadAccess": "No read access",
+  "key_noWriteAccess": "No write access"
 }

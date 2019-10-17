@@ -1,4 +1,4 @@
-<div fxLayout="column" style="width: 100%;">
+<div fxLayout="column" *ngIf="showEditor()" style="width: 100%;">
   <div style="height: 20px;"></div>
   <mat-checkbox
     *ngIf="localConfig.controlType === 'checkbox'"
@@ -23,7 +23,27 @@
     style="font-weight: 400;"
     >{{ displayName | translate }}</mat-slide-toggle
   >
-</div>
-<div style="font-size: 12px; font-weight: 400; color: rgba(0,0,0,.54); height: 18px;">
-  {{ description | translate }}
+  <div
+    style="font-size: 12px; font-weight: 400; color: rgba(0,0,0,.54); height: 18px; padding-top: 2px;"
+  >
+    <div fxLayout="row">
+      <div fxFlex="none" *ngIf="description" style="margin-right: 10px;">
+        {{ description | translate }}
+      </div>
+      <div
+        fxFlex="none"
+        *ngIf="readAccess && !writeAccess"
+        style="font-size: 14px; color: #d8bb2e;"
+      >
+        <mat-icon [matTooltip]="'key_noWriteAccess' | translate">error</mat-icon>
+      </div>
+      <div fxFlex="none" *ngIf="!readAccess">
+        <mat-icon
+          [matTooltip]="'key_noReadAccess' | translate"
+          style="font-size: 14px; color: red; padding-top: 4px;"
+          >error</mat-icon
+        >
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ElementRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -10,8 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 
-import { DynamicEditor } from '../../models/dynamicEditor.interface';
-import { AttributeResource } from '../../models/dataContract.model';
+import { AttributeEditor } from '../../models/dynamicEditor.interface';
 import { BooleanEditorConfig } from '../../models/editorContract.model';
 
 import { createBooleanEditorValidator } from '../../validators/boolean.validator';
@@ -38,109 +37,40 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
     }
   ]
 })
-export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlValueAccessor {
-  @Input()
-  attribute: AttributeResource;
-
-  @Input()
-  controlValue: any;
-  get value() {
-    return this.controlValue ? this.controlValue : this.attribute.value;
-  }
-  set value(value) {
-    this.controlValue = value;
-    this.propagateChange(this.controlValue);
-  }
-
-  editorConfig: BooleanEditorConfig;
-  @Input()
-  get config() {
-    return this.editorConfig;
-  }
-  set config(value) {
-    this.editorConfig = value;
-    this.configChange.emit(this.editorConfig);
-  }
-  @Output()
-  configChange = new EventEmitter();
-
+export class EditorBooleanComponent extends AttributeEditor
+  implements OnInit, ControlValueAccessor {
   @Input()
   control: FormControl;
 
-  @Input()
-  configMode = false;
+  localConfig = new BooleanEditorConfig();
 
-  validationFn: (c: FormControl) => any;
-
-  localConfig: BooleanEditorConfig;
-
-  get showEditor() {
-    if (this.localConfig.isHidden) {
-      return true;
-    }
-
-    if (
-      this.localConfig.hideIfNoAccess &&
-      !this.utils.PermissionCanRead(this.attribute.permissionHint)
-    ) {
-      return false;
-    }
-
-    return true;
+  constructor(
+    public utils: UtilsService,
+    private swap: SwapService,
+    private dialog: MatDialog,
+    private host: ElementRef
+  ) {
+    super();
   }
-
-  get disabled() {
-    if (
-      this.localConfig.readOnly ||
-      !this.utils.PermissionCanModify(this.attribute.permissionHint)
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  get displayName() {
-    if (this.localConfig.showDisplayName) {
-      if (this.localConfig.customDisplayName) {
-        return this.localConfig.customDisplayName;
-      } else {
-        return this.attribute.displayName;
-      }
-    } else {
-      return undefined;
-    }
-  }
-
-  get description() {
-    if (this.localConfig.showDescription) {
-      if (this.localConfig.customDescription) {
-        return this.localConfig.customDescription;
-      } else {
-        return this.attribute.description;
-      }
-    } else {
-      return undefined;
-    }
-  }
-
-  get tooltip() {
-    if (this.localConfig.showTooltip && this.attribute) {
-      return this.attribute.systemName;
-    } else {
-      return null;
-    }
-  }
-
-  constructor(public utils: UtilsService, private swap: SwapService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.initComponent();
   }
 
-  // #region DynamicEditor implementation
+  // #region AttributeEditor implementation
 
   initComponent() {
+    try {
+      // check 2 times, because the first time the default value (hideIfNoAccess = true) will be returned
+      if (!this.showEditor()) {
+        setTimeout(() => {
+          if (!this.showEditor()) {
+            this.host.nativeElement.parentElement.remove();
+          }
+        });
+      }
+    } catch {}
+
     this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
 
     if (this.attribute.required) {
@@ -183,22 +113,7 @@ export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlVal
 
   // #endregion
 
-  // #region ControlValueAccessor implementation
-
-  propagateChange = (_: any) => {};
-  propagateTouched = () => {};
-
-  writeValue(value: any) {
-    this.controlValue = value;
-  }
-
-  registerOnChange(fn: (_: any) => void) {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: () => void) {
-    this.propagateTouched = fn;
-  }
+  // #region Event handler
 
   onFocuse() {
     this.propagateTouched();
@@ -208,14 +123,6 @@ export class EditorBooleanComponent implements OnInit, DynamicEditor, ControlVal
     if (this.localConfig.name) {
       this.swap.changeEditorValue(this.localConfig.name);
     }
-  }
-
-  // #endregion
-
-  // #region Validator implementation
-
-  validate(c: FormControl) {
-    return this.validationFn(c);
   }
 
   // #endregion

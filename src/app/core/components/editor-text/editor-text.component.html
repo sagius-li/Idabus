@@ -1,4 +1,4 @@
-<mat-form-field fxFlex="auto" *ngIf="showEditor" style="width: 100%;">
+<mat-form-field fxFlex="auto" *ngIf="showEditor()" style="width: 100%;">
   <input
     matInput
     #editor="ngModel"
@@ -10,23 +10,27 @@
     [disabled]="disabled"
     [attr.maxlength]="localConfig.maxLength"
   />
-  <mat-hint align="start" *ngIf="!control || (control && control.valid)">{{
-    description | translate
-  }}</mat-hint>
+  <mat-hint align="start" *ngIf="!control || (control && control.valid)">
+    <div fxLayout="row">
+      <div fxFlex="auto" *ngIf="description" style="margin-right: 10px;">
+        {{ description | translate }}
+      </div>
+      <div
+        fxFlex="auto"
+        *ngIf="readAccess && !writeAccess"
+        style="font-size: 14px; color: #d8bb2e;"
+      >
+        <mat-icon [matTooltip]="'key_noWriteAccess' | translate">error</mat-icon>
+      </div>
+      <div fxFlex="auto" *ngIf="!readAccess" style="font-size: 14px; color: red;">
+        <mat-icon [matTooltip]="'key_noReadAccess' | translate">error</mat-icon>
+      </div>
+    </div>
+  </mat-hint>
   <mat-hint align="end" *ngIf="localConfig.maxLength && (!control || (control && control.valid))"
     >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
   >
   <mat-hint *ngIf="control && control.invalid && control.touched" class="error-message">{{
     control.errors['message'] | translate
   }}</mat-hint>
-</mat-form-field>
-
-<mat-form-field fxFlex="auto" *ngIf="!showEditor" style="width: 100%;">
-  <input
-    matInput
-    [placeholder]="displayName | translate"
-    disabled
-    [value]="'key_notAvailable' | translate"
-  />
-  <mat-hint align="start" *ngIf="control.valid">{{ description | translate }}</mat-hint>
 </mat-form-field>

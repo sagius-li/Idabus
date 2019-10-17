@@ -7,32 +7,31 @@
       dragula="ATTRIBUTECOLUMN"
       [(dragulaModel)]="attributeArray"
     >
-      <div
-        [fxFlex]="100 / columnNumber"
-        fxFlex.lt-md="100"
-        *ngFor="let attribute of attributeArray"
-        [ngSwitch]="attribute.type"
-        #editor
-      >
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <div fxFlex="auto" *ngSwitchCase="'text'">
-            <app-editor-text
-              #editor
-              [attribute]="attribute.attribute"
-              [formControlName]="getControllerIndex(attribute.attribute.systemName)"
-              [control]="attribute.controller"
-              [(config)]="attribute.config"
-            ></app-editor-text>
-          </div>
-          <div fxFlex="auto" *ngSwitchCase="'boolean'">
-            <app-editor-boolean
-              #editor
-              [attribute]="attribute.attribute"
-              [formControlName]="getControllerIndex(attribute.attribute.systemName)"
-              [control]="attribute.controller"
-              [(config)]="attribute.config"
-            ></app-editor-boolean>
-          </div>
+      <ng-container *ngFor="let attribute of attributeArray" [ngSwitch]="attribute.type">
+        <div
+          [fxFlex]="100 / columnNumber"
+          fxFlex.lt-md="100"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+        >
+          <app-editor-text
+            #editor
+            fxFlex="auto"
+            *ngSwitchCase="'text'"
+            [attribute]="attribute.attribute"
+            [formControlName]="getControllerIndex(attribute.attribute.systemName)"
+            [control]="attribute.controller"
+            [(config)]="attribute.config"
+          ></app-editor-text>
+          <app-editor-boolean
+            #editor
+            fxFlex="auto"
+            *ngSwitchCase="'boolean'"
+            [attribute]="attribute.attribute"
+            [formControlName]="getControllerIndex(attribute.attribute.systemName)"
+            [control]="attribute.controller"
+            [(config)]="attribute.config"
+          ></app-editor-boolean>
           <div
             *ngIf="configMode"
             fxFlex="none"
@@ -63,7 +62,7 @@
           </button>
           <div fxFlex="20px"></div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </form>
 </div>

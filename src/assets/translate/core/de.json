@@ -158,5 +158,7 @@
   "key_before": "Vorne",
   "key_after": "Hinter",
   "key_checkbox": "Checkbox",
-  "key_slider": "Schieber"
+  "key_slider": "Schieber",
+  "key_noReadAccess": "Kein Lesezugriff",
+  "key_noWriteAccess": "Kein Schreibzugriff"
 }

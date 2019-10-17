@@ -158,5 +158,7 @@
   "key_before": "在前",
   "key_after": "在后",
   "key_checkbox": "复选框",
-  "key_slider": "划选框"
+  "key_slider": "划选框",
+  "key_noReadAccess": "没有可读权限",
+  "key_noWriteAccess": "没有可写权限"
 }
