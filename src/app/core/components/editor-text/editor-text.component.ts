@@ -205,7 +205,9 @@ export class EditorTextComponent implements OnInit, DynamicEditor, ControlValueA
   }
 
   onChange() {
-    this.swap.changeEditorValue(this.localConfig.name);
+    if (this.localConfig.name) {
+      this.swap.changeEditorValue(this.localConfig.name);
+    }
   }
 
   // #endregion

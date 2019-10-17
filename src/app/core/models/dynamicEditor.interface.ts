@@ -21,6 +21,8 @@ export class EditorConfig {
   customDescription?: string;
   hideIfNoAccess?: boolean;
   expression?: string;
+  accessAllowed?: Array<string>;
+  accessDenied?: Array<string>;
 
   constructor() {
     this.name = undefined;
@@ -36,6 +38,8 @@ export class EditorConfig {
     this.requiredFromSchema = false;
     this.hideIfNoAccess = true;
     this.expression = undefined;
+    this.accessAllowed = [];
+    this.accessDenied = [];
   }
 }
 
