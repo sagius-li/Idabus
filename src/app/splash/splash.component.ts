@@ -37,7 +37,7 @@ export class SplashComponent implements OnInit {
         return this.resource.getCurrentUser().pipe(
           tap(() => {
             this.resource.customViewSetting = this.com.parseComponentConfig(
-              this.resource.customViewSetting
+              this.resource.customViewString
             );
             this.translate.use(this.resource.customViewSetting.language);
           })
@@ -47,7 +47,7 @@ export class SplashComponent implements OnInit {
         return this.resource.getUserConfig().pipe(
           tap(() => {
             this.resource.primaryViewSetting = this.com.parseComponentConfig(
-              this.resource.primaryViewSetting
+              this.resource.primaryViewString
             );
           })
         );
