@@ -24,6 +24,7 @@ export class EditorConfig {
   expression?: string;
   accessAllowed?: Array<string>;
   accessDenied?: Array<string>;
+  accessUsedFor?: string;
 
   constructor() {
     this.name = undefined;
@@ -41,6 +42,7 @@ export class EditorConfig {
     this.expression = undefined;
     this.accessAllowed = [];
     this.accessDenied = [];
+    this.accessUsedFor = 'visibility';
   }
 }
 
@@ -126,20 +128,50 @@ export class AttributeEditor implements DynamicEditor {
     }
   }
 
+  private inDeniedList(rightSets: string[]) {
+    if (rightSets && rightSets.length > 0) {
+      if (this.localConfig.accessDenied && this.localConfig.accessDenied.length > 0) {
+        if (rightSets.indexOf('Administrators') >= 0) {
+          return false;
+        }
+        for (const deniedSet of this.localConfig.accessDenied) {
+          if (rightSets.indexOf(deniedSet) >= 0) {
+            return true;
+          }
+        }
+      }
+    } else {
+      return true;
+    }
+
+    return false;
+  }
+
+  private inAllowedList(rightSets: string[]) {
+    if (rightSets && rightSets.length > 0) {
+      if (this.localConfig.accessAllowed && this.localConfig.accessAllowed.length > 0) {
+        if (rightSets.indexOf('Administrators') >= 0) {
+          return true;
+        }
+        for (const deniedSet of this.localConfig.accessAllowed) {
+          if (rightSets.indexOf(deniedSet) >= 0) {
+            return true;
+          }
+        }
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   get readAccess() {
     return this.permissionCanRead(this.attribute.permissionHint);
   }
 
   get writeAccess() {
     return this.permissionCanModify(this.attribute.permissionHint);
-  }
-
-  get disabled() {
-    if (this.localConfig.readOnly || !this.writeAccess) {
-      return true;
-    }
-
-    return false;
   }
 
   get displayName() {
@@ -174,6 +206,25 @@ export class AttributeEditor implements DynamicEditor {
     }
   }
 
+  disabled(rightSets: string[] = []) {
+    if (this.localConfig.readOnly || !this.writeAccess) {
+      return true;
+    }
+
+    if (this.localConfig.accessUsedFor === 'editability') {
+      if (this.inDeniedList(rightSets)) {
+        return true;
+      }
+      if (this.inAllowedList(rightSets)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   showEditor(rightSets: string[] = []) {
     if (this.localConfig.isHidden) {
       return false;
@@ -183,22 +234,13 @@ export class AttributeEditor implements DynamicEditor {
       return false;
     }
 
-    if (rightSets && rightSets.length > 0) {
-      if (this.localConfig.accessDenied && this.localConfig.accessDenied.length > 0) {
-        this.localConfig.accessDenied.forEach(deniedSet => {
-          if (rightSets.indexOf(deniedSet) >= 0) {
-            return false;
-          }
-        });
+    if (this.localConfig.accessUsedFor === 'visibility') {
+      if (this.inDeniedList(rightSets)) {
+        return false;
       }
-
-      if (this.localConfig.accessAllowed && this.localConfig.accessAllowed.length > 0) {
-        this.localConfig.accessAllowed.forEach(allowedSet => {
-          if (rightSets.indexOf(allowedSet) >= 0) {
-            return true;
-          }
-        });
-
+      if (this.inAllowedList(rightSets)) {
+        return true;
+      } else {
         return false;
       }
     }

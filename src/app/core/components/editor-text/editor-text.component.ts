@@ -17,6 +17,7 @@ import { createTextEditorValidator } from '../../validators/text.validator';
 
 import { UtilsService } from '../../services/utils.service';
 import { SwapService } from '../../services/swap.service';
+import { ResourceService } from '../../services/resource.service';
 
 import { EditorTextConfigComponent } from './editor-text-config.component';
 
@@ -45,6 +46,7 @@ export class EditorTextComponent extends AttributeEditor implements OnInit, Cont
 
   constructor(
     public utils: UtilsService,
+    public resource: ResourceService,
     private dialog: MatDialog,
     private swap: SwapService,
     private host: ElementRef
@@ -59,17 +61,6 @@ export class EditorTextComponent extends AttributeEditor implements OnInit, Cont
   // #region AttributeEditor implementation
 
   initComponent() {
-    try {
-      // check 2 times, because the first time the default value (hideIfNoAccess = true) will be returned
-      if (!this.showEditor()) {
-        setTimeout(() => {
-          if (!this.showEditor()) {
-            this.host.nativeElement.parentElement.remove();
-          }
-        });
-      }
-    } catch {}
-
     this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
 
     if (this.attribute.required) {
@@ -79,6 +70,12 @@ export class EditorTextComponent extends AttributeEditor implements OnInit, Cont
 
     this.localConfig = new TextEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+
+    try {
+      if (!this.showEditor(this.resource.rightSets)) {
+        this.host.nativeElement.parentElement.remove();
+      }
+    } catch {}
 
     return this.localConfig;
   }

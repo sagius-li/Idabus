@@ -160,5 +160,10 @@
   "key_checkbox": "复选框",
   "key_slider": "划选框",
   "key_noReadAccess": "没有可读权限",
-  "key_noWriteAccess": "没有可写权限"
+  "key_noWriteAccess": "没有可写权限",
+  "key_advanced": "进阶",
+  "key_useForVisibility": "用于可视",
+  "key_useForEditability": "用于可编辑",
+  "key_deniedSets": "不允许的集合",
+  "key_allowedSets": "允许的集合"
 }

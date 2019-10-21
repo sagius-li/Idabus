@@ -6,8 +6,6 @@ import {
   EventEmitter,
   IterableDiffers,
   DoCheck,
-  ElementRef,
-  ViewChild,
   ViewChildren,
   QueryList
 } from '@angular/core';

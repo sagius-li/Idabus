@@ -160,5 +160,10 @@
   "key_checkbox": "Checkbox",
   "key_slider": "Schieber",
   "key_noReadAccess": "Kein Lesezugriff",
-  "key_noWriteAccess": "Kein Schreibzugriff"
+  "key_noWriteAccess": "Kein Schreibzugriff",
+  "key_advanced": "Erweitert",
+  "key_useForVisibility": "Für Sichtbarkeit",
+  "key_useForEditability": "Für Editierbarkeit",
+  "key_deniedSets": "Verweigerte Listen",
+  "key_allowedSets": "Erlaubte Listen"
 }

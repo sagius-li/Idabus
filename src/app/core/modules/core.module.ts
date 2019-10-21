@@ -34,6 +34,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { GridModule, PDFModule, ExcelModule } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -155,6 +156,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatRippleModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    MatChipsModule,
 
     GridModule,
     PDFModule,
@@ -229,6 +231,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     MatRippleModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    MatChipsModule,
 
     GridModule,
     PDFModule,

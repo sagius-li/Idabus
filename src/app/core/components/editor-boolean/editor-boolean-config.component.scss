@@ -10,7 +10,18 @@
   padding: 10px;
   overflow: hidden;
 }
+::ng-deep .mat-tab-body-content {
+  padding: 10px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 .first-dialog-item {
   margin-top: 20px;
+}
+
+.config-tab-group {
+  height: 450px;
+  width: 600px;
 }

@@ -1,4 +1,4 @@
-<mat-form-field fxFlex="auto" *ngIf="showEditor()" style="width: 100%;">
+<mat-form-field fxFlex="auto" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
   <input
     matInput
     #editor="ngModel"
@@ -7,7 +7,7 @@
     [(ngModel)]="value"
     (focus)="onFocuse()"
     (change)="onChange()"
-    [disabled]="disabled"
+    [disabled]="disabled(resource.rightSets)"
     [attr.maxlength]="localConfig.maxLength"
   />
   <mat-hint align="start" *ngIf="!control || (control && control.valid)">

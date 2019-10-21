@@ -17,6 +17,7 @@ import { createBooleanEditorValidator } from '../../validators/boolean.validator
 
 import { UtilsService } from '../../services/utils.service';
 import { SwapService } from '../../services/swap.service';
+import { ResourceService } from '../../services/resource.service';
 
 import { EditorBooleanConfigComponent } from './editor-boolean-config.component';
 
@@ -46,6 +47,7 @@ export class EditorBooleanComponent extends AttributeEditor
 
   constructor(
     public utils: UtilsService,
+    public resource: ResourceService,
     private swap: SwapService,
     private dialog: MatDialog,
     private host: ElementRef
@@ -60,17 +62,6 @@ export class EditorBooleanComponent extends AttributeEditor
   // #region AttributeEditor implementation
 
   initComponent() {
-    try {
-      // check 2 times, because the first time the default value (hideIfNoAccess = true) will be returned
-      if (!this.showEditor()) {
-        setTimeout(() => {
-          if (!this.showEditor()) {
-            this.host.nativeElement.parentElement.remove();
-          }
-        });
-      }
-    } catch {}
-
     this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
 
     if (this.attribute.required) {
@@ -80,6 +71,12 @@ export class EditorBooleanComponent extends AttributeEditor
 
     this.localConfig = new BooleanEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+
+    try {
+      if (!this.showEditor(this.resource.rightSets)) {
+        this.host.nativeElement.parentElement.remove();
+      }
+    } catch {}
 
     return this.localConfig;
   }

@@ -160,5 +160,10 @@
   "key_checkbox": "Checkbox",
   "key_slider": "Slider",
   "key_noReadAccess": "No read access",
-  "key_noWriteAccess": "No write access"
+  "key_noWriteAccess": "No write access",
+  "key_advanced": "Advanced",
+  "key_useForVisibility": "Use for visibility",
+  "key_useForEditability": "Use for editability",
+  "key_deniedSets": "Denied sets",
+  "key_allowedSets": "Allowed sets"
 }
