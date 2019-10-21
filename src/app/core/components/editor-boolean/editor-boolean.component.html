@@ -11,7 +11,9 @@
     [indeterminate]="value === undefined || value === null"
     style="font-weight: 400;"
   >
-    {{ displayName | translate }}
+    <div class="label-attribute-name">
+      {{ displayName | translate }}
+    </div>
   </mat-checkbox>
   <mat-slide-toggle
     *ngIf="localConfig.controlType === 'slider'"

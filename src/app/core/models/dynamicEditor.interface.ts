@@ -73,6 +73,9 @@ export interface EditorResult {
 
 export class AttributeEditor implements DynamicEditor {
   @Input()
+  isFormControl = false;
+
+  @Input()
   attribute: AttributeResource;
 
   editorConfig: EditorConfig;
@@ -90,7 +93,7 @@ export class AttributeEditor implements DynamicEditor {
   @Input()
   controlValue: any;
   get value() {
-    return this.controlValue ? this.controlValue : this.attribute.value;
+    return this.isFormControl ? this.controlValue : this.attribute.value;
   }
   set value(value) {
     this.controlValue = value;
