@@ -172,21 +172,21 @@ export class AttributeViewComponent implements OnInit, DoCheck {
       }
     });
 
-    this.attributeArray.splice(0, this.attributeArray.length);
-
-    const attributes = this.attributeDefs.map(a => a.attributeName);
-    this.attributesToLoad.forEach(a => {
-      if (attributes.indexOf(a) < 0) {
-        attributes.push(a);
-      }
-    });
-    this.attributesToLoad = attributes;
-
     this.obsCurrentResource = this.route.params.pipe(
       tap(() => {
         this.spinner.startLoader('spinner_home');
       }),
       switchMap(() => {
+        this.attributeArray.splice(0, this.attributeArray.length);
+
+        const attributes = this.attributeDefs.map(a => a.attributeName);
+        this.attributesToLoad.forEach(a => {
+          if (attributes.indexOf(a) < 0) {
+            attributes.push(a);
+          }
+        });
+        this.attributesToLoad = attributes;
+
         const objectID = this.route.snapshot.paramMap.get('id');
         return this.resource.getResourceByID(
           objectID,
