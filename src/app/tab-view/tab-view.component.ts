@@ -172,11 +172,10 @@ export class TabViewComponent implements OnInit {
         }
       });
 
-      this.route.params
+      const id = this.route.snapshot.paramMap.get('id');
+      this.resource
+        .getResourceByID(id, Object.keys(attributeResult))
         .pipe(
-          switchMap(param => {
-            return this.resource.getResourceByID(param.id, Object.keys(attributeResult));
-          }),
           switchMap((res: Resource) => {
             Object.keys(attributeResult).forEach(k => {
               res[k] = attributeResult[k];

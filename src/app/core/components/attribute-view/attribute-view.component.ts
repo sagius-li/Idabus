@@ -12,7 +12,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DragulaService } from 'ng2-dragula';
@@ -136,11 +136,39 @@ export class AttributeViewComponent implements OnInit, DoCheck {
       switch (event.name) {
         case 'refresh-attribute':
           if (event.parameter === this.tabName) {
-            this.ngOnInit();
+            this.refresh();
           }
+          break;
+        case 'refresh-language':
+          this.refresh();
           break;
         default:
           break;
+      }
+    });
+
+    this.swap.editorValueChanged.subscribe((controlName: string) => {
+      const configs = this.attributeArray.map(a => a.config);
+      const expressionDic = this.utils.GetEditorExpressions(controlName, configs);
+      if (Object.keys(expressionDic).length > 0) {
+        const regEx: RegExp = /\[#\w+\]/g;
+        Object.keys(expressionDic).forEach(dicKey => {
+          expressionDic[dicKey].forEach(expression => {
+            let match = regEx.exec(expression);
+            let expressionValue = expression;
+            while (match) {
+              const replaceName = match[0].substr(2, match[0].length - 3);
+              expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
+              match = regEx.exec(expression);
+            }
+            if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
+              // tslint:disable-next-line:no-eval
+              this.setValue(dicKey, eval(expressionValue.substring(1, expressionValue.length - 1)));
+            } else {
+              this.setValue(dicKey, expressionValue);
+            }
+          });
+        });
       }
     });
 
@@ -176,53 +204,13 @@ export class AttributeViewComponent implements OnInit, DoCheck {
 
       this.spinner.stopLoader('spinner_home');
     });
-
-    this.swap.editorValueChanged.subscribe((controlName: string) => {
-      const configs = this.attributeArray.map(a => a.config);
-      const expressionDic = this.utils.GetEditorExpressions(controlName, configs);
-      if (Object.keys(expressionDic).length > 0) {
-        const regEx: RegExp = /\[#\w+\]/g;
-        Object.keys(expressionDic).forEach(dicKey => {
-          expressionDic[dicKey].forEach(expression => {
-            let match = regEx.exec(expression);
-            let expressionValue = expression;
-            while (match) {
-              const replaceName = match[0].substr(2, match[0].length - 3);
-              expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
-              match = regEx.exec(expression);
-            }
-            if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
-              // tslint:disable-next-line:no-eval
-              this.setValue(dicKey, eval(expressionValue.substring(1, expressionValue.length - 1)));
-            } else {
-              this.setValue(dicKey, expressionValue);
-            }
-          });
-        });
-      }
-    });
-
-    this.swap.broadcasted.subscribe((event: BroadcastEvent) => {
-      switch (event.name) {
-        case 'refresh-language':
-          this.spinner.startLoader('spinner_home');
-          this.obsCurrentResource.subscribe((result: Resource) => {
-            this.currentResource = result;
-            this.prepareAttributes();
-            this.spinner.stopLoader('spinner_home');
-          });
-          break;
-        default:
-          break;
-      }
-    });
   }
 
   ngDoCheck() {
     const changeAttribute = this.differ.diff(this.attributeDefs);
 
     if (changeAttribute) {
-      this.ngOnInit();
+      this.refresh();
     }
   }
 
@@ -245,6 +233,14 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     if (pos >= 0) {
       this.attributeDefs.splice(pos, 1);
     }
+  }
+
+  refresh() {
+    try {
+      (this.route.params as BehaviorSubject<any>).next({
+        id: this.currentResource.ObjectID.value
+      });
+    } catch {}
   }
 
   getValue(controlName: string) {

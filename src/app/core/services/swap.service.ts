@@ -1,5 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 
+import { BehaviorSubject, Subject } from 'rxjs';
+
 import { BroadcastEvent } from '../models/dataContract.model';
 
 /**
@@ -13,13 +15,13 @@ export class SwapService {
   @Output()
   windowResized: EventEmitter<string> = new EventEmitter();
 
-  /** Event emitter for editor value changed */
-  @Output()
-  editorValueChanged: EventEmitter<any> = new EventEmitter();
-
   /** Broadcase event */
   @Output()
   broadcasted: EventEmitter<BroadcastEvent> = new EventEmitter();
+
+  /** Communication between components for editor value change */
+  private editorValueChangedSource = new BehaviorSubject(null);
+  editorValueChanged = this.editorValueChangedSource.asObservable();
 
   /** Indicate global page edit mode */
   isEditMode = false;
@@ -41,9 +43,12 @@ export class SwapService {
     this.windowResized.emit(size);
   }
 
-  /** Emit the event for editor value changed */
-  changeEditorValue(editorName: string) {
-    this.editorValueChanged.emit(editorName);
+  /**
+   * Prpagate editor value change
+   * @param editorName Control name of the editor
+   */
+  propagateEditorValueChanged(editorName: string) {
+    this.editorValueChangedSource.next(editorName);
   }
 
   /**

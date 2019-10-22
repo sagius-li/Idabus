@@ -117,7 +117,8 @@ export class EditorTextComponent extends AttributeEditor implements OnInit, Cont
 
   onChange() {
     if (this.localConfig.name) {
-      this.swap.changeEditorValue(this.localConfig.name);
+      // this.swap.changeEditorValue(this.localConfig.name);
+      this.swap.propagateEditorValueChanged(this.localConfig.name);
     }
   }
 
