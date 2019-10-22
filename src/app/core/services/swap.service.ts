@@ -1,6 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { BroadcastEvent } from '../models/dataContract.model';
 
@@ -15,9 +15,9 @@ export class SwapService {
   @Output()
   windowResized: EventEmitter<string> = new EventEmitter();
 
-  /** Broadcase event */
-  @Output()
-  broadcasted: EventEmitter<BroadcastEvent> = new EventEmitter();
+  /** Communication between components for broadcasting */
+  private broadcastedSource = new BehaviorSubject({});
+  broadcasted = this.broadcastedSource.asObservable();
 
   /** Communication between components for editor value change */
   private editorValueChangedSource = new BehaviorSubject(null);
@@ -44,19 +44,19 @@ export class SwapService {
   }
 
   /**
+   * Common broadcast event
+   * @param event Broadcast event
+   */
+  broadcast(event: BroadcastEvent) {
+    this.broadcastedSource.next(event);
+  }
+
+  /**
    * Prpagate editor value change
    * @param editorName Control name of the editor
    */
   propagateEditorValueChanged(editorName: string) {
     this.editorValueChangedSource.next(editorName);
-  }
-
-  /**
-   * Common broadcast event
-   * @param event Broadcast event
-   */
-  broadcast(event: BroadcastEvent) {
-    this.broadcasted.emit(event);
   }
 
   /**
