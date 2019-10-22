@@ -136,6 +136,29 @@
             ></textarea>
           </mat-form-field>
         </div>
+        <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+          <mat-checkbox fxFlex="1 1 40" [(ngModel)]="data.config.customValue">
+            {{ 'key_customValue' | translate }}
+          </mat-checkbox>
+          <mat-form-field fxFlex="1 1 30">
+            <input
+              matInput
+              [placeholder]="'key_trueValue' | translate"
+              [disabled]="!data.config.customValue"
+              [required]="data.config.customValue"
+              [(ngModel)]="data.config.trueValue"
+            />
+          </mat-form-field>
+          <mat-form-field fxFlex="1 1 30">
+            <input
+              matInput
+              [placeholder]="'key_falseValue' | translate"
+              [disabled]="!data.config.customValue"
+              [required]="data.config.customValue"
+              [(ngModel)]="data.config.falseValue"
+            />
+          </mat-form-field>
+        </div>
         <div fxFlex="none" style="margin-top: 40px; margin-bottom: 15px;">
           <mat-radio-group [(ngModel)]="data.config.accessUsedFor">
             <mat-radio-button value="visibility" style="margin-right: 20px;">{{
@@ -159,7 +182,7 @@
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
               <input
-                [placeholder]="'key_deniedSets'|translate"
+                [placeholder]="'key_deniedSets' | translate"
                 [matChipInputFor]="clDeniedSets"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 [matChipInputAddOnBlur]="true"
@@ -181,7 +204,7 @@
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
               <input
-                [placeholder]="'key_allowedSets'|translate"
+                [placeholder]="'key_allowedSets' | translate"
                 [matChipInputFor]="clAllowedSets"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 [matChipInputAddOnBlur]="true"
@@ -201,7 +224,13 @@
   fxLayoutGap="20px"
   style="margin-top: 10px;"
 >
-  <button fxFlex="none" mat-stroked-button color="primary" [mat-dialog-close]="data.config">
+  <button
+    fxFlex="none"
+    mat-stroked-button
+    color="primary"
+    [mat-dialog-close]="data.config"
+    [disabled]="data.config.customValue && (!data.config.trueValue || !data.config.falseValue)"
+  >
     {{ 'key_submit' | translate }}
   </button>
   <div fxFlex="auto"></div>

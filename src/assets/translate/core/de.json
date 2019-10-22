@@ -63,7 +63,7 @@
   "key_pagingAndSort": "Paging & Sortierung",
   "key_showPageInfo": "Paging-Information anzeigen",
   "key_showPageButton": "Paging-Buttons anzeigen",
-  "key_maxCounterNumber": "Maximale Pagingnummer",
+  "key_maxCounterNumber": "Max. Pagingnummer",
   "key_pageSize": "Anzahl pro Seite",
   "key_sortable": "Sortierbar",
   "key_sortMode": "Sortiermodus",
@@ -102,7 +102,7 @@
   "key_valueRequired": "Wert erforderlich",
   "key_restrictionViolation": "Ungültiger Wert",
   "key_name": "Name",
-  "key_maxLength": "Maximale Zeichenlänge",
+  "key_maxLength": "Max. Zeichenlänge",
   "key_showToolTip": "Tooltip einblenden",
   "key_hideIfNoAccess": "Ausblenden wenn Zugriff verweigert",
   "key_readOnly": "Schreibgeschützt",
@@ -165,5 +165,8 @@
   "key_useForVisibility": "Für Sichtbarkeit",
   "key_useForEditability": "Für Editierbarkeit",
   "key_deniedSets": "Verweigerte Listen",
-  "key_allowedSets": "Erlaubte Listen"
+  "key_allowedSets": "Erlaubte Listen",
+  "key_customValue": "Benutzerdef. Wert",
+  "key_trueValue": "Wert für wahr",
+  "key_falseValue": "Wert für falsch"
 }

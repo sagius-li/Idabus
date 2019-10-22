@@ -165,5 +165,8 @@
   "key_useForVisibility": "用于可视",
   "key_useForEditability": "用于可编辑",
   "key_deniedSets": "不允许的集合",
-  "key_allowedSets": "允许的集合"
+  "key_allowedSets": "允许的集合",
+  "key_customValue": "自定义值",
+  "key_trueValue": "定义为真的值",
+  "key_falseValue": "定义为假的值"
 }

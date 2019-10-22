@@ -15,11 +15,17 @@ export class TextEditorConfig extends EditorConfig {
 export class BooleanEditorConfig extends EditorConfig {
   textAlign?: string;
   controlType?: string;
+  customValue?: boolean;
+  trueValue?: string;
+  falseValue?: string;
 
   constructor() {
     super();
 
     this.textAlign = 'after';
     this.controlType = 'checkbox';
+    this.customValue = false;
+    this.trueValue = undefined;
+    this.falseValue = undefined;
   }
 }

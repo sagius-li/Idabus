@@ -45,6 +45,31 @@ export class EditorBooleanComponent extends AttributeEditor
 
   localConfig = new BooleanEditorConfig();
 
+  get value() {
+    const returnValue = this.isFormControl ? this.controlValue : this.attribute.value;
+
+    if (this.localConfig.customValue) {
+      if (String(returnValue) === this.localConfig.trueValue) {
+        return true;
+      } else if (String(returnValue) === this.localConfig.falseValue) {
+        return false;
+      } else {
+        return undefined;
+      }
+    }
+
+    return returnValue;
+  }
+  set value(value) {
+    this.controlValue = value;
+
+    if (this.localConfig.customValue) {
+      this.controlValue = value ? this.localConfig.trueValue : this.localConfig.falseValue;
+    }
+
+    this.propagateChange(this.controlValue);
+  }
+
   constructor(
     public utils: UtilsService,
     public resource: ResourceService,

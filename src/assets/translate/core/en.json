@@ -165,5 +165,8 @@
   "key_useForVisibility": "Use for visibility",
   "key_useForEditability": "Use for editability",
   "key_deniedSets": "Denied sets",
-  "key_allowedSets": "Allowed sets"
+  "key_allowedSets": "Allowed sets",
+  "key_customValue": "Custom value",
+  "key_trueValue": "Value for true",
+  "key_falseValue": "value for false"
 }
