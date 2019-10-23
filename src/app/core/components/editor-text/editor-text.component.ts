@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ElementRef, OnChanges } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -38,7 +38,8 @@ import { EditorTextConfigComponent } from './editor-text-config.component';
     }
   ]
 })
-export class EditorTextComponent extends AttributeEditor implements OnInit, ControlValueAccessor {
+export class EditorTextComponent extends AttributeEditor
+  implements OnInit, OnChanges, ControlValueAccessor {
   @Input()
   control: FormControl;
 
@@ -58,11 +59,15 @@ export class EditorTextComponent extends AttributeEditor implements OnInit, Cont
     this.initComponent();
   }
 
+  ngOnChanges(changes: any) {
+    if (changes.config) {
+      this.validationFn = createTextEditorValidator(this.attribute, this.config);
+    }
+  }
+
   // #region AttributeEditor implementation
 
   initComponent() {
-    this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
-
     if (this.attribute.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;

@@ -7,6 +7,7 @@ import {
   QueryList,
   ComponentFactoryResolver
 } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { GridsterConfig, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
@@ -192,7 +193,7 @@ export class TestComponent implements OnInit, AfterViewInit {
 
   // #region attribute editors
 
-  editorResource: Resource;
+  editorResource: Resource = {};
 
   attrFirstName: AttributeResource = {
     dataType: 'String',
@@ -423,5 +424,9 @@ export class TestComponent implements OnInit, AfterViewInit {
     item.componentInstance.configure().subscribe(config => {
       item.componentConfig = config;
     });
+  }
+
+  onSubmit(form: NgForm) {
+    console.log(form);
   }
 }

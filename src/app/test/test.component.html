@@ -127,19 +127,28 @@
   </mat-tab>
   <!-- attribute editors -->
   <mat-tab label="Editors">
-    <div fxLayout="column" fxLayoutGap="10px" style="margin: 20px;">
-      <div>
-        <app-editor-text
-          [attribute]="editorResource ? (editorResource | extraValue: 'AccountName') : {}"
-          [config]="{ showDescription: true }"
-        ></app-editor-text>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div fxLayout="column" fxLayoutGap="10px" style="margin: 20px;">
+        <div>
+          <app-editor-text
+            name="txtAccountName"
+            ngModel
+            [attribute]="editorResource | extraValue: 'AccountName'"
+            [config]="{ showDescription: true, validation: '^[a-z]{1,16}$' }"
+          ></app-editor-text>
+        </div>
+        <div>
+          <app-editor-boolean
+            name="chkRegister"
+            ngModel
+            [attribute]="editorResource | extraValue: 'Register'"
+            [config]="{ showDescription: true }"
+          ></app-editor-boolean>
+        </div>
+        <div>
+          <button mat-stroked-button color="primary" type="submit">Submit</button>
+        </div>
       </div>
-      <div>
-        <app-editor-boolean
-          [attribute]="editorResource ? (editorResource | extraValue: 'Register') : {}"
-          [config]="{ showDescription: true }"
-        ></app-editor-boolean>
-      </div>
-    </div>
+    </form>
   </mat-tab>
 </mat-tab-group>
