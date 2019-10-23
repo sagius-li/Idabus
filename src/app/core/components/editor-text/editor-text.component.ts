@@ -1,9 +1,19 @@
-import { Component, OnInit, Input, forwardRef, ElementRef, OnChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  forwardRef,
+  ElementRef,
+  OnChanges,
+  Injector,
+  AfterViewInit,
+  Type
+} from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
-  FormControl
+  FormControl,
+  NgControl
 } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -39,10 +49,7 @@ import { EditorTextConfigComponent } from './editor-text-config.component';
   ]
 })
 export class EditorTextComponent extends AttributeEditor
-  implements OnInit, OnChanges, ControlValueAccessor {
-  @Input()
-  control: FormControl;
-
+  implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
   localConfig = new TextEditorConfig();
 
   constructor(
@@ -50,7 +57,8 @@ export class EditorTextComponent extends AttributeEditor
     public resource: ResourceService,
     private dialog: MatDialog,
     private swap: SwapService,
-    private host: ElementRef
+    private host: ElementRef,
+    private injector: Injector
   ) {
     super();
   }
@@ -63,6 +71,15 @@ export class EditorTextComponent extends AttributeEditor
     if (changes.config) {
       this.validationFn = createTextEditorValidator(this.attribute, this.config);
     }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const ngControl: NgControl = this.injector.get<NgControl>(NgControl as Type<NgControl>);
+      if (ngControl) {
+        this.control = ngControl.control as FormControl;
+      }
+    });
   }
 
   // #region AttributeEditor implementation

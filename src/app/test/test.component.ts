@@ -428,5 +428,7 @@ export class TestComponent implements OnInit, AfterViewInit {
 
   onSubmit(form: NgForm) {
     console.log(form);
+    console.log(form.form.controls.txtAccountName);
+    console.log(form.form.get('txtAccountName'));
   }
 }

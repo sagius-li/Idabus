@@ -134,7 +134,7 @@
             name="txtAccountName"
             ngModel
             [attribute]="editorResource | extraValue: 'AccountName'"
-            [config]="{ showDescription: true, validation: '^[a-z]{1,16}$' }"
+            [config]="{ showDescription: true, validation: '^[a-z]{1,16}$', maxLength: 16 }"
           ></app-editor-text>
         </div>
         <div>

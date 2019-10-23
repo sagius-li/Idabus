@@ -40,13 +40,10 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
 })
 export class EditorBooleanComponent extends AttributeEditor
   implements OnInit, ControlValueAccessor {
-  @Input()
-  control: FormControl;
-
   localConfig = new BooleanEditorConfig();
 
   get value() {
-    const returnValue = this.isFormControl ? this.controlValue : this.attribute.value;
+    const returnValue = this.isReactive ? this.controlValue : this.attribute.value;
 
     if (this.localConfig.customValue) {
       if (String(returnValue) === this.localConfig.trueValue) {

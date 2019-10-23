@@ -19,9 +19,8 @@
             fxFlex="auto"
             *ngSwitchCase="'text'"
             [attribute]="attribute.attribute"
-            [isFormControl]="true"
+            [isReactive]="true"
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
-            [control]="attribute.controller"
             [(config)]="attribute.config"
           ></app-editor-text>
           <app-editor-boolean
@@ -29,9 +28,8 @@
             fxFlex="auto"
             *ngSwitchCase="'boolean'"
             [attribute]="attribute.attribute"
-            [isFormControl]="true"
+            [isReactive]="true"
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
-            [control]="attribute.controller"
             [(config)]="attribute.config"
           ></app-editor-boolean>
           <div
