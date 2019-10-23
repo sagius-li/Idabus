@@ -4,23 +4,37 @@
   "routePrefix": "",
   "domain": "contoso",
   "encryptionKey": "ContosoMIMCrypto",
-  "startPath": "/app",
-  "loginUserAttributes": ["DisplayName", "AccountName", "Photo", "JobTitle"],
+  "startPath": "/test",
+  "loginUserAttributes": [
+    "DisplayName",
+    "AccountName",
+    "Photo",
+    "JobTitle"
+  ],
   "supportedLanguages": [
     {
-      "code": ["en-US", "en"],
+      "code": [
+        "en-US",
+        "en"
+      ],
       "label": "English",
       "route": "en",
       "culture": "en-US"
     },
     {
-      "code": ["de-DE", "de"],
+      "code": [
+        "de-DE",
+        "de"
+      ],
       "label": "Deutsch",
       "route": "de",
       "culture": "de"
     },
     {
-      "code": ["zh-CN", "cn"],
+      "code": [
+        "zh-CN",
+        "cn"
+      ],
       "label": "中文",
       "route": "cn",
       "culture": "zh-Hans"

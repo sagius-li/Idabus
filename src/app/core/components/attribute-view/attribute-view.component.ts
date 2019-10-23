@@ -10,7 +10,7 @@ import {
   QueryList
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
@@ -27,6 +27,7 @@ import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
 import { UtilsService } from '../../services/utils.service';
 import { ConfigService } from '../../services/config.service';
+import { createBooleanEditorValidator } from '../../validators/boolean.validator';
 
 @Component({
   selector: 'app-attribute-view',
@@ -86,10 +87,18 @@ export class AttributeViewComponent implements OnInit, DoCheck {
 
     this.attributeDefs.forEach(a => {
       const attribute = this.utils.ExtraValue(this.currentResource, a.attributeName);
-      const controller = new FormControl(
-        attribute.value,
-        createTextEditorValidator(attribute, a.editorConfig)
-      );
+      let validatorFn: ValidatorFn;
+      switch (a.editorType) {
+        case 'text':
+          validatorFn = createTextEditorValidator(attribute, a.editorConfig);
+          break;
+        case 'boolean':
+          validatorFn = createBooleanEditorValidator(attribute, a.editorConfig);
+          break;
+        default:
+          break;
+      }
+      const controller = new FormControl(attribute.value, validatorFn);
       this.attributeArray.push({
         type: a.editorType,
         config: a.editorConfig,
