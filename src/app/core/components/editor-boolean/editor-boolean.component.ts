@@ -44,25 +44,25 @@ export class EditorBooleanComponent extends AttributeEditor
 
   get value() {
     if (this.localConfig.customValue) {
-      if (String(this.controlValue.value) === this.localConfig.trueValue) {
+      if (String(this.editorAttribute.value) === this.localConfig.trueValue) {
         return true;
-      } else if (String(this.controlValue.value) === this.localConfig.falseValue) {
+      } else if (String(this.editorAttribute.value) === this.localConfig.falseValue) {
         return false;
       } else {
         return undefined;
       }
     }
 
-    return this.controlValue.value;
+    return this.editorAttribute.value;
   }
   set value(value) {
-    this.controlValue.value = value;
+    this.editorAttribute.value = value;
 
     if (this.localConfig.customValue) {
-      this.controlValue.value = value ? this.localConfig.trueValue : this.localConfig.falseValue;
+      this.editorAttribute.value = value ? this.localConfig.trueValue : this.localConfig.falseValue;
     }
 
-    this.propagateChange(this.controlValue);
+    this.propagateChange(this.editorAttribute);
   }
 
   constructor(
@@ -94,7 +94,7 @@ export class EditorBooleanComponent extends AttributeEditor
   initComponent() {
     this.validationFn = createBooleanEditorValidator(this.localConfig);
 
-    if (this.controlValue && this.controlValue.required) {
+    if (this.editorAttribute && this.editorAttribute.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
@@ -113,7 +113,7 @@ export class EditorBooleanComponent extends AttributeEditor
       data: {
         component: this,
         config: this.localConfig,
-        attribute: this.controlValue
+        attribute: this.editorAttribute
       }
     });
 

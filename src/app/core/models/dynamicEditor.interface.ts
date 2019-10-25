@@ -50,6 +50,8 @@ export class EditorConfig {
  * Interface for editor, which can be created dynamically
  */
 export interface DynamicEditor {
+  /** Attribute of the editor */
+  attribute: AttributeResource;
   /** Editor configuration */
   config: EditorConfig;
 
@@ -83,13 +85,22 @@ export class AttributeEditor implements DynamicEditor {
   configChange = new EventEmitter();
 
   @Input()
-  controlValue: any;
+  editorAttribute: AttributeResource;
+
+  get attribute() {
+    return this.editorAttribute;
+  }
+  set attribute(value) {
+    this.editorAttribute = value;
+    this.propagateChange(this.editorAttribute);
+  }
+
   get value() {
-    return this.controlValue.value;
+    return this.editorAttribute.value;
   }
   set value(value) {
-    this.controlValue.value = value;
-    this.propagateChange(this.controlValue);
+    this.editorAttribute.value = value;
+    this.propagateChange(this.editorAttribute);
   }
 
   @Input()
@@ -164,27 +175,27 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get readAccess() {
-    if (!this.controlValue) {
+    if (!this.editorAttribute) {
       return false;
     }
 
-    return this.permissionCanRead(this.controlValue.permissionHint);
+    return this.permissionCanRead(this.editorAttribute.permissionHint);
   }
 
   get writeAccess() {
-    if (!this.controlValue) {
+    if (!this.editorAttribute) {
       return false;
     }
 
-    return this.permissionCanModify(this.controlValue.permissionHint);
+    return this.permissionCanModify(this.editorAttribute.permissionHint);
   }
 
   get displayName() {
-    if (this.localConfig.showDisplayName && this.controlValue) {
+    if (this.localConfig.showDisplayName && this.editorAttribute) {
       if (this.localConfig.customDisplayName) {
         return this.localConfig.customDisplayName;
       } else {
-        return this.controlValue.displayName;
+        return this.editorAttribute.displayName;
       }
     } else {
       return undefined;
@@ -192,11 +203,11 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get description() {
-    if (this.localConfig.showDescription && this.controlValue) {
+    if (this.localConfig.showDescription && this.editorAttribute) {
       if (this.localConfig.customDescription) {
         return this.localConfig.customDescription;
       } else {
-        return this.controlValue.description;
+        return this.editorAttribute.description;
       }
     } else {
       return undefined;
@@ -204,8 +215,8 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get tooltip() {
-    if (this.localConfig.showTooltip && this.controlValue) {
-      return this.controlValue.systemName;
+    if (this.localConfig.showTooltip && this.editorAttribute) {
+      return this.editorAttribute.systemName;
     } else {
       return null;
     }
@@ -271,7 +282,7 @@ export class AttributeEditor implements DynamicEditor {
   propagateTouched = () => {};
 
   writeValue(value: any) {
-    this.controlValue = value;
+    this.editorAttribute = value;
   }
 
   registerOnChange(fn: (_: any) => void) {

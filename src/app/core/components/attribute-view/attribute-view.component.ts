@@ -112,7 +112,12 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   private registerChangeHandler() {
-    // this.getControl('txtDisplayName').valueChanges.subscribe(val => alert(val));
+    // this.getControl('txtDisplayName').valueChanges.subscribe(val => {
+    //   const editor = this.getEditor('MiddleName');
+    //   if (editor) {
+    //     editor.value = 'TEST';
+    //   }
+    // });
   }
 
   constructor(
@@ -254,7 +259,7 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   getEditor(attributeName: string): AttributeEditor {
-    return this.editors.find(e => e.controlValue && e.controlValue.systemName === attributeName);
+    return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
   }
 
   getControl(controlName: string): FormControl {

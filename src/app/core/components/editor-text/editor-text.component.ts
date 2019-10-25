@@ -91,7 +91,7 @@ export class EditorTextComponent extends AttributeEditor
   // #region AttributeEditor implementation
 
   initComponent() {
-    if (this.controlValue && this.controlValue.required) {
+    if (this.editorAttribute && this.editorAttribute.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
@@ -110,7 +110,7 @@ export class EditorTextComponent extends AttributeEditor
       data: {
         component: this,
         config: this.localConfig,
-        attribute: this.controlValue
+        attribute: this.editorAttribute
       }
     });
 
