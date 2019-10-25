@@ -30,6 +30,7 @@ import { AuthService } from '../core/services/auth.service';
 import { StateCardComponent } from '../core/components/state-card/state-card.component';
 import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
 import { ResourceChartComponent } from '../core/components/resource-chart/resource-chart.component';
+import { AttributeEditor } from '../core/models/dynamicEditor.interface';
 
 @Component({
   selector: 'app-test',
@@ -426,9 +427,11 @@ export class TestComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm, editor: AttributeEditor) {
     console.log(form);
-    console.log(form.form.controls.txtAccountName);
-    console.log(form.form.get('txtAccountName'));
+
+    console.log(editor.value);
+
+    editor.value = 'test';
   }
 }

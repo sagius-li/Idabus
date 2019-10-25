@@ -19,7 +19,7 @@ import { DragulaService } from 'ng2-dragula';
 
 import { Resource, BroadcastEvent } from '../../models/dataContract.model';
 import { TransService } from '../../models/translation.model';
-import { DynamicEditor, EditorResult } from '../../models/dynamicEditor.interface';
+import { EditorResult, AttributeEditor } from '../../models/dynamicEditor.interface';
 
 import { createTextEditorValidator } from '../../validators/text.validator';
 
@@ -35,7 +35,7 @@ import { createBooleanEditorValidator } from '../../validators/boolean.validator
   styleUrls: ['./attribute-view.component.scss']
 })
 export class AttributeViewComponent implements OnInit, DoCheck {
-  @ViewChildren('editor') editors: QueryList<DynamicEditor>;
+  @ViewChildren('editor') editors: QueryList<AttributeEditor>;
 
   @Input()
   attributeDefs: Array<any>;
@@ -90,15 +90,15 @@ export class AttributeViewComponent implements OnInit, DoCheck {
       let validatorFn: ValidatorFn;
       switch (a.editorType) {
         case 'text':
-          validatorFn = createTextEditorValidator(attribute, a.editorConfig);
+          validatorFn = createTextEditorValidator(a.editorConfig);
           break;
         case 'boolean':
-          validatorFn = createBooleanEditorValidator(attribute, a.editorConfig);
+          validatorFn = createBooleanEditorValidator(a.editorConfig);
           break;
         default:
           break;
       }
-      const controller = new FormControl(attribute.value, validatorFn);
+      const controller = new FormControl(attribute, validatorFn);
       this.attributeArray.push({
         type: a.editorType,
         config: a.editorConfig,
@@ -224,7 +224,8 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   onConfig(attributeName: string) {
-    const editor = this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    const editor = this.getEditor(attributeName);
+
     if (editor) {
       editor.configure().subscribe();
     }
@@ -252,9 +253,8 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     } catch {}
   }
 
-  getValue(controlName: string) {
-    const attribute = this.attributeArray.find(a => a.config.name === controlName);
-    return attribute ? attribute.controller.value : undefined;
+  getEditor(attributeName: string): AttributeEditor {
+    return this.editors.find(e => e.controlValue && e.controlValue.systemName === attributeName);
   }
 
   getControl(controlName: string): FormControl {
@@ -262,17 +262,24 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     return attribute ? attribute.controller : undefined;
   }
 
-  setValue(controlName: string, value: any) {
-    const attribute = this.attributeArray.find(a => a.config.name === controlName);
-    if (!attribute) {
-      return;
-    }
-    attribute.controller.setValue(value);
-    attribute.controller.markAsTouched();
-    attribute.controller.markAsDirty();
-  }
-
   getControllerIndex(attributeName: string) {
     return this.attributeArray.findIndex(a => a.attribute.systemName === attributeName);
+  }
+
+  getValue(controlName: string) {
+    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+    return attribute && attribute.controller.value ? attribute.controller.value.value : undefined;
+  }
+
+  setValue(controlName: string, value: any) {
+    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+    if (attribute && attribute.controller.value) {
+      const attributeValue = attribute.controller.value;
+      attributeValue.value = value;
+
+      attribute.controller.setValue(attributeValue);
+      attribute.controller.markAsTouched();
+      attribute.controller.markAsDirty();
+    }
   }
 }

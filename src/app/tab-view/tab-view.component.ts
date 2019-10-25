@@ -168,7 +168,7 @@ export class TabViewComponent implements OnInit {
 
       this.editorResults[tabName].forEach(result => {
         if (result.controller.dirty) {
-          attributeResult[result.attribute.systemName] = result.controller.value;
+          attributeResult[result.attribute.systemName] = result.controller.value.value;
         }
       });
 

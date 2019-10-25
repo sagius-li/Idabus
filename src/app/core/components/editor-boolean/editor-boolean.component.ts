@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ElementRef, AfterViewInit } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -39,29 +39,27 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
   ]
 })
 export class EditorBooleanComponent extends AttributeEditor
-  implements OnInit, ControlValueAccessor {
+  implements OnInit, AfterViewInit, ControlValueAccessor {
   localConfig = new BooleanEditorConfig();
 
   get value() {
-    const returnValue = this.isReactive ? this.controlValue : this.attribute.value;
-
     if (this.localConfig.customValue) {
-      if (String(returnValue) === this.localConfig.trueValue) {
+      if (String(this.controlValue.value) === this.localConfig.trueValue) {
         return true;
-      } else if (String(returnValue) === this.localConfig.falseValue) {
+      } else if (String(this.controlValue.value) === this.localConfig.falseValue) {
         return false;
       } else {
         return undefined;
       }
     }
 
-    return returnValue;
+    return this.controlValue.value;
   }
   set value(value) {
-    this.controlValue = value;
+    this.controlValue.value = value;
 
     if (this.localConfig.customValue) {
-      this.controlValue = value ? this.localConfig.trueValue : this.localConfig.falseValue;
+      this.controlValue.value = value ? this.localConfig.trueValue : this.localConfig.falseValue;
     }
 
     this.propagateChange(this.controlValue);
@@ -81,24 +79,28 @@ export class EditorBooleanComponent extends AttributeEditor
     this.initComponent();
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      try {
+        if (!this.showEditor(this.resource.rightSets)) {
+          this.host.nativeElement.parentElement.remove();
+        }
+      } catch {}
+    });
+  }
+
   // #region AttributeEditor implementation
 
   initComponent() {
-    this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
+    this.validationFn = createBooleanEditorValidator(this.localConfig);
 
-    if (this.attribute.required) {
+    if (this.controlValue && this.controlValue.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
 
     this.localConfig = new BooleanEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
-
-    try {
-      if (!this.showEditor(this.resource.rightSets)) {
-        this.host.nativeElement.parentElement.remove();
-      }
-    } catch {}
 
     return this.localConfig;
   }
@@ -111,7 +113,7 @@ export class EditorBooleanComponent extends AttributeEditor
       data: {
         component: this,
         config: this.localConfig,
-        attribute: this.attribute
+        attribute: this.controlValue
       }
     });
 
@@ -121,7 +123,7 @@ export class EditorBooleanComponent extends AttributeEditor
           this.localConfig = configCopy;
         } else {
           this.config = this.localConfig;
-          this.validationFn = createBooleanEditorValidator(this.attribute, this.localConfig);
+          this.validationFn = createBooleanEditorValidator(this.localConfig);
         }
       }),
       switchMap(() => {

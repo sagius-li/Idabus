@@ -69,7 +69,7 @@ export class EditorTextComponent extends AttributeEditor
 
   ngOnChanges(changes: any) {
     if (changes.config) {
-      this.validationFn = createTextEditorValidator(this.attribute, this.config);
+      this.validationFn = createTextEditorValidator(this.config);
     }
   }
 
@@ -79,25 +79,25 @@ export class EditorTextComponent extends AttributeEditor
       if (ngControl) {
         this.control = ngControl.control as FormControl;
       }
+
+      try {
+        if (!this.showEditor(this.resource.rightSets)) {
+          this.host.nativeElement.parentElement.remove();
+        }
+      } catch {}
     });
   }
 
   // #region AttributeEditor implementation
 
   initComponent() {
-    if (this.attribute.required) {
+    if (this.controlValue && this.controlValue.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
 
     this.localConfig = new TextEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
-
-    try {
-      if (!this.showEditor(this.resource.rightSets)) {
-        this.host.nativeElement.parentElement.remove();
-      }
-    } catch {}
 
     return this.localConfig;
   }
@@ -110,7 +110,7 @@ export class EditorTextComponent extends AttributeEditor
       data: {
         component: this,
         config: this.localConfig,
-        attribute: this.attribute
+        attribute: this.controlValue
       }
     });
 
@@ -120,7 +120,7 @@ export class EditorTextComponent extends AttributeEditor
           this.localConfig = configCopy;
         } else {
           this.config = this.localConfig;
-          this.validationFn = createTextEditorValidator(this.attribute, this.localConfig);
+          this.validationFn = createTextEditorValidator(this.localConfig);
         }
       }),
       switchMap(() => {

@@ -50,8 +50,6 @@ export class EditorConfig {
  * Interface for editor, which can be created dynamically
  */
 export interface DynamicEditor {
-  /** Editor attribute */
-  attribute: AttributeResource;
   /** Editor configuration */
   config: EditorConfig;
 
@@ -72,12 +70,6 @@ export interface EditorResult {
 }
 
 export class AttributeEditor implements DynamicEditor {
-  @Input()
-  isReactive = false;
-
-  @Input()
-  attribute: AttributeResource;
-
   editorConfig: EditorConfig;
   @Input()
   get config() {
@@ -93,10 +85,10 @@ export class AttributeEditor implements DynamicEditor {
   @Input()
   controlValue: any;
   get value() {
-    return this.isReactive ? this.controlValue : this.attribute.value;
+    return this.controlValue.value;
   }
   set value(value) {
-    this.controlValue = value;
+    this.controlValue.value = value;
     this.propagateChange(this.controlValue);
   }
 
@@ -172,19 +164,27 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get readAccess() {
-    return this.permissionCanRead(this.attribute.permissionHint);
+    if (!this.controlValue) {
+      return false;
+    }
+
+    return this.permissionCanRead(this.controlValue.permissionHint);
   }
 
   get writeAccess() {
-    return this.permissionCanModify(this.attribute.permissionHint);
+    if (!this.controlValue) {
+      return false;
+    }
+
+    return this.permissionCanModify(this.controlValue.permissionHint);
   }
 
   get displayName() {
-    if (this.localConfig.showDisplayName) {
+    if (this.localConfig.showDisplayName && this.controlValue) {
       if (this.localConfig.customDisplayName) {
         return this.localConfig.customDisplayName;
       } else {
-        return this.attribute.displayName;
+        return this.controlValue.displayName;
       }
     } else {
       return undefined;
@@ -192,11 +192,11 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get description() {
-    if (this.localConfig.showDescription) {
+    if (this.localConfig.showDescription && this.controlValue) {
       if (this.localConfig.customDescription) {
         return this.localConfig.customDescription;
       } else {
-        return this.attribute.description;
+        return this.controlValue.description;
       }
     } else {
       return undefined;
@@ -204,8 +204,8 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get tooltip() {
-    if (this.localConfig.showTooltip && this.attribute) {
-      return this.attribute.systemName;
+    if (this.localConfig.showTooltip && this.controlValue) {
+      return this.controlValue.systemName;
     } else {
       return null;
     }
