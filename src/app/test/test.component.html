@@ -134,7 +134,12 @@
             #txtAccountName
             name="txtAccountName"
             [ngModel]="editorResource | extraValue: 'AccountName'"
-            [config]="{ showDescription: true, validation: '^[a-z]{1,16}$', maxLength: 16 }"
+            [config]="{
+              attributeName: 'AccountName',
+              showDescription: true,
+              validation: '^[a-zA-Z.]{1,16}$',
+              maxLength: 16
+            }"
           ></app-editor-text>
         </div>
         <div>
@@ -145,6 +150,19 @@
           ></app-editor-boolean>
         </div>
         <div>
+          <app-editor-boolean
+            name="chkScope"
+            [ngModel]="editorResource | extraValue: 'ocgObjectScope'"
+            [config]="{
+              attributeName: 'ocgObjectScope',
+              showDescription: true,
+              customValue: true,
+              trueValue: '1',
+              falseValue: '0'
+            }"
+          ></app-editor-boolean>
+        </div>
+        <div style="margin-top: 20px;">
           <button mat-stroked-button color="primary" type="submit">Submit</button>
         </div>
       </div>

@@ -112,12 +112,15 @@ export class AttributeViewComponent implements OnInit, DoCheck {
   }
 
   private registerChangeHandler() {
-    // this.getControl('txtDisplayName').valueChanges.subscribe(val => {
-    //   const editor = this.getEditor('MiddleName');
-    //   if (editor) {
-    //     editor.value = 'TEST';
-    //   }
-    // });
+    // const control = this.getControl('DisplayName');
+    // if (control) {
+    //   control.valueChanges.subscribe(val => {
+    //     const editor = this.getEditor('MiddleName');
+    //     if (editor) {
+    //       editor.value = 'TEST';
+    //     }
+    //   });
+    // }
   }
 
   constructor(
@@ -161,9 +164,9 @@ export class AttributeViewComponent implements OnInit, DoCheck {
       }
     });
 
-    this.swap.editorValueChanged.subscribe((controlName: string) => {
+    this.swap.editorValueChanged.subscribe((attrubteName: string) => {
       const configs = this.attributeArray.map(a => a.config);
-      const expressionDic = this.utils.GetEditorExpressions(controlName, configs);
+      const expressionDic = this.utils.GetEditorExpressions(attrubteName, configs);
       if (Object.keys(expressionDic).length > 0) {
         const regEx: RegExp = /\[#\w+\]/g;
         Object.keys(expressionDic).forEach(dicKey => {
@@ -262,8 +265,8 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
   }
 
-  getControl(controlName: string): FormControl {
-    const attribute = this.attributeArray.find(a => a.config.name === controlName);
+  getControl(attributeName: string): FormControl {
+    const attribute = this.attributeArray.find(a => a.config.attributeName === attributeName);
     return attribute ? attribute.controller : undefined;
   }
 
@@ -271,20 +274,28 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     return this.attributeArray.findIndex(a => a.attribute.systemName === attributeName);
   }
 
-  getValue(controlName: string) {
-    const attribute = this.attributeArray.find(a => a.config.name === controlName);
-    return attribute && attribute.controller.value ? attribute.controller.value.value : undefined;
+  getValue(attributeName: string) {
+    // const attribute = this.attributeArray.find(a => a.config.attributeName === attributeName);
+    // return attribute && attribute.controller.value ? attribute.controller.value.value : undefined;
+
+    const editor = this.getEditor(attributeName);
+    return editor ? editor.value : undefined;
   }
 
-  setValue(controlName: string, value: any) {
-    const attribute = this.attributeArray.find(a => a.config.name === controlName);
-    if (attribute && attribute.controller.value) {
-      const attributeValue = attribute.controller.value;
-      attributeValue.value = value;
+  setValue(attributeName: string, value: any) {
+    // const attribute = this.attributeArray.find(a => a.config.attributeName === attributeName);
+    // if (attribute && attribute.controller.value) {
+    //   const attributeValue = attribute.controller.value;
+    //   attributeValue.value = value;
 
-      attribute.controller.setValue(attributeValue);
-      attribute.controller.markAsTouched();
-      attribute.controller.markAsDirty();
+    //   attribute.controller.setValue(attributeValue);
+    //   attribute.controller.markAsTouched();
+    //   attribute.controller.markAsDirty();
+    // }
+
+    const editor = this.getEditor(attributeName);
+    if (editor) {
+      editor.value = value;
     }
   }
 }

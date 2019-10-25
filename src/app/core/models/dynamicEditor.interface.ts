@@ -10,6 +10,7 @@ import { AttributeResource } from './dataContract.model';
  */
 export class EditorConfig {
   name?: string;
+  attributeName?: string;
   editMode?: boolean;
   isHidden?: boolean;
   readOnly?: boolean;
@@ -28,6 +29,7 @@ export class EditorConfig {
 
   constructor() {
     this.name = undefined;
+    this.attributeName = undefined;
     this.editMode = true;
     this.isHidden = false;
     this.showTooltip = true;

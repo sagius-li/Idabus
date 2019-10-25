@@ -2,14 +2,14 @@
   {{ 'key_addComponent' | translate }}
 </h3>
 <div mat-dialog-content fxLayout="column" fxLayoutAlign="start stretch">
-  <mat-form-field fxFlex="auto">
+  <mat-form-field fxFlex="auto" style="margin-top: 20px;">
     <mat-select [placeholder]="'key_type' | translate" [(ngModel)]="config.type" cdkFocusInitial>
       <mat-option *ngFor="let type of types" [value]="type.value">{{ type.text }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field fxFlex="auto">
+  <!-- <mat-form-field fxFlex="auto">
     <input matInput [placeholder]="'key_componentName' | translate" [(ngModel)]="config.name" />
-  </mat-form-field>
+  </mat-form-field> -->
   <mat-form-field fxFlex="auto">
     <input
       matInput

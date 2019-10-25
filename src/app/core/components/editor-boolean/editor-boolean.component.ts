@@ -141,9 +141,7 @@ export class EditorBooleanComponent extends AttributeEditor
   }
 
   onChange() {
-    if (this.localConfig.name) {
-      this.swap.propagateEditorValueChanged(this.localConfig.name);
-    }
+    this.swap.propagateEditorValueChanged(this.localConfig.attributeName);
   }
 
   // #endregion

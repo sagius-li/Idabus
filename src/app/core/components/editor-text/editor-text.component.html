@@ -30,7 +30,7 @@
   <mat-hint align="end" *ngIf="localConfig.maxLength && (!control || (control && control.valid))"
     >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
   >
-  <mat-hint *ngIf="control && control.invalid && control.touched" class="error-message">{{
+  <mat-hint *ngIf="control && control.invalid" class="error-message">{{
     control.errors['message'] | translate
   }}</mat-hint>
 </mat-form-field>

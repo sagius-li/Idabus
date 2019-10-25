@@ -289,30 +289,55 @@
             "attributeName": "FirstName",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtFirstName"
+              "attributeName": "FirstName"
             }
           },
           {
             "attributeName": "LastName",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtLastName"
+              "attributeName": "LastName"
             }
           },
           {
             "attributeName": "DisplayName",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtDisplayName",
-              "expression": "[#txtFirstName] [#txtLastName]"
+              "attributeName": "DisplayName",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "expression": "[#FirstName] [#LastName]",
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "validation": ""
             }
           },
           {
             "attributeName": "AccountName",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtAccountName",
-              "showDescription": true
+              "attributeName": "AccountName",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "validation": "^[^\"/\\\\[\\]:;|=,+/*?<>]{1,64}$"
             }
           }
         ]
@@ -330,14 +355,14 @@
             "attributeName": "JobTitle",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtJobTitle"
+              "attributeName": "JobTitle"
             }
           },
           {
             "attributeName": "Department",
             "editorType": "text",
             "editorConfig": {
-              "name": "txtDepartment"
+              "attributeName": "Department"
             }
           }
         ]

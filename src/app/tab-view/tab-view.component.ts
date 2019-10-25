@@ -132,7 +132,7 @@ export class TabViewComponent implements OnInit {
             attributeName: result.attributeName,
             editorType: result.type,
             editorConfig: {
-              name: result.name
+              attributeName: result.attributeName
             }
           });
         }

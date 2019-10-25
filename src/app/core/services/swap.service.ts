@@ -53,10 +53,10 @@ export class SwapService {
 
   /**
    * Prpagate editor value change
-   * @param editorName Control name of the editor
+   * @param attributeName Attrubte name of the editor
    */
-  propagateEditorValueChanged(editorName: string) {
-    this.editorValueChangedSource.next(editorName);
+  propagateEditorValueChanged(attributeName: string) {
+    this.editorValueChangedSource.next(attributeName);
   }
 
   /**

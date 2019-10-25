@@ -1,4 +1,8 @@
-:host.ng-invalid.ng-touched /deep/ .mat-form-field-label {
+// :host.ng-invalid.ng-touched /deep/ .mat-form-field-label {
+//   color: #f44336;
+// }
+
+:host.ng-invalid /deep/ .mat-form-field-label {
   color: #f44336;
 }
 
@@ -6,8 +10,13 @@
   content: '*';
 }
 
-:host.ng-invalid.ng-touched /deep/ .mat-form-field-underline,
-:host.ng-invalid.ng-touched /deep/ .mat-form-field-ripple {
+// :host.ng-invalid.ng-touched /deep/ .mat-form-field-underline,
+// :host.ng-invalid.ng-touched /deep/ .mat-form-field-ripple {
+//   background-color: #f44336;
+// }
+
+:host.ng-invalid /deep/ .mat-form-field-underline,
+:host.ng-invalid /deep/ .mat-form-field-ripple {
   background-color: #f44336;
 }
 
