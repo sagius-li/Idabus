@@ -63,6 +63,8 @@ import { EditorTextComponent } from '../components/editor-text/editor-text.compo
 import { EditorTextConfigComponent } from '../components/editor-text/editor-text-config.component';
 import { EditorBooleanComponent } from '../components/editor-boolean/editor-boolean.component';
 import { EditorBooleanConfigComponent } from '../components/editor-boolean/editor-boolean-config.component';
+import { EditorSelectComponent } from '../components/editor-select/editor-select.component';
+import { EditorSelectConfigComponent } from '../components/editor-select/editor-select-config.component';
 
 import { ActivityUpdateComponent } from '../components/activity-update/activity-update.component';
 import { ActivityForeachComponent } from '../components/activity-foreach/activity-foreach.component';
@@ -97,6 +99,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorTextConfigComponent,
     EditorBooleanComponent,
     EditorBooleanConfigComponent,
+    EditorSelectComponent,
+    EditorSelectConfigComponent,
 
     ActivityUpdateComponent,
     ActivityForeachComponent,
@@ -181,7 +185,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
 
     EditorCreatorComponent,
     EditorTextConfigComponent,
-    EditorBooleanConfigComponent
+    EditorBooleanConfigComponent,
+    EditorSelectConfigComponent
   ],
   providers: [
     ExtraValuePipe,
@@ -252,6 +257,8 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     EditorTextConfigComponent,
     EditorBooleanComponent,
     EditorBooleanConfigComponent,
+    EditorSelectComponent,
+    EditorSelectConfigComponent,
 
     ActivityUpdateComponent,
     ActivityForeachComponent,

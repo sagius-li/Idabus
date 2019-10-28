@@ -1,7 +1,6 @@
 import { FormControl } from '@angular/forms';
 
 import { BooleanEditorConfig } from '../models/editorContract.model';
-import { AttributeResource } from '../models/dataContract.model';
 
 export function createBooleanEditorValidator(config: BooleanEditorConfig) {
   return (c: FormControl) => {

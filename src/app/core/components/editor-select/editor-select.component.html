@@ -1,0 +1,8 @@
+<mat-form-field fxFlex="auto" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
+  <mat-label>{{ displayName | translate }}</mat-label>
+  <mat-select [(ngModel)]="value">
+    <mat-option *ngFor="let option of localConfig.options" [value]="option.value">
+      {{ option.text | translate }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

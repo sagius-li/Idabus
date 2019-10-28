@@ -162,6 +162,13 @@
             }"
           ></app-editor-boolean>
         </div>
+        <div>
+          <app-editor-select
+            name="cmbEmployeeType"
+            [ngModel]="editorResource | extraValue: 'EmployeeType'"
+            [config]="{ showDescription: true }"
+          ></app-editor-select>
+        </div>
         <div style="margin-top: 20px;">
           <button mat-stroked-button color="primary" type="submit">Submit</button>
         </div>

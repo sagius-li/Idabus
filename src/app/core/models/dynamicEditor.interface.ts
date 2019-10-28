@@ -1,6 +1,9 @@
 import { FormControl } from '@angular/forms';
 import { Input, Output, EventEmitter } from '@angular/core';
 
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
+
 import { Observable } from 'rxjs';
 
 import { AttributeResource } from './dataContract.model';
@@ -23,6 +26,7 @@ export class EditorConfig {
   customDescription?: string;
   hideIfNoAccess?: boolean;
   expression?: string;
+  validation?: string;
   accessAllowed?: Array<string>;
   accessDenied?: Array<string>;
   accessUsedFor?: string;
@@ -42,6 +46,7 @@ export class EditorConfig {
     this.requiredFromSchema = false;
     this.hideIfNoAccess = true;
     this.expression = undefined;
+    this.validation = undefined;
     this.accessAllowed = [];
     this.accessDenied = [];
     this.accessUsedFor = 'visibility';
@@ -300,8 +305,76 @@ export class AttributeEditor implements DynamicEditor {
   // #region Validator implementation
 
   validate(c: FormControl) {
-    return this.validationFn(c);
+    if (this.validationFn) {
+      return this.validationFn(c);
+    }
   }
 
   // #endregion
+}
+
+export class AttributeEditorConfig {
+  data: {
+    component: DynamicEditor;
+    config: EditorConfig;
+    attribute: AttributeResource;
+  };
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  onRefresh() {}
+
+  setDefaultValidation() {
+    if (this.data.attribute && this.data.attribute.stringRegex) {
+      this.data.config.validation = this.data.attribute.stringRegex;
+    }
+  }
+
+  onAddDeniedSet(event: MatChipInputEvent) {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      const index = this.data.config.accessDenied.indexOf(value.trim());
+      if (index < 0) {
+        this.data.config.accessDenied.push(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  onRemoveDeniedSet(setName: string) {
+    const index = this.data.config.accessDenied.indexOf(setName);
+    if (index >= 0) {
+      this.data.config.accessDenied.splice(index, 1);
+    }
+  }
+
+  onAddAllowedSet(event: MatChipInputEvent) {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      const index = this.data.config.accessAllowed.indexOf(value.trim());
+      if (index < 0) {
+        this.data.config.accessAllowed.push(value.trim());
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  onRemoveAllowedSet(setName: string) {
+    const index = this.data.config.accessAllowed.indexOf(setName);
+    if (index >= 0) {
+      this.data.config.accessAllowed.splice(index, 1);
+    }
+  }
 }

@@ -281,7 +281,7 @@ export class TestComponent implements OnInit, AfterViewInit {
     this.resource
       .getResourceByID(
         'bc61df37-eaef-4aa0-b714-4a809d264a45',
-        ['DisplayName', 'AccountName', 'Manager', 'Register', 'ocgObjectScope'],
+        ['DisplayName', 'AccountName', 'Manager', 'Register', 'ocgObjectScope', 'EmployeeType'],
         'full',
         'de',
         'true'
