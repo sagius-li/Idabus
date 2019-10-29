@@ -1,4 +1,5 @@
 import { EditorConfig } from './dynamicEditor.interface';
+import { Observable } from 'rxjs';
 
 export class TextEditorConfig extends EditorConfig {
   maxLength?: number;
@@ -29,15 +30,25 @@ export class BooleanEditorConfig extends EditorConfig {
 }
 
 export class SelectEditorConfig extends EditorConfig {
+  dataMode?: string;
+  dataSource?: Observable<Array<{ value: string; text: string }>>;
   options?: Array<{ value: string; text: string }>;
+  allowEmpty?: boolean;
+  configKey?: string;
+  query?: string;
+  valueAttribute?: string;
+  textAttribute?: string;
 
   constructor() {
     super();
 
-    this.options = [
-      { value: 'Contractor', text: 'Extern' },
-      { value: 'Intern', text: 'Intern' },
-      { value: 'Full Time Employee', text: 'Long Term' }
-    ];
+    this.dataMode = 'static';
+    this.dataSource = undefined;
+    this.options = [];
+    this.allowEmpty = true;
+    this.configKey = undefined;
+    this.query = undefined;
+    this.valueAttribute = undefined;
+    this.textAttribute = undefined;
   }
 }

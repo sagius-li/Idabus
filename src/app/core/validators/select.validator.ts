@@ -4,7 +4,7 @@ import { SelectEditorConfig } from '../models/editorContract.model';
 
 export function createSelectEditorValidator(config: SelectEditorConfig) {
   return (c: FormControl) => {
-    if (config && config.required && !c.value) {
+    if (config && config.required && (!c.value || !c.value.value)) {
       return { message: 'key_valueRequired' };
     }
 

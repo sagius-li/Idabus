@@ -166,7 +166,25 @@
           <app-editor-select
             name="cmbEmployeeType"
             [ngModel]="editorResource | extraValue: 'EmployeeType'"
-            [config]="{ showDescription: true }"
+            [config]="{
+              showDescription: true,
+              required: true,
+              dataMode: 'config',
+              configKey: 'EmployeeType'
+            }"
+          ></app-editor-select>
+        </div>
+        <div>
+          <app-editor-select
+            name="cmbCountry"
+            [ngModel]="editorResource | extraValue: 'Country'"
+            [config]="{
+              showDescription: true,
+              dataMode: 'query',
+              textAttribute: 'DisplayName',
+              valueAttribute: 'ocgObjectSource',
+              query: '/ocgConfiguration[ocgObjectType=\'Country\']'
+            }"
           ></app-editor-select>
         </div>
         <div style="margin-top: 20px;">

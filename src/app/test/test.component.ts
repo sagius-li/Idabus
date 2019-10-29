@@ -281,7 +281,15 @@ export class TestComponent implements OnInit, AfterViewInit {
     this.resource
       .getResourceByID(
         'bc61df37-eaef-4aa0-b714-4a809d264a45',
-        ['DisplayName', 'AccountName', 'Manager', 'Register', 'ocgObjectScope', 'EmployeeType'],
+        [
+          'DisplayName',
+          'AccountName',
+          'Manager',
+          'Register',
+          'ocgObjectScope',
+          'EmployeeType',
+          'Country'
+        ],
         'full',
         'de',
         'true'
@@ -430,8 +438,8 @@ export class TestComponent implements OnInit, AfterViewInit {
   onSubmit(form: NgForm, editor: AttributeEditor) {
     console.log(form);
 
-    console.log(editor.value);
+    // console.log(editor.value);
 
-    editor.value = 'test';
+    // editor.value = 'test';
   }
 }

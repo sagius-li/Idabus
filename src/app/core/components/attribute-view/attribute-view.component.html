@@ -28,6 +28,13 @@
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
             [(config)]="attribute.config"
           ></app-editor-boolean>
+          <app-editor-select
+            #editor
+            fxFlex="auto"
+            *ngSwitchCase="'select'"
+            [formControlName]="getControllerIndex(attribute.attribute.systemName)"
+            [(config)]="attribute.config"
+          ></app-editor-select>
           <div
             *ngIf="configMode"
             fxFlex="none"

@@ -1,0 +1,16 @@
+:host.ng-invalid /deep/ .mat-form-field-label {
+  color: #f44336;
+}
+
+:host.ng-dirty /deep/ .mat-form-field-label::after {
+  content: '*';
+}
+
+:host.ng-invalid /deep/ .mat-form-field-underline,
+:host.ng-invalid /deep/ .mat-form-field-ripple {
+  background-color: #f44336;
+}
+
+.error-message {
+  color: #f44336;
+}

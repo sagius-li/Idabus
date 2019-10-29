@@ -29,8 +29,11 @@ import { createSelectEditorValidator } from '../../validators/select.validator';
 import { UtilsService } from '../../services/utils.service';
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
+import { ConfigService } from '../../services/config.service';
 
 import { EditorSelectConfigComponent } from './editor-select-config.component';
+import { ResourceSet } from '../../models/dataContract.model';
+import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
 
 @Component({
   selector: 'app-editor-select',
@@ -59,12 +62,16 @@ export class EditorSelectComponent extends AttributeEditor
     private dialog: MatDialog,
     private swap: SwapService,
     private host: ElementRef,
-    private injector: Injector
+    private injector: Injector,
+    private configService: ConfigService,
+    private extraValuePipe: ExtraValuePipe
   ) {
     super();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initComponent();
+  }
 
   ngOnChanges(changes: any) {
     if (changes.config) {
@@ -97,6 +104,56 @@ export class EditorSelectComponent extends AttributeEditor
 
     this.localConfig = new SelectEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+
+    switch (this.localConfig.dataMode) {
+      case 'static':
+        this.localConfig.dataSource = of(this.localConfig.options);
+        break;
+      case 'config':
+        if (this.localConfig.configKey) {
+          this.localConfig.dataSource = of(
+            this.configService.getConfig(this.localConfig.configKey, [])
+          );
+        }
+        break;
+      case 'query':
+        if (
+          this.localConfig.query &&
+          this.localConfig.valueAttribute &&
+          this.localConfig.textAttribute
+        ) {
+          const attributeNames = [this.localConfig.valueAttribute];
+          if (this.localConfig.valueAttribute !== this.localConfig.textAttribute) {
+            attributeNames.push(this.localConfig.textAttribute);
+          }
+          this.localConfig.dataSource = this.resource
+            .getResourceByQuery(this.localConfig.query, attributeNames)
+            .pipe(
+              switchMap((resources: ResourceSet) => {
+                if (resources.totalCount > 0) {
+                  const retVal: Array<{ text: string; value: string }> = [];
+                  resources.results.forEach(data => {
+                    retVal.push({
+                      text: this.extraValuePipe.transform(
+                        data,
+                        this.localConfig.textAttribute + ':value'
+                      ),
+                      value: this.extraValuePipe.transform(
+                        data,
+                        this.localConfig.valueAttribute + ':value'
+                      )
+                    });
+                  });
+                  return of(retVal);
+                }
+                return of([]);
+              })
+            );
+        }
+        break;
+      default:
+        break;
+    }
 
     return this.localConfig;
   }

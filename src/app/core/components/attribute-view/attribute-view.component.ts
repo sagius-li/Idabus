@@ -22,12 +22,13 @@ import { TransService } from '../../models/translation.model';
 import { EditorResult, AttributeEditor } from '../../models/dynamicEditor.interface';
 
 import { createTextEditorValidator } from '../../validators/text.validator';
+import { createBooleanEditorValidator } from '../../validators/boolean.validator';
+import { createSelectEditorValidator } from '../../validators/select.validator';
 
 import { ResourceService } from '../../services/resource.service';
 import { SwapService } from '../../services/swap.service';
 import { UtilsService } from '../../services/utils.service';
 import { ConfigService } from '../../services/config.service';
-import { createBooleanEditorValidator } from '../../validators/boolean.validator';
 
 @Component({
   selector: 'app-attribute-view',
@@ -94,6 +95,9 @@ export class AttributeViewComponent implements OnInit, DoCheck {
           break;
         case 'boolean':
           validatorFn = createBooleanEditorValidator(a.editorConfig);
+          break;
+        case 'select':
+          validatorFn = createSelectEditorValidator(a.editorConfig);
           break;
         default:
           break;

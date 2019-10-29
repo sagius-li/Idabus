@@ -1,8 +1,35 @@
 <mat-form-field fxFlex="auto" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
-  <mat-label>{{ displayName | translate }}</mat-label>
-  <mat-select [(ngModel)]="value">
-    <mat-option *ngFor="let option of localConfig.options" [value]="option.value">
+  <mat-select
+    [(ngModel)]="value"
+    [placeholder]="displayName | translate"
+    [matTooltip]="tooltip"
+    [disabled]="disabled(resource.rightSets)"
+    (focus)="onFocuse()"
+    (change)="onChange()"
+  >
+    <mat-option *ngIf="localConfig.allowEmpty" [value]="null">--</mat-option>
+    <mat-option *ngFor="let option of localConfig.dataSource | async" [value]="option.value">
       {{ option.text | translate }}
     </mat-option>
   </mat-select>
+  <mat-hint align="start" *ngIf="!control || (control && control.valid)">
+    <div fxLayout="row">
+      <div fxFlex="auto" *ngIf="description" style="margin-right: 10px;">
+        {{ description | translate }}
+      </div>
+      <div
+        fxFlex="auto"
+        *ngIf="readAccess && !writeAccess"
+        style="font-size: 14px; color: #d8bb2e;"
+      >
+        <mat-icon [matTooltip]="'key_noWriteAccess' | translate">error</mat-icon>
+      </div>
+      <div fxFlex="auto" *ngIf="!readAccess" style="font-size: 14px; color: red;">
+        <mat-icon [matTooltip]="'key_noReadAccess' | translate">error</mat-icon>
+      </div>
+    </div>
+  </mat-hint>
+  <mat-hint *ngIf="control && control.invalid" class="error-message">{{
+    control.errors['message'] | translate
+  }}</mat-hint>
 </mat-form-field>

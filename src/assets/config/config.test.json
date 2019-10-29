@@ -186,5 +186,19 @@
         "selected": false
       }
     ]
-  }
+  },
+  "EmployeeType": [
+    {
+      "value": "Contractor",
+      "text": "Extern"
+    },
+    {
+      "value": "Intern",
+      "text": "Intern"
+    },
+    {
+      "value": "Full Time Employee",
+      "text": "Long Term"
+    }
+  ]
 }
