@@ -31,7 +31,6 @@ export class BooleanEditorConfig extends EditorConfig {
 
 export class SelectEditorConfig extends EditorConfig {
   dataMode?: string;
-  dataSource?: Observable<Array<{ value: string; text: string }>>;
   options?: Array<{ value: string; text: string }>;
   allowEmpty?: boolean;
   configKey?: string;
@@ -43,7 +42,6 @@ export class SelectEditorConfig extends EditorConfig {
     super();
 
     this.dataMode = 'static';
-    this.dataSource = undefined;
     this.options = [];
     this.allowEmpty = true;
     this.configKey = undefined;

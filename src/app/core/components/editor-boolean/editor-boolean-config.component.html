@@ -1,5 +1,5 @@
 <h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
-  {{ 'key_editorBooleanConfig' | translate }}
+  {{ 'key_editorConfig' | translate }}
 </h3>
 <div mat-dialog-content>
   <mat-tab-group class="config-tab-group">
@@ -161,12 +161,14 @@
         </div>
         <div fxFlex="none" style="margin-top: 40px; margin-bottom: 15px;">
           <mat-radio-group [(ngModel)]="data.config.accessUsedFor">
-            <mat-radio-button value="visibility" style="margin-right: 20px;">{{
-              'key_useForVisibility' | translate
-            }}</mat-radio-button>
-            <mat-radio-button value="editability">{{
-              'key_useForEditability' | translate
-            }}</mat-radio-button>
+            <div fxLayout="row">
+              <mat-radio-button fxFlex="1 1 33" value="visibility">{{
+                'key_useForVisibility' | translate
+              }}</mat-radio-button>
+              <mat-radio-button fxFlex="1 1 33" value="editability">{{
+                'key_useForEditability' | translate
+              }}</mat-radio-button>
+            </div>
           </mat-radio-group>
         </div>
         <div fxFlex="none">

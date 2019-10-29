@@ -1,3 +1,296 @@
-<p>
-  editor-select-config works!
-</p>
+<h3 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  {{ 'key_editorConfig' | translate }}
+</h3>
+<div mat-dialog-content>
+  <mat-tab-group class="config-tab-group">
+    <mat-tab [label]="'key_general' | translate">
+      <div fxLayout="column" fxLayoutAlign="start stretch" class="first-dialog-item">
+        <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+          <mat-form-field fxFlex="1 1 50">
+            <input
+              matInput
+              disabled
+              [placeholder]="'key_attributeName' | translate"
+              [(ngModel)]="data.attribute.systemName"
+            />
+          </mat-form-field>
+        </div>
+        <div
+          fxFlex="none"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="20px"
+          style="margin-top: 20px;"
+        >
+          <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.showTooltip">
+            {{ 'key_showToolTip' | translate }}</mat-slide-toggle
+          >
+          <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.hideIfNoAccess">
+            {{ 'key_hideIfNoAccess' | translate }}</mat-slide-toggle
+          >
+        </div>
+        <div
+          fxFlex="none"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="20px"
+          style="margin-top: 30px;"
+        >
+          <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.readOnly">
+            {{ 'key_readOnly' | translate }}</mat-slide-toggle
+          >
+          <mat-slide-toggle
+            fxFlex="1 1 50"
+            [(ngModel)]="data.config.required"
+            [disabled]="data.config.requiredFromSchema"
+          >
+            {{ 'key_required' | translate }}</mat-slide-toggle
+          >
+        </div>
+        <div
+          fxFlex="none"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="20px"
+          style="margin-top: 20px;"
+        >
+          <mat-slide-toggle
+            #bolShowDisplayName
+            fxFlex="1 1 50"
+            [(ngModel)]="data.config.showDisplayName"
+          >
+            {{ 'key_showDisplayName' | translate }}</mat-slide-toggle
+          >
+          <mat-form-field fxFlex="1 1 50">
+            <input
+              matInput
+              [placeholder]="'key_customDisplayName' | translate"
+              [(ngModel)]="data.config.customDisplayName"
+              [disabled]="!bolShowDisplayName.checked"
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+          <mat-slide-toggle
+            #bolShowDescription
+            fxFlex="1 1 50"
+            [(ngModel)]="data.config.showDescription"
+          >
+            {{ 'key_showDescription' | translate }}</mat-slide-toggle
+          >
+          <mat-form-field fxFlex="1 1 50">
+            <input
+              matInput
+              [placeholder]="'key_customDescription' | translate"
+              [(ngModel)]="data.config.customDescription"
+              [disabled]="!bolShowDescription.checked"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'key_advanced' | translate">
+      <div fxLayout="column" fxLayoutAlign="start stretch" class="first-dialog-item">
+        <div fxFlex="none" style="margin-top: 40px; margin-bottom: 15px;">
+          <mat-radio-group [(ngModel)]="data.config.accessUsedFor">
+            <div fxLayout="row">
+              <mat-radio-button fxFlex="1 1 33" value="visibility">{{
+                'key_useForVisibility' | translate
+              }}</mat-radio-button>
+              <mat-radio-button fxFlex="1 1 33" value="editability">{{
+                'key_useForEditability' | translate
+              }}</mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
+        <div fxFlex="none">
+          <mat-form-field fxFlex="auto">
+            <mat-chip-list #clDeniedSets>
+              <mat-chip
+                *ngFor="let deniedSet of data.config.accessDenied"
+                [selectable]="true"
+                [removable]="true"
+                (removed)="onRemoveDeniedSet(deniedSet)"
+              >
+                {{ deniedSet }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input
+                [placeholder]="'key_deniedSets' | translate"
+                [matChipInputFor]="clDeniedSets"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="onAddDeniedSet($event)"
+              />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+        <div fxFlex="none">
+          <mat-form-field fxFlex="auto">
+            <mat-chip-list #clAllowedSets>
+              <mat-chip
+                *ngFor="let alowedSet of data.config.accessAllowed"
+                [selectable]="true"
+                [removable]="true"
+                (removed)="onRemoveAllowedSet(alowedSet)"
+              >
+                {{ alowedSet }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input
+                [placeholder]="'key_allowedSets' | translate"
+                [matChipInputFor]="clAllowedSets"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="onAddAllowedSet($event)"
+              />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'key_data' | translate">
+      <div fxLayout="column" fxLayoutAlign="start stretch" class="first-dialog-item">
+        <div fxFlex="none" style="margin-bottom: 20px;">
+          <mat-radio-group [(ngModel)]="data.config.dataMode">
+            <div fxLayout="row">
+              <mat-radio-button fxFlex="1 1 33" value="static">{{
+                'key_useStatic' | translate
+              }}</mat-radio-button>
+              <mat-radio-button fxFlex="1 1 33" value="config">{{
+                'key_useConfig' | translate
+              }}</mat-radio-button>
+              <mat-radio-button fxFlex="1 1 33" value="query">{{
+                'key_useQuery' | translate
+              }}</mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
+        <div fxFlex="none" *ngIf="data.config.dataMode === 'static'">
+          <div fxLayout="column" fxLayoutGap="20px">
+            <mat-list fxFlex="none">
+              <mat-list-item
+                style="border: solid lightgray; height: 38px; margin-top: -2px; font-weight: 400; color: gray;"
+              >
+                <div fxLayout="row" fxLayoutGap="20px" style="width: 100%;">
+                  <div fxFlex="0 0 20px"></div>
+                  <div fxFlex="1 1 50">
+                    {{ 'key_text' | translate }}
+                  </div>
+                  <div fxFlex="1 1 50">
+                    {{ 'key_value' | translate }}
+                  </div>
+                  <div fxFlex="0 0 20px"></div>
+                </div>
+              </mat-list-item>
+              <div dragula="SELECTOPTIONS" [(dragulaModel)]="data.config.options">
+                <mat-list-item
+                  *ngFor="let option of data.config.options"
+                  style="border: solid lightgray; height: 38px; margin-top: -2px; padding: 5px 0; color: gray;"
+                >
+                  <div fxLayout="row" fxLayoutGap="20px" style="width: 100%;">
+                    <div fxFlex="0 0 20px" class="handle">
+                      <mat-icon style="margin-left: -10px; cursor: pointer;">menu</mat-icon>
+                    </div>
+                    <div fxFlex="1 1 50">
+                      {{ option.text }}
+                    </div>
+                    <div fxFlex="1 1 50">
+                      {{ option.value }}
+                    </div>
+                    <div fxFlex="0 0 20px">
+                      <mat-icon (click)="onRemoveOption(option)" style="cursor: pointer;"
+                        >clear</mat-icon
+                      >
+                    </div>
+                  </div>
+                </mat-list-item>
+              </div>
+            </mat-list>
+            <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+              <mat-form-field fxFlex="1 1 33">
+                <input matInput [placeholder]="'key_text' | translate" [(ngModel)]="textInput" />
+              </mat-form-field>
+              <mat-form-field fxFlex="1 1 33">
+                <input matInput [placeholder]="'key_value' | translate" [(ngModel)]="valueInput" />
+              </mat-form-field>
+              <button
+                mat-stroked-button
+                [disabled]="!textInput || !valueInput"
+                (click)="onAddOption()"
+                style="height: 36px;"
+              >
+                {{ 'key_add' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="none" fxLayout="row" *ngIf="data.config.dataMode === 'config'">
+          <mat-form-field fxFlex="1 1 100">
+            <input
+              matInput
+              [placeholder]="'key_configKey' | translate"
+              [(ngModel)]="data.config.configKey"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div fxFlex="none" *ngIf="data.config.dataMode === 'query'">
+          <div fxLayout="column" fxLayoutGap="10px">
+            <mat-form-field fxFlex="none">
+              <input
+                matInput
+                [placeholder]="'key_query' | translate"
+                [(ngModel)]="data.config.query"
+                required
+              />
+            </mat-form-field>
+            <div fxFlex="none" fxLayout="row" fxLayoutGap="20px">
+              <div fxFlex="1 1 50">
+                <mat-form-field>
+                  <input
+                    matInput
+                    [placeholder]="'key_textAttribute' | translate"
+                    [(ngModel)]="data.config.textAttribute"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div fxFlex="1 1 50">
+                <mat-form-field>
+                  <input
+                    matInput
+                    [placeholder]="'key_valueAttribute' | translate"
+                    [(ngModel)]="data.config.valueAttribute"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<div
+  mat-dialog-actions
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  style="margin-top: 10px;"
+>
+  <button
+    fxFlex="none"
+    mat-stroked-button
+    color="primary"
+    [mat-dialog-close]="data.config"
+    [disabled]="isDisabled()"
+  >
+    {{ 'key_submit' | translate }}
+  </button>
+  <div fxFlex="auto"></div>
+  <button fxFlex="none" mat-stroked-button mat-dialog-close="cancel">
+    {{ 'key_cancel' | translate }}
+  </button>
+</div>

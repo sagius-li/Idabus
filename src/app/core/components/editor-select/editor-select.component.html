@@ -8,7 +8,7 @@
     (change)="onChange()"
   >
     <mat-option *ngIf="localConfig.allowEmpty" [value]="null">--</mat-option>
-    <mat-option *ngFor="let option of localConfig.dataSource | async" [value]="option.value">
+    <mat-option *ngFor="let option of dataSource | async" [value]="option.value">
       {{ option.text | translate }}
     </mat-option>
   </mat-select>

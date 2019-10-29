@@ -19,7 +19,7 @@ import {
 import { MatDialog } from '@angular/material';
 
 import { tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { AttributeEditor } from '../../models/dynamicEditor.interface';
 import { SelectEditorConfig } from '../../models/editorContract.model';
@@ -55,6 +55,58 @@ import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
 export class EditorSelectComponent extends AttributeEditor
   implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
   localConfig = new SelectEditorConfig();
+
+  dataSource: Observable<Array<{ value: string; text: string }>> = of([]);
+
+  getDataSource() {
+    switch (this.localConfig.dataMode) {
+      case 'static':
+        this.dataSource = of(this.localConfig.options);
+        break;
+      case 'config':
+        if (this.localConfig.configKey) {
+          this.dataSource = of(this.configService.getConfig(this.localConfig.configKey, []));
+        }
+        break;
+      case 'query':
+        if (
+          this.localConfig.query &&
+          this.localConfig.valueAttribute &&
+          this.localConfig.textAttribute
+        ) {
+          const attributeNames = [this.localConfig.valueAttribute];
+          if (this.localConfig.valueAttribute !== this.localConfig.textAttribute) {
+            attributeNames.push(this.localConfig.textAttribute);
+          }
+          this.dataSource = this.resource
+            .getResourceByQuery(this.localConfig.query, attributeNames)
+            .pipe(
+              switchMap((resources: ResourceSet) => {
+                if (resources.totalCount > 0) {
+                  const retVal: Array<{ text: string; value: string }> = [];
+                  resources.results.forEach(data => {
+                    retVal.push({
+                      text: this.extraValuePipe.transform(
+                        data,
+                        this.localConfig.textAttribute + ':value'
+                      ),
+                      value: this.extraValuePipe.transform(
+                        data,
+                        this.localConfig.valueAttribute + ':value'
+                      )
+                    });
+                  });
+                  return of(retVal);
+                }
+                return of([]);
+              })
+            );
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   constructor(
     public utils: UtilsService,
@@ -105,55 +157,7 @@ export class EditorSelectComponent extends AttributeEditor
     this.localConfig = new SelectEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
 
-    switch (this.localConfig.dataMode) {
-      case 'static':
-        this.localConfig.dataSource = of(this.localConfig.options);
-        break;
-      case 'config':
-        if (this.localConfig.configKey) {
-          this.localConfig.dataSource = of(
-            this.configService.getConfig(this.localConfig.configKey, [])
-          );
-        }
-        break;
-      case 'query':
-        if (
-          this.localConfig.query &&
-          this.localConfig.valueAttribute &&
-          this.localConfig.textAttribute
-        ) {
-          const attributeNames = [this.localConfig.valueAttribute];
-          if (this.localConfig.valueAttribute !== this.localConfig.textAttribute) {
-            attributeNames.push(this.localConfig.textAttribute);
-          }
-          this.localConfig.dataSource = this.resource
-            .getResourceByQuery(this.localConfig.query, attributeNames)
-            .pipe(
-              switchMap((resources: ResourceSet) => {
-                if (resources.totalCount > 0) {
-                  const retVal: Array<{ text: string; value: string }> = [];
-                  resources.results.forEach(data => {
-                    retVal.push({
-                      text: this.extraValuePipe.transform(
-                        data,
-                        this.localConfig.textAttribute + ':value'
-                      ),
-                      value: this.extraValuePipe.transform(
-                        data,
-                        this.localConfig.valueAttribute + ':value'
-                      )
-                    });
-                  });
-                  return of(retVal);
-                }
-                return of([]);
-              })
-            );
-        }
-        break;
-      default:
-        break;
-    }
+    this.getDataSource();
 
     return this.localConfig;
   }
@@ -174,8 +178,10 @@ export class EditorSelectComponent extends AttributeEditor
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.localConfig = configCopy;
+          this.getDataSource();
         } else {
           this.config = this.localConfig;
+          this.getDataSource();
           this.validationFn = createSelectEditorValidator(this.localConfig);
         }
       }),
