@@ -167,5 +167,16 @@
   "key_allowedSets": "允许的集合",
   "key_customValue": "自定义值",
   "key_trueValue": "定义为真的值",
-  "key_falseValue": "定义为假的值"
+  "key_falseValue": "定义为假的值",
+  "key_allowEmpty": "可以为空",
+  "key_comboBox": "组合框",
+  "key_radioButton": "单选框",
+  "key_layout": "布局",
+  "key_row": "横向",
+  "key_column": "纵向",
+  "key_layoutGap": "布局间隔",
+  "key_data": "数据",
+  "key_static": "静态数据",
+  "key_config": "调用设置",
+  "key_text": "文本"
 }

@@ -14,3 +14,29 @@
 .error-message {
   color: #f44336;
 }
+
+.label-attribute-name {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.54);
+  height: 18px;
+  margin-bottom: 4px;
+}
+
+.label-attribute-desc {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.54);
+  height: 18px;
+  padding-top: 3px;
+}
+
+:host.ng-dirty /deep/ .label-attribute-name::after {
+  content: '*';
+}
+:host.ng-invalid /deep/ .label-attribute-name {
+  color: #f44336;
+}
+:host.ng-invalid /deep/ .label-attribute-desc {
+  color: #f44336;
+}

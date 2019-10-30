@@ -14,6 +14,9 @@
               [(ngModel)]="data.attribute.systemName"
             />
           </mat-form-field>
+          <mat-slide-toggle fxFlex="1 1 50" [(ngModel)]="data.config.allowEmpty">
+            {{ 'key_allowEmpty' | translate }}</mat-slide-toggle
+          >
         </div>
         <div
           fxFlex="none"
@@ -91,6 +94,47 @@
     </mat-tab>
     <mat-tab [label]="'key_advanced' | translate">
       <div fxLayout="column" fxLayoutAlign="start stretch" class="first-dialog-item">
+        <div fxFlex="none">
+          <mat-form-field fxFlex="1 1 50">
+            <mat-select
+              [placeholder]="'key_type' | translate"
+              [(ngModel)]="data.config.controlType"
+            >
+              <mat-option value="combo">{{ 'key_comboBox' | translate }}</mat-option>
+              <mat-option value="radio">{{ 'key_radioButton' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="none" fxLayout="row" *ngIf="data.config.controlType === 'radio'">
+          <mat-form-field fxFlex="1 1 50">
+            <mat-select
+              [placeholder]="'key_layout' | translate"
+              [(ngModel)]="data.config.radioButtonLayout"
+            >
+              <mat-option value="row">{{ 'key_row' | translate }}</mat-option>
+              <mat-option value="column">{{ 'key_column' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div fxFlex="1 1 50" fxLayout="column" style="padding-left: 20px;">
+            <div
+              fxFlex="none"
+              style="font-size: 12px; font-weight: 400; height: 18px; padding-left: 8px; color: rgba(0,0,0,.54);"
+            >
+              {{ 'key_layoutGap' | translate }}
+            </div>
+            <mat-slider
+              fxFlex="none"
+              [max]="100"
+              [min]="10"
+              [step]="10"
+              [thumbLabel]="true"
+              [tickInterval]="10"
+              [(ngModel)]="data.config.radioButtonSpace"
+              style="margin-top: 2px;"
+            >
+            </mat-slider>
+          </div>
+        </div>
         <div fxFlex="none" style="margin-top: 40px; margin-bottom: 15px;">
           <mat-radio-group [(ngModel)]="data.config.accessUsedFor">
             <div fxLayout="row">
@@ -155,13 +199,13 @@
           <mat-radio-group [(ngModel)]="data.config.dataMode">
             <div fxLayout="row">
               <mat-radio-button fxFlex="1 1 33" value="static">{{
-                'key_useStatic' | translate
+                'key_static' | translate
               }}</mat-radio-button>
               <mat-radio-button fxFlex="1 1 33" value="config">{{
-                'key_useConfig' | translate
+                'key_config' | translate
               }}</mat-radio-button>
               <mat-radio-button fxFlex="1 1 33" value="query">{{
-                'key_useQuery' | translate
+                'key_query' | translate
               }}</mat-radio-button>
             </div>
           </mat-radio-group>
@@ -208,13 +252,14 @@
               </div>
             </mat-list>
             <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-              <mat-form-field fxFlex="1 1 33">
+              <mat-form-field fxFlex="1 1 50">
                 <input matInput [placeholder]="'key_text' | translate" [(ngModel)]="textInput" />
               </mat-form-field>
-              <mat-form-field fxFlex="1 1 33">
+              <mat-form-field fxFlex="1 1 50">
                 <input matInput [placeholder]="'key_value' | translate" [(ngModel)]="valueInput" />
               </mat-form-field>
               <button
+                fxFlex="auto"
                 mat-stroked-button
                 [disabled]="!textInput || !valueInput"
                 (click)="onAddOption()"

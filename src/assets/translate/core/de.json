@@ -167,5 +167,16 @@
   "key_allowedSets": "Erlaubte Listen",
   "key_customValue": "Benutzerdef. Wert",
   "key_trueValue": "Wert für wahr",
-  "key_falseValue": "Wert für falsch"
+  "key_falseValue": "Wert für falsch",
+  "key_allowEmpty": "Leer erlaubt",
+  "key_comboBox": "Kombinationsfeld",
+  "key_radioButton": "Optionsfeld",
+  "key_layout": "Layout",
+  "key_row": "In Reihe",
+  "key_column": "In Spalte",
+  "key_layoutGap": "Zwischenplatz",
+  "key_data": "Daten",
+  "key_static": "Statisch",
+  "key_config": "Konfig",
+  "key_text": "Text"
 }

@@ -30,6 +30,9 @@ export class BooleanEditorConfig extends EditorConfig {
 }
 
 export class SelectEditorConfig extends EditorConfig {
+  controlType?: string;
+  radioButtonLayout?: string;
+  radioButtonSpace?: number;
   dataMode?: string;
   options?: Array<{ value: string; text: string }>;
   allowEmpty?: boolean;
@@ -41,6 +44,9 @@ export class SelectEditorConfig extends EditorConfig {
   constructor() {
     super();
 
+    this.controlType = 'combo';
+    this.radioButtonLayout = 'row';
+    this.radioButtonSpace = 20;
     this.dataMode = 'static';
     this.options = [];
     this.allowEmpty = true;

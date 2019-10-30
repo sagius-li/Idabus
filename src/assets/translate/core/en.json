@@ -167,5 +167,16 @@
   "key_allowedSets": "Allowed sets",
   "key_customValue": "Custom value",
   "key_trueValue": "Value for true",
-  "key_falseValue": "value for false"
+  "key_falseValue": "Value for false",
+  "key_allowEmpty": "Allow empty",
+  "key_comboBox": "Combobox",
+  "key_radioButton": "Radio button",
+  "key_layout": "Layout",
+  "key_row": "Row",
+  "key_column": "Column",
+  "key_layoutGap": "Layout gap",
+  "key_data": "Data",
+  "key_static": "Static",
+  "key_config": "Config",
+  "key_text": "Text"
 }
