@@ -138,7 +138,11 @@ export class EditorTextComponent extends AttributeEditor
   }
 
   onChange() {
-    this.swap.propagateEditorValueChanged(this.config.attributeName);
+    if (this.change.observers.length > 0) {
+      this.change.emit(this.value);
+    } else {
+      this.swap.propagateEditorValueChanged(this.config.attributeName);
+    }
   }
 
   // #endregion

@@ -32,6 +32,7 @@ import { ResourceTableComponent } from '../core/components/resource-table/resour
 import { ResourceChartComponent } from '../core/components/resource-chart/resource-chart.component';
 import { AttributeEditor } from '../core/models/dynamicEditor.interface';
 import { TextEditorConfig } from '../core/models/editorContract.model';
+import { EditorSelectComponent } from '../core/components/editor-select/editor-select.component';
 
 @Component({
   selector: 'app-test',
@@ -195,6 +196,8 @@ export class TestComponent implements OnInit, AfterViewInit {
 
   // #region attribute editors
 
+  @ViewChildren('editor') editors: QueryList<AttributeEditor>;
+
   editorResource: Resource = {};
 
   configAccountName = {
@@ -209,8 +212,20 @@ export class TestComponent implements OnInit, AfterViewInit {
     dataMode: 'query',
     textAttribute: 'ocgObjectSource',
     valueAttribute: 'ocgObjectID',
+    // tslint:disable-next-line:quotemark
     query: "/ocgConfiguration[ocgObjectType='Country']"
   };
+
+  configCity = {
+    showDescription: true,
+    dataMode: 'query',
+    textAttribute: 'ocgObjectSource',
+    valueAttribute: 'ocgObjectID'
+  };
+
+  private getEditor(attributeName: string): AttributeEditor {
+    return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+  }
 
   // #endregion
 
@@ -280,7 +295,8 @@ export class TestComponent implements OnInit, AfterViewInit {
           'Register',
           'ocgObjectScope',
           'EmployeeType',
-          'Country'
+          'Country',
+          'City'
         ],
         'full',
         'de',
@@ -427,23 +443,37 @@ export class TestComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onSubmit(form: NgForm, editor: AttributeEditor) {
-    console.log(form);
-
+  onSubmit(form: NgForm, editorAccountName: AttributeEditor) {
     /** Set editor value */
     // editor.value = 'test';
 
-    /** Configure editor in two different ways */
+    /** Configure editor in 3 different ways */
     // this.configAccountName.validation = undefined;
     // this.configAccountName.showDescription = false;
 
-    const config = editor.config as TextEditorConfig;
-    if (config) {
-      config.showDescription = false;
-      config.validation = '^[a-zA-Z.?]{1,8}$';
-      config.maxLength = 8;
-    }
+    // const config = editorAccountName.config as TextEditorConfig;
+    // if (config) {
+    //   config.showDescription = false;
+    //   config.validation = '^[a-zA-Z.?]{1,8}$';
+    //   config.maxLength = 8;
+    // }
 
-    console.log(editor);
+    // const editorCountry = this.getEditor('Country') as EditorSelectComponent;
+    // const editorCity = this.getEditor('City') as EditorSelectComponent;
+    // if (editorCity && editorCountry) {
+    //   editorCity.config.query = editorCity.config.query.replace('#country#', editorCountry.value);
+    //   editorCity.setDataSource();
+    // }
+
+    console.log(form);
+    console.log(editorAccountName);
+  }
+
+  onCountryChange(value: any) {
+    const editorCity = this.getEditor('City') as EditorSelectComponent;
+    if (value && editorCity) {
+      editorCity.config.query = `/ocgConfiguration[ocgObjectType='city' and ocgObjectScope='${value}']`;
+      editorCity.setDataSource();
+    }
   }
 }

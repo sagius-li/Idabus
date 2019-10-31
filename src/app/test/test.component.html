@@ -132,6 +132,7 @@
         <div>
           <app-editor-text
             #txtAccountName
+            #editor
             name="txtAccountName"
             [ngModel]="editorResource | extraValue: 'AccountName'"
             [(config)]="configAccountName"
@@ -139,6 +140,7 @@
         </div>
         <div>
           <app-editor-boolean
+            #editor
             name="chkRegister"
             [ngModel]="editorResource | extraValue: 'Register'"
             [config]="{ showDescription: true }"
@@ -146,6 +148,7 @@
         </div>
         <div>
           <app-editor-boolean
+            #editor
             name="chkScope"
             [ngModel]="editorResource | extraValue: 'ocgObjectScope'"
             [config]="{
@@ -159,6 +162,7 @@
         </div>
         <div>
           <app-editor-select
+            #editor
             name="cmbEmployeeType"
             [ngModel]="editorResource | extraValue: 'EmployeeType'"
             [config]="{
@@ -171,9 +175,19 @@
         </div>
         <div>
           <app-editor-select
+            #editor
             name="cmbCountry"
             [ngModel]="editorResource | extraValue: 'Country'"
             [config]="configCountry"
+            (change)="onCountryChange($event)"
+          ></app-editor-select>
+        </div>
+        <div>
+          <app-editor-select
+            #editor
+            name="cmbCity"
+            [ngModel]="editorResource | extraValue: 'City'"
+            [config]="configCity"
           ></app-editor-select>
         </div>
         <div style="margin-top: 20px;">

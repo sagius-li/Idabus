@@ -113,6 +113,9 @@ export class AttributeEditor implements DynamicEditor {
   @Input()
   configMode = false;
 
+  @Output()
+  change = new EventEmitter<any>();
+
   validationFn: (c: FormControl) => any;
 
   control: FormControl;
