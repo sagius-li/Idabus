@@ -101,6 +101,7 @@ export class EditorBooleanComponent extends AttributeEditor
 
     this.localConfig = new BooleanEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+    this.config = this.localConfig;
 
     return this.localConfig;
   }

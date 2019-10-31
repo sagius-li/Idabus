@@ -98,6 +98,7 @@ export class EditorTextComponent extends AttributeEditor
 
     this.localConfig = new TextEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+    this.config = this.localConfig;
 
     return this.localConfig;
   }

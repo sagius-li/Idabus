@@ -156,6 +156,7 @@ export class EditorSelectComponent extends AttributeEditor
 
     this.localConfig = new SelectEditorConfig();
     this.utils.CopyInto(this.config, this.localConfig, true, true);
+    this.config = this.localConfig;
 
     this.getDataSource();
 

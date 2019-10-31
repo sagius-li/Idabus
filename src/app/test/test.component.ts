@@ -31,6 +31,7 @@ import { StateCardComponent } from '../core/components/state-card/state-card.com
 import { ResourceTableComponent } from '../core/components/resource-table/resource-table.component';
 import { ResourceChartComponent } from '../core/components/resource-chart/resource-chart.component';
 import { AttributeEditor } from '../core/models/dynamicEditor.interface';
+import { TextEditorConfig } from '../core/models/editorContract.model';
 
 @Component({
   selector: 'app-test',
@@ -196,28 +197,11 @@ export class TestComponent implements OnInit, AfterViewInit {
 
   editorResource: Resource = {};
 
-  attrFirstName: AttributeResource = {
-    dataType: 'String',
-    description: 'Users first name',
-    displayName: 'First Name',
-    multivalued: false,
-    permissionHint: 'Add, Create, Modify, Delete, Read, Remove',
-    required: false,
-    systemName: 'FirstName',
-    value: 'Eva',
-    values: ['Eva']
-  };
-
-  attrRegister: AttributeResource = {
-    dataType: 'Boolean',
-    description: 'PWD register',
-    displayName: 'Register',
-    multivalued: false,
-    permissionHint: 'Add, Create, Modify, Delete, Read, Remove',
-    required: false,
-    systemName: 'Register',
-    value: null,
-    values: [null]
+  configAccountName = {
+    attributeName: 'AccountName',
+    showDescription: true,
+    validation: '^[a-zA-Z.]{1,16}$',
+    maxLength: 16
   };
 
   // #endregion
@@ -438,8 +422,20 @@ export class TestComponent implements OnInit, AfterViewInit {
   onSubmit(form: NgForm, editor: AttributeEditor) {
     console.log(form);
 
-    // console.log(editor.value);
+    /** Set editor value */
+    editor.value = 'test';
 
-    // editor.value = 'test';
+    /** Configure editor in two different ways */
+    // this.configAccountName.validation = undefined;
+    // this.configAccountName.showDescription = false;
+
+    // const config = editor.config as TextEditorConfig;
+    // if (config) {
+    //   config.showDescription = false;
+    //   config.validation = '^[a-zA-Z.?]{1,8}$';
+    //   config.maxLength = 8;
+    // }
+
+    console.log(editor);
   }
 }

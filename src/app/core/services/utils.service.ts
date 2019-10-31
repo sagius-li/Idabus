@@ -213,7 +213,7 @@ export class UtilsService {
       const keys = useTargetProperties ? Object.keys(target) : Object.keys(source);
 
       keys.forEach(key => {
-        if (source[key] != null) {
+        if (source[key] !== null) {
           if (onlyCopyIfDefined) {
             if (source[key] !== undefined) {
               target[key] = source[key];
