@@ -456,6 +456,7 @@ export class TestComponent implements OnInit, AfterViewInit {
     //   config.showDescription = false;
     //   config.validation = '^[a-zA-Z.?]{1,8}$';
     //   config.maxLength = 8;
+    //   config.isHidden = true;
     // }
 
     // const editorCountry = this.getEditor('Country') as EditorSelectComponent;
