@@ -204,6 +204,14 @@ export class TestComponent implements OnInit, AfterViewInit {
     maxLength: 16
   };
 
+  configCountry = {
+    showDescription: true,
+    dataMode: 'query',
+    textAttribute: 'ocgObjectSource',
+    valueAttribute: 'ocgObjectID',
+    query: "/ocgConfiguration[ocgObjectType='Country']"
+  };
+
   // #endregion
 
   constructor(

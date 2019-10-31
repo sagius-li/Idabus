@@ -115,6 +115,55 @@ export class AttributeViewComponent implements OnInit, DoCheck {
     this.registerChangeHandler();
   }
 
+  private applyValue(valueExpressionDic: { [key: string]: string[] }) {
+    if (Object.keys(valueExpressionDic).length > 0) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      Object.keys(valueExpressionDic).forEach(dicKey => {
+        valueExpressionDic[dicKey].forEach(expression => {
+          let match = regEx.exec(expression);
+          let expressionValue = expression;
+          while (match) {
+            const replaceName = match[0].substr(2, match[0].length - 3);
+            expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
+            match = regEx.exec(expression);
+          }
+          if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
+            // tslint:disable-next-line:no-eval
+            this.setValue(dicKey, eval(expressionValue.substring(1, expressionValue.length - 1)));
+          } else {
+            this.setValue(dicKey, expressionValue);
+          }
+        });
+      });
+    }
+  }
+
+  private applyConfig(configExpressionDic: { [key: string]: string[] }) {
+    if (Object.keys(configExpressionDic).length > 0) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      Object.keys(configExpressionDic).forEach(dicKey => {
+        configExpressionDic[dicKey].forEach(expression => {
+          let match = regEx.exec(expression);
+          let expressionValue = expression;
+          while (match) {
+            const replaceName = match[0].substr(2, match[0].length - 3);
+            expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
+            match = regEx.exec(expression);
+          }
+          const editor = this.getEditor(dicKey);
+          if (editor) {
+            if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
+              // tslint:disable-next-line:no-eval
+              editor.setDataSource(eval(expressionValue.substring(1, expressionValue.length - 1)));
+            } else {
+              editor.setDataSource(expressionValue);
+            }
+          }
+        });
+      });
+    }
+  }
+
   private registerChangeHandler() {
     // const control = this.getControl('DisplayName');
     // if (control) {
@@ -168,29 +217,25 @@ export class AttributeViewComponent implements OnInit, DoCheck {
       }
     });
 
-    this.swap.editorValueChanged.subscribe((attrubteName: string) => {
+    this.swap.editorValueChanged.subscribe((attributeName: string) => {
       const configs = this.attributeArray.map(a => a.config);
-      const expressionDic = this.utils.GetEditorExpressions(attrubteName, configs);
-      if (Object.keys(expressionDic).length > 0) {
-        const regEx: RegExp = /\[#\w+\]/g;
-        Object.keys(expressionDic).forEach(dicKey => {
-          expressionDic[dicKey].forEach(expression => {
-            let match = regEx.exec(expression);
-            let expressionValue = expression;
-            while (match) {
-              const replaceName = match[0].substr(2, match[0].length - 3);
-              expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
-              match = regEx.exec(expression);
-            }
-            if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
-              // tslint:disable-next-line:no-eval
-              this.setValue(dicKey, eval(expressionValue.substring(1, expressionValue.length - 1)));
-            } else {
-              this.setValue(dicKey, expressionValue);
-            }
-          });
-        });
-      }
+
+      const valueExpressionDic = this.utils.GetEditorExpressions(
+        attributeName,
+        configs,
+        'expression'
+      );
+      this.applyValue(valueExpressionDic);
+
+      const configExpressionDic = this.utils.GetEditorExpressions(attributeName, configs, 'query');
+      this.applyConfig(configExpressionDic);
+    });
+
+    this.swap.editorConfigChanged.subscribe((attributeName: string) => {
+      const configs = this.attributeArray.map(a => a.config);
+
+      const configExpressionDic = this.utils.GetEditorExpressions(attributeName, configs, 'query');
+      this.applyConfig(configExpressionDic);
     });
 
     this.obsCurrentResource = this.route.params.pipe(

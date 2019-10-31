@@ -275,15 +275,19 @@ export class UtilsService {
     return undefined;
   }
 
-  public GetEditorExpressions(attributeName: string, configs: Array<EditorConfig>) {
+  public GetEditorExpressions(
+    attributeName: string,
+    configs: Array<EditorConfig>,
+    configName: string
+  ) {
     const retVal: { [key: string]: Array<string> } = {};
 
     configs.forEach((config: EditorConfig) => {
-      if (config.expression && config.expression.indexOf(`[#${attributeName}]`) >= 0) {
+      if (config[configName] && config[configName].indexOf(`[#${attributeName}]`) >= 0) {
         if (Object.keys(retVal).indexOf(config.attributeName) >= 0) {
-          retVal[config.attributeName].push(config.expression);
+          retVal[config.attributeName].push(config[configName]);
         } else {
-          retVal[config.attributeName] = [config.expression];
+          retVal[config.attributeName] = [config[configName]];
         }
       }
     });

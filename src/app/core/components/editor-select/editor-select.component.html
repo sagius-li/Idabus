@@ -6,7 +6,7 @@
       [matTooltip]="tooltip"
       [disabled]="disabled(resource.rightSets)"
       (focus)="onFocuse()"
-      (change)="onChange()"
+      (selectionChange)="onChange()"
     >
       <mat-option *ngIf="config.allowEmpty" [value]="null">--</mat-option>
       <mat-option *ngFor="let option of dataSource | async" [value]="option.value">

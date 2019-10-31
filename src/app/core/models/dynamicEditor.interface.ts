@@ -117,6 +117,8 @@ export class AttributeEditor implements DynamicEditor {
 
   control: FormControl;
 
+  dataSource: Observable<Array<{ value: string; text: string }>>;
+
   private permissionCanRead(permissionHint: string): boolean {
     if (!permissionHint) {
       return true;
@@ -268,6 +270,8 @@ export class AttributeEditor implements DynamicEditor {
 
     return true;
   }
+
+  setDataSource(query: string = null) {}
 
   // #region DynamicEditor implementation
 

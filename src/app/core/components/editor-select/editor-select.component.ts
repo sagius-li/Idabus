@@ -58,7 +58,7 @@ export class EditorSelectComponent extends AttributeEditor
 
   dataSource: Observable<Array<{ value: string; text: string }>> = of([]);
 
-  getDataSource() {
+  setDataSource(query: string = null) {
     switch (this.config.dataMode) {
       case 'static':
         this.dataSource = of(this.config.options);
@@ -75,7 +75,7 @@ export class EditorSelectComponent extends AttributeEditor
             attributeNames.push(this.config.textAttribute);
           }
           this.dataSource = this.resource
-            .getResourceByQuery(this.config.query, attributeNames)
+            .getResourceByQuery(query ? query : this.config.query, attributeNames)
             .pipe(
               switchMap((resources: ResourceSet) => {
                 if (resources.totalCount > 0) {
@@ -124,6 +124,7 @@ export class EditorSelectComponent extends AttributeEditor
   ngOnChanges(changes: any) {
     if (changes.config) {
       this.validationFn = createSelectEditorValidator(this.config);
+      this.swap.propagateEditorConfigChanged(this.config.attributeName);
     }
   }
 
@@ -154,7 +155,7 @@ export class EditorSelectComponent extends AttributeEditor
     this.utils.CopyInto(this.config, initConfig, true, true);
     this.config = initConfig;
 
-    this.getDataSource();
+    this.setDataSource();
 
     return this.config;
   }
@@ -175,10 +176,11 @@ export class EditorSelectComponent extends AttributeEditor
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.config = configCopy;
-          this.getDataSource();
+          this.setDataSource();
         } else {
-          this.getDataSource();
+          this.setDataSource();
           this.validationFn = createSelectEditorValidator(this.config);
+          this.swap.propagateEditorConfigChanged(this.config.attributeName);
         }
       }),
       switchMap(() => {

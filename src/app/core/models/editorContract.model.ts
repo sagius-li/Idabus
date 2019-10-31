@@ -1,5 +1,4 @@
 import { EditorConfig } from './dynamicEditor.interface';
-import { Observable } from 'rxjs';
 
 export class TextEditorConfig extends EditorConfig {
   maxLength?: number;

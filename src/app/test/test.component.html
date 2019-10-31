@@ -173,13 +173,7 @@
           <app-editor-select
             name="cmbCountry"
             [ngModel]="editorResource | extraValue: 'Country'"
-            [config]="{
-              showDescription: true,
-              dataMode: 'query',
-              textAttribute: 'DisplayName',
-              valueAttribute: 'ocgObjectSource',
-              query: '/ocgConfiguration[ocgObjectType=\'Country\']'
-            }"
+            [config]="configCountry"
           ></app-editor-select>
         </div>
         <div style="margin-top: 20px;">

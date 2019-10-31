@@ -23,6 +23,10 @@ export class SwapService {
   private editorValueChangedSource = new BehaviorSubject(null);
   editorValueChanged = this.editorValueChangedSource.asObservable();
 
+  /** Communication between components for editor config change */
+  private editorConfigChangedSource = new BehaviorSubject(null);
+  editorConfigChanged = this.editorConfigChangedSource.asObservable();
+
   /** Indicate global page edit mode */
   isEditMode = false;
   get editMode() {
@@ -57,6 +61,14 @@ export class SwapService {
    */
   propagateEditorValueChanged(attributeName: string) {
     this.editorValueChangedSource.next(attributeName);
+  }
+
+  /**
+   * Prpagate editor config change
+   * @param attributeName Attrubte name of the editor
+   */
+  propagateEditorConfigChanged(attributeName: string) {
+    this.editorConfigChangedSource.next(attributeName);
   }
 
   /**
