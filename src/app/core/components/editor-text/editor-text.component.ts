@@ -50,7 +50,7 @@ import { EditorTextConfigComponent } from './editor-text-config.component';
 })
 export class EditorTextComponent extends AttributeEditor
   implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
-  localConfig = new TextEditorConfig();
+  config = new TextEditorConfig();
 
   constructor(
     public utils: UtilsService,
@@ -96,21 +96,21 @@ export class EditorTextComponent extends AttributeEditor
       this.config.requiredFromSchema = true;
     }
 
-    this.localConfig = new TextEditorConfig();
-    this.utils.CopyInto(this.config, this.localConfig, true, true);
-    this.config = this.localConfig;
+    const initConfig = new TextEditorConfig();
+    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.config = initConfig;
 
-    return this.localConfig;
+    return this.config;
   }
 
   configure() {
-    const configCopy = this.utils.DeepCopy(this.localConfig);
+    const configCopy = this.utils.DeepCopy(this.config);
 
     const dialogRef = this.dialog.open(EditorTextConfigComponent, {
       minWidth: '620px',
       data: {
         component: this,
-        config: this.localConfig,
+        config: this.config,
         attribute: this.editorAttribute
       }
     });
@@ -118,14 +118,13 @@ export class EditorTextComponent extends AttributeEditor
     return dialogRef.afterClosed().pipe(
       tap(result => {
         if (!result || (result && result === 'cancel')) {
-          this.localConfig = configCopy;
+          this.config = configCopy;
         } else {
-          this.config = this.localConfig;
-          this.validationFn = createTextEditorValidator(this.localConfig);
+          this.validationFn = createTextEditorValidator(this.config);
         }
       }),
       switchMap(() => {
-        return of(this.localConfig);
+        return of(this.config);
       })
     );
   }
@@ -139,7 +138,7 @@ export class EditorTextComponent extends AttributeEditor
   }
 
   onChange() {
-    this.swap.propagateEditorValueChanged(this.localConfig.attributeName);
+    this.swap.propagateEditorValueChanged(this.config.attributeName);
   }
 
   // #endregion

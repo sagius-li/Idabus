@@ -54,32 +54,28 @@ import { ExtraValuePipe } from '../../pipes/extra-value.pipe';
 })
 export class EditorSelectComponent extends AttributeEditor
   implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
-  localConfig = new SelectEditorConfig();
+  config = new SelectEditorConfig();
 
   dataSource: Observable<Array<{ value: string; text: string }>> = of([]);
 
   getDataSource() {
-    switch (this.localConfig.dataMode) {
+    switch (this.config.dataMode) {
       case 'static':
-        this.dataSource = of(this.localConfig.options);
+        this.dataSource = of(this.config.options);
         break;
       case 'config':
-        if (this.localConfig.configKey) {
-          this.dataSource = of(this.configService.getConfig(this.localConfig.configKey, []));
+        if (this.config.configKey) {
+          this.dataSource = of(this.configService.getConfig(this.config.configKey, []));
         }
         break;
       case 'query':
-        if (
-          this.localConfig.query &&
-          this.localConfig.valueAttribute &&
-          this.localConfig.textAttribute
-        ) {
-          const attributeNames = [this.localConfig.valueAttribute];
-          if (this.localConfig.valueAttribute !== this.localConfig.textAttribute) {
-            attributeNames.push(this.localConfig.textAttribute);
+        if (this.config.query && this.config.valueAttribute && this.config.textAttribute) {
+          const attributeNames = [this.config.valueAttribute];
+          if (this.config.valueAttribute !== this.config.textAttribute) {
+            attributeNames.push(this.config.textAttribute);
           }
           this.dataSource = this.resource
-            .getResourceByQuery(this.localConfig.query, attributeNames)
+            .getResourceByQuery(this.config.query, attributeNames)
             .pipe(
               switchMap((resources: ResourceSet) => {
                 if (resources.totalCount > 0) {
@@ -88,11 +84,11 @@ export class EditorSelectComponent extends AttributeEditor
                     retVal.push({
                       text: this.extraValuePipe.transform(
                         data,
-                        this.localConfig.textAttribute + ':value'
+                        this.config.textAttribute + ':value'
                       ),
                       value: this.extraValuePipe.transform(
                         data,
-                        this.localConfig.valueAttribute + ':value'
+                        this.config.valueAttribute + ':value'
                       )
                     });
                   });
@@ -154,23 +150,23 @@ export class EditorSelectComponent extends AttributeEditor
       this.config.requiredFromSchema = true;
     }
 
-    this.localConfig = new SelectEditorConfig();
-    this.utils.CopyInto(this.config, this.localConfig, true, true);
-    this.config = this.localConfig;
+    const initConfig = new SelectEditorConfig();
+    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.config = initConfig;
 
     this.getDataSource();
 
-    return this.localConfig;
+    return this.config;
   }
 
   configure() {
-    const configCopy = this.utils.DeepCopy(this.localConfig);
+    const configCopy = this.utils.DeepCopy(this.config);
 
     const dialogRef = this.dialog.open(EditorSelectConfigComponent, {
       minWidth: '620px',
       data: {
         component: this,
-        config: this.localConfig,
+        config: this.config,
         attribute: this.editorAttribute
       }
     });
@@ -178,16 +174,15 @@ export class EditorSelectComponent extends AttributeEditor
     return dialogRef.afterClosed().pipe(
       tap(result => {
         if (!result || (result && result === 'cancel')) {
-          this.localConfig = configCopy;
+          this.config = configCopy;
           this.getDataSource();
         } else {
-          this.config = this.localConfig;
           this.getDataSource();
-          this.validationFn = createSelectEditorValidator(this.localConfig);
+          this.validationFn = createSelectEditorValidator(this.config);
         }
       }),
       switchMap(() => {
-        return of(this.localConfig);
+        return of(this.config);
       })
     );
   }
@@ -201,7 +196,7 @@ export class EditorSelectComponent extends AttributeEditor
   }
 
   onChange() {
-    this.swap.propagateEditorValueChanged(this.localConfig.attributeName);
+    this.swap.propagateEditorValueChanged(this.config.attributeName);
   }
 
   // #endregion

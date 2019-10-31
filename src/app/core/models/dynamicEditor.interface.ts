@@ -117,8 +117,6 @@ export class AttributeEditor implements DynamicEditor {
 
   control: FormControl;
 
-  localConfig: EditorConfig;
-
   private permissionCanRead(permissionHint: string): boolean {
     if (!permissionHint) {
       return true;
@@ -145,11 +143,11 @@ export class AttributeEditor implements DynamicEditor {
 
   private inDeniedList(rightSets: string[]) {
     if (rightSets && rightSets.length > 0) {
-      if (this.localConfig.accessDenied && this.localConfig.accessDenied.length > 0) {
+      if (this.config.accessDenied && this.config.accessDenied.length > 0) {
         if (rightSets.indexOf('Administrators') >= 0) {
           return false;
         }
-        for (const deniedSet of this.localConfig.accessDenied) {
+        for (const deniedSet of this.config.accessDenied) {
           if (rightSets.indexOf(deniedSet) >= 0) {
             return true;
           }
@@ -164,11 +162,11 @@ export class AttributeEditor implements DynamicEditor {
 
   private inAllowedList(rightSets: string[]) {
     if (rightSets && rightSets.length > 0) {
-      if (this.localConfig.accessAllowed && this.localConfig.accessAllowed.length > 0) {
+      if (this.config.accessAllowed && this.config.accessAllowed.length > 0) {
         if (rightSets.indexOf('Administrators') >= 0) {
           return true;
         }
-        for (const deniedSet of this.localConfig.accessAllowed) {
+        for (const deniedSet of this.config.accessAllowed) {
           if (rightSets.indexOf(deniedSet) >= 0) {
             return true;
           }
@@ -198,9 +196,9 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get displayName() {
-    if (this.localConfig.showDisplayName && this.editorAttribute) {
-      if (this.localConfig.customDisplayName) {
-        return this.localConfig.customDisplayName;
+    if (this.config.showDisplayName && this.editorAttribute) {
+      if (this.config.customDisplayName) {
+        return this.config.customDisplayName;
       } else {
         return this.editorAttribute.displayName;
       }
@@ -210,9 +208,9 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get description() {
-    if (this.localConfig.showDescription && this.editorAttribute) {
-      if (this.localConfig.customDescription) {
-        return this.localConfig.customDescription;
+    if (this.config.showDescription && this.editorAttribute) {
+      if (this.config.customDescription) {
+        return this.config.customDescription;
       } else {
         return this.editorAttribute.description;
       }
@@ -222,7 +220,7 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get tooltip() {
-    if (this.localConfig.showTooltip && this.editorAttribute) {
+    if (this.config.showTooltip && this.editorAttribute) {
       return this.editorAttribute.systemName;
     } else {
       return null;
@@ -230,11 +228,11 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   disabled(rightSets: string[] = []) {
-    if (this.localConfig.readOnly || !this.writeAccess) {
+    if (this.config.readOnly || !this.writeAccess) {
       return true;
     }
 
-    if (this.localConfig.accessUsedFor === 'editability') {
+    if (this.config.accessUsedFor === 'editability') {
       if (this.inDeniedList(rightSets)) {
         return true;
       }
@@ -249,15 +247,15 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   showEditor(rightSets: string[] = []) {
-    if (this.localConfig.isHidden) {
+    if (this.config.isHidden) {
       return false;
     }
 
-    if (this.localConfig.hideIfNoAccess && !this.readAccess) {
+    if (this.config.hideIfNoAccess && !this.readAccess) {
       return false;
     }
 
-    if (this.localConfig.accessUsedFor === 'visibility') {
+    if (this.config.accessUsedFor === 'visibility') {
       if (this.inDeniedList(rightSets)) {
         return false;
       }

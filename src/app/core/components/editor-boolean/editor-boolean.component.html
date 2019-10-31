@@ -1,13 +1,13 @@
 <div fxLayout="column" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
   <div style="height: 20px;"></div>
   <mat-checkbox
-    *ngIf="localConfig.controlType === 'checkbox'"
+    *ngIf="config.controlType === 'checkbox'"
     [matTooltip]="tooltip"
     [(ngModel)]="value"
     (focus)="onFocuse()"
     (change)="onChange()"
     [disabled]="disabled(resource.rightSets)"
-    [labelPosition]="localConfig.textAlign"
+    [labelPosition]="config.textAlign"
     [indeterminate]="value === undefined || value === null"
     style="font-weight: 400;"
   >
@@ -16,12 +16,12 @@
     </div>
   </mat-checkbox>
   <mat-slide-toggle
-    *ngIf="localConfig.controlType === 'slider'"
+    *ngIf="config.controlType === 'slider'"
     [matTooltip]="tooltip"
     [(ngModel)]="value"
     (focus)="onFocuse()"
     [disabled]="disabled(resource.rightSets)"
-    [labelPosition]="localConfig.textAlign"
+    [labelPosition]="config.textAlign"
     style="font-weight: 400;"
     >{{ displayName | translate }}</mat-slide-toggle
   >

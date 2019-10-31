@@ -8,7 +8,7 @@
     (focus)="onFocuse()"
     (change)="onChange()"
     [disabled]="disabled(resource.rightSets)"
-    [attr.maxlength]="localConfig.maxLength"
+    [attr.maxlength]="config.maxLength"
   />
   <mat-hint align="start" *ngIf="!control || (control && control.valid)">
     <div fxLayout="row">
@@ -27,8 +27,8 @@
       </div>
     </div>
   </mat-hint>
-  <mat-hint align="end" *ngIf="localConfig.maxLength && (!control || (control && control.valid))"
-    >{{ editor.value ? editor.value.length : 0 }} / {{ localConfig.maxLength }}</mat-hint
+  <mat-hint align="end" *ngIf="config.maxLength && (!control || (control && control.valid))"
+    >{{ editor.value ? editor.value.length : 0 }} / {{ config.maxLength }}</mat-hint
   >
   <mat-hint *ngIf="control && control.invalid" class="error-message">{{
     control.errors['message'] | translate

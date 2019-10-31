@@ -1,5 +1,5 @@
 <div fxFlex="auto" *ngIf="showEditor(resource.rightSets)">
-  <mat-form-field *ngIf="localConfig.controlType === 'combo'" style="width: 100%;">
+  <mat-form-field *ngIf="config.controlType === 'combo'" style="width: 100%;">
     <mat-select
       [(ngModel)]="value"
       [placeholder]="displayName | translate"
@@ -8,7 +8,7 @@
       (focus)="onFocuse()"
       (change)="onChange()"
     >
-      <mat-option *ngIf="localConfig.allowEmpty" [value]="null">--</mat-option>
+      <mat-option *ngIf="config.allowEmpty" [value]="null">--</mat-option>
       <mat-option *ngFor="let option of dataSource | async" [value]="option.value">
         {{ option.text | translate }}
       </mat-option>
@@ -34,7 +34,7 @@
       control.errors['message'] | translate
     }}</mat-hint>
   </mat-form-field>
-  <div *ngIf="localConfig.controlType === 'radio'" fxLayout="column" style="margin-top: -8px;">
+  <div *ngIf="config.controlType === 'radio'" fxLayout="column" style="margin-top: -8px;">
     <div fxFlex="none" class="label-attribute-name">
       {{ displayName | translate }}
     </div>
@@ -47,8 +47,8 @@
       (change)="onChange()"
     >
       <div
-        [fxLayout]="localConfig.radioButtonLayout"
-        [fxLayoutGap]="localConfig.radioButtonSpace.toString() + 'px'"
+        [fxLayout]="config.radioButtonLayout"
+        [fxLayoutGap]="config.radioButtonSpace.toString() + 'px'"
       >
         <mat-radio-button
           fxFlex="none"
@@ -56,7 +56,7 @@
           [value]="option.value"
           >{{ option.text | translate }}</mat-radio-button
         >
-        <mat-radio-button fxFlex="none" *ngIf="localConfig.allowEmpty" [value]="null"
+        <mat-radio-button fxFlex="none" *ngIf="config.allowEmpty" [value]="null"
           >--</mat-radio-button
         >
       </div>

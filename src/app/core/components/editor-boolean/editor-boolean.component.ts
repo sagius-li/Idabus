@@ -40,13 +40,13 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
 })
 export class EditorBooleanComponent extends AttributeEditor
   implements OnInit, AfterViewInit, ControlValueAccessor {
-  localConfig = new BooleanEditorConfig();
+  config = new BooleanEditorConfig();
 
   get value() {
-    if (this.localConfig.customValue) {
-      if (String(this.editorAttribute.value) === this.localConfig.trueValue) {
+    if (this.config.customValue) {
+      if (String(this.editorAttribute.value) === this.config.trueValue) {
         return true;
-      } else if (String(this.editorAttribute.value) === this.localConfig.falseValue) {
+      } else if (String(this.editorAttribute.value) === this.config.falseValue) {
         return false;
       } else {
         return undefined;
@@ -58,8 +58,8 @@ export class EditorBooleanComponent extends AttributeEditor
   set value(value) {
     this.editorAttribute.value = value;
 
-    if (this.localConfig.customValue) {
-      this.editorAttribute.value = value ? this.localConfig.trueValue : this.localConfig.falseValue;
+    if (this.config.customValue) {
+      this.editorAttribute.value = value ? this.config.trueValue : this.config.falseValue;
     }
 
     this.propagateChange(this.editorAttribute);
@@ -92,28 +92,28 @@ export class EditorBooleanComponent extends AttributeEditor
   // #region AttributeEditor implementation
 
   initComponent() {
-    this.validationFn = createBooleanEditorValidator(this.localConfig);
+    this.validationFn = createBooleanEditorValidator(this.config);
 
     if (this.editorAttribute && this.editorAttribute.required) {
       this.config.required = true;
       this.config.requiredFromSchema = true;
     }
 
-    this.localConfig = new BooleanEditorConfig();
-    this.utils.CopyInto(this.config, this.localConfig, true, true);
-    this.config = this.localConfig;
+    const initConfig = new BooleanEditorConfig();
+    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.config = initConfig;
 
-    return this.localConfig;
+    return this.config;
   }
 
   configure() {
-    const configCopy = this.utils.DeepCopy(this.localConfig);
+    const configCopy = this.utils.DeepCopy(this.config);
 
     const dialogRef = this.dialog.open(EditorBooleanConfigComponent, {
       minWidth: '620px',
       data: {
         component: this,
-        config: this.localConfig,
+        config: this.config,
         attribute: this.editorAttribute
       }
     });
@@ -121,14 +121,13 @@ export class EditorBooleanComponent extends AttributeEditor
     return dialogRef.afterClosed().pipe(
       tap(result => {
         if (!result || (result && result === 'cancel')) {
-          this.localConfig = configCopy;
+          this.config = configCopy;
         } else {
-          this.config = this.localConfig;
-          this.validationFn = createBooleanEditorValidator(this.localConfig);
+          this.validationFn = createBooleanEditorValidator(this.config);
         }
       }),
       switchMap(() => {
-        return of(this.localConfig);
+        return of(this.config);
       })
     );
   }
@@ -142,7 +141,7 @@ export class EditorBooleanComponent extends AttributeEditor
   }
 
   onChange() {
-    this.swap.propagateEditorValueChanged(this.localConfig.attributeName);
+    this.swap.propagateEditorValueChanged(this.config.attributeName);
   }
 
   // #endregion

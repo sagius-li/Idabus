@@ -423,18 +423,18 @@ export class TestComponent implements OnInit, AfterViewInit {
     console.log(form);
 
     /** Set editor value */
-    editor.value = 'test';
+    // editor.value = 'test';
 
     /** Configure editor in two different ways */
     // this.configAccountName.validation = undefined;
     // this.configAccountName.showDescription = false;
 
-    // const config = editor.config as TextEditorConfig;
-    // if (config) {
-    //   config.showDescription = false;
-    //   config.validation = '^[a-zA-Z.?]{1,8}$';
-    //   config.maxLength = 8;
-    // }
+    const config = editor.config as TextEditorConfig;
+    if (config) {
+      config.showDescription = false;
+      config.validation = '^[a-zA-Z.?]{1,8}$';
+      config.maxLength = 8;
+    }
 
     console.log(editor);
   }
