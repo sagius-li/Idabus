@@ -476,5 +476,10 @@ export class TestComponent implements OnInit, AfterViewInit {
       editorCity.config.query = `/ocgConfiguration[ocgObjectType='city' and ocgObjectScope='${value}']`;
       editorCity.setDataSource();
     }
+
+    const editorRegister = this.getEditor('Register');
+    if (editorRegister) {
+      editorRegister.config.isHidden = value === 'USA' ? true : false;
+    }
   }
 }
