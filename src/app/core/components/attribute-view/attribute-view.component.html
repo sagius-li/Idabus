@@ -18,6 +18,7 @@
             #editor
             fxFlex="auto"
             *ngSwitchCase="'text'"
+            [configMode]="configMode"
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
             [(config)]="attribute.config"
           ></app-editor-text>
@@ -25,6 +26,7 @@
             #editor
             fxFlex="auto"
             *ngSwitchCase="'boolean'"
+            [configMode]="configMode"
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
             [(config)]="attribute.config"
           ></app-editor-boolean>
@@ -32,6 +34,7 @@
             #editor
             fxFlex="auto"
             *ngSwitchCase="'select'"
+            [configMode]="configMode"
             [formControlName]="getControllerIndex(attribute.attribute.systemName)"
             [(config)]="attribute.config"
           ></app-editor-select>

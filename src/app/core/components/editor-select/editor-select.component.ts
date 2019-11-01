@@ -69,34 +69,38 @@ export class EditorSelectComponent extends AttributeEditor
         }
         break;
       case 'query':
-        if (this.config.query && this.config.valueAttribute && this.config.textAttribute) {
+        const theQuery = query ? query : this.config.query;
+        if (theQuery && this.config.valueAttribute && this.config.textAttribute) {
+          const regEx: RegExp = /\[#\w+\]/g;
+          const match = regEx.exec(theQuery);
+          if (match && match.length > 0) {
+            const attributeName = match[0].substr(2, match[0].length - 3);
+            this.swap.propagateEditorConfigChanged(attributeName);
+            return;
+          }
+
           const attributeNames = [this.config.valueAttribute];
           if (this.config.valueAttribute !== this.config.textAttribute) {
             attributeNames.push(this.config.textAttribute);
           }
-          this.dataSource = this.resource
-            .getResourceByQuery(query ? query : this.config.query, attributeNames)
-            .pipe(
-              switchMap((resources: ResourceSet) => {
-                if (resources.totalCount > 0) {
-                  const retVal: Array<{ text: string; value: string }> = [];
-                  resources.results.forEach(data => {
-                    retVal.push({
-                      text: this.extraValuePipe.transform(
-                        data,
-                        this.config.textAttribute + ':value'
-                      ),
-                      value: this.extraValuePipe.transform(
-                        data,
-                        this.config.valueAttribute + ':value'
-                      )
-                    });
+          this.dataSource = this.resource.getResourceByQuery(theQuery, attributeNames).pipe(
+            switchMap((resources: ResourceSet) => {
+              if (resources.totalCount > 0) {
+                const retVal: Array<{ text: string; value: string }> = [];
+                resources.results.forEach(data => {
+                  retVal.push({
+                    text: this.extraValuePipe.transform(data, this.config.textAttribute + ':value'),
+                    value: this.extraValuePipe.transform(
+                      data,
+                      this.config.valueAttribute + ':value'
+                    )
                   });
-                  return of(retVal);
-                }
-                return of([]);
-              })
-            );
+                });
+                return of(retVal);
+              }
+              return of([]);
+            })
+          );
         }
         break;
       default:
@@ -124,7 +128,7 @@ export class EditorSelectComponent extends AttributeEditor
   ngOnChanges(changes: any) {
     if (changes.config) {
       this.validationFn = createSelectEditorValidator(this.config);
-      this.swap.propagateEditorConfigChanged(this.config.attributeName);
+      this.setDataSource();
     }
   }
 
@@ -180,7 +184,6 @@ export class EditorSelectComponent extends AttributeEditor
         } else {
           this.setDataSource();
           this.validationFn = createSelectEditorValidator(this.config);
-          this.swap.propagateEditorConfigChanged(this.config.attributeName);
         }
       }),
       switchMap(() => {
