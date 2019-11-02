@@ -82,7 +82,7 @@ export class EditorBooleanComponent extends AttributeEditor
   ngAfterViewInit() {
     setTimeout(() => {
       try {
-        if (!this.showEditor(this.resource.rightSets)) {
+        if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
           this.host.nativeElement.parentElement.remove();
         }
       } catch {}

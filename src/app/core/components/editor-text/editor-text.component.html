@@ -1,4 +1,9 @@
-<mat-form-field fxFlex="auto" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
+<mat-form-field
+  fxFlex="auto"
+  *ngIf="configMode || showEditor(resource.rightSets)"
+  [ngClass]="{ 'config-hidden': configMode && !showEditor(resource.rightSets) }"
+  style="width: 100%;"
+>
   <input
     matInput
     #editor="ngModel"

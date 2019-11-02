@@ -1,3 +1,9 @@
 :host.ng-dirty /deep/ .label-attribute-name::after {
   content: '*';
 }
+
+.config-hidden {
+  border-style: dotted;
+  border-color: gray;
+  padding: 5px;
+}

@@ -149,9 +149,9 @@ export class AttributeEditor implements DynamicEditor {
   private inDeniedList(rightSets: string[]) {
     if (rightSets && rightSets.length > 0) {
       if (this.config.accessDenied && this.config.accessDenied.length > 0) {
-        if (rightSets.indexOf('Administrators') >= 0) {
-          return false;
-        }
+        // if (rightSets.indexOf('Administrators') >= 0) {
+        //   return false;
+        // }
         for (const deniedSet of this.config.accessDenied) {
           if (rightSets.indexOf(deniedSet) >= 0) {
             return true;
@@ -168,9 +168,9 @@ export class AttributeEditor implements DynamicEditor {
   private inAllowedList(rightSets: string[]) {
     if (rightSets && rightSets.length > 0) {
       if (this.config.accessAllowed && this.config.accessAllowed.length > 0) {
-        if (rightSets.indexOf('Administrators') >= 0) {
-          return true;
-        }
+        // if (rightSets.indexOf('Administrators') >= 0) {
+        //   return true;
+        // }
         for (const deniedSet of this.config.accessAllowed) {
           if (rightSets.indexOf(deniedSet) >= 0) {
             return true;

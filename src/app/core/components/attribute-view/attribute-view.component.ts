@@ -7,7 +7,8 @@ import {
   IterableDiffers,
   DoCheck,
   ViewChildren,
-  QueryList
+  QueryList,
+  OnChanges
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
@@ -35,7 +36,7 @@ import { ConfigService } from '../../services/config.service';
   templateUrl: './attribute-view.component.html',
   styleUrls: ['./attribute-view.component.scss']
 })
-export class AttributeViewComponent implements OnInit, DoCheck {
+export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
   @ViewChildren('editor') editors: QueryList<AttributeEditor>;
 
   @Input()
@@ -270,6 +271,12 @@ export class AttributeViewComponent implements OnInit, DoCheck {
 
       this.spinner.stopLoader('spinner_home');
     });
+  }
+
+  ngOnChanges(changes: any) {
+    if (changes.configMode && this.configMode === true) {
+      this.refresh();
+    }
   }
 
   ngDoCheck() {

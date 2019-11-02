@@ -1,4 +1,9 @@
-<div fxLayout="column" *ngIf="showEditor(resource.rightSets)" style="width: 100%;">
+<div
+  fxLayout="column"
+  *ngIf="configMode || showEditor(resource.rightSets)"
+  [ngClass]="{ 'config-hidden': configMode && !showEditor(resource.rightSets) }"
+  style="width: 100%;"
+>
   <div style="height: 20px;"></div>
   <mat-checkbox
     *ngIf="config.controlType === 'checkbox'"

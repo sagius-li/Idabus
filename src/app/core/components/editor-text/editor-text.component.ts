@@ -81,7 +81,7 @@ export class EditorTextComponent extends AttributeEditor
       }
 
       try {
-        if (!this.showEditor(this.resource.rightSets)) {
+        if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
           this.host.nativeElement.parentElement.remove();
         }
       } catch {}

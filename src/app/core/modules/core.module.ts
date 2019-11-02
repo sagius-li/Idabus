@@ -58,6 +58,7 @@ import { ExtraValuePipe } from '../pipes/extra-value.pipe';
 import { ExamValuePipe } from '../pipes/exam-value.pipe';
 
 import { DynamicContainerDirective } from '../directives/dynamic-container.directive';
+import { AttributeLayoutDirective } from '../directives/attribute-layout.directive';
 
 import { EditorCreatorComponent } from '../components/editor-creator/editor-creator.component';
 import { EditorTextComponent } from '../components/editor-text/editor-text.component';
@@ -94,6 +95,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExamValuePipe,
 
     DynamicContainerDirective,
+    AttributeLayoutDirective,
 
     EditorCreatorComponent,
     EditorTextComponent,
@@ -254,6 +256,7 @@ import { ResourceChartConfigComponent } from '../components/resource-chart/resou
     ExamValuePipe,
 
     DynamicContainerDirective,
+    AttributeLayoutDirective,
 
     EditorCreatorComponent,
     EditorTextComponent,
