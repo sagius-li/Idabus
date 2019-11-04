@@ -135,60 +135,53 @@
             </mat-slider>
           </div>
         </div>
-        <div fxFlex="none" style="margin-top: 40px; margin-bottom: 15px;">
+      </div>
+    </mat-tab>
+    <mat-tab [label]="'key_display' | translate">
+      <div fxLayout="column" fxLayoutAlign="start stretch" class="first-dialog-item">
+        <div fxFlex="none" style="margin-bottom: 15px;">
           <mat-radio-group [(ngModel)]="data.config.accessUsedFor">
             <div fxLayout="row">
               <mat-radio-button fxFlex="1 1 33" value="visibility">{{
-                'key_useForVisibility' | translate
-              }}</mat-radio-button>
+                        'key_useForVisibility' | translate
+                      }}</mat-radio-button>
               <mat-radio-button fxFlex="1 1 33" value="editability">{{
-                'key_useForEditability' | translate
-              }}</mat-radio-button>
+                        'key_useForEditability' | translate
+                      }}</mat-radio-button>
             </div>
           </mat-radio-group>
         </div>
         <div fxFlex="none">
           <mat-form-field fxFlex="auto">
             <mat-chip-list #clDeniedSets>
-              <mat-chip
-                *ngFor="let deniedSet of data.config.accessDenied"
-                [selectable]="true"
-                [removable]="true"
-                (removed)="onRemoveDeniedSet(deniedSet)"
-              >
+              <mat-chip *ngFor="let deniedSet of data.config.accessDenied" [selectable]="true" [removable]="true"
+                (removed)="onRemoveDeniedSet(deniedSet)">
                 {{ deniedSet }}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
-              <input
-                [placeholder]="'key_deniedSets' | translate"
-                [matChipInputFor]="clDeniedSets"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="true"
-                (matChipInputTokenEnd)="onAddDeniedSet($event)"
-              />
+              <input [placeholder]="'key_deniedSets' | translate" [matChipInputFor]="clDeniedSets"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="onAddDeniedSet($event)" />
             </mat-chip-list>
           </mat-form-field>
         </div>
         <div fxFlex="none">
           <mat-form-field fxFlex="auto">
             <mat-chip-list #clAllowedSets>
-              <mat-chip
-                *ngFor="let alowedSet of data.config.accessAllowed"
-                [selectable]="true"
-                [removable]="true"
-                (removed)="onRemoveAllowedSet(alowedSet)"
-              >
+              <mat-chip *ngFor="let alowedSet of data.config.accessAllowed" [selectable]="true" [removable]="true"
+                (removed)="onRemoveAllowedSet(alowedSet)">
                 {{ alowedSet }}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
-              <input
-                [placeholder]="'key_allowedSets' | translate"
-                [matChipInputFor]="clAllowedSets"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="true"
-                (matChipInputTokenEnd)="onAddAllowedSet($event)"
-              />
+              <input [placeholder]="'key_allowedSets' | translate" [matChipInputFor]="clAllowedSets"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="onAddAllowedSet($event)" />
             </mat-chip-list>
+          </mat-form-field>
+        </div>
+        <div fxFlex="none">
+          <mat-form-field fxFlex="auto">
+            <input matInput [placeholder]="'key_accessQuery' | translate" [(ngModel)]="data.config.accessQuery" />
           </mat-form-field>
         </div>
       </div>

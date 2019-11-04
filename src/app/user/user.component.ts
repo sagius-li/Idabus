@@ -105,14 +105,13 @@ export class UserComponent implements OnInit {
     this.resource.updateResource(this.resource.primaryViewSet, true).subscribe(
       () => {
         process.close();
+        this.configMode = false;
       },
       (err: string) => {
         process.close();
         this.modal.show(ModalType.error, 'key_error', err, '360px');
       }
     );
-
-    this.configMode = false;
   }
 
   onCancel() {

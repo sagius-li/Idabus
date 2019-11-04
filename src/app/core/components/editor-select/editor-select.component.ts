@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  ElementRef,
   Injector,
   Type,
   forwardRef,
@@ -108,12 +107,50 @@ export class EditorSelectComponent extends AttributeEditor
     }
   }
 
+  setDisplay(usedFor: string = null, optionValue: boolean = null) {
+    if (usedFor !== null && optionValue !== null) {
+      if (usedFor === 'visibility') {
+        this.config.calculatedDisplayable = optionValue;
+      } else if (usedFor === 'editability') {
+        this.config.calculatedEditable = optionValue;
+      }
+
+      return;
+    }
+
+    if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: false
+      });
+    } else {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: true
+      });
+    }
+
+    if (this.config.accessQuery) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      const match = regEx.exec(this.config.accessQuery);
+      if (match && match.length > 0) {
+        const attributeName = match[0].substr(2, match[0].length - 3);
+        this.swap.propagateEditorDisplayChanged({
+          attributeName,
+          usedFor: this.config.accessUsedFor,
+          optionValue: undefined
+        });
+      }
+    }
+  }
+
   constructor(
     public utils: UtilsService,
     public resource: ResourceService,
     private dialog: MatDialog,
     private swap: SwapService,
-    private host: ElementRef,
     private injector: Injector,
     private configService: ConfigService,
     private extraValuePipe: ExtraValuePipe
@@ -130,6 +167,12 @@ export class EditorSelectComponent extends AttributeEditor
       this.validationFn = createSelectEditorValidator(this.config);
       this.setDataSource();
     }
+
+    if (changes.config && this.config.accessQuery) {
+      setTimeout(() => {
+        this.setDisplay();
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -138,12 +181,6 @@ export class EditorSelectComponent extends AttributeEditor
       if (ngControl) {
         this.control = ngControl.control as FormControl;
       }
-
-      try {
-        if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
-          this.host.nativeElement.parentElement.remove();
-        }
-      } catch {}
     });
   }
 

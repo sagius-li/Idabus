@@ -77,6 +77,8 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
 
   differ: any;
 
+  hiddenAttributes: Array<string> = [];
+
   private clearFormArray(formArray: FormArray) {
     while (formArray.length !== 0) {
       formArray.removeAt(0);
@@ -114,6 +116,54 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
     });
 
     this.registerChangeHandler();
+  }
+
+  private maintainHiddenAttributes(option: { attributeName: string; optionValue: boolean }) {
+    if (option) {
+      const index = this.hiddenAttributes.indexOf(option.attributeName);
+      if (option.optionValue) {
+        if (index >= 0) {
+          this.hiddenAttributes.splice(index, 1);
+        }
+      } else {
+        if (index < 0) {
+          this.hiddenAttributes.push(option.attributeName);
+        }
+      }
+    }
+  }
+
+  private applyDisplay(valueExpressionDic: { [key: string]: string[] }) {
+    if (Object.keys(valueExpressionDic).length > 0) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      Object.keys(valueExpressionDic).forEach(dicKey => {
+        valueExpressionDic[dicKey].forEach(expression => {
+          let match = regEx.exec(expression);
+          let expressionValue = expression;
+          while (match) {
+            const replaceName = match[0].substr(2, match[0].length - 3);
+            expressionValue = expressionValue.replace(match[0], this.getValue(replaceName));
+            match = regEx.exec(expression);
+          }
+          if (expressionValue.startsWith('<') && expressionValue.endsWith('>')) {
+            try {
+              // tslint:disable-next-line:no-eval
+              const optionValue: boolean = eval(
+                expressionValue.substring(1, expressionValue.length - 1)
+              );
+              this.maintainHiddenAttributes({ attributeName: dicKey, optionValue });
+
+              const editor = this.getEditor(dicKey);
+              if (editor) {
+                editor.setDisplay('visibility', optionValue);
+              }
+            } catch {}
+          } else {
+            // only expression within '<' and '>' is allowed
+          }
+        });
+      });
+    }
   }
 
   private applyValue(valueExpressionDic: { [key: string]: string[] }) {
@@ -218,6 +268,26 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
       }
     });
 
+    this.swap.editorDisplayChanged.subscribe(
+      (option: { attributeName: string; usedFor: string; optionValue: boolean }) => {
+        if (option && option.attributeName) {
+          if (option.optionValue === undefined) {
+            const configs = this.attributeArray.map(a => a.config);
+            const displayExpressionDic = this.utils.GetEditorExpressions(
+              option.attributeName,
+              configs,
+              'accessQuery'
+            );
+            this.applyDisplay(displayExpressionDic);
+          } else {
+            if (option.usedFor === 'visibility') {
+              this.maintainHiddenAttributes(option);
+            }
+          }
+        }
+      }
+    );
+
     this.swap.editorValueChanged.subscribe((attributeName: string) => {
       const configs = this.attributeArray.map(a => a.config);
 
@@ -230,6 +300,13 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
 
       const configExpressionDic = this.utils.GetEditorExpressions(attributeName, configs, 'query');
       this.applyConfig(configExpressionDic);
+
+      const displayExpressionDic = this.utils.GetEditorExpressions(
+        attributeName,
+        configs,
+        'accessQuery'
+      );
+      this.applyDisplay(displayExpressionDic);
     });
 
     this.swap.editorConfigChanged.subscribe((attributeName: string) => {
@@ -353,5 +430,12 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
     if (editor) {
       editor.value = value;
     }
+  }
+
+  showAttributeEditor(attributeName: string) {
+    if (this.configMode) {
+      return true;
+    }
+    return this.hiddenAttributes.indexOf(attributeName) >= 0 ? false : true;
   }
 }

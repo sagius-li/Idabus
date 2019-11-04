@@ -178,5 +178,10 @@
   "key_data": "Data",
   "key_static": "Static",
   "key_config": "Config",
-  "key_text": "Text"
+  "key_text": "Text",
+  "key_configKey": "Config key",
+  "key_textAttribute": "Attribute for text",
+  "key_valueAttribute": "Attribute for value",
+  "key_display": "Display",
+  "key_accessQuery": "Access query"
 }

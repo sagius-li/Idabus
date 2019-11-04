@@ -9,6 +9,7 @@
     >
       <ng-container *ngFor="let attribute of attributeArray" [ngSwitch]="attribute.type">
         <div
+          *ngIf="showAttributeEditor(attribute.attribute.systemName)"
           [fxFlex]="100 / columnNumber"
           fxFlex.lt-md="100"
           fxLayout="row"

@@ -29,7 +29,10 @@ export class EditorConfig {
   validation?: string;
   accessAllowed?: Array<string>;
   accessDenied?: Array<string>;
+  accessQuery?: string;
   accessUsedFor?: string;
+  calculatedDisplayable?: boolean;
+  calculatedEditable?: boolean;
 
   constructor() {
     this.name = undefined;
@@ -49,7 +52,10 @@ export class EditorConfig {
     this.validation = undefined;
     this.accessAllowed = [];
     this.accessDenied = [];
+    this.accessQuery = undefined;
     this.accessUsedFor = 'visibility';
+    this.calculatedDisplayable = true;
+    this.calculatedEditable = true;
   }
 }
 
@@ -233,6 +239,10 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   disabled(rightSets: string[] = []) {
+    if (!this.config.calculatedEditable) {
+      return true;
+    }
+
     if (this.config.readOnly || !this.writeAccess) {
       return true;
     }
@@ -252,6 +262,10 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   showEditor(rightSets: string[] = []) {
+    if (!this.config.calculatedDisplayable) {
+      return false;
+    }
+
     if (this.config.isHidden) {
       return false;
     }
@@ -275,6 +289,8 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   setDataSource(query: string = null) {}
+
+  setDisplay(usedFor: string = null, optionValue: boolean = null) {}
 
   // #region DynamicEditor implementation
 

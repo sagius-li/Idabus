@@ -27,6 +27,10 @@ export class SwapService {
   private editorConfigChangedSource = new BehaviorSubject(null);
   editorConfigChanged = this.editorConfigChangedSource.asObservable();
 
+  /** Communication between components for showing / hiding editor */
+  private editorDisplayChangedSource = new BehaviorSubject(null);
+  editorDisplayChanged = this.editorDisplayChangedSource.asObservable();
+
   /** Indicate global page edit mode */
   isEditMode = false;
   get editMode() {
@@ -69,6 +73,18 @@ export class SwapService {
    */
   propagateEditorConfigChanged(attributeName: string) {
     this.editorConfigChangedSource.next(attributeName);
+  }
+
+  /**
+   * Prpagate editor display change
+   * @param attributeName Attrubte name of the editor
+   */
+  propagateEditorDisplayChanged(option: {
+    attributeName: string;
+    usedFor: string;
+    optionValue: boolean;
+  }) {
+    this.editorDisplayChangedSource.next(option);
   }
 
   /**

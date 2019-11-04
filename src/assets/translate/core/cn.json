@@ -178,5 +178,10 @@
   "key_data": "数据",
   "key_static": "静态数据",
   "key_config": "调用设置",
-  "key_text": "文本"
+  "key_text": "文本",
+  "key_configKey": "设置项目名称",
+  "key_textAttribute": "用于显示的属性",
+  "key_valueAttribute": "用于值的属性",
+  "key_display": "显示",
+  "key_accessQuery": "显示设置"
 }

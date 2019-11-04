@@ -1,10 +1,5 @@
-import { Component, OnInit, Input, forwardRef, ElementRef, AfterViewInit } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-  NG_VALIDATORS,
-  FormControl
-} from '@angular/forms';
+import { Component, OnInit, forwardRef, AfterViewInit, OnChanges } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
@@ -39,7 +34,7 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
   ]
 })
 export class EditorBooleanComponent extends AttributeEditor
-  implements OnInit, AfterViewInit, ControlValueAccessor {
+  implements OnInit, OnChanges, ControlValueAccessor {
   config = new BooleanEditorConfig();
 
   get value() {
@@ -69,24 +64,64 @@ export class EditorBooleanComponent extends AttributeEditor
     public utils: UtilsService,
     public resource: ResourceService,
     private swap: SwapService,
-    private dialog: MatDialog,
-    private host: ElementRef
+    private dialog: MatDialog
   ) {
     super();
+  }
+
+  setDisplay(usedFor: string = null, optionValue: boolean = null) {
+    if (usedFor !== null && optionValue !== null) {
+      if (usedFor === 'visibility') {
+        this.config.calculatedDisplayable = optionValue;
+      } else if (usedFor === 'editability') {
+        this.config.calculatedEditable = optionValue;
+      }
+
+      return;
+    }
+
+    if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: false
+      });
+    } else {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: true
+      });
+    }
+
+    if (this.config.accessQuery) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      const match = regEx.exec(this.config.accessQuery);
+      if (match && match.length > 0) {
+        const attributeName = match[0].substr(2, match[0].length - 3);
+        this.swap.propagateEditorDisplayChanged({
+          attributeName,
+          usedFor: this.config.accessUsedFor,
+          optionValue: undefined
+        });
+      }
+    }
   }
 
   ngOnInit() {
     this.initComponent();
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      try {
-        if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
-          this.host.nativeElement.parentElement.remove();
-        }
-      } catch {}
-    });
+  ngOnChanges(changes: any) {
+    if (changes.config) {
+      this.validationFn = createBooleanEditorValidator(this.config);
+    }
+
+    if (changes.config && this.config.accessQuery) {
+      setTimeout(() => {
+        this.setDisplay();
+      });
+    }
   }
 
   // #region AttributeEditor implementation

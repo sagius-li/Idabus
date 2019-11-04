@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   forwardRef,
-  ElementRef,
   OnChanges,
   Injector,
   AfterViewInit,
@@ -57,10 +56,48 @@ export class EditorTextComponent extends AttributeEditor
     public resource: ResourceService,
     private dialog: MatDialog,
     private swap: SwapService,
-    private host: ElementRef,
     private injector: Injector
   ) {
     super();
+  }
+
+  setDisplay(usedFor: string = null, optionValue: boolean = null) {
+    if (usedFor !== null && optionValue !== null) {
+      if (usedFor === 'visibility') {
+        this.config.calculatedDisplayable = optionValue;
+      } else if (usedFor === 'editability') {
+        this.config.calculatedEditable = optionValue;
+      }
+
+      return;
+    }
+
+    if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: false
+      });
+    } else {
+      this.swap.propagateEditorDisplayChanged({
+        attributeName: this.config.attributeName,
+        usedFor: this.config.accessUsedFor,
+        optionValue: true
+      });
+    }
+
+    if (this.config.accessQuery) {
+      const regEx: RegExp = /\[#\w+\]/g;
+      const match = regEx.exec(this.config.accessQuery);
+      if (match && match.length > 0) {
+        const attributeName = match[0].substr(2, match[0].length - 3);
+        this.swap.propagateEditorDisplayChanged({
+          attributeName,
+          usedFor: this.config.accessUsedFor,
+          optionValue: undefined
+        });
+      }
+    }
   }
 
   ngOnInit() {
@@ -70,6 +107,12 @@ export class EditorTextComponent extends AttributeEditor
   ngOnChanges(changes: any) {
     if (changes.config) {
       this.validationFn = createTextEditorValidator(this.config);
+      setTimeout(() => {
+        this.setDisplay();
+      });
+    }
+
+    if (changes.config && this.config.accessQuery) {
     }
   }
 
@@ -79,12 +122,6 @@ export class EditorTextComponent extends AttributeEditor
       if (ngControl) {
         this.control = ngControl.control as FormControl;
       }
-
-      try {
-        if (!this.configMode && !this.showEditor(this.resource.rightSets)) {
-          this.host.nativeElement.parentElement.remove();
-        }
-      } catch {}
     });
   }
 
