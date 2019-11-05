@@ -129,6 +129,8 @@ export class EditorTextComponent extends AttributeEditor
         this.control = ngControl.control as FormControl;
       }
     });
+
+    this.applyConfig();
   }
 
   // #region AttributeEditor implementation

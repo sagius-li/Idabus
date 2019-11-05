@@ -34,7 +34,7 @@ import { EditorBooleanConfigComponent } from './editor-boolean-config.component'
   ]
 })
 export class EditorBooleanComponent extends AttributeEditor
-  implements OnInit, OnChanges, ControlValueAccessor {
+  implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor {
   config = new BooleanEditorConfig();
 
   get value() {
@@ -128,6 +128,10 @@ export class EditorBooleanComponent extends AttributeEditor
         this.setDisplay();
       });
     }
+  }
+
+  ngAfterViewInit() {
+    this.applyConfig();
   }
 
   // #region AttributeEditor implementation
