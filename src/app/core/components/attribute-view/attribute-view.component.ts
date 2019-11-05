@@ -280,7 +280,7 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
             const displayExpressionDic = this.utils.GetEditorExpressions(
               option.attributeName,
               configs,
-              'accessQuery'
+              'accessExpression'
             );
             this.applyDisplay(displayExpressionDic);
           } else {
@@ -312,7 +312,7 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
       const displayExpressionDic = this.utils.GetEditorExpressions(
         attributeName,
         configs,
-        'accessQuery'
+        'accessExpression'
       );
       this.applyDisplay(displayExpressionDic);
     });

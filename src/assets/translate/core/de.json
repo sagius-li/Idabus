@@ -183,5 +183,5 @@
   "key_textAttribute": "Attribut für Text",
   "key_valueAttribute": "Attribut für Wert",
   "key_display": "Anzeige",
-  "key_accessQuery": "Zugriffsabfrage"
+  "key_accessExpression": "Zugriffsausdruck"
 }

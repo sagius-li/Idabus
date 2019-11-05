@@ -132,9 +132,9 @@ export class EditorSelectComponent extends AttributeEditor
       });
     }
 
-    if (this.config.accessQuery) {
+    if (this.config.accessExpression) {
       const regEx: RegExp = /\[#\w+\]/g;
-      const match = regEx.exec(this.config.accessQuery);
+      const match = regEx.exec(this.config.accessExpression);
       if (match && match.length > 0) {
         const attributeName = match[0].substr(2, match[0].length - 3);
         this.swap.propagateEditorDisplayChanged({
@@ -175,7 +175,7 @@ export class EditorSelectComponent extends AttributeEditor
       this.setDataSource();
     }
 
-    if (changes.config && this.config.accessQuery) {
+    if (changes.config && this.config.accessExpression) {
       setTimeout(() => {
         this.setDisplay();
       });

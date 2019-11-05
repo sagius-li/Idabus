@@ -183,5 +183,5 @@
   "key_textAttribute": "Attribute for text",
   "key_valueAttribute": "Attribute for value",
   "key_display": "Display",
-  "key_accessQuery": "Access query"
+  "key_accessExpression": "Access expression"
 }

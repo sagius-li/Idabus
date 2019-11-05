@@ -183,5 +183,5 @@
   "key_textAttribute": "用于显示的属性",
   "key_valueAttribute": "用于值的属性",
   "key_display": "显示",
-  "key_accessQuery": "显示设置"
+  "key_accessExpression": "表达式"
 }

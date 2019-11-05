@@ -29,7 +29,7 @@ export class EditorConfig {
   validation?: string;
   accessAllowed?: Array<string>;
   accessDenied?: Array<string>;
-  accessQuery?: string;
+  accessExpression?: string;
   accessUsedFor?: string;
   calculatedDisplayable?: boolean;
   calculatedEditable?: boolean;
@@ -52,7 +52,7 @@ export class EditorConfig {
     this.validation = undefined;
     this.accessAllowed = [];
     this.accessDenied = [];
-    this.accessQuery = undefined;
+    this.accessExpression = undefined;
     this.accessUsedFor = 'visibility';
     this.calculatedDisplayable = true;
     this.calculatedEditable = true;
