@@ -108,6 +108,12 @@ export class EditorBooleanComponent extends AttributeEditor
     }
   }
 
+  applyConfig() {
+    setTimeout(() => {
+      this.setDisplay();
+    });
+  }
+
   ngOnInit() {
     this.initComponent();
   }
@@ -135,7 +141,10 @@ export class EditorBooleanComponent extends AttributeEditor
     }
 
     const initConfig = new BooleanEditorConfig();
-    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.utils.CopyInto(this.config, initConfig, true, true, [
+      'calculatedDisplayable',
+      'calculatedEditable'
+    ]);
     this.config = initConfig;
 
     return this.config;
@@ -157,8 +166,10 @@ export class EditorBooleanComponent extends AttributeEditor
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.config = configCopy;
+          this.applyConfig();
         } else {
           this.validationFn = createBooleanEditorValidator(this.config);
+          this.applyConfig();
         }
       }),
       switchMap(() => {

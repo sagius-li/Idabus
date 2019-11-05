@@ -224,7 +224,10 @@ export class TestComponent implements OnInit, AfterViewInit {
   };
 
   private getEditor(attributeName: string): AttributeEditor {
-    return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    if (this.editors) {
+      return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    }
+    return null;
   }
 
   // #endregion

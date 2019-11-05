@@ -207,12 +207,17 @@ export class UtilsService {
     source: any,
     target: any,
     useTargetProperties = false,
-    onlyCopyIfDefined = false
+    onlyCopyIfDefined = false,
+    excludes: Array<string> = []
   ) {
     if (source && target) {
       const keys = useTargetProperties ? Object.keys(target) : Object.keys(source);
 
       keys.forEach(key => {
+        if (excludes.indexOf(key) >= 0) {
+          return;
+        }
+
         if (source[key] !== null) {
           if (onlyCopyIfDefined) {
             if (source[key] !== undefined) {

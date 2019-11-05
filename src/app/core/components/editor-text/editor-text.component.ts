@@ -100,6 +100,12 @@ export class EditorTextComponent extends AttributeEditor
     }
   }
 
+  applyConfig() {
+    setTimeout(() => {
+      this.setDisplay();
+    });
+  }
+
   ngOnInit() {
     this.initComponent();
   }
@@ -134,7 +140,10 @@ export class EditorTextComponent extends AttributeEditor
     }
 
     const initConfig = new TextEditorConfig();
-    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.utils.CopyInto(this.config, initConfig, true, true, [
+      'calculatedDisplayable',
+      'calculatedEditable'
+    ]);
     this.config = initConfig;
 
     return this.config;
@@ -156,8 +165,10 @@ export class EditorTextComponent extends AttributeEditor
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.config = configCopy;
+          this.applyConfig();
         } else {
           this.validationFn = createTextEditorValidator(this.config);
+          this.applyConfig();
         }
       }),
       switchMap(() => {

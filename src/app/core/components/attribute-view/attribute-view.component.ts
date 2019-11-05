@@ -151,11 +151,15 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
               const optionValue: boolean = eval(
                 expressionValue.substring(1, expressionValue.length - 1)
               );
-              this.maintainHiddenAttributes({ attributeName: dicKey, optionValue });
 
               const editor = this.getEditor(dicKey);
               if (editor) {
-                editor.setDisplay('visibility', optionValue);
+                editor.setDisplay(editor.config.accessUsedFor, optionValue);
+                if (editor.config.accessUsedFor === 'visibility') {
+                  this.maintainHiddenAttributes({ attributeName: dicKey, optionValue });
+                }
+              } else {
+                this.maintainHiddenAttributes({ attributeName: dicKey, optionValue });
               }
             } catch {}
           } else {
@@ -283,6 +287,10 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
             if (option.usedFor === 'visibility') {
               this.maintainHiddenAttributes(option);
             }
+            const editor = this.getEditor(option.attributeName);
+            if (editor) {
+              editor.setDisplay(editor.config.accessUsedFor, option.optionValue);
+            }
           }
         }
       }
@@ -395,7 +403,10 @@ export class AttributeViewComponent implements OnInit, OnChanges, DoCheck {
   }
 
   getEditor(attributeName: string): AttributeEditor {
-    return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    if (this.editors) {
+      return this.editors.find(e => e.attribute && e.attribute.systemName === attributeName);
+    }
+    return null;
   }
 
   getControl(attributeName: string): FormControl {

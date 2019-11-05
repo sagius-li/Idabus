@@ -109,7 +109,7 @@ export class AttributeEditor implements DynamicEditor {
   }
 
   get value() {
-    return this.editorAttribute.value;
+    return this.editorAttribute ? this.editorAttribute.value : null;
   }
   set value(value) {
     this.editorAttribute.value = value;

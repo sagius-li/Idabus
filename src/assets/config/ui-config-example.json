@@ -115,6 +115,16 @@
               "filter": "text",
               "sortable": false,
               "locked": false
+            },
+            {
+              "field": "AccountName",
+              "title": "Account Name",
+              "width": 100,
+              "filterable": false,
+              "filter": "text",
+              "sortable": true,
+              "locked": false,
+              "display": true
             }
           ]
         }
@@ -128,12 +138,12 @@
         "componentType": "ResourceChartComponent",
         "componentConfig": {
           "name": "rcRequests",
-          "chartType": "pie",
+          "chartType": "donut",
           "chartTitle": "Request Overview",
           "seriesColor": [
-            "#3f51b5",
-            "#2196f3",
-            "#43a047",
+            "#3fb5b0",
+            "#db6700",
+            "#d0d528",
             "#ffc107",
             "#ff5722",
             "#e91E63"
@@ -147,29 +157,29 @@
           "labelColor": "black",
           "seriesConfig": [
             {
-              "name": "Requests",
+              "name": "<today()>",
               "categoryField": "category",
               "valueField": "value",
               "queryConfig": [
                 {
-                  "name": "completed",
+                  "name": "Completed",
                   "method": "counter",
                   "attribute": "",
-                  "query": "/Person[starts-with(DisplayName,'j')]",
+                  "query": "/Request[RequestStatus='completed' and CreatedTime>'<today()>']",
                   "display": true
                 },
                 {
-                  "name": "failed",
+                  "name": "Failed",
                   "method": "counter",
                   "attribute": "",
-                  "query": "/Person[starts-with(DisplayName,'w')]",
+                  "query": "/Request[RequestStatus='denied' and CreatedTime>'<today()>']",
                   "display": true
                 },
                 {
-                  "name": "pending",
+                  "name": "Pending",
                   "method": "counter",
                   "attribute": "",
-                  "query": "/Person[starts-with(DisplayName,'g')]",
+                  "query": "/Request[RequestStatus='authorizing' and CreatedTime>'<today()>']",
                   "display": true
                 }
               ]
@@ -289,14 +299,43 @@
             "attributeName": "FirstName",
             "editorType": "text",
             "editorConfig": {
-              "attributeName": "FirstName"
+              "attributeName": "FirstName",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
             }
           },
           {
             "attributeName": "LastName",
             "editorType": "text",
             "editorConfig": {
-              "attributeName": "LastName"
+              "attributeName": "LastName",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessQuery": "",
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
             }
           },
           {
@@ -317,7 +356,8 @@
               "accessAllowed": [],
               "accessDenied": [],
               "accessUsedFor": "visibility",
-              "validation": ""
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
             }
           },
           {
@@ -334,10 +374,156 @@
               "required": false,
               "requiredFromSchema": false,
               "hideIfNoAccess": true,
+              "expression": "<('[#FirstName]'+'.'+'[#LastName]'.substring(0,1)).toLowerCase()>",
+              "validation": "^[^\"/\\\\[\\]:;|=,+/*?<>]{1,64}$",
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessQuery": "<'[#EmployeeType]'!=='Intern'>",
+              "accessUsedFor": "editability",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
+            }
+          },
+          {
+            "attributeName": "EmployeeType",
+            "editorType": "select",
+            "editorConfig": {
+              "attributeName": "EmployeeType",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
               "accessAllowed": [],
               "accessDenied": [],
               "accessUsedFor": "visibility",
-              "validation": "^[^\"/\\\\[\\]:;|=,+/*?<>]{1,64}$"
+              "calculatedDisplayable": true,
+              "calculatedEditable": true,
+              "controlType": "radio",
+              "radioButtonLayout": "row",
+              "radioButtonSpace": 30,
+              "dataMode": "config",
+              "options": [],
+              "allowEmpty": false,
+              "configKey": "EmployeeType"
+            }
+          },
+          {
+            "attributeName": "Register",
+            "editorType": "boolean",
+            "editorConfig": {
+              "attributeName": "Register",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "expression": "<'[#EmployeeType]'==='Intern'?true:false>",
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true,
+              "textAlign": "after",
+              "controlType": "checkbox",
+              "customValue": false
+            }
+          },
+          {
+            "attributeName": "Country",
+            "editorType": "select",
+            "editorConfig": {
+              "attributeName": "Country",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessQuery": "<'[#EmployeeType]'==='Intern'>",
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": false,
+              "calculatedEditable": true,
+              "controlType": "combo",
+              "radioButtonLayout": "row",
+              "radioButtonSpace": 20,
+              "dataMode": "query",
+              "options": [],
+              "allowEmpty": true,
+              "query": "/ocgConfiguration[ocgObjectType='country']",
+              "valueAttribute": "ocgObjectID",
+              "textAttribute": "ocgObjectSource"
+            }
+          },
+          {
+            "attributeName": "ocgObjectScope",
+            "editorType": "boolean",
+            "editorConfig": {
+              "attributeName": "ocgObjectScope",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "expression": "<'[#EmployeeType]'==='Intern'?true:false>",
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true,
+              "textAlign": "after",
+              "controlType": "checkbox",
+              "customValue": true,
+              "trueValue": "1",
+              "falseValue": "0"
+            }
+          },
+          {
+            "attributeName": "City",
+            "editorType": "select",
+            "editorConfig": {
+              "attributeName": "City",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessQuery": "<'[#EmployeeType]'==='Intern'>",
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": false,
+              "calculatedEditable": true,
+              "controlType": "combo",
+              "radioButtonLayout": "row",
+              "radioButtonSpace": 20,
+              "dataMode": "query",
+              "options": [],
+              "allowEmpty": true,
+              "query": "/ocgConfiguration[ocgObjectType='city' and ocgObjectScope='[#Country]']",
+              "valueAttribute": "ocgObjectID",
+              "textAttribute": "ocgObjectSource"
             }
           }
         ]
@@ -345,8 +531,8 @@
       {
         "cols": 2,
         "rows": 2,
-        "y": 0,
         "x": 0,
+        "y": 0,
         "name": "userWorkInfo",
         "displayName": "l10n_workInfo",
         "columnNumber": 1,
@@ -355,14 +541,64 @@
             "attributeName": "JobTitle",
             "editorType": "text",
             "editorConfig": {
-              "attributeName": "JobTitle"
+              "attributeName": "JobTitle",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
             }
           },
           {
             "attributeName": "Department",
             "editorType": "text",
             "editorConfig": {
-              "attributeName": "Department"
+              "attributeName": "Department",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
+            }
+          },
+          {
+            "attributeName": "Description",
+            "editorType": "text",
+            "editorConfig": {
+              "attributeName": "Description",
+              "editMode": true,
+              "isHidden": false,
+              "showTooltip": true,
+              "showDisplayName": true,
+              "showDescription": true,
+              "readOnly": false,
+              "required": false,
+              "requiredFromSchema": false,
+              "hideIfNoAccess": true,
+              "expression": "[#JobTitle] in [#Department]",
+              "accessAllowed": [],
+              "accessDenied": [],
+              "accessUsedFor": "visibility",
+              "calculatedDisplayable": true,
+              "calculatedEditable": true
             }
           }
         ]

@@ -146,6 +146,13 @@ export class EditorSelectComponent extends AttributeEditor
     }
   }
 
+  applyConfig() {
+    setTimeout(() => {
+      this.setDataSource();
+      this.setDisplay();
+    });
+  }
+
   constructor(
     public utils: UtilsService,
     public resource: ResourceService,
@@ -193,7 +200,10 @@ export class EditorSelectComponent extends AttributeEditor
     }
 
     const initConfig = new SelectEditorConfig();
-    this.utils.CopyInto(this.config, initConfig, true, true);
+    this.utils.CopyInto(this.config, initConfig, true, true, [
+      'calculatedDisplayable',
+      'calculatedEditable'
+    ]);
     this.config = initConfig;
 
     this.setDataSource();
@@ -217,10 +227,10 @@ export class EditorSelectComponent extends AttributeEditor
       tap(result => {
         if (!result || (result && result === 'cancel')) {
           this.config = configCopy;
-          this.setDataSource();
+          this.applyConfig();
         } else {
-          this.setDataSource();
           this.validationFn = createSelectEditorValidator(this.config);
+          this.applyConfig();
         }
       }),
       switchMap(() => {
